@@ -1,778 +1,572 @@
 ﻿namespace MacroSim
 {
-    partial class MainForm
-    {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+   partial class MainForm
+   {
+      /// <summary>
+      ///  Required designer variable.
+      /// </summary>
+      private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+      /// <summary>
+      ///  Clean up any resources being used.
+      /// </summary>
+      /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+      protected override void Dispose(bool disposing)
+      {
+         if (disposing && (components != null))
+         {
+            components.Dispose();
+         }
+         base.Dispose(disposing);
+      }
 
-        #region Windows Form Designer generated code
+      #region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            toolStripContainer1 = new ToolStripContainer();
-            statusStrip1 = new StatusStrip();
-            connectedToSimLabel = new ToolStripStatusLabel();
-            connectedToMacroPadLabel = new ToolStripStatusLabel();
-            stateLabel = new ToolStripStatusLabel();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            altitude = new SevenSegmentDisplay();
-            com1standby = new SevenSegmentDisplay();
-            lblCom1Standby = new Label();
-            lblCom1Active = new Label();
-            com1active = new SevenSegmentDisplay();
-            lblCom2Standby = new Label();
-            lblCom2Active = new Label();
-            com2standby = new SevenSegmentDisplay();
-            com2active = new SevenSegmentDisplay();
-            nav1standby = new SevenSegmentDisplay();
-            nav1active = new SevenSegmentDisplay();
-            nav2standby = new SevenSegmentDisplay();
-            nav2active = new SevenSegmentDisplay();
-            lblNav1Standby = new Label();
-            lblNav1Active = new Label();
-            lblNav2Standby = new Label();
-            lblNav2Active = new Label();
-            lblHeading = new Label();
-            lblCourse = new Label();
-            heading = new SevenSegmentDisplay();
-            course = new SevenSegmentDisplay();
-            lblAltitude = new Label();
-            lblVerticalSpeed = new Label();
-            verticalspeed = new SevenSegmentDisplay();
-            txtOutput = new TextBox();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            lblHdgHold = new Label();
-            lblVSHold = new Label();
-            lblAPMaster = new Label();
-            lblAltHold = new Label();
-            menuStrip1 = new MenuStrip();
-            appToolStripMenuItem = new ToolStripMenuItem();
-            connectToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
-            exitToolStripMenuItem = new ToolStripMenuItem();
-            macroPadToolStripMenuItem = new ToolStripMenuItem();
-            baud9600ToolStripMenuItem = new ToolStripMenuItem();
-            baud115200ToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator2 = new ToolStripSeparator();
-            altitudeToolStripMenuItem = new ToolStripMenuItem();
-            altitudeIncrease1000ToolStripMenuItem = new ToolStripMenuItem();
-            altitudeDecrease1000ToolStripMenuItem = new ToolStripMenuItem();
-            toolStripContainer1.BottomToolStripPanel.SuspendLayout();
-            toolStripContainer1.ContentPanel.SuspendLayout();
-            toolStripContainer1.TopToolStripPanel.SuspendLayout();
-            toolStripContainer1.SuspendLayout();
-            statusStrip1.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            menuStrip1.SuspendLayout();
-            SuspendLayout();
-            // 
-            // toolStripContainer1
-            // 
-            // 
-            // toolStripContainer1.BottomToolStripPanel
-            // 
-            toolStripContainer1.BottomToolStripPanel.Controls.Add(statusStrip1);
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            toolStripContainer1.ContentPanel.Controls.Add(tableLayoutPanel1);
-            toolStripContainer1.ContentPanel.Size = new Size(745, 574);
-            toolStripContainer1.Dock = DockStyle.Fill;
-            toolStripContainer1.Location = new Point(0, 0);
-            toolStripContainer1.Name = "toolStripContainer1";
-            toolStripContainer1.Size = new Size(745, 622);
-            toolStripContainer1.TabIndex = 0;
-            toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // toolStripContainer1.TopToolStripPanel
-            // 
-            toolStripContainer1.TopToolStripPanel.Controls.Add(menuStrip1);
-            // 
-            // statusStrip1
-            // 
-            statusStrip1.Dock = DockStyle.None;
-            statusStrip1.Items.AddRange(new ToolStripItem[] { connectedToSimLabel, connectedToMacroPadLabel, stateLabel });
-            statusStrip1.Location = new Point(0, 0);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(745, 24);
-            statusStrip1.TabIndex = 0;
-            // 
-            // connectedToSimLabel
-            // 
-            connectedToSimLabel.BorderSides = ToolStripStatusLabelBorderSides.Right;
-            connectedToSimLabel.Name = "connectedToSimLabel";
-            connectedToSimLabel.Size = new Size(126, 19);
-            connectedToSimLabel.Text = "Not connected to sim";
-            // 
-            // connectedToMacroPadLabel
-            // 
-            connectedToMacroPadLabel.BorderSides = ToolStripStatusLabelBorderSides.Right;
-            connectedToMacroPadLabel.Name = "connectedToMacroPadLabel";
-            connectedToMacroPadLabel.Size = new Size(161, 19);
-            connectedToMacroPadLabel.Text = "Not connected to MacroPad";
-            // 
-            // stateLabel
-            // 
-            stateLabel.Name = "stateLabel";
-            stateLabel.Size = new Size(36, 19);
-            stateLabel.Text = "None";
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Controls.Add(altitude, 0, 12);
-            tableLayoutPanel1.Controls.Add(com1standby, 0, 2);
-            tableLayoutPanel1.Controls.Add(lblCom1Standby, 0, 1);
-            tableLayoutPanel1.Controls.Add(lblCom1Active, 1, 1);
-            tableLayoutPanel1.Controls.Add(com1active, 1, 2);
-            tableLayoutPanel1.Controls.Add(lblCom2Standby, 0, 3);
-            tableLayoutPanel1.Controls.Add(lblCom2Active, 1, 3);
-            tableLayoutPanel1.Controls.Add(com2standby, 0, 4);
-            tableLayoutPanel1.Controls.Add(com2active, 1, 4);
-            tableLayoutPanel1.Controls.Add(nav1standby, 0, 6);
-            tableLayoutPanel1.Controls.Add(nav1active, 1, 6);
-            tableLayoutPanel1.Controls.Add(nav2standby, 0, 8);
-            tableLayoutPanel1.Controls.Add(nav2active, 1, 8);
-            tableLayoutPanel1.Controls.Add(lblNav1Standby, 0, 5);
-            tableLayoutPanel1.Controls.Add(lblNav1Active, 1, 5);
-            tableLayoutPanel1.Controls.Add(lblNav2Standby, 0, 7);
-            tableLayoutPanel1.Controls.Add(lblNav2Active, 1, 7);
-            tableLayoutPanel1.Controls.Add(lblHeading, 0, 9);
-            tableLayoutPanel1.Controls.Add(lblCourse, 1, 9);
-            tableLayoutPanel1.Controls.Add(heading, 0, 10);
-            tableLayoutPanel1.Controls.Add(course, 1, 10);
-            tableLayoutPanel1.Controls.Add(lblAltitude, 0, 11);
-            tableLayoutPanel1.Controls.Add(lblVerticalSpeed, 1, 11);
-            tableLayoutPanel1.Controls.Add(verticalspeed, 1, 12);
-            tableLayoutPanel1.Controls.Add(txtOutput, 2, 1);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 13;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.53F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.53F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.53F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.53F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.53F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5.26F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.53F));
-            tableLayoutPanel1.Size = new Size(745, 574);
-            tableLayoutPanel1.TabIndex = 0;
-            // 
-            // altitude
-            // 
-            altitude.Anchor = AnchorStyles.None;
-            altitude.BackColor = Color.Black;
-            altitude.FontColor = Color.Red;
-            altitude.FractDigits = 0;
-            altitude.LeftMargin = 0;
-            altitude.Location = new Point(25, 517);
-            altitude.Margin = new Padding(0);
-            altitude.Name = "altitude";
-            altitude.RightMargin = 0;
-            altitude.Selection = FrequencySelection.None;
-            altitude.SelectionColor = Color.Yellow;
-            altitude.Size = new Size(170, 50);
-            altitude.TabIndex = 23;
-            altitude.TopMargin = 5;
-            altitude.Value = new decimal(new int[] { 321, 0, 0, 0 });
-            altitude.WholeDigits = 5;
-            // 
-            // com1standby
-            // 
-            com1standby.Anchor = AnchorStyles.None;
-            com1standby.BackColor = Color.Black;
-            com1standby.FontColor = Color.Red;
-            com1standby.LeftMargin = 0;
-            com1standby.Location = new Point(25, 65);
-            com1standby.Margin = new Padding(0);
-            com1standby.Name = "com1standby";
-            com1standby.RightMargin = 0;
-            com1standby.Selection = FrequencySelection.None;
-            com1standby.SelectionColor = Color.Yellow;
-            com1standby.Size = new Size(170, 50);
-            com1standby.TabIndex = 0;
-            com1standby.Value = new decimal(new int[] { 0, 0, 0, 0 });
-            // 
-            // lblCom1Standby
-            // 
-            lblCom1Standby.Anchor = AnchorStyles.None;
-            lblCom1Standby.AutoSize = true;
-            lblCom1Standby.Font = new Font("Segoe UI", 11.25F);
-            lblCom1Standby.Location = new Point(56, 35);
-            lblCom1Standby.Name = "lblCom1Standby";
-            lblCom1Standby.Size = new Size(108, 20);
-            lblCom1Standby.TabIndex = 1;
-            lblCom1Standby.Text = "COM1 Standby";
-            // 
-            // lblCom1Active
-            // 
-            lblCom1Active.Anchor = AnchorStyles.None;
-            lblCom1Active.AutoSize = true;
-            lblCom1Active.Font = new Font("Segoe UI", 11.25F);
-            lblCom1Active.Location = new Point(282, 35);
-            lblCom1Active.Name = "lblCom1Active";
-            lblCom1Active.Size = new Size(95, 20);
-            lblCom1Active.TabIndex = 2;
-            lblCom1Active.Text = "COM1 Active";
-            // 
-            // com1active
-            // 
-            com1active.Anchor = AnchorStyles.None;
-            com1active.BackColor = Color.Black;
-            com1active.FontColor = Color.Red;
-            com1active.LeftMargin = 0;
-            com1active.Location = new Point(245, 65);
-            com1active.Margin = new Padding(0);
-            com1active.Name = "com1active";
-            com1active.RightMargin = 0;
-            com1active.Selection = FrequencySelection.None;
-            com1active.SelectionColor = Color.Yellow;
-            com1active.Size = new Size(170, 50);
-            com1active.TabIndex = 3;
-            com1active.Value = new decimal(new int[] { 134225, 0, 0, 196608 });
-            // 
-            // lblCom2Standby
-            // 
-            lblCom2Standby.Anchor = AnchorStyles.None;
-            lblCom2Standby.AutoSize = true;
-            lblCom2Standby.Font = new Font("Segoe UI", 11.25F);
-            lblCom2Standby.Location = new Point(56, 125);
-            lblCom2Standby.Name = "lblCom2Standby";
-            lblCom2Standby.Size = new Size(108, 20);
-            lblCom2Standby.TabIndex = 4;
-            lblCom2Standby.Text = "COM2 Standby";
-            // 
-            // lblCom2Active
-            // 
-            lblCom2Active.Anchor = AnchorStyles.None;
-            lblCom2Active.AutoSize = true;
-            lblCom2Active.Font = new Font("Segoe UI", 11.25F);
-            lblCom2Active.Location = new Point(282, 125);
-            lblCom2Active.Name = "lblCom2Active";
-            lblCom2Active.Size = new Size(95, 20);
-            lblCom2Active.TabIndex = 5;
-            lblCom2Active.Text = "COM2 Active";
-            // 
-            // com2standby
-            // 
-            com2standby.Anchor = AnchorStyles.None;
-            com2standby.BackColor = Color.Black;
-            com2standby.FontColor = Color.Red;
-            com2standby.LeftMargin = 0;
-            com2standby.Location = new Point(25, 155);
-            com2standby.Margin = new Padding(0);
-            com2standby.Name = "com2standby";
-            com2standby.RightMargin = 0;
-            com2standby.Selection = FrequencySelection.None;
-            com2standby.SelectionColor = Color.Yellow;
-            com2standby.Size = new Size(170, 50);
-            com2standby.TabIndex = 6;
-            com2standby.Value = new decimal(new int[] { 0, 0, 0, 0 });
-            // 
-            // com2active
-            // 
-            com2active.Anchor = AnchorStyles.None;
-            com2active.BackColor = Color.Black;
-            com2active.FontColor = Color.Red;
-            com2active.LeftMargin = 0;
-            com2active.Location = new Point(245, 155);
-            com2active.Margin = new Padding(0);
-            com2active.Name = "com2active";
-            com2active.RightMargin = 0;
-            com2active.Selection = FrequencySelection.None;
-            com2active.SelectionColor = Color.Yellow;
-            com2active.Size = new Size(170, 50);
-            com2active.TabIndex = 7;
-            com2active.Value = new decimal(new int[] { 0, 0, 0, 0 });
-            // 
-            // nav1standby
-            // 
-            nav1standby.Anchor = AnchorStyles.None;
-            nav1standby.BackColor = Color.Black;
-            nav1standby.FontColor = Color.Red;
-            nav1standby.FractDigits = 2;
-            nav1standby.LeftMargin = 0;
-            nav1standby.Location = new Point(25, 245);
-            nav1standby.Margin = new Padding(0);
-            nav1standby.Name = "nav1standby";
-            nav1standby.RightMargin = 0;
-            nav1standby.Selection = FrequencySelection.None;
-            nav1standby.SelectionColor = Color.Yellow;
-            nav1standby.Size = new Size(170, 50);
-            nav1standby.TabIndex = 8;
-            nav1standby.Value = new decimal(new int[] { 0, 0, 0, 0 });
-            // 
-            // nav1active
-            // 
-            nav1active.Anchor = AnchorStyles.None;
-            nav1active.BackColor = Color.Black;
-            nav1active.FontColor = Color.Red;
-            nav1active.FractDigits = 2;
-            nav1active.LeftMargin = 0;
-            nav1active.Location = new Point(245, 245);
-            nav1active.Margin = new Padding(0);
-            nav1active.Name = "nav1active";
-            nav1active.RightMargin = 0;
-            nav1active.Selection = FrequencySelection.None;
-            nav1active.SelectionColor = Color.Yellow;
-            nav1active.Size = new Size(170, 50);
-            nav1active.TabIndex = 9;
-            nav1active.Value = new decimal(new int[] { 0, 0, 0, 0 });
-            // 
-            // nav2standby
-            // 
-            nav2standby.Anchor = AnchorStyles.None;
-            nav2standby.BackColor = Color.Black;
-            nav2standby.FontColor = Color.Red;
-            nav2standby.FractDigits = 2;
-            nav2standby.LeftMargin = 0;
-            nav2standby.Location = new Point(25, 335);
-            nav2standby.Margin = new Padding(0);
-            nav2standby.Name = "nav2standby";
-            nav2standby.RightMargin = 0;
-            nav2standby.Selection = FrequencySelection.None;
-            nav2standby.SelectionColor = Color.Yellow;
-            nav2standby.Size = new Size(170, 50);
-            nav2standby.TabIndex = 10;
-            nav2standby.Value = new decimal(new int[] { 321, 0, 0, 0 });
-            // 
-            // nav2active
-            // 
-            nav2active.Anchor = AnchorStyles.None;
-            nav2active.BackColor = Color.Black;
-            nav2active.FontColor = Color.Red;
-            nav2active.FractDigits = 2;
-            nav2active.LeftMargin = 0;
-            nav2active.Location = new Point(245, 335);
-            nav2active.Margin = new Padding(0);
-            nav2active.Name = "nav2active";
-            nav2active.RightMargin = 0;
-            nav2active.Selection = FrequencySelection.None;
-            nav2active.SelectionColor = Color.Yellow;
-            nav2active.Size = new Size(170, 50);
-            nav2active.TabIndex = 11;
-            nav2active.Value = new decimal(new int[] { 0, 0, 0, 0 });
-            // 
-            // lblNav1Standby
-            // 
-            lblNav1Standby.Anchor = AnchorStyles.None;
-            lblNav1Standby.AutoSize = true;
-            lblNav1Standby.Font = new Font("Segoe UI", 11.25F);
-            lblNav1Standby.Location = new Point(58, 215);
-            lblNav1Standby.Name = "lblNav1Standby";
-            lblNav1Standby.Size = new Size(104, 20);
-            lblNav1Standby.TabIndex = 12;
-            lblNav1Standby.Text = "NAV1 Standby";
-            // 
-            // lblNav1Active
-            // 
-            lblNav1Active.Anchor = AnchorStyles.None;
-            lblNav1Active.AutoSize = true;
-            lblNav1Active.Font = new Font("Segoe UI", 11.25F);
-            lblNav1Active.Location = new Point(284, 215);
-            lblNav1Active.Name = "lblNav1Active";
-            lblNav1Active.Size = new Size(91, 20);
-            lblNav1Active.TabIndex = 13;
-            lblNav1Active.Text = "NAV1 Active";
-            // 
-            // lblNav2Standby
-            // 
-            lblNav2Standby.Anchor = AnchorStyles.None;
-            lblNav2Standby.AutoSize = true;
-            lblNav2Standby.Font = new Font("Segoe UI", 11.25F);
-            lblNav2Standby.Location = new Point(58, 305);
-            lblNav2Standby.Name = "lblNav2Standby";
-            lblNav2Standby.Size = new Size(104, 20);
-            lblNav2Standby.TabIndex = 14;
-            lblNav2Standby.Text = "NAV2 Standby";
-            // 
-            // lblNav2Active
-            // 
-            lblNav2Active.Anchor = AnchorStyles.None;
-            lblNav2Active.AutoSize = true;
-            lblNav2Active.Font = new Font("Segoe UI", 11.25F);
-            lblNav2Active.Location = new Point(284, 305);
-            lblNav2Active.Name = "lblNav2Active";
-            lblNav2Active.Size = new Size(91, 20);
-            lblNav2Active.TabIndex = 15;
-            lblNav2Active.Text = "NAV2 Active";
-            // 
-            // lblHeading
-            // 
-            lblHeading.Anchor = AnchorStyles.None;
-            lblHeading.AutoSize = true;
-            lblHeading.Font = new Font("Segoe UI", 11.25F);
-            lblHeading.Location = new Point(77, 395);
-            lblHeading.Name = "lblHeading";
-            lblHeading.Size = new Size(66, 20);
-            lblHeading.TabIndex = 16;
-            lblHeading.Text = "Heading";
-            // 
-            // lblCourse
-            // 
-            lblCourse.Anchor = AnchorStyles.None;
-            lblCourse.AutoSize = true;
-            lblCourse.Font = new Font("Segoe UI", 11.25F);
-            lblCourse.Location = new Point(303, 395);
-            lblCourse.Name = "lblCourse";
-            lblCourse.Size = new Size(54, 20);
-            lblCourse.TabIndex = 17;
-            lblCourse.Text = "Course";
-            // 
-            // heading
-            // 
-            heading.Anchor = AnchorStyles.None;
-            heading.BackColor = Color.Black;
-            heading.FontColor = Color.Red;
-            heading.FractDigits = 0;
-            heading.LeftMargin = 0;
-            heading.Location = new Point(25, 425);
-            heading.Margin = new Padding(0);
-            heading.Name = "heading";
-            heading.RightMargin = 0;
-            heading.Selection = FrequencySelection.None;
-            heading.SelectionColor = Color.Yellow;
-            heading.Size = new Size(170, 50);
-            heading.TabIndex = 18;
-            heading.TopMargin = 5;
-            heading.Value = new decimal(new int[] { 321, 0, 0, 0 });
-            // 
-            // course
-            // 
-            course.Anchor = AnchorStyles.None;
-            course.BackColor = Color.Black;
-            course.FontColor = Color.Red;
-            course.FractDigits = 0;
-            course.LeftMargin = 0;
-            course.Location = new Point(245, 425);
-            course.Margin = new Padding(0);
-            course.Name = "course";
-            course.RightMargin = 0;
-            course.Selection = FrequencySelection.None;
-            course.SelectionColor = Color.Yellow;
-            course.Size = new Size(170, 50);
-            course.TabIndex = 19;
-            course.TopMargin = 5;
-            course.Value = new decimal(new int[] { 321, 0, 0, 0 });
-            // 
-            // lblAltitude
-            // 
-            lblAltitude.Anchor = AnchorStyles.None;
-            lblAltitude.AutoSize = true;
-            lblAltitude.Font = new Font("Segoe UI", 11.25F);
-            lblAltitude.Location = new Point(79, 485);
-            lblAltitude.Name = "lblAltitude";
-            lblAltitude.Size = new Size(62, 20);
-            lblAltitude.TabIndex = 20;
-            lblAltitude.Text = "Altitude";
-            // 
-            // lblVerticalSpeed
-            // 
-            lblVerticalSpeed.Anchor = AnchorStyles.None;
-            lblVerticalSpeed.AutoSize = true;
-            lblVerticalSpeed.Font = new Font("Segoe UI", 11.25F);
-            lblVerticalSpeed.Location = new Point(278, 485);
-            lblVerticalSpeed.Name = "lblVerticalSpeed";
-            lblVerticalSpeed.Size = new Size(104, 20);
-            lblVerticalSpeed.TabIndex = 21;
-            lblVerticalSpeed.Text = "Vertical Speed";
-            // 
-            // verticalspeed
-            // 
-            verticalspeed.Anchor = AnchorStyles.None;
-            verticalspeed.BackColor = Color.Black;
-            verticalspeed.CanBeNegative = true;
-            verticalspeed.FontColor = Color.Red;
-            verticalspeed.FractDigits = 0;
-            verticalspeed.LeftMargin = 0;
-            verticalspeed.Location = new Point(245, 517);
-            verticalspeed.Margin = new Padding(0);
-            verticalspeed.Name = "verticalspeed";
-            verticalspeed.RightMargin = 0;
-            verticalspeed.Selection = FrequencySelection.None;
-            verticalspeed.SelectionColor = Color.Yellow;
-            verticalspeed.Size = new Size(170, 50);
-            verticalspeed.TabIndex = 22;
-            verticalspeed.TopMargin = 5;
-            verticalspeed.Value = new decimal(new int[] { 321, 0, 0, 0 });
-            verticalspeed.WholeDigits = 4;
-            // 
-            // txtOutput
-            // 
-            txtOutput.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtOutput.Location = new Point(443, 33);
-            txtOutput.Multiline = true;
-            txtOutput.Name = "txtOutput";
-            txtOutput.ReadOnly = true;
-            tableLayoutPanel1.SetRowSpan(txtOutput, 12);
-            txtOutput.ScrollBars = ScrollBars.Vertical;
-            txtOutput.Size = new Size(290, 489);
-            txtOutput.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.Anchor = AnchorStyles.None;
-            tableLayoutPanel2.BackColor = Color.Black;
-            tableLayoutPanel2.ColumnCount = 4;
-            tableLayoutPanel1.SetColumnSpan(tableLayoutPanel2, 2);
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.Controls.Add(lblHdgHold, 3, 0);
-            tableLayoutPanel2.Controls.Add(lblVSHold, 2, 0);
-            tableLayoutPanel2.Controls.Add(lblAPMaster, 0, 0);
-            tableLayoutPanel2.Controls.Add(lblAltHold, 1, 0);
-            tableLayoutPanel2.Location = new Point(20, 3);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(400, 24);
-            tableLayoutPanel2.TabIndex = 24;
-            // 
-            // lblHdgHold
-            // 
-            lblHdgHold.Anchor = AnchorStyles.None;
-            lblHdgHold.AutoSize = true;
-            lblHdgHold.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblHdgHold.ForeColor = Color.Red;
-            lblHdgHold.Location = new Point(328, 1);
-            lblHdgHold.Name = "lblHdgHold";
-            lblHdgHold.Size = new Size(43, 21);
-            lblHdgHold.TabIndex = 3;
-            lblHdgHold.Text = "HDG";
-            // 
-            // lblVSHold
-            // 
-            lblVSHold.Anchor = AnchorStyles.None;
-            lblVSHold.AutoSize = true;
-            lblVSHold.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblVSHold.ForeColor = Color.Red;
-            lblVSHold.Location = new Point(235, 1);
-            lblVSHold.Name = "lblVSHold";
-            lblVSHold.Size = new Size(29, 21);
-            lblVSHold.TabIndex = 2;
-            lblVSHold.Text = "VS";
-            // 
-            // lblAPMaster
-            // 
-            lblAPMaster.Anchor = AnchorStyles.None;
-            lblAPMaster.AutoSize = true;
-            lblAPMaster.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAPMaster.ForeColor = Color.Red;
-            lblAPMaster.Location = new Point(35, 1);
-            lblAPMaster.Name = "lblAPMaster";
-            lblAPMaster.Size = new Size(29, 21);
-            lblAPMaster.TabIndex = 0;
-            lblAPMaster.Text = "AP";
-            // 
-            // lblAltHold
-            // 
-            lblAltHold.Anchor = AnchorStyles.None;
-            lblAltHold.AutoSize = true;
-            lblAltHold.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAltHold.ForeColor = Color.Red;
-            lblAltHold.Location = new Point(132, 1);
-            lblAltHold.Name = "lblAltHold";
-            lblAltHold.Size = new Size(35, 21);
-            lblAltHold.TabIndex = 1;
-            lblAltHold.Text = "ALT";
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.Dock = DockStyle.None;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { appToolStripMenuItem, macroPadToolStripMenuItem, altitudeToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(745, 24);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // appToolStripMenuItem
-            // 
-            appToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { connectToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
-            appToolStripMenuItem.Name = "appToolStripMenuItem";
-            appToolStripMenuItem.Size = new Size(41, 20);
-            appToolStripMenuItem.Text = "App";
-            // 
-            // connectToolStripMenuItem
-            // 
-            connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(156, 22);
-            connectToolStripMenuItem.Text = "Connect to Sim";
-            connectToolStripMenuItem.Click += ConnectToolStripMenuItem_Click;
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(153, 6);
-            // 
-            // exitToolStripMenuItem
-            // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(156, 22);
-            exitToolStripMenuItem.Text = "Exit";
-            exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
-            // 
-            // macroPadToolStripMenuItem
-            // 
-            macroPadToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { baud9600ToolStripMenuItem, baud115200ToolStripMenuItem, toolStripSeparator2 });
-            macroPadToolStripMenuItem.Name = "macroPadToolStripMenuItem";
-            macroPadToolStripMenuItem.Size = new Size(73, 20);
-            macroPadToolStripMenuItem.Text = "MacroPad";
-            // 
-            // baud9600ToolStripMenuItem
-            // 
-            baud9600ToolStripMenuItem.Name = "baud9600ToolStripMenuItem";
-            baud9600ToolStripMenuItem.Size = new Size(140, 22);
-            baud9600ToolStripMenuItem.Tag = "9600";
-            baud9600ToolStripMenuItem.Text = "9600 Baud";
-            baud9600ToolStripMenuItem.Click += BaudRateMenuItem_Click;
-            // 
-            // baud115200ToolStripMenuItem
-            // 
-            baud115200ToolStripMenuItem.Checked = true;
-            baud115200ToolStripMenuItem.CheckState = CheckState.Checked;
-            baud115200ToolStripMenuItem.Name = "baud115200ToolStripMenuItem";
-            baud115200ToolStripMenuItem.Size = new Size(140, 22);
-            baud115200ToolStripMenuItem.Tag = "115200";
-            baud115200ToolStripMenuItem.Text = "115200 Baud";
-            baud115200ToolStripMenuItem.Click += BaudRateMenuItem_Click;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(137, 6);
-            // 
-            // altitudeToolStripMenuItem
-            // 
-            altitudeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { altitudeIncrease1000ToolStripMenuItem, altitudeDecrease1000ToolStripMenuItem });
-            altitudeToolStripMenuItem.Name = "altitudeToolStripMenuItem";
-            altitudeToolStripMenuItem.Size = new Size(61, 20);
-            altitudeToolStripMenuItem.Text = "Altitude";
-            // 
-            // altitudeIncrease1000ToolStripMenuItem
-            // 
-            altitudeIncrease1000ToolStripMenuItem.Name = "altitudeIncrease1000ToolStripMenuItem";
-            altitudeIncrease1000ToolStripMenuItem.Size = new Size(193, 22);
-            altitudeIncrease1000ToolStripMenuItem.Text = "Altitude Increase 1000";
-            altitudeIncrease1000ToolStripMenuItem.Click += altitudeIncrease1000ToolStripMenuItem_Click;
-            // 
-            // altitudeDecrease1000ToolStripMenuItem
-            // 
-            altitudeDecrease1000ToolStripMenuItem.Name = "altitudeDecrease1000ToolStripMenuItem";
-            altitudeDecrease1000ToolStripMenuItem.Size = new Size(193, 22);
-            altitudeDecrease1000ToolStripMenuItem.Text = "Altitude Decrease 1000";
-            altitudeDecrease1000ToolStripMenuItem.Click += altitudeDecrease1000ToolStripMenuItem_Click;
-            // 
-            // MainForm
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(745, 622);
-            Controls.Add(toolStripContainer1);
-            MainMenuStrip = menuStrip1;
-            Name = "MainForm";
-            Text = "MacroSim";
-            FormClosed += MainForm_FormClosed;
-            toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
-            toolStripContainer1.BottomToolStripPanel.PerformLayout();
-            toolStripContainer1.ContentPanel.ResumeLayout(false);
-            toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
-            toolStripContainer1.TopToolStripPanel.PerformLayout();
-            toolStripContainer1.ResumeLayout(false);
-            toolStripContainer1.PerformLayout();
-            statusStrip1.ResumeLayout(false);
-            statusStrip1.PerformLayout();
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            ResumeLayout(false);
-        }
+      /// <summary>
+      ///  Required method for Designer support - do not modify
+      ///  the contents of this method with the code editor.
+      /// </summary>
+      private void InitializeComponent()
+      {
+         txtOutput = new TextBox();
+         toolStripContainer1 = new ToolStripContainer();
+         statusStrip = new StatusStrip();
+         lblSimConnectionStatus = new ToolStripStatusLabel();
+         lblMacroPadState = new ToolStripStatusLabel();
+         lblTransponder = new Label();
+         label4 = new Label();
+         lblVerticalSpeedValue = new Label();
+         label7 = new Label();
+         lblAltitudeValue = new Label();
+         label5 = new Label();
+         lblCourseValue = new Label();
+         label3 = new Label();
+         lblHeadingValue = new Label();
+         groupNav2 = new GroupBox();
+         lblNav2StandbyValue = new Label();
+         lblNav2ActiveValue = new Label();
+         lblNav2Standby = new Label();
+         lblNav2Active = new Label();
+         label2 = new Label();
+         groupNav1 = new GroupBox();
+         lblNav1StandbyValue = new Label();
+         lblNav1ActiveValue = new Label();
+         lblNav1Standby = new Label();
+         lblNav1Active = new Label();
+         groupCom2 = new GroupBox();
+         lblCom2Standby = new Label();
+         lblCom2StandbyValue = new Label();
+         lblCom2ActiveValue = new Label();
+         lblCom2Active = new Label();
+         groupCom1 = new GroupBox();
+         lblCom1StandbyValue = new Label();
+         lblCom1ActiveValue = new Label();
+         lblCom1Standby = new Label();
+         lblCom1Active = new Label();
+         mainMenu = new MenuStrip();
+         appToolStripMenuItem = new ToolStripMenuItem();
+         connectToSimToolStripMenuItem = new ToolStripMenuItem();
+         toolStripSeparator1 = new ToolStripSeparator();
+         exitToolStripMenuItem = new ToolStripMenuItem();
+         macroPadToolStripMenuItem = new ToolStripMenuItem();
+         toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+         toolStripContainer1.ContentPanel.SuspendLayout();
+         toolStripContainer1.TopToolStripPanel.SuspendLayout();
+         toolStripContainer1.SuspendLayout();
+         statusStrip.SuspendLayout();
+         groupNav2.SuspendLayout();
+         groupNav1.SuspendLayout();
+         groupCom2.SuspendLayout();
+         groupCom1.SuspendLayout();
+         mainMenu.SuspendLayout();
+         SuspendLayout();
+         // 
+         // txtOutput
+         // 
+         txtOutput.Location = new Point(465, 25);
+         txtOutput.Multiline = true;
+         txtOutput.Name = "txtOutput";
+         txtOutput.ReadOnly = true;
+         txtOutput.ScrollBars = ScrollBars.Vertical;
+         txtOutput.Size = new Size(357, 426);
+         txtOutput.TabIndex = 0;
+         // 
+         // toolStripContainer1
+         // 
+         // 
+         // toolStripContainer1.BottomToolStripPanel
+         // 
+         toolStripContainer1.BottomToolStripPanel.Controls.Add(statusStrip);
+         // 
+         // toolStripContainer1.ContentPanel
+         // 
+         toolStripContainer1.ContentPanel.Controls.Add(lblTransponder);
+         toolStripContainer1.ContentPanel.Controls.Add(label4);
+         toolStripContainer1.ContentPanel.Controls.Add(lblVerticalSpeedValue);
+         toolStripContainer1.ContentPanel.Controls.Add(label7);
+         toolStripContainer1.ContentPanel.Controls.Add(lblAltitudeValue);
+         toolStripContainer1.ContentPanel.Controls.Add(label5);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCourseValue);
+         toolStripContainer1.ContentPanel.Controls.Add(label3);
+         toolStripContainer1.ContentPanel.Controls.Add(lblHeadingValue);
+         toolStripContainer1.ContentPanel.Controls.Add(groupNav2);
+         toolStripContainer1.ContentPanel.Controls.Add(label2);
+         toolStripContainer1.ContentPanel.Controls.Add(groupNav1);
+         toolStripContainer1.ContentPanel.Controls.Add(groupCom2);
+         toolStripContainer1.ContentPanel.Controls.Add(groupCom1);
+         toolStripContainer1.ContentPanel.Controls.Add(txtOutput);
+         toolStripContainer1.ContentPanel.Size = new Size(852, 566);
+         toolStripContainer1.Dock = DockStyle.Fill;
+         toolStripContainer1.Location = new Point(0, 0);
+         toolStripContainer1.Name = "toolStripContainer1";
+         toolStripContainer1.Size = new Size(852, 613);
+         toolStripContainer1.TabIndex = 1;
+         toolStripContainer1.Text = "toolStripContainer1";
+         // 
+         // toolStripContainer1.TopToolStripPanel
+         // 
+         toolStripContainer1.TopToolStripPanel.Controls.Add(mainMenu);
+         // 
+         // statusStrip
+         // 
+         statusStrip.Dock = DockStyle.None;
+         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectionStatus, lblMacroPadState });
+         statusStrip.Location = new Point(0, 0);
+         statusStrip.Name = "statusStrip";
+         statusStrip.Size = new Size(852, 22);
+         statusStrip.TabIndex = 0;
+         // 
+         // lblSimConnectionStatus
+         // 
+         lblSimConnectionStatus.AutoSize = false;
+         lblSimConnectionStatus.Name = "lblSimConnectionStatus";
+         lblSimConnectionStatus.Size = new Size(153, 17);
+         lblSimConnectionStatus.Text = "Disconnected from Sim";
+         lblSimConnectionStatus.TextAlign = ContentAlignment.MiddleLeft;
+         // 
+         // lblMacroPadState
+         // 
+         lblMacroPadState.Name = "lblMacroPadState";
+         lblMacroPadState.Size = new Size(45, 17);
+         lblMacroPadState.Text = "NONE";
+         // 
+         // lblTransponder
+         // 
+         lblTransponder.AutoSize = true;
+         lblTransponder.Font = new Font("Segoe UI", 21.75F);
+         lblTransponder.Location = new Point(12, 522);
+         lblTransponder.Name = "lblTransponder";
+         lblTransponder.Size = new Size(81, 40);
+         lblTransponder.TabIndex = 20;
+         lblTransponder.Text = "0000";
+         // 
+         // label4
+         // 
+         label4.AutoSize = true;
+         label4.Location = new Point(12, 502);
+         label4.Name = "label4";
+         label4.Size = new Size(82, 17);
+         label4.TabIndex = 19;
+         label4.Text = "Transponder";
+         // 
+         // lblVerticalSpeedValue
+         // 
+         lblVerticalSpeedValue.AutoSize = true;
+         lblVerticalSpeedValue.Font = new Font("Segoe UI", 21.75F);
+         lblVerticalSpeedValue.Location = new Point(159, 457);
+         lblVerticalSpeedValue.Name = "lblVerticalSpeedValue";
+         lblVerticalSpeedValue.Size = new Size(93, 40);
+         lblVerticalSpeedValue.TabIndex = 18;
+         lblVerticalSpeedValue.Text = "-0000";
+         lblVerticalSpeedValue.TextAlign = ContentAlignment.TopRight;
+         // 
+         // label7
+         // 
+         label7.AutoSize = true;
+         label7.Location = new Point(159, 437);
+         label7.Name = "label7";
+         label7.Size = new Size(91, 17);
+         label7.TabIndex = 17;
+         label7.Text = "Vertical Speed";
+         // 
+         // lblAltitudeValue
+         // 
+         lblAltitudeValue.AutoSize = true;
+         lblAltitudeValue.Font = new Font("Segoe UI", 21.75F);
+         lblAltitudeValue.Location = new Point(12, 457);
+         lblAltitudeValue.Name = "lblAltitudeValue";
+         lblAltitudeValue.Size = new Size(97, 40);
+         lblAltitudeValue.TabIndex = 16;
+         lblAltitudeValue.Text = "00000";
+         // 
+         // label5
+         // 
+         label5.AutoSize = true;
+         label5.Location = new Point(12, 437);
+         label5.Name = "label5";
+         label5.Size = new Size(52, 17);
+         label5.TabIndex = 15;
+         label5.Text = "Altitude";
+         // 
+         // lblCourseValue
+         // 
+         lblCourseValue.AutoSize = true;
+         lblCourseValue.Font = new Font("Segoe UI", 21.75F);
+         lblCourseValue.Location = new Point(159, 392);
+         lblCourseValue.Name = "lblCourseValue";
+         lblCourseValue.Size = new Size(65, 40);
+         lblCourseValue.TabIndex = 14;
+         lblCourseValue.Text = "000";
+         // 
+         // label3
+         // 
+         label3.AutoSize = true;
+         label3.Location = new Point(159, 372);
+         label3.Name = "label3";
+         label3.Size = new Size(49, 17);
+         label3.TabIndex = 13;
+         label3.Text = "Course";
+         // 
+         // lblHeadingValue
+         // 
+         lblHeadingValue.AutoSize = true;
+         lblHeadingValue.Font = new Font("Segoe UI", 21.75F);
+         lblHeadingValue.Location = new Point(12, 392);
+         lblHeadingValue.Name = "lblHeadingValue";
+         lblHeadingValue.Size = new Size(65, 40);
+         lblHeadingValue.TabIndex = 7;
+         lblHeadingValue.Text = "000";
+         // 
+         // groupNav2
+         // 
+         groupNav2.Controls.Add(lblNav2StandbyValue);
+         groupNav2.Controls.Add(lblNav2ActiveValue);
+         groupNav2.Controls.Add(lblNav2Standby);
+         groupNav2.Controls.Add(lblNav2Active);
+         groupNav2.Location = new Point(3, 282);
+         groupNav2.Name = "groupNav2";
+         groupNav2.Size = new Size(275, 87);
+         groupNav2.TabIndex = 12;
+         groupNav2.TabStop = false;
+         groupNav2.Text = "NAV 2";
+         // 
+         // lblNav2StandbyValue
+         // 
+         lblNav2StandbyValue.AutoSize = true;
+         lblNav2StandbyValue.Font = new Font("Segoe UI", 21.75F);
+         lblNav2StandbyValue.Location = new Point(6, 41);
+         lblNav2StandbyValue.Name = "lblNav2StandbyValue";
+         lblNav2StandbyValue.Size = new Size(103, 40);
+         lblNav2StandbyValue.TabIndex = 4;
+         lblNav2StandbyValue.Text = "000.00";
+         // 
+         // lblNav2ActiveValue
+         // 
+         lblNav2ActiveValue.AutoSize = true;
+         lblNav2ActiveValue.Font = new Font("Segoe UI", 21.75F);
+         lblNav2ActiveValue.Location = new Point(156, 41);
+         lblNav2ActiveValue.Name = "lblNav2ActiveValue";
+         lblNav2ActiveValue.Size = new Size(103, 40);
+         lblNav2ActiveValue.TabIndex = 5;
+         lblNav2ActiveValue.Text = "000.00";
+         // 
+         // lblNav2Standby
+         // 
+         lblNav2Standby.AutoSize = true;
+         lblNav2Standby.Location = new Point(6, 21);
+         lblNav2Standby.Name = "lblNav2Standby";
+         lblNav2Standby.Size = new Size(55, 17);
+         lblNav2Standby.TabIndex = 2;
+         lblNav2Standby.Text = "Standby";
+         // 
+         // lblNav2Active
+         // 
+         lblNav2Active.AutoSize = true;
+         lblNav2Active.Location = new Point(156, 21);
+         lblNav2Active.Name = "lblNav2Active";
+         lblNav2Active.Size = new Size(42, 17);
+         lblNav2Active.TabIndex = 3;
+         lblNav2Active.Text = "Active";
+         // 
+         // label2
+         // 
+         label2.AutoSize = true;
+         label2.Location = new Point(12, 372);
+         label2.Name = "label2";
+         label2.Size = new Size(57, 17);
+         label2.TabIndex = 6;
+         label2.Text = "Heading";
+         // 
+         // groupNav1
+         // 
+         groupNav1.Controls.Add(lblNav1StandbyValue);
+         groupNav1.Controls.Add(lblNav1ActiveValue);
+         groupNav1.Controls.Add(lblNav1Standby);
+         groupNav1.Controls.Add(lblNav1Active);
+         groupNav1.Location = new Point(3, 189);
+         groupNav1.Name = "groupNav1";
+         groupNav1.Size = new Size(275, 87);
+         groupNav1.TabIndex = 11;
+         groupNav1.TabStop = false;
+         groupNav1.Text = "NAV 1";
+         // 
+         // lblNav1StandbyValue
+         // 
+         lblNav1StandbyValue.AutoSize = true;
+         lblNav1StandbyValue.Font = new Font("Segoe UI", 21.75F);
+         lblNav1StandbyValue.Location = new Point(6, 41);
+         lblNav1StandbyValue.Name = "lblNav1StandbyValue";
+         lblNav1StandbyValue.Size = new Size(103, 40);
+         lblNav1StandbyValue.TabIndex = 4;
+         lblNav1StandbyValue.Text = "000.00";
+         // 
+         // lblNav1ActiveValue
+         // 
+         lblNav1ActiveValue.AutoSize = true;
+         lblNav1ActiveValue.Font = new Font("Segoe UI", 21.75F);
+         lblNav1ActiveValue.Location = new Point(156, 41);
+         lblNav1ActiveValue.Name = "lblNav1ActiveValue";
+         lblNav1ActiveValue.Size = new Size(103, 40);
+         lblNav1ActiveValue.TabIndex = 5;
+         lblNav1ActiveValue.Text = "000.00";
+         // 
+         // lblNav1Standby
+         // 
+         lblNav1Standby.AutoSize = true;
+         lblNav1Standby.Location = new Point(6, 21);
+         lblNav1Standby.Name = "lblNav1Standby";
+         lblNav1Standby.Size = new Size(55, 17);
+         lblNav1Standby.TabIndex = 2;
+         lblNav1Standby.Text = "Standby";
+         // 
+         // lblNav1Active
+         // 
+         lblNav1Active.AutoSize = true;
+         lblNav1Active.Location = new Point(156, 21);
+         lblNav1Active.Name = "lblNav1Active";
+         lblNav1Active.Size = new Size(42, 17);
+         lblNav1Active.TabIndex = 3;
+         lblNav1Active.Text = "Active";
+         // 
+         // groupCom2
+         // 
+         groupCom2.Controls.Add(lblCom2Standby);
+         groupCom2.Controls.Add(lblCom2StandbyValue);
+         groupCom2.Controls.Add(lblCom2ActiveValue);
+         groupCom2.Controls.Add(lblCom2Active);
+         groupCom2.Location = new Point(3, 96);
+         groupCom2.Name = "groupCom2";
+         groupCom2.Size = new Size(275, 87);
+         groupCom2.TabIndex = 11;
+         groupCom2.TabStop = false;
+         groupCom2.Text = "COM 2";
+         // 
+         // lblCom2Standby
+         // 
+         lblCom2Standby.AutoSize = true;
+         lblCom2Standby.Location = new Point(6, 21);
+         lblCom2Standby.Name = "lblCom2Standby";
+         lblCom2Standby.Size = new Size(55, 17);
+         lblCom2Standby.TabIndex = 6;
+         lblCom2Standby.Text = "Standby";
+         // 
+         // lblCom2StandbyValue
+         // 
+         lblCom2StandbyValue.AutoSize = true;
+         lblCom2StandbyValue.Font = new Font("Segoe UI", 21.75F);
+         lblCom2StandbyValue.Location = new Point(6, 38);
+         lblCom2StandbyValue.Name = "lblCom2StandbyValue";
+         lblCom2StandbyValue.Size = new Size(119, 40);
+         lblCom2StandbyValue.TabIndex = 8;
+         lblCom2StandbyValue.Text = "000.000";
+         // 
+         // lblCom2ActiveValue
+         // 
+         lblCom2ActiveValue.AutoSize = true;
+         lblCom2ActiveValue.Font = new Font("Segoe UI", 21.75F);
+         lblCom2ActiveValue.Location = new Point(156, 38);
+         lblCom2ActiveValue.Name = "lblCom2ActiveValue";
+         lblCom2ActiveValue.Size = new Size(119, 40);
+         lblCom2ActiveValue.TabIndex = 9;
+         lblCom2ActiveValue.Text = "000.000";
+         // 
+         // lblCom2Active
+         // 
+         lblCom2Active.AutoSize = true;
+         lblCom2Active.Location = new Point(156, 21);
+         lblCom2Active.Name = "lblCom2Active";
+         lblCom2Active.Size = new Size(42, 17);
+         lblCom2Active.TabIndex = 7;
+         lblCom2Active.Text = "Active";
+         // 
+         // groupCom1
+         // 
+         groupCom1.Controls.Add(lblCom1StandbyValue);
+         groupCom1.Controls.Add(lblCom1ActiveValue);
+         groupCom1.Controls.Add(lblCom1Standby);
+         groupCom1.Controls.Add(lblCom1Active);
+         groupCom1.Location = new Point(3, 3);
+         groupCom1.Name = "groupCom1";
+         groupCom1.Size = new Size(275, 87);
+         groupCom1.TabIndex = 10;
+         groupCom1.TabStop = false;
+         groupCom1.Text = "COM 1";
+         // 
+         // lblCom1StandbyValue
+         // 
+         lblCom1StandbyValue.AutoSize = true;
+         lblCom1StandbyValue.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+         lblCom1StandbyValue.Location = new Point(6, 41);
+         lblCom1StandbyValue.Name = "lblCom1StandbyValue";
+         lblCom1StandbyValue.Size = new Size(119, 40);
+         lblCom1StandbyValue.TabIndex = 4;
+         lblCom1StandbyValue.Text = "000.000";
+         // 
+         // lblCom1ActiveValue
+         // 
+         lblCom1ActiveValue.AutoSize = true;
+         lblCom1ActiveValue.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+         lblCom1ActiveValue.Location = new Point(156, 41);
+         lblCom1ActiveValue.Name = "lblCom1ActiveValue";
+         lblCom1ActiveValue.Size = new Size(119, 40);
+         lblCom1ActiveValue.TabIndex = 5;
+         lblCom1ActiveValue.Text = "000.000";
+         // 
+         // lblCom1Standby
+         // 
+         lblCom1Standby.AutoSize = true;
+         lblCom1Standby.Location = new Point(6, 21);
+         lblCom1Standby.Name = "lblCom1Standby";
+         lblCom1Standby.Size = new Size(55, 17);
+         lblCom1Standby.TabIndex = 2;
+         lblCom1Standby.Text = "Standby";
+         // 
+         // lblCom1Active
+         // 
+         lblCom1Active.AutoSize = true;
+         lblCom1Active.Location = new Point(156, 21);
+         lblCom1Active.Name = "lblCom1Active";
+         lblCom1Active.Size = new Size(42, 17);
+         lblCom1Active.TabIndex = 3;
+         lblCom1Active.Text = "Active";
+         // 
+         // mainMenu
+         // 
+         mainMenu.Dock = DockStyle.None;
+         mainMenu.Items.AddRange(new ToolStripItem[] { appToolStripMenuItem, macroPadToolStripMenuItem });
+         mainMenu.Location = new Point(0, 0);
+         mainMenu.Name = "mainMenu";
+         mainMenu.Size = new Size(852, 25);
+         mainMenu.TabIndex = 0;
+         mainMenu.Text = "menuStrip1";
+         // 
+         // appToolStripMenuItem
+         // 
+         appToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { connectToSimToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
+         appToolStripMenuItem.Name = "appToolStripMenuItem";
+         appToolStripMenuItem.Size = new Size(44, 21);
+         appToolStripMenuItem.Text = "App";
+         // 
+         // connectToSimToolStripMenuItem
+         // 
+         connectToSimToolStripMenuItem.Name = "connectToSimToolStripMenuItem";
+         connectToSimToolStripMenuItem.Size = new Size(164, 22);
+         connectToSimToolStripMenuItem.Text = "Connect to Sim";
+         connectToSimToolStripMenuItem.Click += ConnectToSimToolStripMenuItem_Click;
+         // 
+         // toolStripSeparator1
+         // 
+         toolStripSeparator1.Name = "toolStripSeparator1";
+         toolStripSeparator1.Size = new Size(161, 6);
+         // 
+         // exitToolStripMenuItem
+         // 
+         exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+         exitToolStripMenuItem.Size = new Size(164, 22);
+         exitToolStripMenuItem.Text = "E&xit";
+         exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
+         // 
+         // macroPadToolStripMenuItem
+         // 
+         macroPadToolStripMenuItem.Name = "macroPadToolStripMenuItem";
+         macroPadToolStripMenuItem.Size = new Size(80, 21);
+         macroPadToolStripMenuItem.Text = "MacroPad";
+         // 
+         // MainForm
+         // 
+         AutoScaleDimensions = new SizeF(7F, 17F);
+         AutoScaleMode = AutoScaleMode.Font;
+         ClientSize = new Size(852, 613);
+         Controls.Add(toolStripContainer1);
+         MainMenuStrip = mainMenu;
+         Name = "MainForm";
+         Text = "MainForm";
+         toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+         toolStripContainer1.BottomToolStripPanel.PerformLayout();
+         toolStripContainer1.ContentPanel.ResumeLayout(false);
+         toolStripContainer1.ContentPanel.PerformLayout();
+         toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+         toolStripContainer1.TopToolStripPanel.PerformLayout();
+         toolStripContainer1.ResumeLayout(false);
+         toolStripContainer1.PerformLayout();
+         statusStrip.ResumeLayout(false);
+         statusStrip.PerformLayout();
+         groupNav2.ResumeLayout(false);
+         groupNav2.PerformLayout();
+         groupNav1.ResumeLayout(false);
+         groupNav1.PerformLayout();
+         groupCom2.ResumeLayout(false);
+         groupCom2.PerformLayout();
+         groupCom1.ResumeLayout(false);
+         groupCom1.PerformLayout();
+         mainMenu.ResumeLayout(false);
+         mainMenu.PerformLayout();
+         ResumeLayout(false);
+      }
 
-        #endregion
+      #endregion
 
-        private ToolStripContainer toolStripContainer1;
-        private TableLayoutPanel tableLayoutPanel1;
-        private SevenSegmentDisplay com1standby;
-        private Label lblCom1Standby;
-        private Label lblCom1Active;
-        private SevenSegmentDisplay com1active;
-        private Label lblCom2Standby;
-        private Label lblCom2Active;
-        private SevenSegmentDisplay com2standby;
-        private SevenSegmentDisplay com2active;
-        private SevenSegmentDisplay nav1standby;
-        private SevenSegmentDisplay nav1active;
-        private SevenSegmentDisplay nav2standby;
-        private SevenSegmentDisplay nav2active;
-        private Label lblNav1Standby;
-        private Label lblNav1Active;
-        private Label lblNav2Standby;
-        private Label lblNav2Active;
-        private Label lblHeading;
-        private Label lblCourse;
-        private SevenSegmentDisplay altitude;
-        private SevenSegmentDisplay heading;
-        private SevenSegmentDisplay course;
-        private Label lblAltitude;
-        private Label lblVerticalSpeed;
-        private SevenSegmentDisplay verticalspeed;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel connectedToSimLabel;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem appToolStripMenuItem;
-        private ToolStripMenuItem connectToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem exitToolStripMenuItem;
-        private ToolStripMenuItem macroPadToolStripMenuItem;
-        private ToolStripMenuItem baud9600ToolStripMenuItem;
-        private ToolStripMenuItem baud115200ToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem altitudeToolStripMenuItem;
-        private ToolStripMenuItem altitudeIncrease1000ToolStripMenuItem;
-        private ToolStripMenuItem altitudeDecrease1000ToolStripMenuItem;
-        private ToolStripStatusLabel connectedToMacroPadLabel;
-        private ToolStripStatusLabel stateLabel;
-        private TextBox txtOutput;
-        private TableLayoutPanel tableLayoutPanel2;
-        private Label lblAPMaster;
-        private Label lblAltHold;
-        private Label lblVSHold;
-        private Label lblHdgHold;
-    }
+      private TextBox txtOutput;
+      private ToolStripContainer toolStripContainer1;
+      private MenuStrip mainMenu;
+      private StatusStrip statusStrip;
+      private ToolStripMenuItem appToolStripMenuItem;
+      private ToolStripMenuItem exitToolStripMenuItem;
+      private ToolStripMenuItem testToolStripMenuItem;
+      private ToolStripStatusLabel lblSimConnectionStatus;
+      private Label lblCom1Active;
+      private Label lblCom1Standby;
+      private Label lblCom1ActiveValue;
+      private Label lblCom1StandbyValue;
+      private Label lblCom2ActiveValue;
+      private Label lblCom2StandbyValue;
+      private Label lblCom2Active;
+      private Label lblCom2Standby;
+      private GroupBox groupCom1;
+      private GroupBox groupCom2;
+      private GroupBox groupNav1;
+      private Label lblNav1StandbyValue;
+      private Label lblNav1ActiveValue;
+      private Label lblNav1Standby;
+      private Label lblNav1Active;
+      private GroupBox groupNav2;
+      private Label lblNav2StandbyValue;
+      private Label lblNav2ActiveValue;
+      private Label lblNav2Standby;
+      private Label lblNav2Active;
+      private Label lblHeadingValue;
+      private Label label2;
+      private Label lblCourseValue;
+      private Label label3;
+      private Label lblVerticalSpeedValue;
+      private Label label7;
+      private Label lblAltitudeValue;
+      private Label label5;
+      private Label lblTransponder;
+      private Label label4;
+      private ToolStripMenuItem macroPadToolStripMenuItem;
+      private ToolStripMenuItem connectToSimToolStripMenuItem;
+      private ToolStripSeparator toolStripSeparator1;
+      private ToolStripStatusLabel lblMacroPadState;
+   }
 }

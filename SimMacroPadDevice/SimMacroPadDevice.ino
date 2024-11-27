@@ -2,8 +2,10 @@
 #include <Adafruit_NeoPixel.h>
 #include <RotaryEncoder.h>
 #include <Wire.h>
-#include <Keyboard.h>
 #include <AceButton.h>
+
+//#define EVENT_TIMER_MILLIS    600000
+#define EVENT_TIMER_MILLIS    60000
 
 #define EVENT_ENCODER_INC     0b00000100
 #define EVENT_ENCODER_DEC     0b00000101
@@ -53,17 +55,6 @@
 
 using namespace ace_button;
 
-//AceButton rotaryButton(0, HIGH, 0);
-// AceButton key01(1);
-// AceButton key02(2);
-// AceButton key03(3);
-// AceButton key04(4);
-// AceButton key00(0);
-
-AceButton buttons[13];
-
-void handleButtonEvent(AceButton*, uint8_t, uint8_t);
-
 // Create the neopixel strip with the built in definitions NUM_NEOPIXEL and PIN_NEOPIXEL
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_NEOPIXEL, PIN_NEOPIXEL, NEO_GRB + NEO_KHZ800);
 
@@ -75,12 +66,19 @@ Adafruit_SH1106G display = Adafruit_SH1106G(128, 64, &SPI1, OLED_DC, OLED_RST, O
 // TWO03 rotates several positions at a time
 RotaryEncoder encoder(PIN_ROTA, PIN_ROTB, RotaryEncoder::LatchMode::FOUR3);
 
+AceButton buttons[13];
+
+void handleButtonEvent(AceButton*, uint8_t, uint8_t);
+
 void checkPosition() {  encoder.tick(); } // just call tick() to check the state.
+
 // our encoder position state
 int encoder_pos = 0;
 
 // Keep track of which pixel is currently illuminated
 int currentPixel = 0;
+
+long lastEventMillis = 0;
 
 void setup()
 {
@@ -103,9 +101,6 @@ void setup()
     buttons[i].init(i, HIGH, i);
   }
 
-  // rotaryButton.setEventHandler(handleButtonEvent);
-  // key01.setEventHandler(handleButtonEvent);
-
   // Configure the ButtonConfig with the event handler.
   ButtonConfig* buttonConfig = ButtonConfig::getSystemButtonConfig();
   buttonConfig->setEventHandler(handleButtonEvent);
@@ -114,34 +109,29 @@ void setup()
   buttonConfig->setFeature(ButtonConfig::kFeatureLongPress);
   buttonConfig->setFeature(ButtonConfig::kFeatureRepeatPress);
 
-  //buttonConfig->setFeature(ButtonConfig::kFeatureSuppressClickBeforeDoubleClick);
-  //buttonConfig->setFeature(ButtonConfig::kFeatureSuppressAfterClick);
-  //buttonConfig->setFeature(ButtonConfig::kFeatureSuppressAfterDoubleClick);
-
   // set rotary encoder inputs and interrupts
   pinMode(PIN_ROTA, INPUT_PULLUP);
   pinMode(PIN_ROTB, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(PIN_ROTA), checkPosition, CHANGE);
   attachInterrupt(digitalPinToInterrupt(PIN_ROTB), checkPosition, CHANGE);  
 
+  Wire.begin();
+
   // text display tests
-  display.setTextSize(1);
+  display.setTextSize(2);
   display.setTextWrap(false);
   display.setTextColor(SH110X_WHITE, SH110X_BLACK); // white text, black background
+
+  lastEventMillis = millis();
 }
 
 void loop()
 {
-  //display.clearDisplay();
+  display.clearDisplay();
   //display.setCursor(0,0);
-  //display.println("* Adafruit Macropad *");
+  //display.println("Macropad");
 
   // Update buttons
-  //rotaryButton.check();
-  // key01.check();
-  // key02.check();
-  // key03.check();
-  // key04.check();
   for (uint8_t i = 0; i <= 12; i++)
   {
     buttons[i].check();
@@ -152,9 +142,9 @@ void loop()
   int newPos = encoder.getPosition();
   bool increment = newPos > encoder_pos;
 
-  //display.setCursor(0, 8);
-  //display.print("Rotary encoder: ");
-  //display.print(encoder_pos);
+  // display.setCursor(0, 16);
+  // display.print("Encoder ");
+  // display.print(encoder_pos);
 
   // By default, the encoder considers a clockwise turn as decreasing;
   // We'll invert the direction by inverting the increment variable:
@@ -174,121 +164,131 @@ void loop()
       data = EVENT_ENCODER_DEC;
     }
 
+    // Send rotary encoder data to PC
     Serial.write(data);
 
-    // Update pixels to indicate when the encoder has changed position
-    // Turn off current pixel before changing it
-    //pixels.setPixelColor(currentPixel, pixels.Color(0, 0, 0));
+    lastEventMillis = millis();
 
     // Increment or decrement the current pixel as necessary
-    if (increment)
-    {
-      currentPixel++;
-    }
-    else
-    {
-      currentPixel--;
-    }
+    // if (increment)
+    // {
+    //   currentPixel++;
+    // }
+    // else
+    // {
+    //   currentPixel--;
+    // }
 
-    // Check min and max current pixel
-    if (currentPixel < 0)
-    {
-      currentPixel = NUM_NEOPIXEL - 1;
-    }
-    else if (currentPixel >= (NUM_NEOPIXEL))
-    {
-      currentPixel = 0;
-    }
-
-    // Turn on new current pixel
-    // pixels.setPixelColor(currentPixel, pixels.Color(255, 255, 255));
-    // pixels.show();
+    // // Check min and max current pixel
+    // if (currentPixel < 0)
+    // {
+    //   currentPixel = NUM_NEOPIXEL - 1;
+    // }
+    // else if (currentPixel >= (NUM_NEOPIXEL))
+    // {
+    //   currentPixel = 0;
+    // }
 
   }
 
-
-
-  //pixels.setPixelColor(3, pixels.Color(0, 255, 0));
-
+  // Read state data from PC if available
   if (Serial.available() > 0)
   {
-    //char input = Serial.read();
     uint8_t input = Serial.read();
-    //uint8_t currentPixel = 0;
     uint8_t previousPixel = currentPixel;
     uint8_t r = 255;
     uint8_t g = 255;
     uint8_t b = 255;
+
+    // Illuminate button neopixels according to the current state
+    display.setCursor(0,0);
 
     switch(input)
     {
       case STATE_COM1_MHZ:
         currentPixel = CONTROL_COM1 - 1;
         r = 0; g = 255; b = 0;
+        display.println("COM1 MHz");
         break;
       case STATE_COM1_KHZ:
         currentPixel = CONTROL_COM1 - 1;
         r = 0; g = 0; b = 255;
+        display.println("COM1 KHz");
         break;
       case STATE_COM2_MHZ:
         currentPixel = CONTROL_COM2 - 1;
         r = 0; g = 255; b = 0;
+        display.println("COM2 MHz");
         break;
       case STATE_COM2_KHZ:
         currentPixel = CONTROL_COM2 - 1;
         r = 0; g = 0; b = 255;
+        display.println("COM2 KHz");
         break;
       case STATE_NAV1_MHZ:
         currentPixel = CONTROL_NAV1 - 1;
         r = 0; g = 255; b = 0;
+        display.println("NAV1 MHz");
         break;
       case STATE_NAV1_KHZ:
         currentPixel = CONTROL_NAV1 - 1;
         r = 0; g = 0; b = 255;
+        display.println("NAV1 KHz");
         break;
       case STATE_NAV2_MHZ:
         currentPixel = CONTROL_NAV2 - 1;
         r = 0; g = 255; b = 0;
+        display.println("NAV2 MHz");
         break;
       case STATE_NAV2_KHZ:
         currentPixel = CONTROL_NAV2 - 1;
         r = 0; g = 0; b = 255;
+        display.println("NAV2 KHz");
         break;
       case STATE_HEADING:
         currentPixel = CONTROL_HDG - 1;
         r = 0; g = 255; b = 0;
+        display.println("HDG");
         break;
       case STATE_COURSE:
         currentPixel = CONTROL_CRS - 1;
         r = 0; g = 255; b = 0;
+        display.println("CRS");
         break;
       case STATE_ALTITUDE_1000:
         currentPixel = CONTROL_ALT - 1;
         r = 0; g = 255; b = 0;
+        display.println("ALT 1000");
         break;
       case STATE_ALTITUDE_100:
         currentPixel = CONTROL_ALT - 1;
         r = 0; g = 0; b = 255;
+        display.println("ALT 100");
         break;
       case STATE_VERTICAL_SPEED:
         currentPixel = CONTROL_VS - 1;
         r = 0; g = 255; b = 0;
+        display.println("VS");
         break;
       case STATE_XPND_1000:
         currentPixel = CONTROL_XPND - 1;
         r = 0; g = 255; b = 0;
+        display.println("XPND 1000");
         break;
       case STATE_XPND_100:
         currentPixel = CONTROL_XPND - 1;
         r = 0; g = 0; b = 255;
+        display.println("XPND 100");
         break;
       case STATE_XPND_10:
         currentPixel = CONTROL_XPND - 1;
         r = 255; g = 255; b = 0;
+        display.println("XPND 10");
         break;
       case STATE_XPND_1:
         currentPixel = CONTROL_XPND - 1;
         r = 255; g = 0; b = 0;
+        display.println("XPND 1");
         break;
       case STATE_GPS_GROUP:
         currentPixel = CONTROL_GPS - 1;
@@ -318,121 +318,29 @@ void loop()
         break;
     }
 
+    display.display();
+
+    // Turn off the previous button neopixel
     pixels.setPixelColor(previousPixel, pixels.Color(0, 0, 0));
+
+    // Turn on the new button neopixel
     pixels.setPixelColor(currentPixel, pixels.Color(r, g, b));
-    // if (currentPixel > 0)
-    // {
-    //   currentPixel -= 1;
-    //   //pixels.setPixelColor(currentPixel, pixels.Color(intensity, intensity, intensity));
-    // }
   }
-  else
+
+  if ((millis() - lastEventMillis) > EVENT_TIMER_MILLIS)
   {
-    //pixels.setPixelColor(11, pixels.Color(255, 0, 0));
+    display.setCursor(0, 0);
+    display.println("        ");
+    display.display();
   }
 
   pixels.show();
 
-  
-  // if (encoder_pos != newPos)
-  // {
-  //   Serial.print(encoder_pos);
-  //   Serial.print(", ");
-  //   Serial.print(newPos);
-  //   Serial.print(", ");
-  //   Serial.print(increment);
-  //   Serial.println();
-
-  //   if (increment)
-  //   {
-  //     Serial.println("increment");
-  //     switch (current_state)
-  //     {
-  //       case NAV1_KHZ:
-  //         Keyboard.press(KEY_LEFT_SHIFT);
-  //         Keyboard.press(KEY_LEFT_CTRL);
-  //         Keyboard.press(KEY_PAGE_UP);
-  //         delay(50);
-  //         Keyboard.releaseAll();
-  //         break;
-  //       case ALTITUDE:
-  //         Keyboard.press(KEY_LEFT_CTRL);
-  //         Keyboard.press(KEY_PAGE_UP);
-  //         delay(50);
-  //         Keyboard.releaseAll();
-  //         break;
-  //     }
-  //   }
-  //   // decrease
-  //   else
-  //   {
-  //     Serial.println("Decrease");
-  //     switch (current_state)
-  //     {
-  //       case NAV1_KHZ:
-  //         Keyboard.press(KEY_LEFT_SHIFT);
-  //         Keyboard.press(KEY_LEFT_CTRL);
-  //         Keyboard.press(KEY_PAGE_DOWN);
-  //         delay(50);
-  //         Keyboard.releaseAll();
-  //         break;
-  //       case ALTITUDE:
-  //         Keyboard.press(KEY_LEFT_CTRL);
-  //         Keyboard.press(KEY_PAGE_DOWN);
-  //         delay(50);
-  //         Keyboard.releaseAll();
-  //         break;
-  //     }
-  //   }
-  //}
-
   encoder_pos = newPos;
 
-  // // Check buttons
-  // for (int i = 1; i <= 12; i++)
-  // {
-  //   // See if a button was pressed
-  //   if (!digitalRead(i))
-  //   {
-  //     switch (i)
-  //     {
-  //       case 1:
-  //         if (current_state == COM1_KHZ)
-  //           current_state = COM1_MHZ;
-  //         else
-  //           current_state = COM1_KHZ;
-  //         break;
-  //       case 2:
-  //         if (current_state == COM2_KHZ)
-  //           current_state = COM2_MHZ;
-  //         else
-  //           current_state = COM2_KHZ;
-  //         break;
-  //       case 4:
-  //         if (current_state == NAV1_KHZ)
-  //           current_state = NAV1_MHZ;
-  //         else
-  //           current_state = NAV1_KHZ;
-  //         break;
-  //       case 5:
-  //         if (current_state == NAV2_KHZ)
-  //           current_state = NAV2_MHZ;
-  //         else
-  //           current_state = NAV2_KHZ;
-  //         break;
-  //       case 7:
-  //         current_state = HEADING;
-  //         break;
-  //       case 8:
-  //         current_state = ALTITUDE;
-  //         break;
-  //     }
-  //   }
-  // }
-
-  //display.setCursor(0, 8);
-  //display.print("Rotary encoder: ");
-  //display.print(encoder_pos);
+  // display.setCursor(0, 8);
+  // display.print("Rotary encoder: ");
+  // display.print(encoder_pos);
 }
 
 void handleButtonEvent(AceButton* button, uint8_t eventType, uint8_t /*buttonState*/)
@@ -461,6 +369,8 @@ void handleButtonEvent(AceButton* button, uint8_t eventType, uint8_t /*buttonSta
   data |= deviceID;
 
   Serial.write(data);
+
+  lastEventMillis = millis();
 }
 
 
