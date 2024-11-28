@@ -21,7 +21,7 @@ public partial class MainForm : Form
       InitializeComponent();
 
       simConnection = new SimConnection.SimConnection();
-      simConnection.DataReceived += SimConnection_DataReceived;
+      simConnection.DataReceived += SimConnection_DataReceivedFromSim;
 
       macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection);
       macroPadDevice.EventProcessed += MacroPadDevice_EventProcessed;
@@ -40,9 +40,9 @@ public partial class MainForm : Form
       });
    }
 
-   private void SimConnection_DataReceived(object sender, MacroSimStruct macroSimStruct)
+   private void SimConnection_DataReceivedFromSim(object sender, MacroSimStruct macroSimStruct)
    {
-      System.Diagnostics.Debug.WriteLine("Data received");
+      System.Diagnostics.Debug.WriteLine("Data received from simulator");
 
       macroPadDevice.UpdateData(macroSimStruct);
 

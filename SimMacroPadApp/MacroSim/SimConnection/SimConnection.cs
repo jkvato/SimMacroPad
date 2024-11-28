@@ -443,7 +443,8 @@ namespace MacroSim.SimConnection
             DefineID: SimDefinitions.MacroSimStruct,
             ObjectID: (uint)SIMCONNECT_SIMOBJECT_TYPE.USER,
             Period: SIMCONNECT_PERIOD.SIM_FRAME,
-            Flags: SIMCONNECT_DATA_REQUEST_FLAG.CHANGED,
+            //Flags: SIMCONNECT_DATA_REQUEST_FLAG.CHANGED,
+            Flags: 0,
             origin: 0,
             interval: 5,
             limit: 0);
