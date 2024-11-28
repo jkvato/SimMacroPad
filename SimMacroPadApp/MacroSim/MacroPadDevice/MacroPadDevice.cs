@@ -57,47 +57,51 @@ internal class MacroPadDevice
       {
          case MacroPadState.COM1_MHZ:
          case MacroPadState.COM1_KHZ:
-            simMessage.Text = string.Format("{0:000.000}", macroSimStruct.com1standby);
+            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.com1standby);
+            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.com1active);
             break;
          case MacroPadState.COM2_MHZ:
          case MacroPadState.COM2_KHZ:
-            simMessage.Text = string.Format("{0:000.000}", macroSimStruct.com2standby);
+            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.com2standby);
+            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.com2active);
             break;
          case MacroPadState.NAV1_MHZ:
          case MacroPadState.NAV1_KHZ:
-            simMessage.Text = string.Format("{0:000.000}", macroSimStruct.nav1standby);
+            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.nav1standby);
+            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.nav1active);
             break;
          case MacroPadState.NAV2_MHZ:
          case MacroPadState.NAV2_KHZ:
-            simMessage.Text = string.Format("{0:000.000}", macroSimStruct.nav2standby);
+            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.nav2standby);
+            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.nav2active);
             break;
          case MacroPadState.HEADING:
-            simMessage.Text = string.Format("{0:000}", macroSimStruct.apHeading);
+            simMessage.Text1 = string.Format("{0:000}", macroSimStruct.apHeading);
             break;
          case MacroPadState.COURSE:
-            simMessage.Text = string.Format("{0:000}", macroSimStruct.apNav1Obs);
+            simMessage.Text1 = string.Format("{0:000}", macroSimStruct.apNav1Obs);
             break;
          case MacroPadState.ALTITUDE_1000:
          case MacroPadState.ALTITUDE_100:
-            simMessage.Text = string.Format("{0:00000}", macroSimStruct.apAltitude);
+            simMessage.Text1 = string.Format("{0:00000}", macroSimStruct.apAltitude);
             break;
          case MacroPadState.VERTICAL_SPEED:
-            simMessage.Text = string.Format("{0:+0000;-0000; 0000}", macroSimStruct.apVerticalSpeed);
+            simMessage.Text1 = string.Format("{0:+0000;-0000; 0000}", macroSimStruct.apVerticalSpeed);
             break;
          case MacroPadState.XPND_1000:
          case MacroPadState.XPND_100:
          case MacroPadState.XPND_10:
          case MacroPadState.XPND_1:
-            simMessage.Text = string.Format("{0:0000}", macroSimStruct.transponderCode);
+            simMessage.Text1 = string.Format("{0:0000}", macroSimStruct.transponderCode);
             break;
          default:
-            simMessage.Text = string.Empty;
+            simMessage.Text1 = string.Empty;
             break;
       }
 
       simMessage.MacroPadState = state;
 
-      System.Diagnostics.Debug.WriteLine("Sending SimMessage via SerialPort");
+      System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage via SerialPort ");
 
       simMessage.Send(SerialPort);
 
@@ -496,9 +500,13 @@ internal class MacroPadDevice
             break;
       }
 
-      byte[] buffer = new byte[1];
-      buffer[0] = (byte)state;
-      SerialPort.Write(buffer, 0, 1);
+      if (state != previousState)
+      {
+         //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage state via SerialPort ");
+
+         //simMessage.MacroPadState = state;
+         //simMessage.Send(SerialPort);
+      }
 
       OnEventProcessed(
          new EventProcessedEventArgs(

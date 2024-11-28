@@ -11,24 +11,26 @@ namespace MacroSim.MacroPadDevice;
 internal class SimMessage
 {
    /// <summary>
-   /// Number of characters of the <see cref="Text"/> property that will
+   /// Number of characters of the <see cref="Text1"/> property that will
    /// be transmitted in the message, not including the terminating zero.
    /// </summary>
    private const int TextLength = 10;
 
    public MacroPadState MacroPadState { get; set; }
 
-   public string Text { get; set; }
+   public string Text1 { get; set; }
+   public string Text2 { get; set; }
 
    public SimMessage()
-      : this(MacroPadState.None, string.Empty)
+      : this(MacroPadState.None, string.Empty, string.Empty)
    {
    }
 
-   public SimMessage(MacroPadState macroPadState, string text)
+   public SimMessage(MacroPadState macroPadState, string text1, string text2)
    {
       MacroPadState = macroPadState;
-      Text = text;
+      Text1 = text1;
+      Text2 = text2;
    }
 
    /// <summary>
@@ -39,10 +41,11 @@ internal class SimMessage
    {
       // Convert the properties to ASCII bytes
       byte stateByte = (byte)MacroPadState;
-      byte[] textBytes = Encoding.ASCII.GetBytes(Text);
+      byte[] text1Bytes = Encoding.ASCII.GetBytes(Text1);
+      byte[] text2Bytes = Encoding.ASCII.GetBytes(Text2);
 
       // Create the message buffer and fill with zeroes
-      byte[] buffer = new byte[14];
+      byte[] buffer = new byte[25];
       for (int i = 0; i < buffer.Length; i++)
          buffer[i] = 0;
 
@@ -53,19 +56,25 @@ internal class SimMessage
       // MacroPadState as a byte
       buffer[1] = stateByte;
 
-      // Text, truncated if necessary
-      for (int i = 0; i < Math.Min(TextLength, textBytes.Length); i++)
+      // Text1, truncated if necessary
+      for (int i = 0; i < Math.Min(TextLength, text1Bytes.Length); i++)
       {
-         buffer[2 + i] = textBytes[i];
+         buffer[2 + i] = text1Bytes[i];
+      }
+
+      // Text2, truncated if necessary
+      for (int i = 0; i < Math.Min(TextLength, text2Bytes.Length); i++)
+      {
+         buffer[13 + i] = text2Bytes[i];
       }
 
       // ASCII End of Transmission
       buffer[buffer.Length - 1] = (byte)AsciiCode.EOT;
 
       // Write the data to the serial port
+      port.Write(buffer, 0, buffer.Length);
       try
       {
-         port.Write(buffer, 0, buffer.Length);
       }
       catch { }
    }
@@ -75,6 +84,15 @@ enum MessageState
 {
    PreSOH = 0,
    State = 1,
-   Text = 2,
-   PreEOT = 3,
+   Text1 = 2,
+   Text2 = 3,
+   PreEOT = 4,
 }
+
+// 0 = SOH
+// 1 = State
+// 2-11 = Text1
+// 12 = Text1 /0
+// 13-22 = Text2
+// 23 = Text2 /0
+// 24 = EOT

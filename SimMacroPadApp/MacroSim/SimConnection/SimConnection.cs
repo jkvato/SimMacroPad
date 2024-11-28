@@ -446,7 +446,8 @@ namespace MacroSim.SimConnection
             //Flags: SIMCONNECT_DATA_REQUEST_FLAG.CHANGED,
             Flags: 0,
             origin: 0,
-            interval: 5,
+            //interval: 5,
+            interval: 0,
             limit: 0);
       }
 
@@ -469,7 +470,7 @@ namespace MacroSim.SimConnection
                simconnect.MapClientEventToSimEvent(eventType, eventName);
                simconnect.TransmitClientEvent(0U, eventType, dwData, SimNotificationGroups.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
 
-               System.Diagnostics.Debug.WriteLine("Sending " + eventName);
+               System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending " + eventName);
             }
          }
          catch (COMException ex)

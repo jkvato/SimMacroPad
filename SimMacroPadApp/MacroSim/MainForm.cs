@@ -42,7 +42,7 @@ public partial class MainForm : Form
 
    private void SimConnection_DataReceivedFromSim(object sender, MacroSimStruct macroSimStruct)
    {
-      System.Diagnostics.Debug.WriteLine("Data received from simulator");
+      System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Data received from simulator");
 
       macroPadDevice.UpdateData(macroSimStruct);
 

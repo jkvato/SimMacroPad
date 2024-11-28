@@ -148,10 +148,6 @@ void setup()
 
 void loop()
 {
-  display.clearDisplay();
-  //display.setCursor(0,0);
-  //display.println("Macropad");
-
   // Update buttons
   for (uint8_t i = 0; i <= 12; i++)
   {
@@ -162,10 +158,6 @@ void loop()
   encoder.tick();
   int newPos = encoder.getPosition();
   bool increment = newPos > encoder_pos;
-
-  // display.setCursor(0, 16);
-  // display.print("Encoder ");
-  // display.print(encoder_pos);
 
   // By default, the encoder considers a clockwise turn as decreasing;
   // We'll invert the direction by inverting the increment variable:
@@ -197,24 +189,13 @@ void loop()
   if ((millis() - lastEventMillis) > EVENT_TIMER_MILLIS)
   {
     blankScreen = true;
-    display.setCursor(0, 0);
-    display.println("          ");
-    display.setCursor(0, 16);
-    display.println("          ");
-    display.display();
   }
   else
   {
     blankScreen = false;
   }
 
-  pixels.show();
-
   encoder_pos = newPos;
-
-  // display.setCursor(0, 8);
-  // display.print("Rotary encoder: ");
-  // display.print(encoder_pos);
 }
 
 void handleButtonEvent(AceButton* button, uint8_t eventType, uint8_t /*buttonState*/)
@@ -255,8 +236,6 @@ void handleSimMessageReceived()
   uint8_t g = 255;
   uint8_t b = 255;
 
-  // Illuminate button neopixels according to the current state
-
   switch(newState)
   {
     case STATE_COM1_MHZ:
@@ -264,10 +243,13 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("COM1 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_COM1_KHZ:
@@ -275,10 +257,13 @@ void handleSimMessageReceived()
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("COM1 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_COM2_MHZ:
@@ -286,10 +271,13 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("COM2 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_COM2_KHZ:
@@ -297,10 +285,13 @@ void handleSimMessageReceived()
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("COM2 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_NAV1_MHZ:
@@ -308,10 +299,13 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("NAV1 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_NAV1_KHZ:
@@ -319,10 +313,13 @@ void handleSimMessageReceived()
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("NAV1 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_NAV2_MHZ:
@@ -330,10 +327,13 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("NAV2 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_NAV2_KHZ:
@@ -341,10 +341,13 @@ void handleSimMessageReceived()
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("NAV2 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
+        display.setCursor(0, 32);
+        display.println(simMessage.Text2);
       }
       break;
     case STATE_HEADING:
@@ -352,10 +355,11 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("HDG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_COURSE:
@@ -363,10 +367,11 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("CRS");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_ALTITUDE_1000:
@@ -374,10 +379,11 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("ALT 1000");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_ALTITUDE_100:
@@ -385,10 +391,11 @@ void handleSimMessageReceived()
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("ALT 100");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_VERTICAL_SPEED:
@@ -396,10 +403,11 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("VS");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_XPND_1000:
@@ -407,10 +415,11 @@ void handleSimMessageReceived()
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("XPND 1000");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_XPND_100:
@@ -418,10 +427,11 @@ void handleSimMessageReceived()
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("XPND 100");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_XPND_10:
@@ -429,10 +439,11 @@ void handleSimMessageReceived()
       r = 255; g = 255; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("XPND 10");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_XPND_1:
@@ -440,10 +451,11 @@ void handleSimMessageReceived()
       r = 255; g = 0; b = 0;
       if (!blankScreen)
       {
+        display.clearDisplay();
         display.setCursor(0, 0);
         display.println("XPND 1");
         display.setCursor(0, 16);
-        display.println(simMessage.Text);
+        display.println(simMessage.Text1);
       }
       break;
     case STATE_GPS_GROUP:
@@ -474,6 +486,11 @@ void handleSimMessageReceived()
       break;
   }
 
+  if (blankScreen)
+  {
+    display.clearDisplay();
+  }
+
   display.display();
 
   // Turn off the previous button neopixel
@@ -481,6 +498,8 @@ void handleSimMessageReceived()
 
   // Turn on the new button neopixel
   pixels.setPixelColor(currentPixel, pixels.Color(r, g, b));
+
+  pixels.show();
 }
 
 

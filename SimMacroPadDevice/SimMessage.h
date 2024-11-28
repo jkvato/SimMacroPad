@@ -37,8 +37,9 @@
 
 #define MSGSTATE_PRE_SOH  0
 #define MSGSTATE_STATE    1
-#define MSGSTATE_TEXT     2
-#define MSGSTATE_PRE_EOT  3
+#define MSGSTATE_TEXT1    2
+#define MSGSTATE_TEXT2    3
+#define MSGSTATE_PRE_EOT  4
 
 #define TEXT_LENGTH   11
 
@@ -52,12 +53,12 @@ private:
 
 public:
   uint8_t State;
-  char Text[TEXT_LENGTH];
+  char Text1[TEXT_LENGTH];
+  char Text2[TEXT_LENGTH];
 
   SimMessageReceived SimMessageReceivedHandler;
 
   SimMessage();
-  SimMessage(uint8_t state, char* text);
   void Send(Stream* stream);
   bool Receive(Stream* stream);
 };

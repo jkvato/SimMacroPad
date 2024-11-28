@@ -9,24 +9,13 @@ SimMessage::SimMessage()
   messageState = MSGSTATE_PRE_SOH;
   for (textIndex = 0; textIndex < TEXT_LENGTH; textIndex++)
   {
-    Text[textIndex] = 0;
+    Text1[textIndex] = 0;
+    Text2[textIndex] = 0;
   }
   textIndex = 0;
   SimMessageReceivedHandler = NULL;
 }
 
-SimMessage::SimMessage(uint8_t state, char* text)
-{
-  State = state;
-  messageState = MSGSTATE_PRE_SOH;
-  for (textIndex = 0; textIndex < TEXT_LENGTH; textIndex++)
-  {
-    Text[textIndex] = 0;
-  }
-  strcpy(Text, text);
-  textIndex = 0;
-  SimMessageReceivedHandler = NULL;
-}
 
 bool SimMessage::Receive(Stream* stream)
 {
@@ -50,10 +39,20 @@ bool SimMessage::Receive(Stream* stream)
     case MSGSTATE_STATE:
       State = lastByteRead;
       textIndex = 0;
-      messageState = MSGSTATE_TEXT;
+      messageState = MSGSTATE_TEXT1;
       break;
-    case MSGSTATE_TEXT:
-      Text[textIndex] = lastByteRead;
+    case MSGSTATE_TEXT1:
+      Text1[textIndex] = lastByteRead;
+      textIndex++;
+
+      if (textIndex >= TEXT_LENGTH)
+      {
+        messageState = MSGSTATE_TEXT2;
+        textIndex = 0;
+      }
+      break;
+    case MSGSTATE_TEXT2:
+      Text2[textIndex] = lastByteRead;
       textIndex++;
 
       if (textIndex > TEXT_LENGTH)
