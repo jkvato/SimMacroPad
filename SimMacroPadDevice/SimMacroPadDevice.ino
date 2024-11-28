@@ -3,9 +3,10 @@
 #include <RotaryEncoder.h>
 #include <Wire.h>
 #include <AceButton.h>
+#include "SimMessage.h"
 
 //#define EVENT_TIMER_MILLIS    600000
-#define EVENT_TIMER_MILLIS    60000
+#define EVENT_TIMER_MILLIS    600000
 
 #define EVENT_ENCODER_INC     0b00000100
 #define EVENT_ENCODER_DEC     0b00000101
@@ -68,7 +69,12 @@ RotaryEncoder encoder(PIN_ROTA, PIN_ROTB, RotaryEncoder::LatchMode::FOUR3);
 
 AceButton buttons[13];
 
+SimMessage simMessage;
+
+bool blankScreen = false;
+
 void handleButtonEvent(AceButton*, uint8_t, uint8_t);
+void handleSimMessageReceived();
 
 void checkPosition() {  encoder.tick(); } // just call tick() to check the state.
 
@@ -101,6 +107,19 @@ void setup()
     buttons[i].init(i, HIGH, i);
   }
 
+  // Enable speaker
+  pinMode(PIN_SPEAKER_ENABLE, OUTPUT);
+  digitalWrite(PIN_SPEAKER_ENABLE, HIGH);
+  pinMode(PIN_SPEAKER, OUTPUT);
+
+  // tone(PIN_SPEAKER, 262, 2000);
+  // delay(300);
+
+  // tone(PIN_SPEAKER, 988, 100);  // tone1 - B5
+  // delay(100);
+  // tone(PIN_SPEAKER, 1319, 100); // tone2 - E6
+  // delay(100);
+
   // Configure the ButtonConfig with the event handler.
   ButtonConfig* buttonConfig = ButtonConfig::getSystemButtonConfig();
   buttonConfig->setEventHandler(handleButtonEvent);
@@ -114,6 +133,8 @@ void setup()
   pinMode(PIN_ROTB, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(PIN_ROTA), checkPosition, CHANGE);
   attachInterrupt(digitalPinToInterrupt(PIN_ROTB), checkPosition, CHANGE);  
+
+  simMessage.SimMessageReceivedHandler = &handleSimMessageReceived;
 
   Wire.begin();
 
@@ -168,170 +189,23 @@ void loop()
     Serial.write(data);
 
     lastEventMillis = millis();
-
-    // Increment or decrement the current pixel as necessary
-    // if (increment)
-    // {
-    //   currentPixel++;
-    // }
-    // else
-    // {
-    //   currentPixel--;
-    // }
-
-    // // Check min and max current pixel
-    // if (currentPixel < 0)
-    // {
-    //   currentPixel = NUM_NEOPIXEL - 1;
-    // }
-    // else if (currentPixel >= (NUM_NEOPIXEL))
-    // {
-    //   currentPixel = 0;
-    // }
-
   }
 
-  // Read state data from PC if available
-  if (Serial.available() > 0)
-  {
-    uint8_t input = Serial.read();
-    uint8_t previousPixel = currentPixel;
-    uint8_t r = 255;
-    uint8_t g = 255;
-    uint8_t b = 255;
-
-    // Illuminate button neopixels according to the current state
-    display.setCursor(0,0);
-
-    switch(input)
-    {
-      case STATE_COM1_MHZ:
-        currentPixel = CONTROL_COM1 - 1;
-        r = 0; g = 255; b = 0;
-        display.println("COM1 MHz");
-        break;
-      case STATE_COM1_KHZ:
-        currentPixel = CONTROL_COM1 - 1;
-        r = 0; g = 0; b = 255;
-        display.println("COM1 KHz");
-        break;
-      case STATE_COM2_MHZ:
-        currentPixel = CONTROL_COM2 - 1;
-        r = 0; g = 255; b = 0;
-        display.println("COM2 MHz");
-        break;
-      case STATE_COM2_KHZ:
-        currentPixel = CONTROL_COM2 - 1;
-        r = 0; g = 0; b = 255;
-        display.println("COM2 KHz");
-        break;
-      case STATE_NAV1_MHZ:
-        currentPixel = CONTROL_NAV1 - 1;
-        r = 0; g = 255; b = 0;
-        display.println("NAV1 MHz");
-        break;
-      case STATE_NAV1_KHZ:
-        currentPixel = CONTROL_NAV1 - 1;
-        r = 0; g = 0; b = 255;
-        display.println("NAV1 KHz");
-        break;
-      case STATE_NAV2_MHZ:
-        currentPixel = CONTROL_NAV2 - 1;
-        r = 0; g = 255; b = 0;
-        display.println("NAV2 MHz");
-        break;
-      case STATE_NAV2_KHZ:
-        currentPixel = CONTROL_NAV2 - 1;
-        r = 0; g = 0; b = 255;
-        display.println("NAV2 KHz");
-        break;
-      case STATE_HEADING:
-        currentPixel = CONTROL_HDG - 1;
-        r = 0; g = 255; b = 0;
-        display.println("HDG");
-        break;
-      case STATE_COURSE:
-        currentPixel = CONTROL_CRS - 1;
-        r = 0; g = 255; b = 0;
-        display.println("CRS");
-        break;
-      case STATE_ALTITUDE_1000:
-        currentPixel = CONTROL_ALT - 1;
-        r = 0; g = 255; b = 0;
-        display.println("ALT 1000");
-        break;
-      case STATE_ALTITUDE_100:
-        currentPixel = CONTROL_ALT - 1;
-        r = 0; g = 0; b = 255;
-        display.println("ALT 100");
-        break;
-      case STATE_VERTICAL_SPEED:
-        currentPixel = CONTROL_VS - 1;
-        r = 0; g = 255; b = 0;
-        display.println("VS");
-        break;
-      case STATE_XPND_1000:
-        currentPixel = CONTROL_XPND - 1;
-        r = 0; g = 255; b = 0;
-        display.println("XPND 1000");
-        break;
-      case STATE_XPND_100:
-        currentPixel = CONTROL_XPND - 1;
-        r = 0; g = 0; b = 255;
-        display.println("XPND 100");
-        break;
-      case STATE_XPND_10:
-        currentPixel = CONTROL_XPND - 1;
-        r = 255; g = 255; b = 0;
-        display.println("XPND 10");
-        break;
-      case STATE_XPND_1:
-        currentPixel = CONTROL_XPND - 1;
-        r = 255; g = 0; b = 0;
-        display.println("XPND 1");
-        break;
-      case STATE_GPS_GROUP:
-        currentPixel = CONTROL_GPS - 1;
-        r = 0; g = 255; b = 0;
-        break;
-      case STATE_GPS_PAGE:
-        currentPixel = CONTROL_GPS - 1;
-        r = 0; g = 0; b = 255;
-        break;
-      case STATE_PFD_GROUP:
-        currentPixel = CONTROL_PFD - 1;
-        r = 0; g = 255; b = 0;
-        break;
-      case STATE_PFD_PAGE:
-        currentPixel = CONTROL_PFD - 1;
-        r = 0; g = 0; b = 255;
-        break;
-      case STATE_MFD_GROUP:
-        currentPixel = CONTROL_MFD - 1;
-        r = 0; g = 255; b = 0;
-        break;
-      case STATE_MFD_PAGE:
-        currentPixel = CONTROL_MFD - 1;
-        r = 0; g = 0; b = 255;
-        break;
-      default:
-        break;
-    }
-
-    display.display();
-
-    // Turn off the previous button neopixel
-    pixels.setPixelColor(previousPixel, pixels.Color(0, 0, 0));
-
-    // Turn on the new button neopixel
-    pixels.setPixelColor(currentPixel, pixels.Color(r, g, b));
-  }
+  // Read data from PC if available
+  simMessage.Receive(&Serial);
 
   if ((millis() - lastEventMillis) > EVENT_TIMER_MILLIS)
   {
+    blankScreen = true;
     display.setCursor(0, 0);
-    display.println("        ");
+    display.println("          ");
+    display.setCursor(0, 16);
+    display.println("          ");
     display.display();
+  }
+  else
+  {
+    blankScreen = false;
   }
 
   pixels.show();
@@ -371,6 +245,242 @@ void handleButtonEvent(AceButton* button, uint8_t eventType, uint8_t /*buttonSta
   Serial.write(data);
 
   lastEventMillis = millis();
+}
+
+void handleSimMessageReceived()
+{
+  uint8_t newState = simMessage.State;
+  uint8_t previousPixel = currentPixel;
+  uint8_t r = 255;
+  uint8_t g = 255;
+  uint8_t b = 255;
+
+  // Illuminate button neopixels according to the current state
+
+  switch(newState)
+  {
+    case STATE_COM1_MHZ:
+      currentPixel = CONTROL_COM1 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("COM1 MHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_COM1_KHZ:
+      currentPixel = CONTROL_COM1 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("COM1 KHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_COM2_MHZ:
+      currentPixel = CONTROL_COM2 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("COM2 MHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_COM2_KHZ:
+      currentPixel = CONTROL_COM2 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("COM2 KHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_NAV1_MHZ:
+      currentPixel = CONTROL_NAV1 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("NAV1 MHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_NAV1_KHZ:
+      currentPixel = CONTROL_NAV1 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("NAV1 KHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_NAV2_MHZ:
+      currentPixel = CONTROL_NAV2 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("NAV2 MHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_NAV2_KHZ:
+      currentPixel = CONTROL_NAV2 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("NAV2 KHz");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_HEADING:
+      currentPixel = CONTROL_HDG - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("HDG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_COURSE:
+      currentPixel = CONTROL_CRS - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("CRS");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_ALTITUDE_1000:
+      currentPixel = CONTROL_ALT - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("ALT 1000");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_ALTITUDE_100:
+      currentPixel = CONTROL_ALT - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("ALT 100");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_VERTICAL_SPEED:
+      currentPixel = CONTROL_VS - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("VS");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_XPND_1000:
+      currentPixel = CONTROL_XPND - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("XPND 1000");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_XPND_100:
+      currentPixel = CONTROL_XPND - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("XPND 100");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_XPND_10:
+      currentPixel = CONTROL_XPND - 1;
+      r = 255; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("XPND 10");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_XPND_1:
+      currentPixel = CONTROL_XPND - 1;
+      r = 255; g = 0; b = 0;
+      if (!blankScreen)
+      {
+        display.setCursor(0, 0);
+        display.println("XPND 1");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text);
+      }
+      break;
+    case STATE_GPS_GROUP:
+      currentPixel = CONTROL_GPS - 1;
+      r = 0; g = 255; b = 0;
+      break;
+    case STATE_GPS_PAGE:
+      currentPixel = CONTROL_GPS - 1;
+      r = 0; g = 0; b = 255;
+      break;
+    case STATE_PFD_GROUP:
+      currentPixel = CONTROL_PFD - 1;
+      r = 0; g = 255; b = 0;
+      break;
+    case STATE_PFD_PAGE:
+      currentPixel = CONTROL_PFD - 1;
+      r = 0; g = 0; b = 255;
+      break;
+    case STATE_MFD_GROUP:
+      currentPixel = CONTROL_MFD - 1;
+      r = 0; g = 255; b = 0;
+      break;
+    case STATE_MFD_PAGE:
+      currentPixel = CONTROL_MFD - 1;
+      r = 0; g = 0; b = 255;
+      break;
+    default:
+      break;
+  }
+
+  display.display();
+
+  // Turn off the previous button neopixel
+  pixels.setPixelColor(previousPixel, pixels.Color(0, 0, 0));
+
+  // Turn on the new button neopixel
+  pixels.setPixelColor(currentPixel, pixels.Color(r, g, b));
 }
 
 
