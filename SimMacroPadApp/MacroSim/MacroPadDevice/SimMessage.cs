@@ -72,9 +72,9 @@ internal class SimMessage
       buffer[buffer.Length - 1] = (byte)AsciiCode.EOT;
 
       // Write the data to the serial port
-      port.Write(buffer, 0, buffer.Length);
       try
       {
+         port.Write(buffer, 0, buffer.Length);
       }
       catch { }
    }

@@ -101,14 +101,9 @@ internal class MacroPadDevice
 
       simMessage.MacroPadState = state;
 
-      System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage via SerialPort ");
+      //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage via SerialPort ");
 
       simMessage.Send(SerialPort);
-
-      //try
-      //{
-      //}
-      //catch { }
    }
 
    protected virtual void OnEventProcessed(EventProcessedEventArgs e)
@@ -138,6 +133,7 @@ internal class MacroPadDevice
 
       string eventStr = eventType.ToString();
 
+      System.Diagnostics.Debug.WriteLine($"ProcessMacroPadEvent");
       System.Diagnostics.Debug.WriteLine($"Component {component}, event {eventStr}");
 
       switch (component)

@@ -33,6 +33,20 @@
          statusStrip = new StatusStrip();
          lblSimConnectionStatus = new ToolStripStatusLabel();
          lblMacroPadState = new ToolStripStatusLabel();
+         lblSerialPortStatus = new ToolStripStatusLabel();
+         lblLightOnStates = new Label();
+         lblWingLight = new Label();
+         lblTaxiLight = new Label();
+         lblStrobeLight = new Label();
+         lblRecognitionLight = new Label();
+         lblPedestralLight = new Label();
+         lblPanelLight = new Label();
+         lblNavLight = new Label();
+         lblLogoLight = new Label();
+         lblLandingLight = new Label();
+         lblGlareshieldLight = new Label();
+         lblCabinLight = new Label();
+         lblBeaconLight = new Label();
          lblTransponder = new Label();
          label4 = new Label();
          lblVerticalSpeedValue = new Label();
@@ -88,7 +102,7 @@
          txtOutput.Name = "txtOutput";
          txtOutput.ReadOnly = true;
          txtOutput.ScrollBars = ScrollBars.Vertical;
-         txtOutput.Size = new Size(357, 426);
+         txtOutput.Size = new Size(357, 277);
          txtOutput.TabIndex = 0;
          // 
          // toolStripContainer1
@@ -100,6 +114,19 @@
          // 
          // toolStripContainer1.ContentPanel
          // 
+         toolStripContainer1.ContentPanel.Controls.Add(lblLightOnStates);
+         toolStripContainer1.ContentPanel.Controls.Add(lblWingLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblTaxiLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblStrobeLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblRecognitionLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblPedestralLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblPanelLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblNavLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblLogoLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblLandingLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblGlareshieldLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCabinLight);
+         toolStripContainer1.ContentPanel.Controls.Add(lblBeaconLight);
          toolStripContainer1.ContentPanel.Controls.Add(lblTransponder);
          toolStripContainer1.ContentPanel.Controls.Add(label4);
          toolStripContainer1.ContentPanel.Controls.Add(lblVerticalSpeedValue);
@@ -130,7 +157,7 @@
          // statusStrip
          // 
          statusStrip.Dock = DockStyle.None;
-         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectionStatus, lblMacroPadState });
+         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectionStatus, lblSerialPortStatus, lblMacroPadState });
          statusStrip.Location = new Point(0, 0);
          statusStrip.Name = "statusStrip";
          statusStrip.Size = new Size(852, 22);
@@ -147,8 +174,144 @@
          // lblMacroPadState
          // 
          lblMacroPadState.Name = "lblMacroPadState";
-         lblMacroPadState.Size = new Size(45, 17);
+         lblMacroPadState.Padding = new Padding(5, 0, 5, 0);
+         lblMacroPadState.Size = new Size(55, 17);
          lblMacroPadState.Text = "NONE";
+         // 
+         // lblSerialPortStatus
+         // 
+         lblSerialPortStatus.Name = "lblSerialPortStatus";
+         lblSerialPortStatus.Size = new Size(162, 17);
+         lblSerialPortStatus.Text = "Serial Port is disconnected";
+         // 
+         // lblLightOnStates
+         // 
+         lblLightOnStates.AutoSize = true;
+         lblLightOnStates.Location = new Point(565, 409);
+         lblLightOnStates.Name = "lblLightOnStates";
+         lblLightOnStates.Size = new Size(96, 17);
+         lblLightOnStates.TabIndex = 33;
+         lblLightOnStates.Text = "Light On States";
+         // 
+         // lblWingLight
+         // 
+         lblWingLight.AutoSize = true;
+         lblWingLight.Location = new Point(342, 528);
+         lblWingLight.Name = "lblWingLight";
+         lblWingLight.Size = new Size(38, 17);
+         lblWingLight.TabIndex = 32;
+         lblWingLight.Text = "Wing";
+         lblWingLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblTaxiLight
+         // 
+         lblTaxiLight.AutoSize = true;
+         lblTaxiLight.Location = new Point(342, 511);
+         lblTaxiLight.Name = "lblTaxiLight";
+         lblTaxiLight.Size = new Size(30, 17);
+         lblTaxiLight.TabIndex = 31;
+         lblTaxiLight.Text = "Taxi";
+         lblTaxiLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblStrobeLight
+         // 
+         lblStrobeLight.AutoSize = true;
+         lblStrobeLight.Location = new Point(342, 494);
+         lblStrobeLight.Name = "lblStrobeLight";
+         lblStrobeLight.Size = new Size(47, 17);
+         lblStrobeLight.TabIndex = 30;
+         lblStrobeLight.Text = "Strobe";
+         lblStrobeLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblRecognitionLight
+         // 
+         lblRecognitionLight.AutoSize = true;
+         lblRecognitionLight.Location = new Point(342, 477);
+         lblRecognitionLight.Name = "lblRecognitionLight";
+         lblRecognitionLight.Size = new Size(77, 17);
+         lblRecognitionLight.TabIndex = 29;
+         lblRecognitionLight.Text = "Recognition";
+         lblRecognitionLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblPedestralLight
+         // 
+         lblPedestralLight.AutoSize = true;
+         lblPedestralLight.Location = new Point(342, 460);
+         lblPedestralLight.Name = "lblPedestralLight";
+         lblPedestralLight.Size = new Size(62, 17);
+         lblPedestralLight.TabIndex = 28;
+         lblPedestralLight.Text = "Pedestral";
+         lblPedestralLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblPanelLight
+         // 
+         lblPanelLight.AutoSize = true;
+         lblPanelLight.Location = new Point(342, 443);
+         lblPanelLight.Name = "lblPanelLight";
+         lblPanelLight.Size = new Size(39, 17);
+         lblPanelLight.TabIndex = 27;
+         lblPanelLight.Text = "Panel";
+         lblPanelLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblNavLight
+         // 
+         lblNavLight.AutoSize = true;
+         lblNavLight.Location = new Point(342, 426);
+         lblNavLight.Name = "lblNavLight";
+         lblNavLight.Size = new Size(31, 17);
+         lblNavLight.TabIndex = 26;
+         lblNavLight.Text = "Nav";
+         lblNavLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblLogoLight
+         // 
+         lblLogoLight.AutoSize = true;
+         lblLogoLight.Location = new Point(342, 409);
+         lblLogoLight.Name = "lblLogoLight";
+         lblLogoLight.Size = new Size(38, 17);
+         lblLogoLight.TabIndex = 25;
+         lblLogoLight.Text = "Logo";
+         lblLogoLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblLandingLight
+         // 
+         lblLandingLight.AutoSize = true;
+         lblLandingLight.Location = new Point(342, 392);
+         lblLandingLight.Name = "lblLandingLight";
+         lblLandingLight.Size = new Size(54, 17);
+         lblLandingLight.TabIndex = 24;
+         lblLandingLight.Text = "Landing";
+         lblLandingLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblGlareshieldLight
+         // 
+         lblGlareshieldLight.AutoSize = true;
+         lblGlareshieldLight.Location = new Point(342, 375);
+         lblGlareshieldLight.Name = "lblGlareshieldLight";
+         lblGlareshieldLight.Size = new Size(73, 17);
+         lblGlareshieldLight.TabIndex = 23;
+         lblGlareshieldLight.Text = "Glareshield";
+         lblGlareshieldLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblCabinLight
+         // 
+         lblCabinLight.AutoSize = true;
+         lblCabinLight.Location = new Point(342, 358);
+         lblCabinLight.Name = "lblCabinLight";
+         lblCabinLight.Size = new Size(41, 17);
+         lblCabinLight.TabIndex = 22;
+         lblCabinLight.Text = "Cabin";
+         lblCabinLight.DoubleClick += LblLight_DoubleClick;
+         // 
+         // lblBeaconLight
+         // 
+         lblBeaconLight.AutoSize = true;
+         lblBeaconLight.Location = new Point(342, 341);
+         lblBeaconLight.Name = "lblBeaconLight";
+         lblBeaconLight.Size = new Size(50, 17);
+         lblBeaconLight.TabIndex = 21;
+         lblBeaconLight.Text = "Beacon";
+         lblBeaconLight.DoubleClick += LblLight_DoubleClick;
          // 
          // lblTransponder
          // 
@@ -568,5 +731,19 @@
       private ToolStripMenuItem connectToSimToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator1;
       private ToolStripStatusLabel lblMacroPadState;
+      private Label lblLogoLight;
+      private Label lblLandingLight;
+      private Label lblGlareshieldLight;
+      private Label lblCabinLight;
+      private Label lblBeaconLight;
+      private Label lblWingLight;
+      private Label lblTaxiLight;
+      private Label lblStrobeLight;
+      private Label lblRecognitionLight;
+      private Label lblPedestralLight;
+      private Label lblPanelLight;
+      private Label lblNavLight;
+      private Label lblLightOnStates;
+      private ToolStripStatusLabel lblSerialPortStatus;
    }
 }

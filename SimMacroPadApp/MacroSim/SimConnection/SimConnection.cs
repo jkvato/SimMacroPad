@@ -38,6 +38,7 @@ namespace MacroSim.SimConnection
             {
                simconnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
                Initialize();
+               RequestDataOnSimObject();
                return true;
             }
             catch (COMException)
@@ -104,6 +105,20 @@ namespace MacroSim.SimConnection
             simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV NAME:2", null, SIMCONNECT_DATATYPE.STRING64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
             simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "TRANSPONDER CODE:1", "enum", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT BEACON", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT CABIN", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT GLARESHIELD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT LANDING", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT LOGO", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT NAV", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT PANEL", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT PEDESTRAL", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT RECOGNITION", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT STROBE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT TAXI", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT WING", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT ON STATES", "Mask", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
             simconnect.RegisterDataDefineStruct<MacroSimStruct>(SimStructures.MacroSimStruct);
          }
@@ -367,7 +382,20 @@ namespace MacroSim.SimConnection
          AP_VS_HOLD,
          AP_WING_LEVELER,
          FLIGHT_LEVEL_CHANGE,
-         AP_NAV1_HOLD
+         AP_NAV1_HOLD,
+         ALL_LIGHTS_TOGGLE,
+         GLARESHIELD_LIGHTS_TOGGLE,
+         LANDING_LIGHTS_TOGGLE,
+         PANEL_LIGHTS_TOGGLE,
+         PEDESTRAL_LIGHTS_TOGGLE,
+         STROBES_TOGGLE,
+         TOGGLE_BEACON_LIGHTS,
+         TOGGLE_CABIN_LIGHTS,
+         TOGGLE_LOGO_LIGHTS,
+         TOGGLE_NAV_LIGHTS,
+         TOGGLE_RECOGNITION_LIGHTS,
+         TOGGLE_TAXI_LIGHTS,
+         TOGGLE_WING_LIGHTS,
       }
 
       private enum SimNotificationGroups
@@ -425,6 +453,20 @@ namespace MacroSim.SimConnection
          public string nav2Name;
 
          public int transponderCode;
+
+         public int lightBeacon;
+         public int lightCabin;
+         public int lightGlareshield;
+         public int lightLanding;
+         public int lightLogo;
+         public int lightNav;
+         public int lightPanel;
+         public int lightPedestral;
+         public int lightRecognition;
+         public int lightStrobe;
+         public int lightTaxi;
+         public int lightWing;
+         public int lightOnStates;
       }
 
       public void RequestDataOnSimObjectType()
