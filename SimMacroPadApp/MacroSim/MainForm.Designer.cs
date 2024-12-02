@@ -83,6 +83,8 @@
          toolStripSeparator1 = new ToolStripSeparator();
          exitToolStripMenuItem = new ToolStripMenuItem();
          macroPadToolStripMenuItem = new ToolStripMenuItem();
+         refreshSerialPortsToolStripMenuItem = new ToolStripMenuItem();
+         toolStripSeparator2 = new ToolStripSeparator();
          toolStripContainer1.BottomToolStripPanel.SuspendLayout();
          toolStripContainer1.ContentPanel.SuspendLayout();
          toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -171,6 +173,12 @@
          lblSimConnectionStatus.Text = "Disconnected from Sim";
          lblSimConnectionStatus.TextAlign = ContentAlignment.MiddleLeft;
          // 
+         // lblSerialPortStatus
+         // 
+         lblSerialPortStatus.Name = "lblSerialPortStatus";
+         lblSerialPortStatus.Size = new Size(162, 17);
+         lblSerialPortStatus.Text = "Serial Port is disconnected";
+         // 
          // lblMacroPadState
          // 
          lblMacroPadState.Name = "lblMacroPadState";
@@ -178,11 +186,6 @@
          lblMacroPadState.Size = new Size(55, 17);
          lblMacroPadState.Text = "NONE";
          // 
-         // lblSerialPortStatus
-         // 
-         lblSerialPortStatus.Name = "lblSerialPortStatus";
-         lblSerialPortStatus.Size = new Size(162, 17);
-         lblSerialPortStatus.Text = "Serial Port is disconnected";
          // 
          // lblLightOnStates
          // 
@@ -651,9 +654,22 @@
          // 
          // macroPadToolStripMenuItem
          // 
+         macroPadToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { refreshSerialPortsToolStripMenuItem, toolStripSeparator2 });
          macroPadToolStripMenuItem.Name = "macroPadToolStripMenuItem";
          macroPadToolStripMenuItem.Size = new Size(80, 21);
          macroPadToolStripMenuItem.Text = "MacroPad";
+         // 
+         // refreshSerialPortsToolStripMenuItem
+         // 
+         refreshSerialPortsToolStripMenuItem.Name = "refreshSerialPortsToolStripMenuItem";
+         refreshSerialPortsToolStripMenuItem.Size = new Size(190, 22);
+         refreshSerialPortsToolStripMenuItem.Text = "Refresh Serial Ports";
+         refreshSerialPortsToolStripMenuItem.Click += RefreshSerialPortsToolStripMenuItem_Click;
+         // 
+         // toolStripSeparator2
+         // 
+         toolStripSeparator2.Name = "toolStripSeparator2";
+         toolStripSeparator2.Size = new Size(187, 6);
          // 
          // MainForm
          // 
@@ -745,5 +761,7 @@
       private Label lblNavLight;
       private Label lblLightOnStates;
       private ToolStripStatusLabel lblSerialPortStatus;
+      private ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
+      private ToolStripSeparator toolStripSeparator2;
    }
 }

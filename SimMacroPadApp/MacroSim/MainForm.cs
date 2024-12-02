@@ -229,7 +229,7 @@ public partial class MainForm : Form
          var item = macroPadToolStripMenuItem.DropDownItems[i];
          if (item is ToolStripMenuItem menuItem)
          {
-            if (menuItem.Text.ToUpper().Contains("COM"))
+            if (menuItem.Text.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
             {
                macroPadToolStripMenuItem.DropDownItems.RemoveAt(i);
             }
@@ -309,5 +309,9 @@ public partial class MainForm : Form
             lblSimConnectionStatus.Text = "Disconnected from Sim";
          }
       });
+   }
+   private void RefreshSerialPortsToolStripMenuItem_Click(object sender, EventArgs e)
+   {
+      GetComPorts();
    }
 }

@@ -2,7 +2,9 @@
 using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +21,41 @@ namespace MacroSim.SimConnection
 
       private SimConnect? simconnect = null;
 
+      private BackgroundWorker simConnectionBackgroundWorker = new BackgroundWorker();
+
       public SimConnection()
       {
+         simConnectionBackgroundWorker.DoWork += SimConnectionBackgroundWorker_DoWork;
+         simConnectionBackgroundWorker.RunWorkerCompleted += SimConnectionBackgroundWorker_RunWorkerCompleted;
+      }
+
+      private void SimConnectionBackgroundWorker_DoWork(object? sender, DoWorkEventArgs e)
+      {
+         if (e.Argument != null && e.Argument is nint handle)
+         {
+            DateTime startTime = DateTime.Now;
+            if (simconnect == null)
+            {
+               try
+               {
+                  simconnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
+                  Initialize();
+                  RequestDataOnSimObject();
+                  return;
+               }
+               catch (COMException)
+               {
+                  var elapsedTime = DateTime.Now - startTime;
+                  System.Diagnostics.Debug.WriteLine($"Elapsed time: {elapsedTime.TotalSeconds} s");
+                  return;
+               }
+            }
+         }
+      }
+
+      private void SimConnectionBackgroundWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+      {
+
       }
 
       public bool IsConnected => simconnect != null;
@@ -32,24 +67,8 @@ namespace MacroSim.SimConnection
 
       public bool ConnectToSim(nint handle)
       {
-         if (simconnect == null)
-         {
-            try
-            {
-               simconnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
-               Initialize();
-               RequestDataOnSimObject();
-               return true;
-            }
-            catch (COMException)
-            {
-               return false;
-            }
-         }
-         else
-         {
-            return true;
-         }
+         simConnectionBackgroundWorker.RunWorkerAsync(handle);
+         return false;
       }
 
       public void DisconnectFromSim()
