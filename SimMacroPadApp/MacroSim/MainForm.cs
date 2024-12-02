@@ -18,6 +18,8 @@ public partial class MainForm : Form
 
    private readonly System.Windows.Forms.Timer timer;
 
+   private bool suppressLightButtonCheckChangedEvent = true;
+
    public MainForm()
    {
       InitializeComponent();
@@ -139,20 +141,20 @@ public partial class MainForm : Form
          form.lblTransponder.Text = string.Format("{0:0000}", macroSimStruct.transponderCode);
 
          // Lights
-         form.lblBeaconLight.Text = "Beacon " + (macroSimStruct.lightBeacon == 1 ? "On" : "Off");
-         form.lblCabinLight.Text = "Cabin " + (macroSimStruct.lightCabin == 1 ? "On" : "Off");
-         form.lblGlareshieldLight.Text = "Glareshield " + (macroSimStruct.lightGlareshield == 1 ? "On" : "Off");
-         form.lblLandingLight.Text = "Landing " + (macroSimStruct.lightLanding == 1 ? "On" : "Off");
-         form.lblLogoLight.Text = "Logo " + (macroSimStruct.lightLogo == 1 ? "On" : "Off");
-         form.lblNavLight.Text = "Nav " + (macroSimStruct.lightNav == 1 ? "On" : "Off");
-         form.lblPanelLight.Text = "Panel " + (macroSimStruct.lightPanel == 1 ? "On" : "Off");
-         form.lblPedestralLight.Text = "Pedestral " + (macroSimStruct.lightPedestral == 1 ? "On" : "Off");
-         form.lblRecognitionLight.Text = "Recognition " + (macroSimStruct.lightRecognition == 1 ? "On" : "Off");
-         form.lblStrobeLight.Text = "Strobe " + (macroSimStruct.lightStrobe == 1 ? "On" : "Off");
-         form.lblTaxiLight.Text = "Taxi " + (macroSimStruct.lightTaxi == 1 ? "On" : "Off");
-         form.lblWingLight.Text = "Wing " + (macroSimStruct.lightWing == 1 ? "On" : "Off");
-
-         form.lblLightOnStates.Text = macroSimStruct.lightOnStates.ToString();
+         suppressLightButtonCheckChangedEvent = true;
+         form.checkBeaconLight.Checked = macroSimStruct.LightBeaconOn;
+         form.checkCabinLight.Checked = macroSimStruct.LightCabinOn;
+         form.checkGlareshieldLight.Checked = macroSimStruct.LightGlareshieldOn;
+         form.checkLandingLight.Checked = macroSimStruct.LightLandingOn;
+         form.checkLogoLight.Checked = macroSimStruct.LightLogoOn;
+         form.checkNavLight.Checked = macroSimStruct.LightNavOn;
+         form.checkPanelLight.Checked = macroSimStruct.LightPanelOn;
+         form.checkPedestralLight.Checked = macroSimStruct.LightPedestralOn;
+         form.checkRecognitionLight.Checked = macroSimStruct.LightRecognitionOn;
+         form.checkStrobeLight.Checked = macroSimStruct.LightStrobeOn;
+         form.checkTaxiLight.Checked = macroSimStruct.LightTaxiOn;
+         form.checkWingLight.Checked = macroSimStruct.LightWingOn;
+         suppressLightButtonCheckChangedEvent = false;
       });
    }
 
@@ -254,37 +256,6 @@ public partial class MainForm : Form
       }
    }
 
-   private void LblLight_DoubleClick(object sender, EventArgs e)
-   {
-      if (sender is Label label)
-      {
-         if (label == lblBeaconLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_BEACON_LIGHTS);
-         else if (label == lblCabinLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_CABIN_LIGHTS);
-         else if (label == lblGlareshieldLight)
-            simConnection.SendEvent(SimEvents.GLARESHIELD_LIGHTS_TOGGLE);
-         else if (label == lblLandingLight)
-            simConnection.SendEvent(SimEvents.LANDING_LIGHTS_TOGGLE);
-         else if (label == lblLogoLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_LOGO_LIGHTS);
-         else if (label == lblNavLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_NAV_LIGHTS);
-         else if (label == lblPanelLight)
-            simConnection.SendEvent(SimEvents.PANEL_LIGHTS_TOGGLE);
-         else if (label == lblPedestralLight)
-            simConnection.SendEvent(SimEvents.PEDESTRAL_LIGHTS_TOGGLE);
-         else if (label == lblRecognitionLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_RECOGNITION_LIGHTS);
-         else if (label == lblStrobeLight)
-            simConnection.SendEvent(SimEvents.STROBES_TOGGLE);
-         else if (label == lblTaxiLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_TAXI_LIGHTS);
-         else if (label == lblWingLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_WING_LIGHTS);
-      }
-   }
-
    private void UpdateConnectionStatus()
    {
       InvokeAction(form =>
@@ -310,6 +281,44 @@ public partial class MainForm : Form
          }
       });
    }
+
+   private void LightButton_CheckedChanged(object sender, EventArgs e)
+   {
+      if (suppressLightButtonCheckChangedEvent)
+      {
+         return;
+      }
+
+      if (sender is CheckBox checkBox)
+      {
+         if (checkBox == checkBeaconLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_BEACON_LIGHTS);
+         else if (checkBox == checkCabinLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_CABIN_LIGHTS);
+         else if (checkBox == checkGlareshieldLight)
+            simConnection.SendEvent(SimEvents.GLARESHIELD_LIGHTS_TOGGLE);
+         else if (checkBox == checkLandingLight)
+            simConnection.SendEvent(SimEvents.LANDING_LIGHTS_TOGGLE);
+         else if (checkBox == checkLogoLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_LOGO_LIGHTS);
+         else if (checkBox == checkNavLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_NAV_LIGHTS);
+         else if (checkBox == checkPanelLight)
+            simConnection.SendEvent(SimEvents.PANEL_LIGHTS_TOGGLE);
+         else if (checkBox == checkPedestralLight)
+            simConnection.SendEvent(SimEvents.PEDESTRAL_LIGHTS_TOGGLE);
+         else if (checkBox == checkRecognitionLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_RECOGNITION_LIGHTS);
+         else if (checkBox == checkStrobeLight)
+            simConnection.SendEvent(SimEvents.STROBES_TOGGLE);
+         else if (checkBox == checkTaxiLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_TAXI_LIGHTS);
+         else if (checkBox == checkWingLight)
+            simConnection.SendEvent(SimEvents.TOGGLE_WING_LIGHTS);
+      }
+
+   }
+
    private void RefreshSerialPortsToolStripMenuItem_Click(object sender, EventArgs e)
    {
       GetComPorts();

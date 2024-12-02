@@ -486,6 +486,24 @@ namespace MacroSim.SimConnection
          public int lightTaxi;
          public int lightWing;
          public int lightOnStates;
+
+         public readonly bool ApMasterEngaged => apMaster == 1;
+         public readonly bool ApAltitudeHoldEngaged => apAltHold == 1;
+         public readonly bool ApVerticalSpeedHoldEngaged => apVsHold == 1;
+         public readonly bool ApHeadingHoldEngaged => apHdgHold == 1;
+         public readonly bool ApNav1HoldEngaged => apNav1Hold == 1;
+         public readonly bool LightBeaconOn => lightBeacon == 1;
+         public readonly bool LightCabinOn => lightCabin == 1;
+         public readonly bool LightGlareshieldOn => lightGlareshield == 1;
+         public readonly bool LightLandingOn => lightLanding == 1;
+         public readonly bool LightLogoOn => lightLogo == 1;
+         public readonly bool LightNavOn => lightNav == 1;
+         public readonly bool LightPanelOn => lightPanel == 1;
+         public readonly bool LightPedestralOn => lightPedestral == 1;
+         public readonly bool LightRecognitionOn => lightRecognition == 1;
+         public readonly bool LightStrobeOn => lightStrobe == 1;
+         public readonly bool LightTaxiOn => lightTaxi == 1;
+         public readonly bool LightWingOn => lightWing == 1;
       }
 
       public void RequestDataOnSimObjectType()

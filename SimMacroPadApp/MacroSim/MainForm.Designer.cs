@@ -32,21 +32,20 @@
          toolStripContainer1 = new ToolStripContainer();
          statusStrip = new StatusStrip();
          lblSimConnectionStatus = new ToolStripStatusLabel();
-         lblMacroPadState = new ToolStripStatusLabel();
          lblSerialPortStatus = new ToolStripStatusLabel();
-         lblLightOnStates = new Label();
-         lblWingLight = new Label();
-         lblTaxiLight = new Label();
-         lblStrobeLight = new Label();
-         lblRecognitionLight = new Label();
-         lblPedestralLight = new Label();
-         lblPanelLight = new Label();
-         lblNavLight = new Label();
-         lblLogoLight = new Label();
-         lblLandingLight = new Label();
-         lblGlareshieldLight = new Label();
-         lblCabinLight = new Label();
-         lblBeaconLight = new Label();
+         lblMacroPadState = new ToolStripStatusLabel();
+         checkWingLight = new CheckBox();
+         checkTaxiLight = new CheckBox();
+         checkStrobeLight = new CheckBox();
+         checkRecognitionLight = new CheckBox();
+         checkPedestralLight = new CheckBox();
+         checkPanelLight = new CheckBox();
+         checkNavLight = new CheckBox();
+         checkLogoLight = new CheckBox();
+         checkLandingLight = new CheckBox();
+         checkGlareshieldLight = new CheckBox();
+         checkCabinLight = new CheckBox();
+         checkBeaconLight = new CheckBox();
          lblTransponder = new Label();
          label4 = new Label();
          lblVerticalSpeedValue = new Label();
@@ -104,7 +103,7 @@
          txtOutput.Name = "txtOutput";
          txtOutput.ReadOnly = true;
          txtOutput.ScrollBars = ScrollBars.Vertical;
-         txtOutput.Size = new Size(357, 277);
+         txtOutput.Size = new Size(357, 202);
          txtOutput.TabIndex = 0;
          // 
          // toolStripContainer1
@@ -116,19 +115,18 @@
          // 
          // toolStripContainer1.ContentPanel
          // 
-         toolStripContainer1.ContentPanel.Controls.Add(lblLightOnStates);
-         toolStripContainer1.ContentPanel.Controls.Add(lblWingLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblTaxiLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblStrobeLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblRecognitionLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblPedestralLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblPanelLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblNavLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblLogoLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblLandingLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblGlareshieldLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblCabinLight);
-         toolStripContainer1.ContentPanel.Controls.Add(lblBeaconLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkWingLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkTaxiLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkStrobeLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkRecognitionLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkPedestralLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkPanelLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkNavLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkLogoLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkLandingLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkGlareshieldLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCabinLight);
+         toolStripContainer1.ContentPanel.Controls.Add(checkBeaconLight);
          toolStripContainer1.ContentPanel.Controls.Add(lblTransponder);
          toolStripContainer1.ContentPanel.Controls.Add(label4);
          toolStripContainer1.ContentPanel.Controls.Add(lblVerticalSpeedValue);
@@ -144,11 +142,11 @@
          toolStripContainer1.ContentPanel.Controls.Add(groupCom2);
          toolStripContainer1.ContentPanel.Controls.Add(groupCom1);
          toolStripContainer1.ContentPanel.Controls.Add(txtOutput);
-         toolStripContainer1.ContentPanel.Size = new Size(852, 566);
+         toolStripContainer1.ContentPanel.Size = new Size(1080, 566);
          toolStripContainer1.Dock = DockStyle.Fill;
          toolStripContainer1.Location = new Point(0, 0);
          toolStripContainer1.Name = "toolStripContainer1";
-         toolStripContainer1.Size = new Size(852, 613);
+         toolStripContainer1.Size = new Size(1080, 613);
          toolStripContainer1.TabIndex = 1;
          toolStripContainer1.Text = "toolStripContainer1";
          // 
@@ -162,7 +160,7 @@
          statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectionStatus, lblSerialPortStatus, lblMacroPadState });
          statusStrip.Location = new Point(0, 0);
          statusStrip.Name = "statusStrip";
-         statusStrip.Size = new Size(852, 22);
+         statusStrip.Size = new Size(1080, 22);
          statusStrip.TabIndex = 0;
          // 
          // lblSimConnectionStatus
@@ -186,135 +184,149 @@
          lblMacroPadState.Size = new Size(55, 17);
          lblMacroPadState.Text = "NONE";
          // 
+         // checkWingLight
          // 
-         // lblLightOnStates
+         checkWingLight.Appearance = Appearance.Button;
+         checkWingLight.AutoSize = true;
+         checkWingLight.Location = new Point(879, 375);
+         checkWingLight.Name = "checkWingLight";
+         checkWingLight.Size = new Size(48, 27);
+         checkWingLight.TabIndex = 44;
+         checkWingLight.Text = "Wing";
+         checkWingLight.UseVisualStyleBackColor = true;
+         checkWingLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblLightOnStates.AutoSize = true;
-         lblLightOnStates.Location = new Point(565, 409);
-         lblLightOnStates.Name = "lblLightOnStates";
-         lblLightOnStates.Size = new Size(96, 17);
-         lblLightOnStates.TabIndex = 33;
-         lblLightOnStates.Text = "Light On States";
+         // checkTaxiLight
          // 
-         // lblWingLight
+         checkTaxiLight.Appearance = Appearance.Button;
+         checkTaxiLight.AutoSize = true;
+         checkTaxiLight.Location = new Point(833, 375);
+         checkTaxiLight.Name = "checkTaxiLight";
+         checkTaxiLight.Size = new Size(40, 27);
+         checkTaxiLight.TabIndex = 43;
+         checkTaxiLight.Text = "Taxi";
+         checkTaxiLight.UseVisualStyleBackColor = true;
+         checkTaxiLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblWingLight.AutoSize = true;
-         lblWingLight.Location = new Point(342, 528);
-         lblWingLight.Name = "lblWingLight";
-         lblWingLight.Size = new Size(38, 17);
-         lblWingLight.TabIndex = 32;
-         lblWingLight.Text = "Wing";
-         lblWingLight.DoubleClick += LblLight_DoubleClick;
+         // checkStrobeLight
          // 
-         // lblTaxiLight
+         checkStrobeLight.Appearance = Appearance.Button;
+         checkStrobeLight.AutoSize = true;
+         checkStrobeLight.Location = new Point(770, 375);
+         checkStrobeLight.Name = "checkStrobeLight";
+         checkStrobeLight.Size = new Size(57, 27);
+         checkStrobeLight.TabIndex = 42;
+         checkStrobeLight.Text = "Strobe";
+         checkStrobeLight.UseVisualStyleBackColor = true;
+         checkStrobeLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblTaxiLight.AutoSize = true;
-         lblTaxiLight.Location = new Point(342, 511);
-         lblTaxiLight.Name = "lblTaxiLight";
-         lblTaxiLight.Size = new Size(30, 17);
-         lblTaxiLight.TabIndex = 31;
-         lblTaxiLight.Text = "Taxi";
-         lblTaxiLight.DoubleClick += LblLight_DoubleClick;
+         // checkRecognitionLight
          // 
-         // lblStrobeLight
+         checkRecognitionLight.Appearance = Appearance.Button;
+         checkRecognitionLight.AutoSize = true;
+         checkRecognitionLight.Location = new Point(677, 375);
+         checkRecognitionLight.Name = "checkRecognitionLight";
+         checkRecognitionLight.Size = new Size(87, 27);
+         checkRecognitionLight.TabIndex = 41;
+         checkRecognitionLight.Text = "Recognition";
+         checkRecognitionLight.UseVisualStyleBackColor = true;
+         checkRecognitionLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblStrobeLight.AutoSize = true;
-         lblStrobeLight.Location = new Point(342, 494);
-         lblStrobeLight.Name = "lblStrobeLight";
-         lblStrobeLight.Size = new Size(47, 17);
-         lblStrobeLight.TabIndex = 30;
-         lblStrobeLight.Text = "Strobe";
-         lblStrobeLight.DoubleClick += LblLight_DoubleClick;
+         // checkPedestralLight
          // 
-         // lblRecognitionLight
+         checkPedestralLight.Appearance = Appearance.Button;
+         checkPedestralLight.AutoSize = true;
+         checkPedestralLight.Location = new Point(599, 375);
+         checkPedestralLight.Name = "checkPedestralLight";
+         checkPedestralLight.Size = new Size(72, 27);
+         checkPedestralLight.TabIndex = 40;
+         checkPedestralLight.Text = "Pedestral";
+         checkPedestralLight.UseVisualStyleBackColor = true;
+         checkPedestralLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblRecognitionLight.AutoSize = true;
-         lblRecognitionLight.Location = new Point(342, 477);
-         lblRecognitionLight.Name = "lblRecognitionLight";
-         lblRecognitionLight.Size = new Size(77, 17);
-         lblRecognitionLight.TabIndex = 29;
-         lblRecognitionLight.Text = "Recognition";
-         lblRecognitionLight.DoubleClick += LblLight_DoubleClick;
+         // checkPanelLight
          // 
-         // lblPedestralLight
+         checkPanelLight.Appearance = Appearance.Button;
+         checkPanelLight.AutoSize = true;
+         checkPanelLight.Location = new Point(544, 375);
+         checkPanelLight.Name = "checkPanelLight";
+         checkPanelLight.Size = new Size(49, 27);
+         checkPanelLight.TabIndex = 39;
+         checkPanelLight.Text = "Panel";
+         checkPanelLight.UseVisualStyleBackColor = true;
+         checkPanelLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblPedestralLight.AutoSize = true;
-         lblPedestralLight.Location = new Point(342, 460);
-         lblPedestralLight.Name = "lblPedestralLight";
-         lblPedestralLight.Size = new Size(62, 17);
-         lblPedestralLight.TabIndex = 28;
-         lblPedestralLight.Text = "Pedestral";
-         lblPedestralLight.DoubleClick += LblLight_DoubleClick;
+         // checkNavLight
          // 
-         // lblPanelLight
+         checkNavLight.Appearance = Appearance.Button;
+         checkNavLight.AutoSize = true;
+         checkNavLight.Location = new Point(880, 342);
+         checkNavLight.Name = "checkNavLight";
+         checkNavLight.Size = new Size(41, 27);
+         checkNavLight.TabIndex = 38;
+         checkNavLight.Text = "Nav";
+         checkNavLight.UseVisualStyleBackColor = true;
+         checkNavLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblPanelLight.AutoSize = true;
-         lblPanelLight.Location = new Point(342, 443);
-         lblPanelLight.Name = "lblPanelLight";
-         lblPanelLight.Size = new Size(39, 17);
-         lblPanelLight.TabIndex = 27;
-         lblPanelLight.Text = "Panel";
-         lblPanelLight.DoubleClick += LblLight_DoubleClick;
+         // checkLogoLight
          // 
-         // lblNavLight
+         checkLogoLight.Appearance = Appearance.Button;
+         checkLogoLight.AutoSize = true;
+         checkLogoLight.Location = new Point(826, 342);
+         checkLogoLight.Name = "checkLogoLight";
+         checkLogoLight.Size = new Size(48, 27);
+         checkLogoLight.TabIndex = 37;
+         checkLogoLight.Text = "Logo";
+         checkLogoLight.UseVisualStyleBackColor = true;
+         checkLogoLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblNavLight.AutoSize = true;
-         lblNavLight.Location = new Point(342, 426);
-         lblNavLight.Name = "lblNavLight";
-         lblNavLight.Size = new Size(31, 17);
-         lblNavLight.TabIndex = 26;
-         lblNavLight.Text = "Nav";
-         lblNavLight.DoubleClick += LblLight_DoubleClick;
+         // checkLandingLight
          // 
-         // lblLogoLight
+         checkLandingLight.Appearance = Appearance.Button;
+         checkLandingLight.AutoSize = true;
+         checkLandingLight.Location = new Point(756, 342);
+         checkLandingLight.Name = "checkLandingLight";
+         checkLandingLight.Size = new Size(64, 27);
+         checkLandingLight.TabIndex = 36;
+         checkLandingLight.Text = "Landing";
+         checkLandingLight.UseVisualStyleBackColor = true;
+         checkLandingLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblLogoLight.AutoSize = true;
-         lblLogoLight.Location = new Point(342, 409);
-         lblLogoLight.Name = "lblLogoLight";
-         lblLogoLight.Size = new Size(38, 17);
-         lblLogoLight.TabIndex = 25;
-         lblLogoLight.Text = "Logo";
-         lblLogoLight.DoubleClick += LblLight_DoubleClick;
+         // checkGlareshieldLight
          // 
-         // lblLandingLight
+         checkGlareshieldLight.Appearance = Appearance.Button;
+         checkGlareshieldLight.AutoSize = true;
+         checkGlareshieldLight.Location = new Point(667, 342);
+         checkGlareshieldLight.Name = "checkGlareshieldLight";
+         checkGlareshieldLight.Size = new Size(83, 27);
+         checkGlareshieldLight.TabIndex = 35;
+         checkGlareshieldLight.Text = "Glareshield";
+         checkGlareshieldLight.UseVisualStyleBackColor = true;
+         checkGlareshieldLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblLandingLight.AutoSize = true;
-         lblLandingLight.Location = new Point(342, 392);
-         lblLandingLight.Name = "lblLandingLight";
-         lblLandingLight.Size = new Size(54, 17);
-         lblLandingLight.TabIndex = 24;
-         lblLandingLight.Text = "Landing";
-         lblLandingLight.DoubleClick += LblLight_DoubleClick;
+         // checkCabinLight
          // 
-         // lblGlareshieldLight
+         checkCabinLight.Appearance = Appearance.Button;
+         checkCabinLight.AutoSize = true;
+         checkCabinLight.Location = new Point(610, 342);
+         checkCabinLight.Name = "checkCabinLight";
+         checkCabinLight.Size = new Size(51, 27);
+         checkCabinLight.TabIndex = 34;
+         checkCabinLight.Text = "Cabin";
+         checkCabinLight.UseVisualStyleBackColor = true;
+         checkCabinLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         lblGlareshieldLight.AutoSize = true;
-         lblGlareshieldLight.Location = new Point(342, 375);
-         lblGlareshieldLight.Name = "lblGlareshieldLight";
-         lblGlareshieldLight.Size = new Size(73, 17);
-         lblGlareshieldLight.TabIndex = 23;
-         lblGlareshieldLight.Text = "Glareshield";
-         lblGlareshieldLight.DoubleClick += LblLight_DoubleClick;
+         // checkBeaconLight
          // 
-         // lblCabinLight
-         // 
-         lblCabinLight.AutoSize = true;
-         lblCabinLight.Location = new Point(342, 358);
-         lblCabinLight.Name = "lblCabinLight";
-         lblCabinLight.Size = new Size(41, 17);
-         lblCabinLight.TabIndex = 22;
-         lblCabinLight.Text = "Cabin";
-         lblCabinLight.DoubleClick += LblLight_DoubleClick;
-         // 
-         // lblBeaconLight
-         // 
-         lblBeaconLight.AutoSize = true;
-         lblBeaconLight.Location = new Point(342, 341);
-         lblBeaconLight.Name = "lblBeaconLight";
-         lblBeaconLight.Size = new Size(50, 17);
-         lblBeaconLight.TabIndex = 21;
-         lblBeaconLight.Text = "Beacon";
-         lblBeaconLight.DoubleClick += LblLight_DoubleClick;
+         checkBeaconLight.Appearance = Appearance.Button;
+         checkBeaconLight.AutoSize = true;
+         checkBeaconLight.Location = new Point(544, 342);
+         checkBeaconLight.Name = "checkBeaconLight";
+         checkBeaconLight.Size = new Size(60, 27);
+         checkBeaconLight.TabIndex = 2;
+         checkBeaconLight.Text = "Beacon";
+         checkBeaconLight.UseVisualStyleBackColor = true;
+         checkBeaconLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // lblTransponder
          // 
@@ -622,7 +634,7 @@
          mainMenu.Items.AddRange(new ToolStripItem[] { appToolStripMenuItem, macroPadToolStripMenuItem });
          mainMenu.Location = new Point(0, 0);
          mainMenu.Name = "mainMenu";
-         mainMenu.Size = new Size(852, 25);
+         mainMenu.Size = new Size(1080, 25);
          mainMenu.TabIndex = 0;
          mainMenu.Text = "menuStrip1";
          // 
@@ -675,7 +687,7 @@
          // 
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(852, 613);
+         ClientSize = new Size(1080, 613);
          Controls.Add(toolStripContainer1);
          MainMenuStrip = mainMenu;
          Name = "MainForm";
@@ -747,20 +759,19 @@
       private ToolStripMenuItem connectToSimToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator1;
       private ToolStripStatusLabel lblMacroPadState;
-      private Label lblLogoLight;
-      private Label lblLandingLight;
-      private Label lblGlareshieldLight;
-      private Label lblCabinLight;
-      private Label lblBeaconLight;
-      private Label lblWingLight;
-      private Label lblTaxiLight;
-      private Label lblStrobeLight;
-      private Label lblRecognitionLight;
-      private Label lblPedestralLight;
-      private Label lblPanelLight;
-      private Label lblNavLight;
-      private Label lblLightOnStates;
       private ToolStripStatusLabel lblSerialPortStatus;
+      private CheckBox checkGlareshieldLight;
+      private CheckBox checkCabinLight;
+      private CheckBox checkBeaconLight;
+      private CheckBox checkWingLight;
+      private CheckBox checkTaxiLight;
+      private CheckBox checkStrobeLight;
+      private CheckBox checkRecognitionLight;
+      private CheckBox checkPedestralLight;
+      private CheckBox checkPanelLight;
+      private CheckBox checkNavLight;
+      private CheckBox checkLogoLight;
+      private CheckBox checkLandingLight;
       private ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator2;
    }
