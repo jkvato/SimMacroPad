@@ -84,6 +84,15 @@
          macroPadToolStripMenuItem = new ToolStripMenuItem();
          refreshSerialPortsToolStripMenuItem = new ToolStripMenuItem();
          toolStripSeparator2 = new ToolStripSeparator();
+         groupLights = new GroupBox();
+         label1 = new Label();
+         txtElevatorTrimMin = new TextBox();
+         txtElevatorTrimNeutral = new TextBox();
+         txtElevatorTrim = new TextBox();
+         label6 = new Label();
+         label8 = new Label();
+         txtElevatorTrimMax = new TextBox();
+         label9 = new Label();
          toolStripContainer1.BottomToolStripPanel.SuspendLayout();
          toolStripContainer1.ContentPanel.SuspendLayout();
          toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -94,6 +103,7 @@
          groupCom2.SuspendLayout();
          groupCom1.SuspendLayout();
          mainMenu.SuspendLayout();
+         groupLights.SuspendLayout();
          SuspendLayout();
          // 
          // txtOutput
@@ -115,18 +125,15 @@
          // 
          // toolStripContainer1.ContentPanel
          // 
-         toolStripContainer1.ContentPanel.Controls.Add(checkWingLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkTaxiLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkStrobeLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkRecognitionLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkPedestralLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkPanelLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkNavLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkLogoLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkLandingLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkGlareshieldLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkCabinLight);
-         toolStripContainer1.ContentPanel.Controls.Add(checkBeaconLight);
+         toolStripContainer1.ContentPanel.Controls.Add(label9);
+         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimMax);
+         toolStripContainer1.ContentPanel.Controls.Add(label8);
+         toolStripContainer1.ContentPanel.Controls.Add(label6);
+         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrim);
+         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimNeutral);
+         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimMin);
+         toolStripContainer1.ContentPanel.Controls.Add(label1);
+         toolStripContainer1.ContentPanel.Controls.Add(groupLights);
          toolStripContainer1.ContentPanel.Controls.Add(lblTransponder);
          toolStripContainer1.ContentPanel.Controls.Add(label4);
          toolStripContainer1.ContentPanel.Controls.Add(lblVerticalSpeedValue);
@@ -188,7 +195,7 @@
          // 
          checkWingLight.Appearance = Appearance.Button;
          checkWingLight.AutoSize = true;
-         checkWingLight.Location = new Point(879, 375);
+         checkWingLight.Location = new Point(341, 57);
          checkWingLight.Name = "checkWingLight";
          checkWingLight.Size = new Size(48, 27);
          checkWingLight.TabIndex = 44;
@@ -200,7 +207,7 @@
          // 
          checkTaxiLight.Appearance = Appearance.Button;
          checkTaxiLight.AutoSize = true;
-         checkTaxiLight.Location = new Point(833, 375);
+         checkTaxiLight.Location = new Point(295, 57);
          checkTaxiLight.Name = "checkTaxiLight";
          checkTaxiLight.Size = new Size(40, 27);
          checkTaxiLight.TabIndex = 43;
@@ -212,7 +219,7 @@
          // 
          checkStrobeLight.Appearance = Appearance.Button;
          checkStrobeLight.AutoSize = true;
-         checkStrobeLight.Location = new Point(770, 375);
+         checkStrobeLight.Location = new Point(232, 57);
          checkStrobeLight.Name = "checkStrobeLight";
          checkStrobeLight.Size = new Size(57, 27);
          checkStrobeLight.TabIndex = 42;
@@ -224,7 +231,7 @@
          // 
          checkRecognitionLight.Appearance = Appearance.Button;
          checkRecognitionLight.AutoSize = true;
-         checkRecognitionLight.Location = new Point(677, 375);
+         checkRecognitionLight.Location = new Point(139, 57);
          checkRecognitionLight.Name = "checkRecognitionLight";
          checkRecognitionLight.Size = new Size(87, 27);
          checkRecognitionLight.TabIndex = 41;
@@ -236,7 +243,7 @@
          // 
          checkPedestralLight.Appearance = Appearance.Button;
          checkPedestralLight.AutoSize = true;
-         checkPedestralLight.Location = new Point(599, 375);
+         checkPedestralLight.Location = new Point(61, 57);
          checkPedestralLight.Name = "checkPedestralLight";
          checkPedestralLight.Size = new Size(72, 27);
          checkPedestralLight.TabIndex = 40;
@@ -248,7 +255,7 @@
          // 
          checkPanelLight.Appearance = Appearance.Button;
          checkPanelLight.AutoSize = true;
-         checkPanelLight.Location = new Point(544, 375);
+         checkPanelLight.Location = new Point(6, 57);
          checkPanelLight.Name = "checkPanelLight";
          checkPanelLight.Size = new Size(49, 27);
          checkPanelLight.TabIndex = 39;
@@ -260,7 +267,7 @@
          // 
          checkNavLight.Appearance = Appearance.Button;
          checkNavLight.AutoSize = true;
-         checkNavLight.Location = new Point(880, 342);
+         checkNavLight.Location = new Point(342, 24);
          checkNavLight.Name = "checkNavLight";
          checkNavLight.Size = new Size(41, 27);
          checkNavLight.TabIndex = 38;
@@ -272,7 +279,7 @@
          // 
          checkLogoLight.Appearance = Appearance.Button;
          checkLogoLight.AutoSize = true;
-         checkLogoLight.Location = new Point(826, 342);
+         checkLogoLight.Location = new Point(288, 24);
          checkLogoLight.Name = "checkLogoLight";
          checkLogoLight.Size = new Size(48, 27);
          checkLogoLight.TabIndex = 37;
@@ -284,7 +291,7 @@
          // 
          checkLandingLight.Appearance = Appearance.Button;
          checkLandingLight.AutoSize = true;
-         checkLandingLight.Location = new Point(756, 342);
+         checkLandingLight.Location = new Point(218, 24);
          checkLandingLight.Name = "checkLandingLight";
          checkLandingLight.Size = new Size(64, 27);
          checkLandingLight.TabIndex = 36;
@@ -296,7 +303,7 @@
          // 
          checkGlareshieldLight.Appearance = Appearance.Button;
          checkGlareshieldLight.AutoSize = true;
-         checkGlareshieldLight.Location = new Point(667, 342);
+         checkGlareshieldLight.Location = new Point(129, 24);
          checkGlareshieldLight.Name = "checkGlareshieldLight";
          checkGlareshieldLight.Size = new Size(83, 27);
          checkGlareshieldLight.TabIndex = 35;
@@ -308,7 +315,7 @@
          // 
          checkCabinLight.Appearance = Appearance.Button;
          checkCabinLight.AutoSize = true;
-         checkCabinLight.Location = new Point(610, 342);
+         checkCabinLight.Location = new Point(72, 24);
          checkCabinLight.Name = "checkCabinLight";
          checkCabinLight.Size = new Size(51, 27);
          checkCabinLight.TabIndex = 34;
@@ -320,7 +327,7 @@
          // 
          checkBeaconLight.Appearance = Appearance.Button;
          checkBeaconLight.AutoSize = true;
-         checkBeaconLight.Location = new Point(544, 342);
+         checkBeaconLight.Location = new Point(6, 24);
          checkBeaconLight.Name = "checkBeaconLight";
          checkBeaconLight.Size = new Size(60, 27);
          checkBeaconLight.TabIndex = 2;
@@ -683,6 +690,95 @@
          toolStripSeparator2.Name = "toolStripSeparator2";
          toolStripSeparator2.Size = new Size(187, 6);
          // 
+         // groupLights
+         // 
+         groupLights.Controls.Add(checkBeaconLight);
+         groupLights.Controls.Add(checkWingLight);
+         groupLights.Controls.Add(checkCabinLight);
+         groupLights.Controls.Add(checkTaxiLight);
+         groupLights.Controls.Add(checkGlareshieldLight);
+         groupLights.Controls.Add(checkStrobeLight);
+         groupLights.Controls.Add(checkLandingLight);
+         groupLights.Controls.Add(checkRecognitionLight);
+         groupLights.Controls.Add(checkLogoLight);
+         groupLights.Controls.Add(checkPedestralLight);
+         groupLights.Controls.Add(checkNavLight);
+         groupLights.Controls.Add(checkPanelLight);
+         groupLights.Location = new Point(308, 470);
+         groupLights.Name = "groupLights";
+         groupLights.Size = new Size(396, 92);
+         groupLights.TabIndex = 2;
+         groupLights.TabStop = false;
+         groupLights.Text = "Lights";
+         // 
+         // label1
+         // 
+         label1.AutoSize = true;
+         label1.Location = new Point(342, 281);
+         label1.Name = "label1";
+         label1.Size = new Size(110, 17);
+         label1.TabIndex = 21;
+         label1.Text = "Elevator Trim Min";
+         // 
+         // txtElevatorTrimMin
+         // 
+         txtElevatorTrimMin.Location = new Point(483, 278);
+         txtElevatorTrimMin.Name = "txtElevatorTrimMin";
+         txtElevatorTrimMin.ReadOnly = true;
+         txtElevatorTrimMin.Size = new Size(100, 25);
+         txtElevatorTrimMin.TabIndex = 22;
+         // 
+         // txtElevatorTrimNeutral
+         // 
+         txtElevatorTrimNeutral.Location = new Point(483, 309);
+         txtElevatorTrimNeutral.Name = "txtElevatorTrimNeutral";
+         txtElevatorTrimNeutral.ReadOnly = true;
+         txtElevatorTrimNeutral.Size = new Size(100, 25);
+         txtElevatorTrimNeutral.TabIndex = 23;
+         // 
+         // txtElevatorTrim
+         // 
+         txtElevatorTrim.Location = new Point(483, 340);
+         txtElevatorTrim.Name = "txtElevatorTrim";
+         txtElevatorTrim.ReadOnly = true;
+         txtElevatorTrim.Size = new Size(100, 25);
+         txtElevatorTrim.TabIndex = 24;
+         // 
+         // label6
+         // 
+         label6.AutoSize = true;
+         label6.Location = new Point(342, 343);
+         label6.Name = "label6";
+         label6.Size = new Size(84, 17);
+         label6.TabIndex = 25;
+         label6.Text = "Elevator Trim";
+         // 
+         // label8
+         // 
+         label8.AutoSize = true;
+         label8.Location = new Point(342, 312);
+         label8.Name = "label8";
+         label8.Size = new Size(131, 17);
+         label8.TabIndex = 26;
+         label8.Text = "Elevator Trim Neutral";
+         // 
+         // txtElevatorTrimMax
+         // 
+         txtElevatorTrimMax.Location = new Point(483, 371);
+         txtElevatorTrimMax.Name = "txtElevatorTrimMax";
+         txtElevatorTrimMax.ReadOnly = true;
+         txtElevatorTrimMax.Size = new Size(100, 25);
+         txtElevatorTrimMax.TabIndex = 27;
+         // 
+         // label9
+         // 
+         label9.AutoSize = true;
+         label9.Location = new Point(342, 374);
+         label9.Name = "label9";
+         label9.Size = new Size(113, 17);
+         label9.TabIndex = 28;
+         label9.Text = "Elevator Trim Max";
+         // 
          // MainForm
          // 
          AutoScaleDimensions = new SizeF(7F, 17F);
@@ -712,6 +808,8 @@
          groupCom1.PerformLayout();
          mainMenu.ResumeLayout(false);
          mainMenu.PerformLayout();
+         groupLights.ResumeLayout(false);
+         groupLights.PerformLayout();
          ResumeLayout(false);
       }
 
@@ -774,5 +872,14 @@
       private CheckBox checkLandingLight;
       private ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator2;
+      private GroupBox groupLights;
+      private Label label9;
+      private TextBox txtElevatorTrimMax;
+      private Label label8;
+      private Label label6;
+      private TextBox txtElevatorTrim;
+      private TextBox txtElevatorTrimNeutral;
+      private TextBox txtElevatorTrimMin;
+      private Label label1;
    }
 }

@@ -64,98 +64,122 @@ public partial class MainForm : Form
       UpdateConnectionStatus();
    }
 
-   private void SimConnection_DataReceivedFromSim(object sender, MacroSimStruct macroSimStruct)
+   private void SimConnection_DataReceivedFromSim(object sender, object structure)
    {
       //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Data received from simulator");
 
-      macroPadDevice.UpdateData(macroSimStruct);
-
-      // Update UI via Invoke
-      InvokeAction(form =>
+      if (structure is AvionicsStruct avionicsStruct)
       {
-         string newFormText = $"MacroSimPad - {macroSimStruct.Title}";
-         if (Text != newFormText)
+         macroPadDevice.UpdateData(avionicsStruct);
+
+         // Update UI via Invoke
+         InvokeAction(form =>
          {
-            Text = newFormText;
-         }
+            string newFormText = $"MacroSimPad - {avionicsStruct.Title}";
+            if (Text != newFormText)
+            {
+               Text = newFormText;
+            }
 
-         // COM1
-         if (macroSimStruct.com1standbyIdent == "")
-            form.lblCom1Standby.Text = "Standby";
-         else
-            form.lblCom1Standby.Text = macroSimStruct.com1standbyIdent + " " + macroSimStruct.com1standbyType;
+            // COM1
+            if (avionicsStruct.com1standbyIdent == "")
+               form.lblCom1Standby.Text = "Standby";
+            else
+               form.lblCom1Standby.Text = avionicsStruct.com1standbyIdent + " " + avionicsStruct.com1standbyType;
 
-         if (macroSimStruct.com1activeIdent == "")
-            form.lblCom1Active.Text = "Active";
-         else
-            form.lblCom1Active.Text = macroSimStruct.com1activeIdent + " " + macroSimStruct.com1activeType;
+            if (avionicsStruct.com1activeIdent == "")
+               form.lblCom1Active.Text = "Active";
+            else
+               form.lblCom1Active.Text = avionicsStruct.com1activeIdent + " " + avionicsStruct.com1activeType;
 
-         form.lblCom1StandbyValue.Text = string.Format("{0:000.000}", macroSimStruct.com1standby);
-         form.lblCom1ActiveValue.Text = string.Format("{0:000.000}", macroSimStruct.com1active);
+            form.lblCom1StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com1standby);
+            form.lblCom1ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com1active);
 
-         // COM2
-         if (macroSimStruct.com2standbyIdent == "")
-            form.lblCom2Standby.Text = "Standby";
-         else
-            form.lblCom2Standby.Text = macroSimStruct.com2standbyIdent + " " + macroSimStruct.com2standbyType;
+            // COM2
+            if (avionicsStruct.com2standbyIdent == "")
+               form.lblCom2Standby.Text = "Standby";
+            else
+               form.lblCom2Standby.Text = avionicsStruct.com2standbyIdent + " " + avionicsStruct.com2standbyType;
 
-         if (macroSimStruct.com2activeIdent == "")
-            form.lblCom2Active.Text = "Active";
-         else
-            form.lblCom2Active.Text = macroSimStruct.com2activeIdent + " " + macroSimStruct.com2activeType;
+            if (avionicsStruct.com2activeIdent == "")
+               form.lblCom2Active.Text = "Active";
+            else
+               form.lblCom2Active.Text = avionicsStruct.com2activeIdent + " " + avionicsStruct.com2activeType;
 
-         form.lblCom2StandbyValue.Text = string.Format("{0:000.000}", macroSimStruct.com2standby);
-         form.lblCom2ActiveValue.Text = string.Format("{0:000.000}", macroSimStruct.com2active);
+            form.lblCom2StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com2standby);
+            form.lblCom2ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com2active);
 
-         // NAV1
-         if (macroSimStruct.nav1Ident == "")
-            form.lblNav1Active.Text = "Active";
-         else
-            form.lblNav1Active.Text = macroSimStruct.nav1Ident + " " + macroSimStruct.nav1Name;
+            // NAV1
+            if (avionicsStruct.nav1Ident == "")
+               form.lblNav1Active.Text = "Active";
+            else
+               form.lblNav1Active.Text = avionicsStruct.nav1Ident + " " + avionicsStruct.nav1Name;
 
-         form.lblNav1StandbyValue.Text = string.Format("{0:000.00}", macroSimStruct.nav1standby);
-         form.lblNav1ActiveValue.Text = string.Format("{0:000.00}", macroSimStruct.nav1active);
+            form.lblNav1StandbyValue.Text = string.Format("{0:000.00}", avionicsStruct.nav1standby);
+            form.lblNav1ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav1active);
 
-         // NAV2
-         if (macroSimStruct.nav2Ident == "")
-            form.lblNav2Active.Text = "Active";
-         else
-            form.lblNav2Active.Text = macroSimStruct.nav2Ident + " " + macroSimStruct.nav2Name;
+            // NAV2
+            if (avionicsStruct.nav2Ident == "")
+               form.lblNav2Active.Text = "Active";
+            else
+               form.lblNav2Active.Text = avionicsStruct.nav2Ident + " " + avionicsStruct.nav2Name;
 
-         form.lblNav2StandbyValue.Text = string.Format("{0:000.00}", macroSimStruct.nav2standby);
-         form.lblNav2ActiveValue.Text = string.Format("{0:000.00}", macroSimStruct.nav2active);
+            form.lblNav2StandbyValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2standby);
+            form.lblNav2ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2active);
 
-         // AP Heading
-         form.lblHeadingValue.Text = string.Format("{0:000}", macroSimStruct.apHeading);
+            // AP Heading
+            form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeading);
 
-         // AP Course
-         form.lblCourseValue.Text = string.Format("{0:000}", macroSimStruct.apNav1Obs);
+            // AP Course
+            form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1Obs);
 
-         // AP Altitude
-         form.lblAltitudeValue.Text = string.Format("{0:00000}", macroSimStruct.apAltitude);
+            // AP Altitude
+            form.lblAltitudeValue.Text = string.Format("{0:00000}", avionicsStruct.apAltitude);
 
-         // AP Vertical Speed
-         form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", macroSimStruct.apVerticalSpeed);
+            // AP Vertical Speed
+            form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", avionicsStruct.apVerticalSpeed);
 
-         // Transponder
-         form.lblTransponder.Text = string.Format("{0:0000}", macroSimStruct.transponderCode);
+            // Transponder
+            form.lblTransponder.Text = string.Format("{0:0000}", avionicsStruct.transponderCode);
+         });
+      }
+      else if (structure is LightsStruct lightsStruct)
+      {
+         macroPadDevice.UpdateData(lightsStruct);
 
-         // Lights
-         suppressLightButtonCheckChangedEvent = true;
-         form.checkBeaconLight.Checked = macroSimStruct.LightBeaconOn;
-         form.checkCabinLight.Checked = macroSimStruct.LightCabinOn;
-         form.checkGlareshieldLight.Checked = macroSimStruct.LightGlareshieldOn;
-         form.checkLandingLight.Checked = macroSimStruct.LightLandingOn;
-         form.checkLogoLight.Checked = macroSimStruct.LightLogoOn;
-         form.checkNavLight.Checked = macroSimStruct.LightNavOn;
-         form.checkPanelLight.Checked = macroSimStruct.LightPanelOn;
-         form.checkPedestralLight.Checked = macroSimStruct.LightPedestralOn;
-         form.checkRecognitionLight.Checked = macroSimStruct.LightRecognitionOn;
-         form.checkStrobeLight.Checked = macroSimStruct.LightStrobeOn;
-         form.checkTaxiLight.Checked = macroSimStruct.LightTaxiOn;
-         form.checkWingLight.Checked = macroSimStruct.LightWingOn;
-         suppressLightButtonCheckChangedEvent = false;
-      });
+         // Update UI via Invoke
+         InvokeAction(form =>
+         {
+            // Lights
+            suppressLightButtonCheckChangedEvent = true;
+            form.checkBeaconLight.Checked = lightsStruct.LightBeaconOn;
+            form.checkCabinLight.Checked = lightsStruct.LightCabinOn;
+            form.checkGlareshieldLight.Checked = lightsStruct.LightGlareshieldOn;
+            form.checkLandingLight.Checked = lightsStruct.LightLandingOn;
+            form.checkLogoLight.Checked = lightsStruct.LightLogoOn;
+            form.checkNavLight.Checked = lightsStruct.LightNavOn;
+            form.checkPanelLight.Checked = lightsStruct.LightPanelOn;
+            form.checkPedestralLight.Checked = lightsStruct.LightPedestralOn;
+            form.checkRecognitionLight.Checked = lightsStruct.LightRecognitionOn;
+            form.checkStrobeLight.Checked = lightsStruct.LightStrobeOn;
+            form.checkTaxiLight.Checked = lightsStruct.LightTaxiOn;
+            form.checkWingLight.Checked = lightsStruct.LightWingOn;
+            suppressLightButtonCheckChangedEvent = false;
+         });
+      }
+      else if (structure is TrimStruct trimStruct)
+      {
+         macroPadDevice.UpdateData(trimStruct);
+
+         // Update UI via Invoke
+         InvokeAction(form =>
+         {
+            form.txtElevatorTrimMin.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimMinDegrees);
+            form.txtElevatorTrimNeutral.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimNeutralDegrees);
+            form.txtElevatorTrim.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimPositionDegrees);
+            form.txtElevatorTrimMax.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimMaxDegrees);
+         });
+      }
    }
 
    protected override void DefWndProc(ref Message m)

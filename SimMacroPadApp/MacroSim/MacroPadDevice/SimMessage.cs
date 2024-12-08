@@ -74,9 +74,13 @@ internal class SimMessage
       // Write the data to the serial port
       try
       {
-         port.Write(buffer, 0, buffer.Length);
+         if (port.IsOpen)
+         {
+            port.Write(buffer, 0, buffer.Length);
+         }
       }
-      catch { }
+      catch
+      { }
    }
 }
 

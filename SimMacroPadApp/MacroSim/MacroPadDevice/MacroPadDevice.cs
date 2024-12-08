@@ -49,61 +49,67 @@ internal class MacroPadDevice
       }
    }
 
-   public void UpdateData(MacroSimStruct macroSimStruct)
+   public void UpdateData(object structure)
    {
-      apAltitude = macroSimStruct.apAltitude;
-
-      switch (state)
+      if (structure is AvionicsStruct avionicsStruct)
       {
-         case MacroPadState.COM1_MHZ:
-         case MacroPadState.COM1_KHZ:
-            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.com1standby);
-            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.com1active);
-            break;
-         case MacroPadState.COM2_MHZ:
-         case MacroPadState.COM2_KHZ:
-            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.com2standby);
-            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.com2active);
-            break;
-         case MacroPadState.NAV1_MHZ:
-         case MacroPadState.NAV1_KHZ:
-            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.nav1standby);
-            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.nav1active);
-            break;
-         case MacroPadState.NAV2_MHZ:
-         case MacroPadState.NAV2_KHZ:
-            simMessage.Text1 = string.Format("{0:000.000}", macroSimStruct.nav2standby);
-            simMessage.Text2 = string.Format("{0:000.000}", macroSimStruct.nav2active);
-            break;
-         case MacroPadState.HEADING:
-            simMessage.Text1 = string.Format("{0:000}", macroSimStruct.apHeading);
-            break;
-         case MacroPadState.COURSE:
-            simMessage.Text1 = string.Format("{0:000}", macroSimStruct.apNav1Obs);
-            break;
-         case MacroPadState.ALTITUDE_1000:
-         case MacroPadState.ALTITUDE_100:
-            simMessage.Text1 = string.Format("{0:00000}", macroSimStruct.apAltitude);
-            break;
-         case MacroPadState.VERTICAL_SPEED:
-            simMessage.Text1 = string.Format("{0:+0000;-0000; 0000}", macroSimStruct.apVerticalSpeed);
-            break;
-         case MacroPadState.XPND_1000:
-         case MacroPadState.XPND_100:
-         case MacroPadState.XPND_10:
-         case MacroPadState.XPND_1:
-            simMessage.Text1 = string.Format("{0:0000}", macroSimStruct.transponderCode);
-            break;
-         default:
-            simMessage.Text1 = string.Empty;
-            break;
+         apAltitude = avionicsStruct.apAltitude;
+
+         switch (state)
+         {
+            case MacroPadState.COM1_MHZ:
+            case MacroPadState.COM1_KHZ:
+               simMessage.Text1 = string.Format("{0:000.000}", avionicsStruct.com1standby);
+               simMessage.Text2 = string.Format("{0:000.000}", avionicsStruct.com1active);
+               break;
+            case MacroPadState.COM2_MHZ:
+            case MacroPadState.COM2_KHZ:
+               simMessage.Text1 = string.Format("{0:000.000}", avionicsStruct.com2standby);
+               simMessage.Text2 = string.Format("{0:000.000}", avionicsStruct.com2active);
+               break;
+            case MacroPadState.NAV1_MHZ:
+            case MacroPadState.NAV1_KHZ:
+               simMessage.Text1 = string.Format("{0:000.000}", avionicsStruct.nav1standby);
+               simMessage.Text2 = string.Format("{0:000.000}", avionicsStruct.nav1active);
+               break;
+            case MacroPadState.NAV2_MHZ:
+            case MacroPadState.NAV2_KHZ:
+               simMessage.Text1 = string.Format("{0:000.000}", avionicsStruct.nav2standby);
+               simMessage.Text2 = string.Format("{0:000.000}", avionicsStruct.nav2active);
+               break;
+            case MacroPadState.HEADING:
+               simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apHeading);
+               break;
+            case MacroPadState.COURSE:
+               simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apNav1Obs);
+               break;
+            case MacroPadState.ALTITUDE_1000:
+            case MacroPadState.ALTITUDE_100:
+               simMessage.Text1 = string.Format("{0:00000}", avionicsStruct.apAltitude);
+               break;
+            case MacroPadState.VERTICAL_SPEED:
+               simMessage.Text1 = string.Format("{0:+0000;-0000; 0000}", avionicsStruct.apVerticalSpeed);
+               break;
+            case MacroPadState.XPND_1000:
+            case MacroPadState.XPND_100:
+            case MacroPadState.XPND_10:
+            case MacroPadState.XPND_1:
+               simMessage.Text1 = string.Format("{0:0000}", avionicsStruct.transponderCode);
+               break;
+            default:
+               simMessage.Text1 = string.Empty;
+               break;
+         }
+
+         simMessage.MacroPadState = state;
+
+         //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage via SerialPort ");
+
+         simMessage.Send(SerialPort);
       }
-
-      simMessage.MacroPadState = state;
-
-      //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage via SerialPort ");
-
-      simMessage.Send(SerialPort);
+      else if (structure is LightsStruct lightsStruct)
+      {
+      }
    }
 
    protected virtual void OnEventProcessed(EventProcessedEventArgs e)
@@ -113,7 +119,15 @@ internal class MacroPadDevice
 
    private void SerialPort_DataReceivedFromDevice(object sender, SerialDataReceivedEventArgs e)
    {
-      int data = SerialPort.ReadByte();
+      int data = 0;
+      try
+      {
+         data = SerialPort.ReadByte();
+      }
+      catch
+      {
+         return;
+      }
       var bytes = BitConverter.GetBytes(data);
       var b = bytes[0];
 

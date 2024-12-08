@@ -14,14 +14,14 @@ namespace MacroSim.SimConnection
 {
    internal class SimConnection
    {
-      public delegate void DataReceivedEventHandler(object sender, MacroSimStruct macroSimStruct);
+      public delegate void DataReceivedEventHandler(object sender, object structure);
       public event DataReceivedEventHandler? DataReceived;
 
       public const int WM_USER_SIMCONNECT = 0x402;
 
       private SimConnect? simconnect = null;
 
-      private BackgroundWorker simConnectionBackgroundWorker = new BackgroundWorker();
+      private readonly BackgroundWorker simConnectionBackgroundWorker = new BackgroundWorker();
 
       public SimConnection()
       {
@@ -40,7 +40,12 @@ namespace MacroSim.SimConnection
                {
                   simconnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
                   Initialize();
-                  RequestDataOnSimObject();
+                  System.Diagnostics.Debug.WriteLine($"Requesting Avionics");
+                  RequestDataOnSimObject(SimDataRequests.AvionicsRequest);
+                  System.Diagnostics.Debug.WriteLine($"Requesting Lights");
+                  RequestDataOnSimObject(SimDataRequests.LightsRequest);
+                  System.Diagnostics.Debug.WriteLine($"Requesting Trim");
+                  RequestDataOnSimObject(SimDataRequests.TrimRequest);
                   return;
                }
                catch (COMException)
@@ -60,9 +65,13 @@ namespace MacroSim.SimConnection
 
       public bool IsConnected => simconnect != null;
 
-      protected virtual void OnDataReceived(MacroSimStruct macroSimStruct)
+      protected virtual void OnDataReceived(object structure)
       {
-         DataReceived?.Invoke(this, macroSimStruct);
+         DataReceived?.Invoke(this, structure);
+         //if (structure is AvionicsStruct avionicsStruct)
+         //{
+         //   DataReceived?.Invoke(this, avionicsStruct);
+         //}
       }
 
       public bool ConnectToSim(nint handle)
@@ -90,72 +99,89 @@ namespace MacroSim.SimConnection
             simconnect.OnRecvSimobjectDataBytype += Simconnect_OnRecvSimobjectDataBytype;
             simconnect.OnRecvSimobjectData += Simconnect_OnRecvSimobjectData;
 
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "Title", null, SIMCONNECT_DATATYPE.STRING256, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM STANDBY FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM ACTIVE FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM STANDBY FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM ACTIVE FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV STANDBY FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV ACTIVE FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV STANDBY FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV ACTIVE FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT ALTITUDE LOCK VAR", "feet", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT VERTICAL HOLD VAR", "feet per minute", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT HEADING LOCK DIR", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV OBS:1", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "Title", null, SIMCONNECT_DATATYPE.STRING256, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM STANDBY FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM ACTIVE FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM STANDBY FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM ACTIVE FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV STANDBY FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV ACTIVE FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV STANDBY FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV ACTIVE FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT ALTITUDE LOCK VAR", "feet", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT VERTICAL HOLD VAR", "feet per minute", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT HEADING LOCK DIR", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV OBS:1", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT MASTER", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT ALTITUDE LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT VERTICAL HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT HEADING LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "AUTOPILOT NAV1 LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT MASTER", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT ALTITUDE LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT VERTICAL HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT HEADING LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "AUTOPILOT NAV1 LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM ACTIVE FREQ IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM ACTIVE FREQ IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM ACTIVE FREQ TYPE:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM ACTIVE FREQ TYPE:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM STANDBY FREQ IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM STANDBY FREQ IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM STANDBY FREQ TYPE:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "COM STANDBY FREQ TYPE:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV NAME:1", null, SIMCONNECT_DATATYPE.STRING64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "NAV NAME:2", null, SIMCONNECT_DATATYPE.STRING64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM ACTIVE FREQ IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM ACTIVE FREQ IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM ACTIVE FREQ TYPE:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM ACTIVE FREQ TYPE:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM STANDBY FREQ IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM STANDBY FREQ IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM STANDBY FREQ TYPE:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "COM STANDBY FREQ TYPE:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV NAME:1", null, SIMCONNECT_DATATYPE.STRING64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "NAV NAME:2", null, SIMCONNECT_DATATYPE.STRING64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "TRANSPONDER CODE:1", "enum", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.AvionicsStruct, "TRANSPONDER CODE:1", "enum", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT BEACON", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT CABIN", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT GLARESHIELD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT LANDING", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT LOGO", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT NAV", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT PANEL", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT PEDESTRAL", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT RECOGNITION", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT STROBE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT TAXI", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT WING", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-            simconnect.AddToDataDefinition(SimStructures.MacroSimStruct, "LIGHT ON STATES", "Mask", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.RegisterDataDefineStruct<AvionicsStruct>(SimStructures.AvionicsStruct);
 
-            simconnect.RegisterDataDefineStruct<MacroSimStruct>(SimStructures.MacroSimStruct);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT BEACON", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT CABIN", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT GLARESHIELD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT LANDING", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT LOGO", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT NAV", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT PANEL", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT PEDESTRAL", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT RECOGNITION", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT STROBE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT TAXI", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT WING", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.LightsStruct, "LIGHT ON STATES", "Mask", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+            simconnect.RegisterDataDefineStruct<LightsStruct>(SimStructures.LightsStruct);
+
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "ELEVATOR TRIM MIN", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "ELEVATOR TRIM NEUTRAL", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "ELEVATOR TRIM POSITION", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "ELEVATOR TRIM MAX", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+            simconnect.RegisterDataDefineStruct<TrimStruct>(SimStructures.TrimStruct);
          }
       }
 
       private void Simconnect_OnRecvSimobjectData(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data)
       {
-         if (data.dwRequestID == (uint)SimDataRequests.Request1)
+         if (data.dwRequestID == (uint)SimDataRequests.AvionicsRequest)
          {
-            MacroSimStruct macroSimStruct = (MacroSimStruct)data.dwData[0];
-
-            CleanUpMacroSimStruct(ref macroSimStruct);
-
-            OnDataReceived(macroSimStruct);
+            AvionicsStruct avionicsStruct = (AvionicsStruct)data.dwData[0];
+            CleanUpMacroSimStruct(ref avionicsStruct);
+            OnDataReceived(avionicsStruct);
+         }
+         else if (data.dwRequestID == (uint)SimDataRequests.LightsRequest)
+         {
+            LightsStruct lightsStruct = (LightsStruct)data.dwData[0];
+            OnDataReceived(lightsStruct);
+         }
+         else if (data.dwRequestID == (uint)SimDataRequests.TrimRequest)
+         {
+            TrimStruct trimStruct = (TrimStruct)data.dwData[0];
+            OnDataReceived(trimStruct);
          }
       }
 
-      private void CleanUpMacroSimStruct(ref MacroSimStruct macroSimStruct)
+      private void CleanUpMacroSimStruct(ref AvionicsStruct macroSimStruct)
       {
          if (macroSimStruct.com1standbyIdent == "COM") macroSimStruct.com1standbyIdent = "";
          if (macroSimStruct.com2standbyIdent == "COM") macroSimStruct.com2standbyIdent = "";
@@ -289,9 +315,21 @@ namespace MacroSim.SimConnection
 
       private void Simconnect_OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
       {
-         if (data.dwRequestID == (uint)SimDataRequests.Request1)
+         if (data.dwRequestID == (uint)SimDataRequests.AvionicsRequest)
          {
-            MacroSimStruct s = (MacroSimStruct)data.dwData[0];
+            AvionicsStruct s = (AvionicsStruct)data.dwData[0];
+
+            OnDataReceived(s);
+         }
+         else if (data.dwRequestID == (uint)SimDataRequests.LightsRequest)
+         {
+            LightsStruct s = (LightsStruct)data.dwData[0];
+
+            OnDataReceived(s);
+         }
+         else if (data.dwRequestID == (uint)SimDataRequests.TrimRequest)
+         {
+            TrimStruct s = (TrimStruct)data.dwData[0];
 
             OnDataReceived(s);
          }
@@ -318,17 +356,23 @@ namespace MacroSim.SimConnection
 
       private enum SimStructures
       {
-         MacroSimStruct
+         AvionicsStruct,
+         LightsStruct,
+         TrimStruct
       }
 
-      private enum SimDefinitions
+      private enum SimStructDefinitions
       {
-         MacroSimStruct
+         AvionicsStruct,
+         LightsStruct,
+         TrimStruct
       }
 
-      private enum SimDataRequests : uint
+      public enum SimDataRequests : uint
       {
-         Request1
+         AvionicsRequest,
+         LightsRequest,
+         TrimRequest
       }
 
       public enum SimEvents
@@ -423,7 +467,38 @@ namespace MacroSim.SimConnection
       }
 
       [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
-      public struct MacroSimStruct
+      public struct LightsStruct
+      {
+         public int lightBeacon;
+         public int lightCabin;
+         public int lightGlareshield;
+         public int lightLanding;
+         public int lightLogo;
+         public int lightNav;
+         public int lightPanel;
+         public int lightPedestral;
+         public int lightRecognition;
+         public int lightStrobe;
+         public int lightTaxi;
+         public int lightWing;
+         public int lightOnStates;
+
+         public readonly bool LightBeaconOn => lightBeacon == 1;
+         public readonly bool LightCabinOn => lightCabin == 1;
+         public readonly bool LightGlareshieldOn => lightGlareshield == 1;
+         public readonly bool LightLandingOn => lightLanding == 1;
+         public readonly bool LightLogoOn => lightLogo == 1;
+         public readonly bool LightNavOn => lightNav == 1;
+         public readonly bool LightPanelOn => lightPanel == 1;
+         public readonly bool LightPedestralOn => lightPedestral == 1;
+         public readonly bool LightRecognitionOn => lightRecognition == 1;
+         public readonly bool LightStrobeOn => lightStrobe == 1;
+         public readonly bool LightTaxiOn => lightTaxi == 1;
+         public readonly bool LightWingOn => lightWing == 1;
+      }
+
+      [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+      public struct AvionicsStruct
       {
          [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
          public string Title;
@@ -473,53 +548,56 @@ namespace MacroSim.SimConnection
 
          public int transponderCode;
 
-         public int lightBeacon;
-         public int lightCabin;
-         public int lightGlareshield;
-         public int lightLanding;
-         public int lightLogo;
-         public int lightNav;
-         public int lightPanel;
-         public int lightPedestral;
-         public int lightRecognition;
-         public int lightStrobe;
-         public int lightTaxi;
-         public int lightWing;
-         public int lightOnStates;
 
          public readonly bool ApMasterEngaged => apMaster == 1;
          public readonly bool ApAltitudeHoldEngaged => apAltHold == 1;
          public readonly bool ApVerticalSpeedHoldEngaged => apVsHold == 1;
          public readonly bool ApHeadingHoldEngaged => apHdgHold == 1;
          public readonly bool ApNav1HoldEngaged => apNav1Hold == 1;
-         public readonly bool LightBeaconOn => lightBeacon == 1;
-         public readonly bool LightCabinOn => lightCabin == 1;
-         public readonly bool LightGlareshieldOn => lightGlareshield == 1;
-         public readonly bool LightLandingOn => lightLanding == 1;
-         public readonly bool LightLogoOn => lightLogo == 1;
-         public readonly bool LightNavOn => lightNav == 1;
-         public readonly bool LightPanelOn => lightPanel == 1;
-         public readonly bool LightPedestralOn => lightPedestral == 1;
-         public readonly bool LightRecognitionOn => lightRecognition == 1;
-         public readonly bool LightStrobeOn => lightStrobe == 1;
-         public readonly bool LightTaxiOn => lightTaxi == 1;
-         public readonly bool LightWingOn => lightWing == 1;
+      }
+
+      [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+      public struct TrimStruct
+      {
+         public double elevatorTrimMin;
+         public double elevatorTrimNeutral;
+         public double elevatorTrimPosition;
+         public double elevatorTrimMax;
+
+         public readonly double ElevatorTrimMinDegrees => elevatorTrimMin * (180d / Math.PI);
+         public readonly double ElevatorTrimNeutralDegrees => elevatorTrimNeutral * (180d / Math.PI);
+         public readonly double ElevatorTrimPositionDegrees => elevatorTrimPosition * (180d / Math.PI);
+         public readonly double ElevatorTrimMaxDegrees => elevatorTrimMax * (180d / Math.PI);
       }
 
       public void RequestDataOnSimObjectType()
       {
          simconnect?.RequestDataOnSimObjectType(
-            RequestID: SimDataRequests.Request1,
-            DefineID: SimDefinitions.MacroSimStruct,
+            RequestID: SimDataRequests.AvionicsRequest,
+            DefineID: SimStructDefinitions.AvionicsStruct,
             dwRadiusMeters: 0,
             type: SIMCONNECT_SIMOBJECT_TYPE.USER);
       }
 
-      public void RequestDataOnSimObject()
+      public void RequestDataOnSimObject(SimDataRequests requestId)
       {
+         SimStructDefinitions defineId;
+         switch (requestId)
+         {
+            case SimDataRequests.AvionicsRequest:
+            default:
+               defineId = SimStructDefinitions.AvionicsStruct;
+               break;
+            case SimDataRequests.LightsRequest:
+               defineId = SimStructDefinitions.LightsStruct;
+               break;
+            case SimDataRequests.TrimRequest:
+               defineId= SimStructDefinitions.TrimStruct;
+               break;
+         }
          simconnect?.RequestDataOnSimObject(
-            RequestID: SimDataRequests.Request1,
-            DefineID: SimDefinitions.MacroSimStruct,
+            RequestID: requestId,
+            DefineID: defineId,
             ObjectID: (uint)SIMCONNECT_SIMOBJECT_TYPE.USER,
             Period: SIMCONNECT_PERIOD.SIM_FRAME,
             //Flags: SIMCONNECT_DATA_REQUEST_FLAG.CHANGED,
