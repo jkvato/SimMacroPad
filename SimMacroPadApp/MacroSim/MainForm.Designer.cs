@@ -34,18 +34,27 @@
          lblSimConnectionStatus = new ToolStripStatusLabel();
          lblSerialPortStatus = new ToolStripStatusLabel();
          lblMacroPadState = new ToolStripStatusLabel();
-         checkWingLight = new CheckBox();
-         checkTaxiLight = new CheckBox();
-         checkStrobeLight = new CheckBox();
-         checkRecognitionLight = new CheckBox();
-         checkPedestralLight = new CheckBox();
-         checkPanelLight = new CheckBox();
-         checkNavLight = new CheckBox();
-         checkLogoLight = new CheckBox();
-         checkLandingLight = new CheckBox();
-         checkGlareshieldLight = new CheckBox();
-         checkCabinLight = new CheckBox();
+         label9 = new Label();
+         txtElevatorTrimMax = new TextBox();
+         label8 = new Label();
+         label6 = new Label();
+         txtElevatorTrim = new TextBox();
+         txtElevatorTrimNeutral = new TextBox();
+         txtElevatorTrimMin = new TextBox();
+         label1 = new Label();
+         groupLights = new GroupBox();
          checkBeaconLight = new CheckBox();
+         checkWingLight = new CheckBox();
+         checkCabinLight = new CheckBox();
+         checkTaxiLight = new CheckBox();
+         checkGlareshieldLight = new CheckBox();
+         checkStrobeLight = new CheckBox();
+         checkLandingLight = new CheckBox();
+         checkRecognitionLight = new CheckBox();
+         checkLogoLight = new CheckBox();
+         checkPedestralLight = new CheckBox();
+         checkNavLight = new CheckBox();
+         checkPanelLight = new CheckBox();
          lblTransponder = new Label();
          label4 = new Label();
          lblVerticalSpeedValue = new Label();
@@ -84,26 +93,25 @@
          macroPadToolStripMenuItem = new ToolStripMenuItem();
          refreshSerialPortsToolStripMenuItem = new ToolStripMenuItem();
          toolStripSeparator2 = new ToolStripSeparator();
-         groupLights = new GroupBox();
-         label1 = new Label();
-         txtElevatorTrimMin = new TextBox();
-         txtElevatorTrimNeutral = new TextBox();
-         txtElevatorTrim = new TextBox();
-         label6 = new Label();
-         label8 = new Label();
-         txtElevatorTrimMax = new TextBox();
-         label9 = new Label();
+         txtAileronTrimMax = new TextBox();
+         txtAileronTrimPosition = new TextBox();
+         txtAileronTrimDisabled = new TextBox();
+         txtAileronTrimMin = new TextBox();
+         txtRudderTrimMax = new TextBox();
+         txtRudderTrimPosition = new TextBox();
+         txtRudderTrimDisabled = new TextBox();
+         txtRudderTrimMin = new TextBox();
          toolStripContainer1.BottomToolStripPanel.SuspendLayout();
          toolStripContainer1.ContentPanel.SuspendLayout();
          toolStripContainer1.TopToolStripPanel.SuspendLayout();
          toolStripContainer1.SuspendLayout();
          statusStrip.SuspendLayout();
+         groupLights.SuspendLayout();
          groupNav2.SuspendLayout();
          groupNav1.SuspendLayout();
          groupCom2.SuspendLayout();
          groupCom1.SuspendLayout();
          mainMenu.SuspendLayout();
-         groupLights.SuspendLayout();
          SuspendLayout();
          // 
          // txtOutput
@@ -125,6 +133,14 @@
          // 
          // toolStripContainer1.ContentPanel
          // 
+         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimMax);
+         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimPosition);
+         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimDisabled);
+         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimMin);
+         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimMax);
+         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimPosition);
+         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimDisabled);
+         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimMin);
          toolStripContainer1.ContentPanel.Controls.Add(label9);
          toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimMax);
          toolStripContainer1.ContentPanel.Controls.Add(label8);
@@ -191,6 +207,107 @@
          lblMacroPadState.Size = new Size(55, 17);
          lblMacroPadState.Text = "NONE";
          // 
+         // label9
+         // 
+         label9.AutoSize = true;
+         label9.Location = new Point(342, 374);
+         label9.Name = "label9";
+         label9.Size = new Size(113, 17);
+         label9.TabIndex = 28;
+         label9.Text = "Elevator Trim Max";
+         // 
+         // txtElevatorTrimMax
+         // 
+         txtElevatorTrimMax.Location = new Point(483, 371);
+         txtElevatorTrimMax.Name = "txtElevatorTrimMax";
+         txtElevatorTrimMax.ReadOnly = true;
+         txtElevatorTrimMax.Size = new Size(100, 25);
+         txtElevatorTrimMax.TabIndex = 27;
+         // 
+         // label8
+         // 
+         label8.AutoSize = true;
+         label8.Location = new Point(342, 312);
+         label8.Name = "label8";
+         label8.Size = new Size(131, 17);
+         label8.TabIndex = 26;
+         label8.Text = "Elevator Trim Neutral";
+         // 
+         // label6
+         // 
+         label6.AutoSize = true;
+         label6.Location = new Point(342, 343);
+         label6.Name = "label6";
+         label6.Size = new Size(84, 17);
+         label6.TabIndex = 25;
+         label6.Text = "Elevator Trim";
+         // 
+         // txtElevatorTrim
+         // 
+         txtElevatorTrim.Location = new Point(483, 340);
+         txtElevatorTrim.Name = "txtElevatorTrim";
+         txtElevatorTrim.ReadOnly = true;
+         txtElevatorTrim.Size = new Size(100, 25);
+         txtElevatorTrim.TabIndex = 24;
+         // 
+         // txtElevatorTrimNeutral
+         // 
+         txtElevatorTrimNeutral.Location = new Point(483, 309);
+         txtElevatorTrimNeutral.Name = "txtElevatorTrimNeutral";
+         txtElevatorTrimNeutral.ReadOnly = true;
+         txtElevatorTrimNeutral.Size = new Size(100, 25);
+         txtElevatorTrimNeutral.TabIndex = 23;
+         // 
+         // txtElevatorTrimMin
+         // 
+         txtElevatorTrimMin.Location = new Point(483, 278);
+         txtElevatorTrimMin.Name = "txtElevatorTrimMin";
+         txtElevatorTrimMin.ReadOnly = true;
+         txtElevatorTrimMin.Size = new Size(100, 25);
+         txtElevatorTrimMin.TabIndex = 22;
+         // 
+         // label1
+         // 
+         label1.AutoSize = true;
+         label1.Location = new Point(342, 281);
+         label1.Name = "label1";
+         label1.Size = new Size(110, 17);
+         label1.TabIndex = 21;
+         label1.Text = "Elevator Trim Min";
+         // 
+         // groupLights
+         // 
+         groupLights.Controls.Add(checkBeaconLight);
+         groupLights.Controls.Add(checkWingLight);
+         groupLights.Controls.Add(checkCabinLight);
+         groupLights.Controls.Add(checkTaxiLight);
+         groupLights.Controls.Add(checkGlareshieldLight);
+         groupLights.Controls.Add(checkStrobeLight);
+         groupLights.Controls.Add(checkLandingLight);
+         groupLights.Controls.Add(checkRecognitionLight);
+         groupLights.Controls.Add(checkLogoLight);
+         groupLights.Controls.Add(checkPedestralLight);
+         groupLights.Controls.Add(checkNavLight);
+         groupLights.Controls.Add(checkPanelLight);
+         groupLights.Location = new Point(308, 470);
+         groupLights.Name = "groupLights";
+         groupLights.Size = new Size(396, 92);
+         groupLights.TabIndex = 2;
+         groupLights.TabStop = false;
+         groupLights.Text = "Lights";
+         // 
+         // checkBeaconLight
+         // 
+         checkBeaconLight.Appearance = Appearance.Button;
+         checkBeaconLight.AutoSize = true;
+         checkBeaconLight.Location = new Point(6, 24);
+         checkBeaconLight.Name = "checkBeaconLight";
+         checkBeaconLight.Size = new Size(60, 27);
+         checkBeaconLight.TabIndex = 2;
+         checkBeaconLight.Text = "Beacon";
+         checkBeaconLight.UseVisualStyleBackColor = true;
+         checkBeaconLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
          // checkWingLight
          // 
          checkWingLight.Appearance = Appearance.Button;
@@ -202,114 +319,6 @@
          checkWingLight.Text = "Wing";
          checkWingLight.UseVisualStyleBackColor = true;
          checkWingLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkTaxiLight
-         // 
-         checkTaxiLight.Appearance = Appearance.Button;
-         checkTaxiLight.AutoSize = true;
-         checkTaxiLight.Location = new Point(295, 57);
-         checkTaxiLight.Name = "checkTaxiLight";
-         checkTaxiLight.Size = new Size(40, 27);
-         checkTaxiLight.TabIndex = 43;
-         checkTaxiLight.Text = "Taxi";
-         checkTaxiLight.UseVisualStyleBackColor = true;
-         checkTaxiLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkStrobeLight
-         // 
-         checkStrobeLight.Appearance = Appearance.Button;
-         checkStrobeLight.AutoSize = true;
-         checkStrobeLight.Location = new Point(232, 57);
-         checkStrobeLight.Name = "checkStrobeLight";
-         checkStrobeLight.Size = new Size(57, 27);
-         checkStrobeLight.TabIndex = 42;
-         checkStrobeLight.Text = "Strobe";
-         checkStrobeLight.UseVisualStyleBackColor = true;
-         checkStrobeLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkRecognitionLight
-         // 
-         checkRecognitionLight.Appearance = Appearance.Button;
-         checkRecognitionLight.AutoSize = true;
-         checkRecognitionLight.Location = new Point(139, 57);
-         checkRecognitionLight.Name = "checkRecognitionLight";
-         checkRecognitionLight.Size = new Size(87, 27);
-         checkRecognitionLight.TabIndex = 41;
-         checkRecognitionLight.Text = "Recognition";
-         checkRecognitionLight.UseVisualStyleBackColor = true;
-         checkRecognitionLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkPedestralLight
-         // 
-         checkPedestralLight.Appearance = Appearance.Button;
-         checkPedestralLight.AutoSize = true;
-         checkPedestralLight.Location = new Point(61, 57);
-         checkPedestralLight.Name = "checkPedestralLight";
-         checkPedestralLight.Size = new Size(72, 27);
-         checkPedestralLight.TabIndex = 40;
-         checkPedestralLight.Text = "Pedestral";
-         checkPedestralLight.UseVisualStyleBackColor = true;
-         checkPedestralLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkPanelLight
-         // 
-         checkPanelLight.Appearance = Appearance.Button;
-         checkPanelLight.AutoSize = true;
-         checkPanelLight.Location = new Point(6, 57);
-         checkPanelLight.Name = "checkPanelLight";
-         checkPanelLight.Size = new Size(49, 27);
-         checkPanelLight.TabIndex = 39;
-         checkPanelLight.Text = "Panel";
-         checkPanelLight.UseVisualStyleBackColor = true;
-         checkPanelLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkNavLight
-         // 
-         checkNavLight.Appearance = Appearance.Button;
-         checkNavLight.AutoSize = true;
-         checkNavLight.Location = new Point(342, 24);
-         checkNavLight.Name = "checkNavLight";
-         checkNavLight.Size = new Size(41, 27);
-         checkNavLight.TabIndex = 38;
-         checkNavLight.Text = "Nav";
-         checkNavLight.UseVisualStyleBackColor = true;
-         checkNavLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkLogoLight
-         // 
-         checkLogoLight.Appearance = Appearance.Button;
-         checkLogoLight.AutoSize = true;
-         checkLogoLight.Location = new Point(288, 24);
-         checkLogoLight.Name = "checkLogoLight";
-         checkLogoLight.Size = new Size(48, 27);
-         checkLogoLight.TabIndex = 37;
-         checkLogoLight.Text = "Logo";
-         checkLogoLight.UseVisualStyleBackColor = true;
-         checkLogoLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkLandingLight
-         // 
-         checkLandingLight.Appearance = Appearance.Button;
-         checkLandingLight.AutoSize = true;
-         checkLandingLight.Location = new Point(218, 24);
-         checkLandingLight.Name = "checkLandingLight";
-         checkLandingLight.Size = new Size(64, 27);
-         checkLandingLight.TabIndex = 36;
-         checkLandingLight.Text = "Landing";
-         checkLandingLight.UseVisualStyleBackColor = true;
-         checkLandingLight.CheckedChanged += LightButton_CheckedChanged;
-         // 
-         // checkGlareshieldLight
-         // 
-         checkGlareshieldLight.Appearance = Appearance.Button;
-         checkGlareshieldLight.AutoSize = true;
-         checkGlareshieldLight.Location = new Point(129, 24);
-         checkGlareshieldLight.Name = "checkGlareshieldLight";
-         checkGlareshieldLight.Size = new Size(83, 27);
-         checkGlareshieldLight.TabIndex = 35;
-         checkGlareshieldLight.Text = "Glareshield";
-         checkGlareshieldLight.UseVisualStyleBackColor = true;
-         checkGlareshieldLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkCabinLight
          // 
@@ -323,17 +332,113 @@
          checkCabinLight.UseVisualStyleBackColor = true;
          checkCabinLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         // checkBeaconLight
+         // checkTaxiLight
          // 
-         checkBeaconLight.Appearance = Appearance.Button;
-         checkBeaconLight.AutoSize = true;
-         checkBeaconLight.Location = new Point(6, 24);
-         checkBeaconLight.Name = "checkBeaconLight";
-         checkBeaconLight.Size = new Size(60, 27);
-         checkBeaconLight.TabIndex = 2;
-         checkBeaconLight.Text = "Beacon";
-         checkBeaconLight.UseVisualStyleBackColor = true;
-         checkBeaconLight.CheckedChanged += LightButton_CheckedChanged;
+         checkTaxiLight.Appearance = Appearance.Button;
+         checkTaxiLight.AutoSize = true;
+         checkTaxiLight.Location = new Point(295, 57);
+         checkTaxiLight.Name = "checkTaxiLight";
+         checkTaxiLight.Size = new Size(40, 27);
+         checkTaxiLight.TabIndex = 43;
+         checkTaxiLight.Text = "Taxi";
+         checkTaxiLight.UseVisualStyleBackColor = true;
+         checkTaxiLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkGlareshieldLight
+         // 
+         checkGlareshieldLight.Appearance = Appearance.Button;
+         checkGlareshieldLight.AutoSize = true;
+         checkGlareshieldLight.Location = new Point(129, 24);
+         checkGlareshieldLight.Name = "checkGlareshieldLight";
+         checkGlareshieldLight.Size = new Size(83, 27);
+         checkGlareshieldLight.TabIndex = 35;
+         checkGlareshieldLight.Text = "Glareshield";
+         checkGlareshieldLight.UseVisualStyleBackColor = true;
+         checkGlareshieldLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkStrobeLight
+         // 
+         checkStrobeLight.Appearance = Appearance.Button;
+         checkStrobeLight.AutoSize = true;
+         checkStrobeLight.Location = new Point(232, 57);
+         checkStrobeLight.Name = "checkStrobeLight";
+         checkStrobeLight.Size = new Size(57, 27);
+         checkStrobeLight.TabIndex = 42;
+         checkStrobeLight.Text = "Strobe";
+         checkStrobeLight.UseVisualStyleBackColor = true;
+         checkStrobeLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkLandingLight
+         // 
+         checkLandingLight.Appearance = Appearance.Button;
+         checkLandingLight.AutoSize = true;
+         checkLandingLight.Location = new Point(218, 24);
+         checkLandingLight.Name = "checkLandingLight";
+         checkLandingLight.Size = new Size(64, 27);
+         checkLandingLight.TabIndex = 36;
+         checkLandingLight.Text = "Landing";
+         checkLandingLight.UseVisualStyleBackColor = true;
+         checkLandingLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkRecognitionLight
+         // 
+         checkRecognitionLight.Appearance = Appearance.Button;
+         checkRecognitionLight.AutoSize = true;
+         checkRecognitionLight.Location = new Point(139, 57);
+         checkRecognitionLight.Name = "checkRecognitionLight";
+         checkRecognitionLight.Size = new Size(87, 27);
+         checkRecognitionLight.TabIndex = 41;
+         checkRecognitionLight.Text = "Recognition";
+         checkRecognitionLight.UseVisualStyleBackColor = true;
+         checkRecognitionLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkLogoLight
+         // 
+         checkLogoLight.Appearance = Appearance.Button;
+         checkLogoLight.AutoSize = true;
+         checkLogoLight.Location = new Point(288, 24);
+         checkLogoLight.Name = "checkLogoLight";
+         checkLogoLight.Size = new Size(48, 27);
+         checkLogoLight.TabIndex = 37;
+         checkLogoLight.Text = "Logo";
+         checkLogoLight.UseVisualStyleBackColor = true;
+         checkLogoLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkPedestralLight
+         // 
+         checkPedestralLight.Appearance = Appearance.Button;
+         checkPedestralLight.AutoSize = true;
+         checkPedestralLight.Location = new Point(61, 57);
+         checkPedestralLight.Name = "checkPedestralLight";
+         checkPedestralLight.Size = new Size(72, 27);
+         checkPedestralLight.TabIndex = 40;
+         checkPedestralLight.Text = "Pedestral";
+         checkPedestralLight.UseVisualStyleBackColor = true;
+         checkPedestralLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkNavLight
+         // 
+         checkNavLight.Appearance = Appearance.Button;
+         checkNavLight.AutoSize = true;
+         checkNavLight.Location = new Point(342, 24);
+         checkNavLight.Name = "checkNavLight";
+         checkNavLight.Size = new Size(41, 27);
+         checkNavLight.TabIndex = 38;
+         checkNavLight.Text = "Nav";
+         checkNavLight.UseVisualStyleBackColor = true;
+         checkNavLight.CheckedChanged += LightButton_CheckedChanged;
+         // 
+         // checkPanelLight
+         // 
+         checkPanelLight.Appearance = Appearance.Button;
+         checkPanelLight.AutoSize = true;
+         checkPanelLight.Location = new Point(6, 57);
+         checkPanelLight.Name = "checkPanelLight";
+         checkPanelLight.Size = new Size(49, 27);
+         checkPanelLight.TabIndex = 39;
+         checkPanelLight.Text = "Panel";
+         checkPanelLight.UseVisualStyleBackColor = true;
+         checkPanelLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // lblTransponder
          // 
@@ -690,94 +795,69 @@
          toolStripSeparator2.Name = "toolStripSeparator2";
          toolStripSeparator2.Size = new Size(187, 6);
          // 
-         // groupLights
+         // txtAileronTrimMax
          // 
-         groupLights.Controls.Add(checkBeaconLight);
-         groupLights.Controls.Add(checkWingLight);
-         groupLights.Controls.Add(checkCabinLight);
-         groupLights.Controls.Add(checkTaxiLight);
-         groupLights.Controls.Add(checkGlareshieldLight);
-         groupLights.Controls.Add(checkStrobeLight);
-         groupLights.Controls.Add(checkLandingLight);
-         groupLights.Controls.Add(checkRecognitionLight);
-         groupLights.Controls.Add(checkLogoLight);
-         groupLights.Controls.Add(checkPedestralLight);
-         groupLights.Controls.Add(checkNavLight);
-         groupLights.Controls.Add(checkPanelLight);
-         groupLights.Location = new Point(308, 470);
-         groupLights.Name = "groupLights";
-         groupLights.Size = new Size(396, 92);
-         groupLights.TabIndex = 2;
-         groupLights.TabStop = false;
-         groupLights.Text = "Lights";
+         txtAileronTrimMax.Location = new Point(603, 371);
+         txtAileronTrimMax.Name = "txtAileronTrimMax";
+         txtAileronTrimMax.ReadOnly = true;
+         txtAileronTrimMax.Size = new Size(100, 25);
+         txtAileronTrimMax.TabIndex = 32;
          // 
-         // label1
+         // txtAileronTrimPosition
          // 
-         label1.AutoSize = true;
-         label1.Location = new Point(342, 281);
-         label1.Name = "label1";
-         label1.Size = new Size(110, 17);
-         label1.TabIndex = 21;
-         label1.Text = "Elevator Trim Min";
+         txtAileronTrimPosition.Location = new Point(603, 340);
+         txtAileronTrimPosition.Name = "txtAileronTrimPosition";
+         txtAileronTrimPosition.ReadOnly = true;
+         txtAileronTrimPosition.Size = new Size(100, 25);
+         txtAileronTrimPosition.TabIndex = 31;
          // 
-         // txtElevatorTrimMin
+         // txtAileronTrimDisabled
          // 
-         txtElevatorTrimMin.Location = new Point(483, 278);
-         txtElevatorTrimMin.Name = "txtElevatorTrimMin";
-         txtElevatorTrimMin.ReadOnly = true;
-         txtElevatorTrimMin.Size = new Size(100, 25);
-         txtElevatorTrimMin.TabIndex = 22;
+         txtAileronTrimDisabled.Location = new Point(603, 309);
+         txtAileronTrimDisabled.Name = "txtAileronTrimDisabled";
+         txtAileronTrimDisabled.ReadOnly = true;
+         txtAileronTrimDisabled.Size = new Size(100, 25);
+         txtAileronTrimDisabled.TabIndex = 30;
          // 
-         // txtElevatorTrimNeutral
+         // txtAileronTrimMin
          // 
-         txtElevatorTrimNeutral.Location = new Point(483, 309);
-         txtElevatorTrimNeutral.Name = "txtElevatorTrimNeutral";
-         txtElevatorTrimNeutral.ReadOnly = true;
-         txtElevatorTrimNeutral.Size = new Size(100, 25);
-         txtElevatorTrimNeutral.TabIndex = 23;
+         txtAileronTrimMin.Location = new Point(603, 278);
+         txtAileronTrimMin.Name = "txtAileronTrimMin";
+         txtAileronTrimMin.ReadOnly = true;
+         txtAileronTrimMin.Size = new Size(100, 25);
+         txtAileronTrimMin.TabIndex = 29;
          // 
-         // txtElevatorTrim
+         // txtRudderTrimMax
          // 
-         txtElevatorTrim.Location = new Point(483, 340);
-         txtElevatorTrim.Name = "txtElevatorTrim";
-         txtElevatorTrim.ReadOnly = true;
-         txtElevatorTrim.Size = new Size(100, 25);
-         txtElevatorTrim.TabIndex = 24;
+         txtRudderTrimMax.Location = new Point(709, 371);
+         txtRudderTrimMax.Name = "txtRudderTrimMax";
+         txtRudderTrimMax.ReadOnly = true;
+         txtRudderTrimMax.Size = new Size(100, 25);
+         txtRudderTrimMax.TabIndex = 36;
          // 
-         // label6
+         // txtRudderTrimPosition
          // 
-         label6.AutoSize = true;
-         label6.Location = new Point(342, 343);
-         label6.Name = "label6";
-         label6.Size = new Size(84, 17);
-         label6.TabIndex = 25;
-         label6.Text = "Elevator Trim";
+         txtRudderTrimPosition.Location = new Point(709, 340);
+         txtRudderTrimPosition.Name = "txtRudderTrimPosition";
+         txtRudderTrimPosition.ReadOnly = true;
+         txtRudderTrimPosition.Size = new Size(100, 25);
+         txtRudderTrimPosition.TabIndex = 35;
          // 
-         // label8
+         // txtRudderTrimDisabled
          // 
-         label8.AutoSize = true;
-         label8.Location = new Point(342, 312);
-         label8.Name = "label8";
-         label8.Size = new Size(131, 17);
-         label8.TabIndex = 26;
-         label8.Text = "Elevator Trim Neutral";
+         txtRudderTrimDisabled.Location = new Point(709, 309);
+         txtRudderTrimDisabled.Name = "txtRudderTrimDisabled";
+         txtRudderTrimDisabled.ReadOnly = true;
+         txtRudderTrimDisabled.Size = new Size(100, 25);
+         txtRudderTrimDisabled.TabIndex = 34;
          // 
-         // txtElevatorTrimMax
+         // txtRudderTrimMin
          // 
-         txtElevatorTrimMax.Location = new Point(483, 371);
-         txtElevatorTrimMax.Name = "txtElevatorTrimMax";
-         txtElevatorTrimMax.ReadOnly = true;
-         txtElevatorTrimMax.Size = new Size(100, 25);
-         txtElevatorTrimMax.TabIndex = 27;
-         // 
-         // label9
-         // 
-         label9.AutoSize = true;
-         label9.Location = new Point(342, 374);
-         label9.Name = "label9";
-         label9.Size = new Size(113, 17);
-         label9.TabIndex = 28;
-         label9.Text = "Elevator Trim Max";
+         txtRudderTrimMin.Location = new Point(709, 278);
+         txtRudderTrimMin.Name = "txtRudderTrimMin";
+         txtRudderTrimMin.ReadOnly = true;
+         txtRudderTrimMin.Size = new Size(100, 25);
+         txtRudderTrimMin.TabIndex = 33;
          // 
          // MainForm
          // 
@@ -798,6 +878,8 @@
          toolStripContainer1.PerformLayout();
          statusStrip.ResumeLayout(false);
          statusStrip.PerformLayout();
+         groupLights.ResumeLayout(false);
+         groupLights.PerformLayout();
          groupNav2.ResumeLayout(false);
          groupNav2.PerformLayout();
          groupNav1.ResumeLayout(false);
@@ -808,8 +890,6 @@
          groupCom1.PerformLayout();
          mainMenu.ResumeLayout(false);
          mainMenu.PerformLayout();
-         groupLights.ResumeLayout(false);
-         groupLights.PerformLayout();
          ResumeLayout(false);
       }
 
@@ -881,5 +961,13 @@
       private TextBox txtElevatorTrimNeutral;
       private TextBox txtElevatorTrimMin;
       private Label label1;
+      private TextBox txtAileronTrimMax;
+      private TextBox txtAileronTrimPosition;
+      private TextBox txtAileronTrimDisabled;
+      private TextBox txtAileronTrimMin;
+      private TextBox txtRudderTrimMax;
+      private TextBox txtRudderTrimPosition;
+      private TextBox txtRudderTrimDisabled;
+      private TextBox txtRudderTrimMin;
    }
 }

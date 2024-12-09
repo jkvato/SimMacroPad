@@ -178,6 +178,16 @@ public partial class MainForm : Form
             form.txtElevatorTrimNeutral.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimNeutralDegrees);
             form.txtElevatorTrim.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimPositionDegrees);
             form.txtElevatorTrimMax.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimMaxDegrees);
+
+            form.txtAileronTrimDisabled.Text = trimStruct.AileronTrimDisabled ? "Disabled" : "Enabled";
+            form.txtAileronTrimMin.Text = string.Format("{0:000.00}", trimStruct.AileronTrimMinDegrees);
+            form.txtAileronTrimPosition.Text = string.Format("{0:000.00}", trimStruct.AileronTrimPositionDegrees);
+            form.txtAileronTrimMax.Text = string.Format("{0:000.00}", trimStruct.AileronTrimMaxDegrees);
+
+            form.txtRudderTrimDisabled.Text = trimStruct.RudderTrimDisabled ? "Disabled" : "Enabled";
+            form.txtRudderTrimMin.Text = string.Format("{0:000.00}", trimStruct.RudderTrimMinDegrees);
+            form.txtRudderTrimPosition.Text = string.Format("{0:000.00}", trimStruct.RudderTrimPositionDegrees);
+            form.txtRudderTrimMax.Text = string.Format("{0:000.00}", trimStruct.RudderTrimMaxDegrees);
          });
       }
    }

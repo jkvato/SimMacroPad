@@ -157,6 +157,16 @@ namespace MacroSim.SimConnection
             simconnect.AddToDataDefinition(SimStructures.TrimStruct, "ELEVATOR TRIM POSITION", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
             simconnect.AddToDataDefinition(SimStructures.TrimStruct, "ELEVATOR TRIM MAX", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "AILERON TRIM DISABLED", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "AILERON TRIM", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "AILERON TRIM MIN", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "AILERON TRIM MAX", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "RUDDER TRIM DISABLED", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "RUDDER TRIM", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "RUDDER TRIM MIN", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+            simconnect.AddToDataDefinition(SimStructures.TrimStruct, "RUDDER TRIM MAX", "Radians", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
             simconnect.RegisterDataDefineStruct<TrimStruct>(SimStructures.TrimStruct);
          }
       }
@@ -564,10 +574,36 @@ namespace MacroSim.SimConnection
          public double elevatorTrimPosition;
          public double elevatorTrimMax;
 
-         public readonly double ElevatorTrimMinDegrees => elevatorTrimMin * (180d / Math.PI);
-         public readonly double ElevatorTrimNeutralDegrees => elevatorTrimNeutral * (180d / Math.PI);
-         public readonly double ElevatorTrimPositionDegrees => elevatorTrimPosition * (180d / Math.PI);
-         public readonly double ElevatorTrimMaxDegrees => elevatorTrimMax * (180d / Math.PI);
+         public int aileronTrimDisabled;
+         public double aileronTrimPosition;
+         public double aileronTrimMax;
+         public double aileronTrimMin;
+
+         public int rudderTrimDisabled;
+         public double rudderTrimPosition;
+         public double rudderTrimMax;
+         public double rudderTrimMin;
+
+         public readonly double ElevatorTrimMinDegrees => RadiansToDegrees(elevatorTrimMin);
+         public readonly double ElevatorTrimNeutralDegrees => RadiansToDegrees(elevatorTrimNeutral);
+         public readonly double ElevatorTrimPositionDegrees => RadiansToDegrees(elevatorTrimPosition);
+         public readonly double ElevatorTrimMaxDegrees => RadiansToDegrees(elevatorTrimMax);
+
+         public readonly bool AileronTrimDisabled => aileronTrimDisabled == 1;
+         public readonly double AileronTrimPositionDegrees => RadiansToDegrees(aileronTrimPosition);
+         public readonly double AileronTrimMinDegrees => RadiansToDegrees(aileronTrimMin);
+         public readonly double AileronTrimMaxDegrees => RadiansToDegrees(aileronTrimMax);
+
+         public readonly bool RudderTrimDisabled => rudderTrimDisabled == 1;
+         public readonly double RudderTrimPositionDegrees => RadiansToDegrees(rudderTrimPosition);
+         public readonly double RudderTrimMinDegrees => RadiansToDegrees(rudderTrimMin);
+         public readonly double RudderTrimMaxDegrees => RadiansToDegrees(rudderTrimMax);
+
+
+         public static double RadiansToDegrees(double radians)
+         {
+            return radians * (180d / Math.PI);
+         }
       }
 
       public void RequestDataOnSimObjectType()
