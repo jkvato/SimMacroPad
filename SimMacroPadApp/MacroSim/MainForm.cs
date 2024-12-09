@@ -3,6 +3,7 @@ using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
 using MacroSim.SimConnection;
 using Microsoft.VisualBasic.Devices;
@@ -16,9 +17,12 @@ public partial class MainForm : Form
    private readonly SimConnection.SimConnection simConnection;
    private readonly MacroPadDevice.MacroPadDevice macroPadDevice;
 
-   private readonly System.Windows.Forms.Timer timer;
+   private readonly System.Windows.Forms.Timer timerConnection;
+   private readonly System.Windows.Forms.Timer timerSimUpdate;
 
    private bool suppressLightButtonCheckChangedEvent = true;
+
+   private FsuipcConnection fsuipcConnection;
 
    public MainForm()
    {
@@ -34,13 +38,33 @@ public partial class MainForm : Form
 
       GetComPorts();
 
-      timer = new System.Windows.Forms.Timer();
-      timer.Interval = 1000;
-      timer.Tick += Timer_Tick;
-      timer.Start();
+      timerConnection = new System.Windows.Forms.Timer();
+      timerConnection.Interval = 1000;
+      timerConnection.Tick += TimerConnection_Tick;
+      timerConnection.Start();
+
+      timerSimUpdate = new System.Windows.Forms.Timer();
+      timerSimUpdate.Interval = 1000;
+      timerSimUpdate.Tick += TimerSimUpdate_Tick;
+      timerSimUpdate.Start();
+
+      fsuipcConnection = new FsuipcConnection();
    }
 
-   private void Timer_Tick(object? sender, EventArgs e)
+   private void TimerSimUpdate_Tick(object? sender, EventArgs e)
+   {
+      fsuipcConnection.Process();
+      double comActiveFrequency1 = FsuipcConnection.IntToFrequency(fsuipcConnection.comActiveFrequency1.Value);
+      double comActiveFrequency2 = FsuipcConnection.IntToFrequency(fsuipcConnection.comActiveFrequency2.Value);
+      double comStandbyFrequency1 = FsuipcConnection.IntToFrequency(fsuipcConnection.comStandbyFrequency1.Value);
+      double comStandbyFrequency2 = FsuipcConnection.IntToFrequency(fsuipcConnection.comStandbyFrequency2.Value);
+      System.Diagnostics.Debug.WriteLine($"Active 1: {comActiveFrequency1:F3}");
+      System.Diagnostics.Debug.WriteLine($"Active 2: {comActiveFrequency2:F3}");
+      System.Diagnostics.Debug.WriteLine($"Standby 1: {comStandbyFrequency1:F3}");
+      System.Diagnostics.Debug.WriteLine($"Standby 2: {comStandbyFrequency2:F3}");
+   }
+
+   private void TimerConnection_Tick(object? sender, EventArgs e)
    {
       if (!simConnection.IsConnected)
       {
@@ -49,6 +73,11 @@ public partial class MainForm : Form
             simConnection.ConnectToSim(Handle);
          }
          catch { }
+      }
+
+      if (!fsuipcConnection.IsConnected)
+      {
+         fsuipcConnection.ConnectToSim();
       }
 
       UpdateConnectionStatus();
@@ -303,7 +332,7 @@ public partial class MainForm : Form
             lblSerialPortStatus.Text = "Serial port is disconnected";
          }
 
-         if (simConnection.IsConnected)
+         if (fsuipcConnection.IsConnected)
          {
             connectToSimToolStripMenuItem.Text = "Disconnect from Sim";
             lblSimConnectionStatus.Text = "Simulator is connected";
@@ -313,6 +342,17 @@ public partial class MainForm : Form
             connectToSimToolStripMenuItem.Text = "Connect to Sim";
             lblSimConnectionStatus.Text = "Disconnected from Sim";
          }
+
+         //if (simConnection.IsConnected)
+         //{
+         //   connectToSimToolStripMenuItem.Text = "Disconnect from Sim";
+         //   lblSimConnectionStatus.Text = "Simulator is connected";
+         //}
+         //else
+         //{
+         //   connectToSimToolStripMenuItem.Text = "Connect to Sim";
+         //   lblSimConnectionStatus.Text = "Disconnected from Sim";
+         //}
       });
    }
 
