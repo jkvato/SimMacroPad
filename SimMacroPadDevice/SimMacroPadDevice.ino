@@ -469,18 +469,50 @@ void handleSimMessageReceived()
     case STATE_PFD_GROUP:
       currentPixel = CONTROL_PFD - 1;
       r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("PFD OUTER");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
       break;
     case STATE_PFD_PAGE:
       currentPixel = CONTROL_PFD - 1;
       r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("PFD INNER");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
       break;
     case STATE_MFD_GROUP:
       currentPixel = CONTROL_MFD - 1;
       r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("MFD OUTER");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
       break;
     case STATE_MFD_PAGE:
       currentPixel = CONTROL_MFD - 1;
       r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("MFD INNER");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
       break;
     default:
       break;
