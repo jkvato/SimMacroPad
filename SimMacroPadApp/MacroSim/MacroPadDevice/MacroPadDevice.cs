@@ -15,6 +15,7 @@ internal class MacroPadDevice
    public readonly SerialPort SerialPort;
 
    public SimConnection.SimConnection SimConnection { get; private set; }
+   public Fsuipc.FsuipcConnection FsuipcConnection { get; private set; }
 
    private MacroPadState state = MacroPadState.None;
    private int apAltitude = 0;
@@ -24,11 +25,12 @@ internal class MacroPadDevice
 
    private readonly SimMessage simMessage;
 
-   public MacroPadDevice(SimConnection.SimConnection simConnection)
+   public MacroPadDevice(SimConnection.SimConnection simConnection, Fsuipc.FsuipcConnection fsuipcConnection)
    {
       SerialPort = new SerialPort();
       SerialPort.DataReceived += SerialPort_DataReceivedFromDevice;
       SimConnection = simConnection;
+      FsuipcConnection = fsuipcConnection;
       simMessage = new SimMessage();
    }
 
@@ -95,6 +97,18 @@ internal class MacroPadDevice
             case MacroPadState.XPND_10:
             case MacroPadState.XPND_1:
                simMessage.Text1 = string.Format("{0:0000}", avionicsStruct.transponderCode);
+               break;
+            case MacroPadState.PFD_GROUP:
+               simMessage.Text1 = "        ";
+               break;
+            case MacroPadState.PFD_PAGE:
+               simMessage.Text1 = "        ";
+               break;
+            case MacroPadState.MFD_GROUP:
+               simMessage.Text1 = "        ";
+               break;
+            case MacroPadState.MFD_PAGE:
+               simMessage.Text1 = "        ";
                break;
             default:
                simMessage.Text1 = string.Empty;
@@ -414,38 +428,37 @@ internal class MacroPadDevice
 
                case MacroPadState.PFD_GROUP:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.G1000_PFD_GROUP_KNOB_INC);
+                     FsuipcConnection.SendPresetEvent("AS1000_PFD_FMS_Lower_INC");
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.G1000_PFD_GROUP_KNOB_DEC);
+                     FsuipcConnection.SendPresetEvent("AS1000_PFD_FMS_Lower_DEC");
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.G1000_PFD_CURSOR_BUTTON);
+                     FsuipcConnection.SendPresetEvent("AS1000_PFD_FMS_Upper_PUSH");
                   break;
                case MacroPadState.PFD_PAGE:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.G1000_PFD_PAGE_KNOB_INC);
+                     FsuipcConnection.SendPresetEvent("AS1000_PFD_FMS_Upper_INC");
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.G1000_PFD_PAGE_KNOB_DEC);
+                     FsuipcConnection.SendPresetEvent("AS1000_PFD_FMS_Upper_DEC");
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.G1000_PFD_CURSOR_BUTTON);
+                     FsuipcConnection.SendPresetEvent("AS1000_PFD_FMS_Upper_PUSH");
                   break;
 
                case MacroPadState.MFD_GROUP:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.G1000_MFD_GROUP_KNOB_INC);
+                     FsuipcConnection.SendPresetEvent("AS1000_MFD_FMS_Lower_INC");
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.G1000_MFD_GROUP_KNOB_DEC);
+                     FsuipcConnection.SendPresetEvent("AS1000_MFD_FMS_Lower_DEC");
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.G1000_MFD_CURSOR_BUTTON);
+                     FsuipcConnection.SendPresetEvent("AS1000_MFD_FMS_Upper_PUSH");
                   break;
                case MacroPadState.MFD_PAGE:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.G1000_MFD_PAGE_KNOB_INC);
+                     FsuipcConnection.SendPresetEvent("AS1000_MFD_FMS_Upper_INC");
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.G1000_MFD_PAGE_KNOB_DEC);
+                     FsuipcConnection.SendPresetEvent("AS1000_MFD_FMS_Upper_DEC");
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.G1000_MFD_CURSOR_BUTTON);
+                     FsuipcConnection.SendPresetEvent("AS1000_MFD_FMS_Upper_PUSH");
                   break;
-
             }
             break;
       }

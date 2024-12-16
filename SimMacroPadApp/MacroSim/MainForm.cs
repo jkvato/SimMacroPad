@@ -3,8 +3,10 @@ using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using FSUIPC;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
+using MacroSim.Properties;
 using MacroSim.SimConnection;
 using Microsoft.VisualBasic.Devices;
 using static System.Windows.Forms.AxHost;
@@ -18,7 +20,7 @@ public partial class MainForm : Form
    private readonly MacroPadDevice.MacroPadDevice macroPadDevice;
 
    private readonly System.Windows.Forms.Timer timerConnection;
-   private readonly System.Windows.Forms.Timer timerSimUpdate;
+   private readonly System.Windows.Forms.Timer timerFsuipcProcess;
 
    private bool suppressLightButtonCheckChangedEvent = true;
 
@@ -29,9 +31,12 @@ public partial class MainForm : Form
       InitializeComponent();
 
       simConnection = new SimConnection.SimConnection();
+      string eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
+      fsuipcConnection = new FsuipcConnection(eventsFilename);
+
       simConnection.DataReceived += SimConnection_DataReceivedFromSim;
 
-      macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection);
+      macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection, fsuipcConnection);
       macroPadDevice.EventProcessed += MacroPadDevice_EventProcessed;
 
       lblVerticalSpeedValue.AutoSize = false;
@@ -43,25 +48,23 @@ public partial class MainForm : Form
       timerConnection.Tick += TimerConnection_Tick;
       timerConnection.Start();
 
-      timerSimUpdate = new System.Windows.Forms.Timer();
-      timerSimUpdate.Interval = 1000;
-      timerSimUpdate.Tick += TimerSimUpdate_Tick;
-      timerSimUpdate.Start();
-
-      fsuipcConnection = new FsuipcConnection();
+      timerFsuipcProcess = new System.Windows.Forms.Timer();
+      timerFsuipcProcess.Interval = 1000;
+      timerFsuipcProcess.Tick += TimerFsuipcProcess_Tick;
+      timerFsuipcProcess.Start();
    }
 
-   private void TimerSimUpdate_Tick(object? sender, EventArgs e)
+   private void TimerFsuipcProcess_Tick(object? sender, EventArgs e)
    {
       fsuipcConnection.Process();
       double comActiveFrequency1 = FsuipcConnection.IntToFrequency(fsuipcConnection.comActiveFrequency1.Value);
       double comActiveFrequency2 = FsuipcConnection.IntToFrequency(fsuipcConnection.comActiveFrequency2.Value);
       double comStandbyFrequency1 = FsuipcConnection.IntToFrequency(fsuipcConnection.comStandbyFrequency1.Value);
       double comStandbyFrequency2 = FsuipcConnection.IntToFrequency(fsuipcConnection.comStandbyFrequency2.Value);
-      System.Diagnostics.Debug.WriteLine($"Active 1: {comActiveFrequency1:F3}");
-      System.Diagnostics.Debug.WriteLine($"Active 2: {comActiveFrequency2:F3}");
-      System.Diagnostics.Debug.WriteLine($"Standby 1: {comStandbyFrequency1:F3}");
-      System.Diagnostics.Debug.WriteLine($"Standby 2: {comStandbyFrequency2:F3}");
+      //System.Diagnostics.Debug.WriteLine($"Active 1: {comActiveFrequency1:F3}");
+      //System.Diagnostics.Debug.WriteLine($"Active 2: {comActiveFrequency2:F3}");
+      //System.Diagnostics.Debug.WriteLine($"Standby 1: {comStandbyFrequency1:F3}");
+      //System.Diagnostics.Debug.WriteLine($"Standby 2: {comStandbyFrequency2:F3}");
    }
 
    private void TimerConnection_Tick(object? sender, EventArgs e)
@@ -78,6 +81,8 @@ public partial class MainForm : Form
       if (!fsuipcConnection.IsConnected)
       {
          fsuipcConnection.ConnectToSim();
+         MSFSVariableServices.Init();
+         MSFSVariableServices.Start();
       }
 
       UpdateConnectionStatus();
@@ -325,34 +330,34 @@ public partial class MainForm : Form
       {
          if (macroPadDevice.SerialPort.IsOpen)
          {
-            lblSerialPortStatus.Text = $"Serial port is connected to {macroPadDevice.SerialPort.PortName}";
+            lblSerialPortStatus.Text = $"Serial: {macroPadDevice.SerialPort.PortName}";
          }
          else
          {
-            lblSerialPortStatus.Text = "Serial port is disconnected";
+            lblSerialPortStatus.Text = $"Serial: Disconnected";
          }
 
          if (fsuipcConnection.IsConnected)
          {
-            connectToSimToolStripMenuItem.Text = "Disconnect from Sim";
-            lblSimConnectionStatus.Text = "Simulator is connected";
+            fsuipcConnectToolStripMenuItem.Text = "Disconnect FSUIPC";
+            lblFsuipcStatus.Text = "FSUIPC: Connected";
          }
          else
          {
-            connectToSimToolStripMenuItem.Text = "Connect to Sim";
-            lblSimConnectionStatus.Text = "Disconnected from Sim";
+            fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
+            lblFsuipcStatus.Text = "FSUIPC: Disconnected";
          }
 
-         //if (simConnection.IsConnected)
-         //{
-         //   connectToSimToolStripMenuItem.Text = "Disconnect from Sim";
-         //   lblSimConnectionStatus.Text = "Simulator is connected";
-         //}
-         //else
-         //{
-         //   connectToSimToolStripMenuItem.Text = "Connect to Sim";
-         //   lblSimConnectionStatus.Text = "Disconnected from Sim";
-         //}
+         if (simConnection.IsConnected)
+         {
+            simConnectToolStripMenuItem.Text = "Disconnect SimConnect";
+            lblSimConnectStatus.Text = "SimConnect: Connected";
+         }
+         else
+         {
+            simConnectToolStripMenuItem.Text = "Connect SimConnect";
+            lblSimConnectStatus.Text = "SimConnect: Disconnected";
+         }
       });
    }
 

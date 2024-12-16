@@ -31,9 +31,18 @@
          txtOutput = new TextBox();
          toolStripContainer1 = new ToolStripContainer();
          statusStrip = new StatusStrip();
-         lblSimConnectionStatus = new ToolStripStatusLabel();
+         lblSimConnectStatus = new ToolStripStatusLabel();
+         lblFsuipcStatus = new ToolStripStatusLabel();
          lblSerialPortStatus = new ToolStripStatusLabel();
          lblMacroPadState = new ToolStripStatusLabel();
+         txtRudderTrimMax = new TextBox();
+         txtRudderTrimPosition = new TextBox();
+         txtRudderTrimDisabled = new TextBox();
+         txtRudderTrimMin = new TextBox();
+         txtAileronTrimMax = new TextBox();
+         txtAileronTrimPosition = new TextBox();
+         txtAileronTrimDisabled = new TextBox();
+         txtAileronTrimMin = new TextBox();
          label9 = new Label();
          txtElevatorTrimMax = new TextBox();
          label8 = new Label();
@@ -87,20 +96,13 @@
          lblCom1Active = new Label();
          mainMenu = new MenuStrip();
          appToolStripMenuItem = new ToolStripMenuItem();
-         connectToSimToolStripMenuItem = new ToolStripMenuItem();
+         simConnectToolStripMenuItem = new ToolStripMenuItem();
          toolStripSeparator1 = new ToolStripSeparator();
          exitToolStripMenuItem = new ToolStripMenuItem();
          macroPadToolStripMenuItem = new ToolStripMenuItem();
          refreshSerialPortsToolStripMenuItem = new ToolStripMenuItem();
          toolStripSeparator2 = new ToolStripSeparator();
-         txtAileronTrimMax = new TextBox();
-         txtAileronTrimPosition = new TextBox();
-         txtAileronTrimDisabled = new TextBox();
-         txtAileronTrimMin = new TextBox();
-         txtRudderTrimMax = new TextBox();
-         txtRudderTrimPosition = new TextBox();
-         txtRudderTrimDisabled = new TextBox();
-         txtRudderTrimMin = new TextBox();
+         fsuipcConnectToolStripMenuItem = new ToolStripMenuItem();
          toolStripContainer1.BottomToolStripPanel.SuspendLayout();
          toolStripContainer1.ContentPanel.SuspendLayout();
          toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -116,7 +118,7 @@
          // 
          // txtOutput
          // 
-         txtOutput.Location = new Point(465, 25);
+         txtOutput.Location = new Point(314, 21);
          txtOutput.Multiline = true;
          txtOutput.Name = "txtOutput";
          txtOutput.ReadOnly = true;
@@ -180,25 +182,35 @@
          // statusStrip
          // 
          statusStrip.Dock = DockStyle.None;
-         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectionStatus, lblSerialPortStatus, lblMacroPadState });
+         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectStatus, lblFsuipcStatus, lblSerialPortStatus, lblMacroPadState });
          statusStrip.Location = new Point(0, 0);
          statusStrip.Name = "statusStrip";
          statusStrip.Size = new Size(1080, 22);
          statusStrip.TabIndex = 0;
          // 
-         // lblSimConnectionStatus
+         // lblSimConnectStatus
          // 
-         lblSimConnectionStatus.AutoSize = false;
-         lblSimConnectionStatus.Name = "lblSimConnectionStatus";
-         lblSimConnectionStatus.Size = new Size(153, 17);
-         lblSimConnectionStatus.Text = "Disconnected from Sim";
-         lblSimConnectionStatus.TextAlign = ContentAlignment.MiddleLeft;
+         lblSimConnectStatus.AutoSize = false;
+         lblSimConnectStatus.Name = "lblSimConnectStatus";
+         lblSimConnectStatus.Size = new Size(180, 17);
+         lblSimConnectStatus.Text = "SimConnect: Disconnected";
+         lblSimConnectStatus.TextAlign = ContentAlignment.MiddleLeft;
+         // 
+         // lblFsuipcStatus
+         // 
+         lblFsuipcStatus.AutoSize = false;
+         lblFsuipcStatus.Name = "lblFsuipcStatus";
+         lblFsuipcStatus.Size = new Size(180, 17);
+         lblFsuipcStatus.Text = "FSUIPC: Disconnected";
+         lblFsuipcStatus.TextAlign = ContentAlignment.MiddleLeft;
          // 
          // lblSerialPortStatus
          // 
+         lblSerialPortStatus.AutoSize = false;
          lblSerialPortStatus.Name = "lblSerialPortStatus";
-         lblSerialPortStatus.Size = new Size(162, 17);
-         lblSerialPortStatus.Text = "Serial Port is disconnected";
+         lblSerialPortStatus.Size = new Size(180, 17);
+         lblSerialPortStatus.Text = "Serial Port: Disconnected";
+         lblSerialPortStatus.TextAlign = ContentAlignment.MiddleLeft;
          // 
          // lblMacroPadState
          // 
@@ -206,6 +218,70 @@
          lblMacroPadState.Padding = new Padding(5, 0, 5, 0);
          lblMacroPadState.Size = new Size(55, 17);
          lblMacroPadState.Text = "NONE";
+         // 
+         // txtRudderTrimMax
+         // 
+         txtRudderTrimMax.Location = new Point(709, 371);
+         txtRudderTrimMax.Name = "txtRudderTrimMax";
+         txtRudderTrimMax.ReadOnly = true;
+         txtRudderTrimMax.Size = new Size(100, 25);
+         txtRudderTrimMax.TabIndex = 36;
+         // 
+         // txtRudderTrimPosition
+         // 
+         txtRudderTrimPosition.Location = new Point(709, 340);
+         txtRudderTrimPosition.Name = "txtRudderTrimPosition";
+         txtRudderTrimPosition.ReadOnly = true;
+         txtRudderTrimPosition.Size = new Size(100, 25);
+         txtRudderTrimPosition.TabIndex = 35;
+         // 
+         // txtRudderTrimDisabled
+         // 
+         txtRudderTrimDisabled.Location = new Point(709, 309);
+         txtRudderTrimDisabled.Name = "txtRudderTrimDisabled";
+         txtRudderTrimDisabled.ReadOnly = true;
+         txtRudderTrimDisabled.Size = new Size(100, 25);
+         txtRudderTrimDisabled.TabIndex = 34;
+         // 
+         // txtRudderTrimMin
+         // 
+         txtRudderTrimMin.Location = new Point(709, 278);
+         txtRudderTrimMin.Name = "txtRudderTrimMin";
+         txtRudderTrimMin.ReadOnly = true;
+         txtRudderTrimMin.Size = new Size(100, 25);
+         txtRudderTrimMin.TabIndex = 33;
+         // 
+         // txtAileronTrimMax
+         // 
+         txtAileronTrimMax.Location = new Point(603, 371);
+         txtAileronTrimMax.Name = "txtAileronTrimMax";
+         txtAileronTrimMax.ReadOnly = true;
+         txtAileronTrimMax.Size = new Size(100, 25);
+         txtAileronTrimMax.TabIndex = 32;
+         // 
+         // txtAileronTrimPosition
+         // 
+         txtAileronTrimPosition.Location = new Point(603, 340);
+         txtAileronTrimPosition.Name = "txtAileronTrimPosition";
+         txtAileronTrimPosition.ReadOnly = true;
+         txtAileronTrimPosition.Size = new Size(100, 25);
+         txtAileronTrimPosition.TabIndex = 31;
+         // 
+         // txtAileronTrimDisabled
+         // 
+         txtAileronTrimDisabled.Location = new Point(603, 309);
+         txtAileronTrimDisabled.Name = "txtAileronTrimDisabled";
+         txtAileronTrimDisabled.ReadOnly = true;
+         txtAileronTrimDisabled.Size = new Size(100, 25);
+         txtAileronTrimDisabled.TabIndex = 30;
+         // 
+         // txtAileronTrimMin
+         // 
+         txtAileronTrimMin.Location = new Point(603, 278);
+         txtAileronTrimMin.Name = "txtAileronTrimMin";
+         txtAileronTrimMin.ReadOnly = true;
+         txtAileronTrimMin.Size = new Size(100, 25);
+         txtAileronTrimMin.TabIndex = 29;
          // 
          // label9
          // 
@@ -752,27 +828,27 @@
          // 
          // appToolStripMenuItem
          // 
-         appToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { connectToSimToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
+         appToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { simConnectToolStripMenuItem, fsuipcConnectToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
          appToolStripMenuItem.Name = "appToolStripMenuItem";
          appToolStripMenuItem.Size = new Size(44, 21);
          appToolStripMenuItem.Text = "App";
          // 
-         // connectToSimToolStripMenuItem
+         // simConnectToolStripMenuItem
          // 
-         connectToSimToolStripMenuItem.Name = "connectToSimToolStripMenuItem";
-         connectToSimToolStripMenuItem.Size = new Size(164, 22);
-         connectToSimToolStripMenuItem.Text = "Connect to Sim";
-         connectToSimToolStripMenuItem.Click += ConnectToSimToolStripMenuItem_Click;
+         simConnectToolStripMenuItem.Name = "simConnectToolStripMenuItem";
+         simConnectToolStripMenuItem.Size = new Size(195, 22);
+         simConnectToolStripMenuItem.Text = "Connect SimConnect";
+         simConnectToolStripMenuItem.Click += ConnectToSimToolStripMenuItem_Click;
          // 
          // toolStripSeparator1
          // 
          toolStripSeparator1.Name = "toolStripSeparator1";
-         toolStripSeparator1.Size = new Size(161, 6);
+         toolStripSeparator1.Size = new Size(192, 6);
          // 
          // exitToolStripMenuItem
          // 
          exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-         exitToolStripMenuItem.Size = new Size(164, 22);
+         exitToolStripMenuItem.Size = new Size(195, 22);
          exitToolStripMenuItem.Text = "E&xit";
          exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
          // 
@@ -795,69 +871,11 @@
          toolStripSeparator2.Name = "toolStripSeparator2";
          toolStripSeparator2.Size = new Size(187, 6);
          // 
-         // txtAileronTrimMax
+         // fsuipcConnectToolStripMenuItem
          // 
-         txtAileronTrimMax.Location = new Point(603, 371);
-         txtAileronTrimMax.Name = "txtAileronTrimMax";
-         txtAileronTrimMax.ReadOnly = true;
-         txtAileronTrimMax.Size = new Size(100, 25);
-         txtAileronTrimMax.TabIndex = 32;
-         // 
-         // txtAileronTrimPosition
-         // 
-         txtAileronTrimPosition.Location = new Point(603, 340);
-         txtAileronTrimPosition.Name = "txtAileronTrimPosition";
-         txtAileronTrimPosition.ReadOnly = true;
-         txtAileronTrimPosition.Size = new Size(100, 25);
-         txtAileronTrimPosition.TabIndex = 31;
-         // 
-         // txtAileronTrimDisabled
-         // 
-         txtAileronTrimDisabled.Location = new Point(603, 309);
-         txtAileronTrimDisabled.Name = "txtAileronTrimDisabled";
-         txtAileronTrimDisabled.ReadOnly = true;
-         txtAileronTrimDisabled.Size = new Size(100, 25);
-         txtAileronTrimDisabled.TabIndex = 30;
-         // 
-         // txtAileronTrimMin
-         // 
-         txtAileronTrimMin.Location = new Point(603, 278);
-         txtAileronTrimMin.Name = "txtAileronTrimMin";
-         txtAileronTrimMin.ReadOnly = true;
-         txtAileronTrimMin.Size = new Size(100, 25);
-         txtAileronTrimMin.TabIndex = 29;
-         // 
-         // txtRudderTrimMax
-         // 
-         txtRudderTrimMax.Location = new Point(709, 371);
-         txtRudderTrimMax.Name = "txtRudderTrimMax";
-         txtRudderTrimMax.ReadOnly = true;
-         txtRudderTrimMax.Size = new Size(100, 25);
-         txtRudderTrimMax.TabIndex = 36;
-         // 
-         // txtRudderTrimPosition
-         // 
-         txtRudderTrimPosition.Location = new Point(709, 340);
-         txtRudderTrimPosition.Name = "txtRudderTrimPosition";
-         txtRudderTrimPosition.ReadOnly = true;
-         txtRudderTrimPosition.Size = new Size(100, 25);
-         txtRudderTrimPosition.TabIndex = 35;
-         // 
-         // txtRudderTrimDisabled
-         // 
-         txtRudderTrimDisabled.Location = new Point(709, 309);
-         txtRudderTrimDisabled.Name = "txtRudderTrimDisabled";
-         txtRudderTrimDisabled.ReadOnly = true;
-         txtRudderTrimDisabled.Size = new Size(100, 25);
-         txtRudderTrimDisabled.TabIndex = 34;
-         // 
-         // txtRudderTrimMin
-         // 
-         txtRudderTrimMin.Location = new Point(709, 278);
-         txtRudderTrimMin.Name = "txtRudderTrimMin";
-         txtRudderTrimMin.ReadOnly = true;
-         txtRudderTrimMin.Size = new Size(100, 25);
-         txtRudderTrimMin.TabIndex = 33;
+         fsuipcConnectToolStripMenuItem.Name = "fsuipcConnectToolStripMenuItem";
+         fsuipcConnectToolStripMenuItem.Size = new Size(195, 22);
+         fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
          // 
          // MainForm
          // 
@@ -902,7 +920,7 @@
       private ToolStripMenuItem appToolStripMenuItem;
       private ToolStripMenuItem exitToolStripMenuItem;
       private ToolStripMenuItem testToolStripMenuItem;
-      private ToolStripStatusLabel lblSimConnectionStatus;
+      private ToolStripStatusLabel lblSimConnectStatus;
       private Label lblCom1Active;
       private Label lblCom1Standby;
       private Label lblCom1ActiveValue;
@@ -934,7 +952,7 @@
       private Label lblTransponder;
       private Label label4;
       private ToolStripMenuItem macroPadToolStripMenuItem;
-      private ToolStripMenuItem connectToSimToolStripMenuItem;
+      private ToolStripMenuItem simConnectToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator1;
       private ToolStripStatusLabel lblMacroPadState;
       private ToolStripStatusLabel lblSerialPortStatus;
@@ -969,5 +987,7 @@
       private TextBox txtRudderTrimPosition;
       private TextBox txtRudderTrimDisabled;
       private TextBox txtRudderTrimMin;
+      private ToolStripStatusLabel lblFsuipcStatus;
+      private ToolStripMenuItem fsuipcConnectToolStripMenuItem;
    }
 }
