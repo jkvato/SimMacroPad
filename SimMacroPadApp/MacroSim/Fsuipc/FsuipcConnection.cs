@@ -19,7 +19,7 @@ internal class FsuipcConnection
    public Offset<uint> comStandbyFrequency1 = new Offset<uint>(0x05CC);
    public Offset<uint> comStandbyFrequency2 = new Offset<uint>(0x05D0);
 
-   public EventCollection Events {get; private set;}
+   public EventCollection PresetEvents {get; private set;}
 
    public FsuipcConnection(string? fsuipcDirectory = null)
    {
@@ -27,16 +27,16 @@ internal class FsuipcConnection
       {
          try
          {
-            Events = EventCollection.ReadCollection(fsuipcDirectory);
+            PresetEvents = EventCollection.ReadCollection(fsuipcDirectory);
          }
          catch
          {
-            Events = new EventCollection();
+            PresetEvents = new EventCollection();
          }
       }
       else
       {
-         Events = new EventCollection();
+         PresetEvents = new EventCollection();
       }
    }
 
@@ -84,19 +84,19 @@ internal class FsuipcConnection
 
    public void SendPresetEvent(string presetName, int? param = null)
    {
-      var e = Events.GetEvent(presetName);
+      var e = PresetEvents.GetEvent(presetName);
       if (e == null)
          return;
 
       SendCalculatorCode(e.CalculatorCode, param);
    }
 
-   public void SendCalculatorCode(string calculatorCode)
+   public static void SendCalculatorCode(string calculatorCode)
    {
       MSFSVariableServices.ExecuteCalculatorCode(calculatorCode);
    }
 
-   public void SendCalculatorCode(string calculatorCode, int? param = null)
+   public static void SendCalculatorCode(string calculatorCode, int? param = null)
    {
       if (calculatorCode.Length == 0)
          throw new ArgumentException(nameof(calculatorCode));

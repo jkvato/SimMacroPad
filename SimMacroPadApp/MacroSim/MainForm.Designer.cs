@@ -97,12 +97,14 @@
          mainMenu = new MenuStrip();
          appToolStripMenuItem = new ToolStripMenuItem();
          simConnectToolStripMenuItem = new ToolStripMenuItem();
+         fsuipcConnectToolStripMenuItem = new ToolStripMenuItem();
          toolStripSeparator1 = new ToolStripSeparator();
          exitToolStripMenuItem = new ToolStripMenuItem();
          macroPadToolStripMenuItem = new ToolStripMenuItem();
          refreshSerialPortsToolStripMenuItem = new ToolStripMenuItem();
          toolStripSeparator2 = new ToolStripSeparator();
-         fsuipcConnectToolStripMenuItem = new ToolStripMenuItem();
+         utilityToolStripMenuItem = new ToolStripMenuItem();
+         presetEventsToolStripMenuItem = new ToolStripMenuItem();
          toolStripContainer1.BottomToolStripPanel.SuspendLayout();
          toolStripContainer1.ContentPanel.SuspendLayout();
          toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -819,7 +821,7 @@
          // mainMenu
          // 
          mainMenu.Dock = DockStyle.None;
-         mainMenu.Items.AddRange(new ToolStripItem[] { appToolStripMenuItem, macroPadToolStripMenuItem });
+         mainMenu.Items.AddRange(new ToolStripItem[] { appToolStripMenuItem, macroPadToolStripMenuItem, utilityToolStripMenuItem });
          mainMenu.Location = new Point(0, 0);
          mainMenu.Name = "mainMenu";
          mainMenu.Size = new Size(1080, 25);
@@ -839,6 +841,12 @@
          simConnectToolStripMenuItem.Size = new Size(195, 22);
          simConnectToolStripMenuItem.Text = "Connect SimConnect";
          simConnectToolStripMenuItem.Click += ConnectToSimToolStripMenuItem_Click;
+         // 
+         // fsuipcConnectToolStripMenuItem
+         // 
+         fsuipcConnectToolStripMenuItem.Name = "fsuipcConnectToolStripMenuItem";
+         fsuipcConnectToolStripMenuItem.Size = new Size(195, 22);
+         fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
          // 
          // toolStripSeparator1
          // 
@@ -871,11 +879,19 @@
          toolStripSeparator2.Name = "toolStripSeparator2";
          toolStripSeparator2.Size = new Size(187, 6);
          // 
-         // fsuipcConnectToolStripMenuItem
+         // utilityToolStripMenuItem
          // 
-         fsuipcConnectToolStripMenuItem.Name = "fsuipcConnectToolStripMenuItem";
-         fsuipcConnectToolStripMenuItem.Size = new Size(195, 22);
-         fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
+         utilityToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { presetEventsToolStripMenuItem });
+         utilityToolStripMenuItem.Name = "utilityToolStripMenuItem";
+         utilityToolStripMenuItem.Size = new Size(52, 21);
+         utilityToolStripMenuItem.Text = "Utility";
+         // 
+         // presetEventsToolStripMenuItem
+         // 
+         presetEventsToolStripMenuItem.Name = "presetEventsToolStripMenuItem";
+         presetEventsToolStripMenuItem.Size = new Size(180, 22);
+         presetEventsToolStripMenuItem.Text = "Preset Events...";
+         presetEventsToolStripMenuItem.Click += presetEventsToolStripMenuItem_Click;
          // 
          // MainForm
          // 
@@ -989,5 +1005,7 @@
       private TextBox txtRudderTrimMin;
       private ToolStripStatusLabel lblFsuipcStatus;
       private ToolStripMenuItem fsuipcConnectToolStripMenuItem;
+      private ToolStripMenuItem utilityToolStripMenuItem;
+      private ToolStripMenuItem presetEventsToolStripMenuItem;
    }
 }

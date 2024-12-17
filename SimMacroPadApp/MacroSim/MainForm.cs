@@ -402,4 +402,14 @@ public partial class MainForm : Form
    {
       GetComPorts();
    }
+
+   private void presetEventsToolStripMenuItem_Click(object sender, EventArgs e)
+   {
+      using PresetEventForm dlg = new PresetEventForm(fsuipcConnection.PresetEvents);
+
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+
+      }
+   }
 }
