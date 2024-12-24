@@ -23,16 +23,41 @@ public partial class MainForm : Form
    private readonly System.Windows.Forms.Timer timerFsuipcProcess;
 
    private bool suppressLightButtonCheckChangedEvent = true;
+   private bool suppressAutopilotButtonCheckChangedEvent = true;
+   private bool suppressCameraButtonCheckChangedEvent = true;
 
    private FsuipcConnection fsuipcConnection;
+
+   private CamerasStruct previousCamera;
 
    public MainForm()
    {
       InitializeComponent();
 
+      previousCamera.cameraState = 2;
+      previousCamera.cameraSubstate = 1;
+      previousCamera.cameraViewTypeIndex0 = 1;
+      previousCamera.cameraViewTypeIndex1 = 1;
+
+      btnHdgSel.MouseWheel += ApButton_MouseWheel;
+      btnAltSel.MouseWheel += ApButton_MouseWheel;
+      btnCrs1Sel.MouseWheel += ApButton_MouseWheel;
+      btnCrs2Sel.MouseWheel += ApButton_MouseWheel;
+      btnNoseUpDn.MouseWheel += ApButton_MouseWheel;
+
+      btnFmsPfdInner.MouseWheel += FmsButton_MouseWheel;
+      btnFmsPfdOuter.MouseWheel += FmsButton_MouseWheel;
+      btnFmsMfdInner.MouseWheel += FmsButton_MouseWheel;
+      btnFmsMfdOuter.MouseWheel += FmsButton_MouseWheel;
+
       simConnection = new SimConnection.SimConnection();
-      string eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
-      fsuipcConnection = new FsuipcConnection(eventsFilename);
+      fsuipcConnection = new FsuipcConnection();
+
+      string eventsFilename;
+      eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
+      fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
+      eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "myevents.txt");
+      fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
 
       simConnection.DataReceived += SimConnection_DataReceivedFromSim;
 
@@ -49,22 +74,37 @@ public partial class MainForm : Form
       timerConnection.Start();
 
       timerFsuipcProcess = new System.Windows.Forms.Timer();
-      timerFsuipcProcess.Interval = 1000;
+      timerFsuipcProcess.Interval = 250;
       timerFsuipcProcess.Tick += TimerFsuipcProcess_Tick;
       timerFsuipcProcess.Start();
    }
 
    private void TimerFsuipcProcess_Tick(object? sender, EventArgs e)
    {
-      fsuipcConnection.Process();
-      double comActiveFrequency1 = FsuipcConnection.IntToFrequency(fsuipcConnection.comActiveFrequency1.Value);
-      double comActiveFrequency2 = FsuipcConnection.IntToFrequency(fsuipcConnection.comActiveFrequency2.Value);
-      double comStandbyFrequency1 = FsuipcConnection.IntToFrequency(fsuipcConnection.comStandbyFrequency1.Value);
-      double comStandbyFrequency2 = FsuipcConnection.IntToFrequency(fsuipcConnection.comStandbyFrequency2.Value);
-      //System.Diagnostics.Debug.WriteLine($"Active 1: {comActiveFrequency1:F3}");
-      //System.Diagnostics.Debug.WriteLine($"Active 2: {comActiveFrequency2:F3}");
-      //System.Diagnostics.Debug.WriteLine($"Standby 1: {comStandbyFrequency1:F3}");
-      //System.Diagnostics.Debug.WriteLine($"Standby 2: {comStandbyFrequency2:F3}");
+      if (fsuipcConnection.IsConnected)
+      {
+         try
+         {
+            fsuipcConnection.Process();
+
+            PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
+            checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
+            checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
+            checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
+            checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
+
+            if (pauseState.HasFlag(PauseState.FullPause))
+               btnPauseFull.Text = "Unpause";
+            else
+               btnPauseFull.Text = "Full Pause";
+
+            if (pauseState.HasFlag(PauseState.SimPause))
+               btnPauseSim.Text = "Unpause";
+            else
+               btnPauseSim.Text = "Sim Pause";
+         }
+         catch { }
+      }
    }
 
    private void TimerConnection_Tick(object? sender, EventArgs e)
@@ -93,7 +133,7 @@ public partial class MainForm : Form
       InvokeAction(form =>
       {
          form.lblMacroPadState.Text = e.NewState.ToString();
-         form.txtOutput.AppendText($"Component {e.Component}, event {e.Event} \r\n");
+         //form.txtOutput.AppendText($"Component {e.Component}, event {e.Event} \r\n");
       });
       UpdateConnectionStatus();
    }
@@ -162,19 +202,32 @@ public partial class MainForm : Form
             form.lblNav2ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2active);
 
             // AP Heading
-            form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeading);
+            form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);
 
             // AP Course
-            form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1Obs);
+            form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
 
             // AP Altitude
-            form.lblAltitudeValue.Text = string.Format("{0:00000}", avionicsStruct.apAltitude);
+            form.lblAltitudeValue.Text = string.Format("{0:00000}", avionicsStruct.apAltitudeSel);
 
             // AP Vertical Speed
-            form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", avionicsStruct.apVerticalSpeed);
+            form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", avionicsStruct.apVerticalSpeedSel);
 
             // Transponder
             form.lblTransponder.Text = string.Format("{0:0000}", avionicsStruct.transponderCode);
+
+            // Fuel
+            form.lblTotalFuelPct.Text = string.Format("Total Fuel: {0:00.0}%", avionicsStruct.TotalFuelPct);
+            form.lblFuelDumpSwitch.Text = avionicsStruct.FuelDumpSwitch ? "DUMP" : "off";
+            form.btnFuelDump.Enabled = avionicsStruct.FuelDumpActive;
+
+            suppressAutopilotButtonCheckChangedEvent = true;
+            form.checkApMaster.Checked = avionicsStruct.ApMasterEngaged;
+            form.checkApAltHold.Checked = avionicsStruct.ApAltitudeHoldEngaged;
+            form.checkApHdgHold.Checked = avionicsStruct.ApHeadingHoldEngaged;
+            form.checkApVsHold.Checked = avionicsStruct.ApVerticalSpeedHoldEngaged;
+            form.checkApNavHold.Checked = avionicsStruct.ApNav1HoldEngaged;
+            suppressAutopilotButtonCheckChangedEvent = false;
          });
       }
       else if (structure is LightsStruct lightsStruct)
@@ -222,6 +275,36 @@ public partial class MainForm : Form
             form.txtRudderTrimMin.Text = string.Format("{0:000.00}", trimStruct.RudderTrimMinDegrees);
             form.txtRudderTrimPosition.Text = string.Format("{0:000.00}", trimStruct.RudderTrimPositionDegrees);
             form.txtRudderTrimMax.Text = string.Format("{0:000.00}", trimStruct.RudderTrimMaxDegrees);
+         });
+      }
+      else if (structure is CamerasStruct camerasStruct)
+      {
+         macroPadDevice.UpdateData(camerasStruct);
+
+         //previousCamera = camerasStruct;
+
+         // Update UI via Invoke
+         InvokeAction(form =>
+         {
+            suppressCameraButtonCheckChangedEvent = true;
+            form.checkCamera1.Checked = camerasStruct.IsInstrumentCamera1Active;
+            form.checkCamera2.Checked = camerasStruct.IsInstrumentCamera2Active;
+            form.checkCamera3.Checked = camerasStruct.IsInstrumentCamera3Active;
+            form.checkCamera4.Checked = camerasStruct.IsInstrumentCamera4Active;
+            form.checkCamera5.Checked = camerasStruct.IsInstrumentCamera5Active;
+            form.checkCamera6.Checked = camerasStruct.IsInstrumentCamera6Active;
+            form.checkCamera7.Checked = camerasStruct.IsInstrumentCamera7Active;
+            form.checkCamera8.Checked = camerasStruct.IsInstrumentCamera8Active;
+            form.checkCamera9.Checked = camerasStruct.IsInstrumentCamera9Active;
+            form.checkCamera10.Checked = camerasStruct.IsInstrumentCamera10Active;
+            form.checkCameraPilotNormal.Checked = camerasStruct.IsPilotNormalCameraActive;
+            form.checkCameraPilotClose.Checked = camerasStruct.IsPilotCloseCameraActive;
+            form.checkCameraPilotLand.Checked = camerasStruct.IsPilotLandingCameraActive;
+            form.checkCameraPilotCoPilot.Checked = camerasStruct.IsPilotCoPilotCameraActive;
+
+            form.lblCameraCurrentView.Text = $"{camerasStruct.cameraViewTypeIndex0}, {camerasStruct.cameraViewTypeIndex1}, {camerasStruct.cameraState}, {camerasStruct.cameraSubstate}";
+
+            suppressCameraButtonCheckChangedEvent = false;
          });
       }
    }
@@ -371,29 +454,29 @@ public partial class MainForm : Form
       if (sender is CheckBox checkBox)
       {
          if (checkBox == checkBeaconLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_BEACON_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_BEACON_LIGHTS);
          else if (checkBox == checkCabinLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_CABIN_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_CABIN_LIGHTS);
          else if (checkBox == checkGlareshieldLight)
-            simConnection.SendEvent(SimEvents.GLARESHIELD_LIGHTS_TOGGLE);
+            simConnection.SendEvent(SimEvent.GLARESHIELD_LIGHTS_TOGGLE);
          else if (checkBox == checkLandingLight)
-            simConnection.SendEvent(SimEvents.LANDING_LIGHTS_TOGGLE);
+            simConnection.SendEvent(SimEvent.LANDING_LIGHTS_TOGGLE);
          else if (checkBox == checkLogoLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_LOGO_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_LOGO_LIGHTS);
          else if (checkBox == checkNavLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_NAV_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_NAV_LIGHTS);
          else if (checkBox == checkPanelLight)
-            simConnection.SendEvent(SimEvents.PANEL_LIGHTS_TOGGLE);
+            simConnection.SendEvent(SimEvent.PANEL_LIGHTS_TOGGLE);
          else if (checkBox == checkPedestralLight)
-            simConnection.SendEvent(SimEvents.PEDESTRAL_LIGHTS_TOGGLE);
+            simConnection.SendEvent(SimEvent.PEDESTRAL_LIGHTS_TOGGLE);
          else if (checkBox == checkRecognitionLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_RECOGNITION_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_RECOGNITION_LIGHTS);
          else if (checkBox == checkStrobeLight)
-            simConnection.SendEvent(SimEvents.STROBES_TOGGLE);
+            simConnection.SendEvent(SimEvent.STROBES_TOGGLE);
          else if (checkBox == checkTaxiLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_TAXI_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_TAXI_LIGHTS);
          else if (checkBox == checkWingLight)
-            simConnection.SendEvent(SimEvents.TOGGLE_WING_LIGHTS);
+            simConnection.SendEvent(SimEvent.TOGGLE_WING_LIGHTS);
       }
 
    }
@@ -403,13 +486,395 @@ public partial class MainForm : Form
       GetComPorts();
    }
 
-   private void presetEventsToolStripMenuItem_Click(object sender, EventArgs e)
+   private void PresetEventsToolStripMenuItem_Click(object sender, EventArgs e)
    {
       using PresetEventForm dlg = new PresetEventForm(fsuipcConnection.PresetEvents);
 
       if (dlg.ShowDialog() == DialogResult.OK)
       {
 
+      }
+   }
+
+   private void ApButton_Click(object sender, EventArgs e)
+   {
+      if (sender == null)
+         return;
+      if (sender is Button button)
+      {
+         if (button == btnHdgSel)
+         {
+            fsuipcConnection.SendPresetEvent("AP_HDG_SYNC");
+         }
+         else if (button == btnCrs1Sel)
+         {
+            fsuipcConnection.SendPresetEvent("AP_CRS1_SYNC");
+         }
+         else if (button == btnCrs2Sel)
+         {
+            fsuipcConnection.SendPresetEvent("AP_CRS2_SYNC");
+         }
+         else if (button == btnAltSel)
+         {
+            fsuipcConnection.SendPresetEvent("AP_ALT_SYNC");
+         }
+      }
+   }
+
+   private void FmsButton_Click(object sender, EventArgs e)
+   {
+      if (sender == null)
+         return;
+
+      if (sender is Button button)
+      {
+         string preset = string.Empty;
+
+         if (button == btnFmsClr)
+         {
+            preset = "AS1000_PFD_CLR";
+         }
+         else if (button == btnFmsDirect)
+         {
+            preset = "AS1000_PFD_DIRECTTO";
+         }
+         else if (button == btnFmsEnt)
+         {
+            preset = "AS1000_PFD_ENT_Push";
+         }
+         else if (button == btnFmsFpl)
+         {
+            preset = "AS1000_PFD_FPL_Push";
+         }
+         else if (button == btnFmsMenu)
+         {
+            preset = "AS1000_PFD_MENU_Push";
+         }
+         else if (button == btnFmsProc)
+         {
+            preset = "AS1000_PFD_PROC_Push";
+         }
+
+         if (!string.IsNullOrWhiteSpace(preset))
+         {
+            fsuipcConnection.SendPresetEvent(preset);
+         }
+      }
+   }
+
+   private void BtnPause_Click(object sender, EventArgs e)
+   {
+      if (sender == null)
+         return;
+
+      if (sender is Button btnPause)
+      {
+         PauseState pauseState = fsuipcConnection.GetPauseStatus();
+
+         if (btnPause == btnPauseFull)
+         {
+            if (pauseState.HasFlag(PauseState.FullPause))
+               fsuipcConnection.SetPauseStatus(PauseState.NoPause);
+            else
+               fsuipcConnection.SetPauseStatus(PauseState.FullPause);
+         }
+         else if (btnPause == btnPauseSim)
+         {
+            if (pauseState.HasFlag(PauseState.SimPause))
+               fsuipcConnection.SetPauseStatus(PauseState.NoPause);
+            else
+               fsuipcConnection.SetPauseStatus(PauseState.SimPause);
+         }
+      }
+   }
+
+   private void FmsButton_MouseWheel(object? sender, MouseEventArgs e)
+   {
+      if (sender is null)
+         return;
+
+      if (sender is Button button)
+      {
+         bool up = (e.Delta > 0);
+         string preset = string.Empty;
+
+         if (button == btnFmsPfdInner)
+         {
+            preset = up ? "AS1000_PFD_FMS_Inner_INC" : "AS1000_PFD_FMS_Inner_DEC";
+         }
+         else if (button == btnFmsPfdOuter)
+         {
+            preset = up ? "AS1000_PFD_FMS_Outer_INC" : "AS1000_PFD_FMS_Outer_DEC";
+         }
+         if (button == btnFmsMfdInner)
+         {
+            preset = up ? "AS1000_MFD_FMS_Inner_INC" : "AS1000_MFD_FMS_Inner_DEC";
+         }
+         else if (button == btnFmsMfdOuter)
+         {
+            preset = up ? "AS1000_MFD_FMS_Outer_INC" : "AS1000_MFD_FMS_Outer_DEC";
+         }
+
+         if (!string.IsNullOrWhiteSpace(preset))
+         {
+            fsuipcConnection.SendPresetEvent(preset);
+         }
+      }
+   }
+
+   private void ApButton_MouseWheel(object? sender, MouseEventArgs e)
+   {
+      if (sender is null)
+         return;
+
+      if (sender is Button button)
+      {
+         bool up = (e.Delta > 0);
+         SimEvent simEvent = SimEvent.NONE;
+
+         if (button == btnAltSel)
+         {
+            simEvent = up ? SimEvent.AP_ALT_VAR_INC : SimEvent.AP_ALT_VAR_DEC;
+         }
+         else if (button == btnHdgSel)
+         {
+            simEvent = up ? SimEvent.HEADING_BUG_INC : SimEvent.HEADING_BUG_DEC;
+         }
+         else if (button == btnCrs1Sel)
+         {
+            simEvent = up ? SimEvent.VOR1_OBI_INC : SimEvent.VOR1_OBI_DEC;
+         }
+         else if (button == btnCrs2Sel)
+         {
+            simEvent = up ? SimEvent.VOR2_OBI_INC : SimEvent.VOR2_OBI_DEC;
+         }
+         else if (button == btnNoseUpDn)
+         {
+            if (up)
+               fsuipcConnection.SendPresetEvent("C_172_AP_NOSE_UP");
+            else
+               fsuipcConnection.SendPresetEvent("C_172_AP_NOSE_DN");
+         }
+
+         if (simEvent != SimEvent.NONE)
+         {
+            simConnection.SendEvent(simEvent);
+         }
+      }
+   }
+
+   private void Autopilot_CheckedChanged(object sender, EventArgs e)
+   {
+      if (sender == null)
+         return;
+
+      if (suppressAutopilotButtonCheckChangedEvent)
+         return;
+
+      SimEvent simEvent = SimEvent.NONE;
+
+      if (sender is CheckBox checkBox)
+      {
+         if (checkBox == checkApMaster)
+         {
+            simEvent = SimEvent.AP_MASTER;
+         }
+         else if (checkBox == checkApHdgHold)
+         {
+            simEvent = SimEvent.AP_HDG_HOLD;
+         }
+         else if (checkBox == checkApAprHold)
+         {
+            simEvent = SimEvent.AP_APR_HOLD;
+         }
+         else if (checkBox == checkApBcHold)
+         {
+            simEvent = SimEvent.AP_BC_HOLD;
+         }
+         else if (checkBox == checkApNavHold)
+         {
+            simEvent = SimEvent.AP_NAV1_HOLD;
+         }
+         else if (checkBox == checkApFd)
+         {
+            simEvent = SimEvent.TOGGLE_FLIGHT_DIRECTOR;
+         }
+         else if (checkBox == checkApYd)
+         {
+            simEvent = SimEvent.YAW_DAMPER_TOGGLE;
+         }
+         else if (checkBox == checkApAltHold)
+         {
+            simEvent = SimEvent.AP_ALT_HOLD;
+         }
+         else if (checkBox == checkApVsHold)
+         {
+            simEvent = SimEvent.AP_VS_HOLD;
+         }
+         else if (checkBox == checkApVnv)
+         {
+            simEvent = SimEvent.NONE;
+         }
+
+         if (simEvent != SimEvent.NONE)
+         {
+            simConnection.SendEvent(simEvent);
+         }
+      }
+   }
+
+   private void btnAddFuel_Click(object sender, EventArgs e)
+   {
+      fsuipcConnection.SendPresetEvent("ADD_FUEL");
+   }
+
+   private void btnFuelDump_Click(object sender, EventArgs e)
+   {
+      fsuipcConnection.SendPresetEvent("FUEL_DUMP_TOGGLE");
+   }
+
+   private void CameraButton_CheckChanged(object sender, EventArgs e)
+   {
+      if (sender == null)
+         return;
+
+      if (suppressCameraButtonCheckChangedEvent)
+         return;
+
+      string previousCalcCode =
+         $"{previousCamera.cameraState} (>A:CAMERA STATE,Enum) " +
+         $"{previousCamera.cameraSubstate} (>A:CAMERA SUBSTATE,Enum) " +
+         $"{previousCamera.cameraViewTypeIndex0} (>A:CAMERA VIEW TYPE AND INDEX:0,Enum) " +
+         $"{previousCamera.cameraViewTypeIndex1} (>A:CAMERA VIEW TYPE AND INDEX:1,Enum)";
+
+      if (sender is CheckBox checkBox)
+      {
+         if (checkBox == checkCamera1)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera1Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_1");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera2)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera2Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_2");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera3)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera3Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_3");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera4)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera4Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_4");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera5)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera5Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_5");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera6)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera6Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_6");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera7)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera7Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_7");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera8)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera8Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_8");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera9)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera9Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_9");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCamera10)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsInstrumentCamera10Active)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_10");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCameraPilotNormal)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsPilotNormalCameraActive)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("Pilot_View_-_Normal");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCameraPilotClose)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsPilotCloseCameraActive)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("Pilot_View_-_Close");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCameraPilotLand)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsPilotLandingCameraActive)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("Pilot_View_-_Landing");
+            previousCamera = temp;
+         }
+         if (checkBox == checkCameraPilotCoPilot)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsPilotCoPilotCameraActive)
+               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            else
+               fsuipcConnection.SendPresetEvent("Pilot_View_-_Copilot");
+            previousCamera = temp;
+         }
       }
    }
 }

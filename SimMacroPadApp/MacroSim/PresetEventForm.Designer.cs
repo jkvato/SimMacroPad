@@ -35,6 +35,8 @@
          btnClearAircraft = new Button();
          txtCalculatorCode = new TextBox();
          btnSendCalculatorCode = new Button();
+         label2 = new Label();
+         txtParameter = new TextBox();
          SuspendLayout();
          // 
          // label1
@@ -90,7 +92,6 @@
          txtCalculatorCode.Location = new Point(12, 257);
          txtCalculatorCode.Multiline = true;
          txtCalculatorCode.Name = "txtCalculatorCode";
-         txtCalculatorCode.ReadOnly = true;
          txtCalculatorCode.Size = new Size(458, 74);
          txtCalculatorCode.TabIndex = 5;
          txtCalculatorCode.TextChanged += txtCalculatorCode_TextChanged;
@@ -105,11 +106,29 @@
          btnSendCalculatorCode.UseVisualStyleBackColor = true;
          btnSendCalculatorCode.Click += btnSendCalculatorCode_Click;
          // 
+         // label2
+         // 
+         label2.AutoSize = true;
+         label2.Location = new Point(12, 344);
+         label2.Name = "label2";
+         label2.Size = new Size(68, 17);
+         label2.TabIndex = 7;
+         label2.Text = "Parameter";
+         // 
+         // txtParameter
+         // 
+         txtParameter.Location = new Point(86, 341);
+         txtParameter.Name = "txtParameter";
+         txtParameter.Size = new Size(100, 25);
+         txtParameter.TabIndex = 8;
+         // 
          // PresetEventForm
          // 
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
          ClientSize = new Size(512, 417);
+         Controls.Add(txtParameter);
+         Controls.Add(label2);
          Controls.Add(btnSendCalculatorCode);
          Controls.Add(txtCalculatorCode);
          Controls.Add(btnClearAircraft);
@@ -118,6 +137,7 @@
          Controls.Add(txtAircraft);
          Controls.Add(label1);
          Name = "PresetEventForm";
+         ShowInTaskbar = false;
          StartPosition = FormStartPosition.CenterParent;
          Text = "PresetEventForm";
          ResumeLayout(false);
@@ -133,5 +153,7 @@
       private Button btnClearAircraft;
       private TextBox txtCalculatorCode;
       private Button btnSendCalculatorCode;
+      private Label label2;
+      private TextBox txtParameter;
    }
 }

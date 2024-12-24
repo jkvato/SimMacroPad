@@ -55,7 +55,7 @@ internal class MacroPadDevice
    {
       if (structure is AvionicsStruct avionicsStruct)
       {
-         apAltitude = avionicsStruct.apAltitude;
+         apAltitude = avionicsStruct.apAltitudeSel;
 
          switch (state)
          {
@@ -80,17 +80,17 @@ internal class MacroPadDevice
                simMessage.Text2 = string.Format("{0:000.000}", avionicsStruct.nav2active);
                break;
             case MacroPadState.HEADING:
-               simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apHeading);
+               simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apHeadingSel);
                break;
             case MacroPadState.COURSE:
-               simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apNav1Obs);
+               simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
                break;
             case MacroPadState.ALTITUDE_1000:
             case MacroPadState.ALTITUDE_100:
-               simMessage.Text1 = string.Format("{0:00000}", avionicsStruct.apAltitude);
+               simMessage.Text1 = string.Format("{0:00000}", avionicsStruct.apAltitudeSel);
                break;
             case MacroPadState.VERTICAL_SPEED:
-               simMessage.Text1 = string.Format("{0:+0000;-0000; 0000}", avionicsStruct.apVerticalSpeed);
+               simMessage.Text1 = string.Format("{0:+0000;-0000; 0000}", avionicsStruct.apVerticalSpeedSel);
                break;
             case MacroPadState.XPND_1000:
             case MacroPadState.XPND_100:
@@ -252,178 +252,178 @@ internal class MacroPadDevice
             {
                case MacroPadState.COM1_MHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.COM_RADIO_WHOLE_INC);
+                     SimConnection.SendEvent(SimEvent.COM_RADIO_WHOLE_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.COM_RADIO_WHOLE_DEC);
+                     SimConnection.SendEvent(SimEvent.COM_RADIO_WHOLE_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.COM1_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.COM1_RADIO_SWAP);
                   break;
                case MacroPadState.COM1_KHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.COM_RADIO_FRACT_INC);
+                     SimConnection.SendEvent(SimEvent.COM_RADIO_FRACT_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.COM_RADIO_FRACT_DEC);
+                     SimConnection.SendEvent(SimEvent.COM_RADIO_FRACT_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.COM1_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.COM1_RADIO_SWAP);
                   break;
                case MacroPadState.COM2_MHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.COM2_RADIO_WHOLE_INC);
+                     SimConnection.SendEvent(SimEvent.COM2_RADIO_WHOLE_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.COM2_RADIO_WHOLE_DEC);
+                     SimConnection.SendEvent(SimEvent.COM2_RADIO_WHOLE_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.COM2_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.COM2_RADIO_SWAP);
                   break;
                case MacroPadState.COM2_KHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.COM2_RADIO_FRACT_INC);
+                     SimConnection.SendEvent(SimEvent.COM2_RADIO_FRACT_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.COM2_RADIO_FRACT_DEC);
+                     SimConnection.SendEvent(SimEvent.COM2_RADIO_FRACT_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.COM2_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.COM2_RADIO_SWAP);
                   break;
                case MacroPadState.NAV1_MHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.NAV1_RADIO_WHOLE_INC);
+                     SimConnection.SendEvent(SimEvent.NAV1_RADIO_WHOLE_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.NAV1_RADIO_WHOLE_DEC);
+                     SimConnection.SendEvent(SimEvent.NAV1_RADIO_WHOLE_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.NAV1_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.NAV1_RADIO_SWAP);
                   break;
                case MacroPadState.NAV1_KHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.NAV1_RADIO_FRACT_INC);
+                     SimConnection.SendEvent(SimEvent.NAV1_RADIO_FRACT_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.NAV1_RADIO_FRACT_DEC);
+                     SimConnection.SendEvent(SimEvent.NAV1_RADIO_FRACT_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.NAV1_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.NAV1_RADIO_SWAP);
                   break;
                case MacroPadState.NAV2_MHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.NAV2_RADIO_WHOLE_INC);
+                     SimConnection.SendEvent(SimEvent.NAV2_RADIO_WHOLE_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.NAV2_RADIO_WHOLE_DEC);
+                     SimConnection.SendEvent(SimEvent.NAV2_RADIO_WHOLE_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.NAV2_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.NAV2_RADIO_SWAP);
                   break;
                case MacroPadState.NAV2_KHZ:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.NAV2_RADIO_FRACT_INC);
+                     SimConnection.SendEvent(SimEvent.NAV2_RADIO_FRACT_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.NAV2_RADIO_FRACT_DEC);
+                     SimConnection.SendEvent(SimEvent.NAV2_RADIO_FRACT_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.NAV2_RADIO_SWAP);
+                     SimConnection.SendEvent(SimEvent.NAV2_RADIO_SWAP);
                   break;
 
                case MacroPadState.HEADING:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.HEADING_BUG_INC);
+                     SimConnection.SendEvent(SimEvent.HEADING_BUG_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.HEADING_BUG_DEC);
+                     SimConnection.SendEvent(SimEvent.HEADING_BUG_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.AP_HDG_HOLD);
+                     SimConnection.SendEvent(SimEvent.AP_HDG_HOLD);
                   break;
 
                case MacroPadState.COURSE:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.VOR1_OBI_INC);
+                     SimConnection.SendEvent(SimEvent.VOR1_OBI_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.VOR1_OBI_DEC);
+                     SimConnection.SendEvent(SimEvent.VOR1_OBI_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.TOGGLE_GPS_DRIVES_NAV1);
+                     SimConnection.SendEvent(SimEvent.TOGGLE_GPS_DRIVES_NAV1);
                   break;
 
                case MacroPadState.ALTITUDE_1000:
                   if (eventType == MacroPadEvent.Increment)
                   {
                      uint newAltSetting = Convert.ToUInt32(apAltitude + 1000);
-                     SimConnection.SendEvent(SimEvents.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
+                     SimConnection.SendEvent(SimEvent.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
                   }
                   else if (eventType == MacroPadEvent.Decrement)
                   {
                      uint newAltSetting = Convert.ToUInt32(Math.Max(0, apAltitude - 1000));
-                     SimConnection.SendEvent(SimEvents.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
+                     SimConnection.SendEvent(SimEvent.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
                   }
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.AP_ALT_HOLD);
+                     SimConnection.SendEvent(SimEvent.AP_ALT_HOLD);
                   break;
 
                case MacroPadState.ALTITUDE_100:
                   if (eventType == MacroPadEvent.Increment)
                   {
                      uint newAltSetting = Convert.ToUInt32(apAltitude + 100);
-                     SimConnection.SendEvent(SimEvents.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
+                     SimConnection.SendEvent(SimEvent.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
                   }
                   else if (eventType == MacroPadEvent.Decrement)
                   {
                      uint newAltSetting = Convert.ToUInt32(Math.Max(0, apAltitude - 100));
-                     SimConnection.SendEvent(SimEvents.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
+                     SimConnection.SendEvent(SimEvent.AP_ALT_VAR_SET_ENGLISH, newAltSetting);
                   }
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.AP_ALT_HOLD);
+                     SimConnection.SendEvent(SimEvent.AP_ALT_HOLD);
                   break;
 
                case MacroPadState.VERTICAL_SPEED:
                   if (eventType == MacroPadEvent.Increment)
                   {
-                     SimConnection.SendEvent(SimEvents.AP_VS_VAR_INC);
+                     SimConnection.SendEvent(SimEvent.AP_VS_VAR_INC);
                   }
                   else if (eventType == MacroPadEvent.Decrement)
                   {
-                     SimConnection.SendEvent(SimEvents.AP_VS_VAR_DEC);
+                     SimConnection.SendEvent(SimEvent.AP_VS_VAR_DEC);
                   }
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.AP_PANEL_VS_HOLD);
+                     SimConnection.SendEvent(SimEvent.AP_PANEL_VS_HOLD);
                   break;
 
                case MacroPadState.XPND_1000:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.XPNDR_1000_INC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_1000_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.XPNDR_1000_DEC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_1000_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.XPNDR_IDENT_TOGGLE);
+                     SimConnection.SendEvent(SimEvent.XPNDR_IDENT_TOGGLE);
                   break;
                case MacroPadState.XPND_100:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.XPNDR_100_INC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_100_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.XPNDR_100_DEC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_100_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.XPNDR_IDENT_TOGGLE);
+                     SimConnection.SendEvent(SimEvent.XPNDR_IDENT_TOGGLE);
                   break;
                case MacroPadState.XPND_10:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.XPNDR_10_INC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_10_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.XPNDR_10_DEC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_10_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.XPNDR_IDENT_TOGGLE);
+                     SimConnection.SendEvent(SimEvent.XPNDR_IDENT_TOGGLE);
                   break;
                case MacroPadState.XPND_1:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.XPNDR_1_INC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_1_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.XPNDR_1_DEC);
+                     SimConnection.SendEvent(SimEvent.XPNDR_1_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.XPNDR_IDENT_TOGGLE);
+                     SimConnection.SendEvent(SimEvent.XPNDR_IDENT_TOGGLE);
                   break;
 
                case MacroPadState.GPS_GROUP:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.GPS_GROUP_KNOB_INC);
+                     SimConnection.SendEvent(SimEvent.GPS_GROUP_KNOB_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.GPS_GROUP_KNOB_DEC);
+                     SimConnection.SendEvent(SimEvent.GPS_GROUP_KNOB_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.GPS_CURSOR_BUTTON);
+                     SimConnection.SendEvent(SimEvent.GPS_CURSOR_BUTTON);
                   break;
                case MacroPadState.GPS_PAGE:
                   if (eventType == MacroPadEvent.Increment)
-                     SimConnection.SendEvent(SimEvents.GPS_PAGE_KNOB_INC);
+                     SimConnection.SendEvent(SimEvent.GPS_PAGE_KNOB_INC);
                   else if (eventType == MacroPadEvent.Decrement)
-                     SimConnection.SendEvent(SimEvents.GPS_PAGE_KNOB_DEC);
+                     SimConnection.SendEvent(SimEvent.GPS_PAGE_KNOB_DEC);
                   else if (eventType == MacroPadEvent.Clicked)
-                     SimConnection.SendEvent(SimEvents.GPS_CURSOR_BUTTON);
+                     SimConnection.SendEvent(SimEvent.GPS_CURSOR_BUTTON);
                   break;
 
                case MacroPadState.PFD_GROUP:

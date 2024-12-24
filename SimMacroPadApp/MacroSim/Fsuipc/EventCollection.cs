@@ -138,15 +138,29 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
          .Select(e => e.Classification);
    }
 
+   public void ImportEvents(string filename)
+   {
+      var newEvents = ReadCollection(filename);
+      if (newEvents != null)
+         Add(newEvents);
+   }
+
    /// <summary>
    /// Creates a new <see cref="EventCollection"/> from a file.
    /// </summary>
    /// <param name="filename"></param>
    /// <returns>the newly created <see cref="EventCollection"/>.</returns>
-   public static EventCollection ReadCollection(string filename)
+   public static EventCollection? ReadCollection(string filename)
    {
-      TextReader reader = new StreamReader(filename);
-      return ReadCollection(reader);
+      try
+      {
+         TextReader reader = new StreamReader(filename);
+         return ReadCollection(reader);
+      }
+      catch
+      {
+         return null;
+      }
    }
 
    /// <summary>
@@ -200,6 +214,19 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
       Event e = new Event(developer, aircraft, classification, presetName, calculatorCode);
       events.Add(e);
       return e;
+   }
+
+   /// <summary>
+   /// Adds all <see cref="Event"/>s in an <see cref="EventCollection"/> to the
+   /// current collection.
+   /// </summary>
+   /// <param name="eventCollection"></param>
+   public void Add(EventCollection eventCollection)
+   {
+      foreach (Event e in eventCollection)
+      {
+         Add(e);
+      }
    }
 
    #region Interface Implementation

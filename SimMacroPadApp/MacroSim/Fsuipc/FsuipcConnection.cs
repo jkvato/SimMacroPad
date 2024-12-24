@@ -9,17 +9,10 @@ namespace MacroSim.Fsuipc;
 
 internal class FsuipcConnection
 {
-   public Offset<ushort> com1ActiveFrequency = new Offset<ushort>(0x034E);
-   public Offset<ushort> nav1ActiveFrequency = new Offset<ushort>(0x0350);
-   public Offset<ushort> nav2ActiveFrequency = new Offset<ushort>(0x0352);
-   public Offset<ushort> transponderCode = new Offset<ushort>(0x0354);
+   public Offset<ushort> pauseWriteStatus = new Offset<ushort>(0x0262);
+   public Offset<ushort> pauseReadStatus = new Offset<ushort>(0x0264);
 
-   public Offset<uint> comActiveFrequency1 = new Offset<uint>(0x05C4);
-   public Offset<uint> comActiveFrequency2 = new Offset<uint>(0x05C8);
-   public Offset<uint> comStandbyFrequency1 = new Offset<uint>(0x05CC);
-   public Offset<uint> comStandbyFrequency2 = new Offset<uint>(0x05D0);
-
-   public EventCollection PresetEvents {get; private set;}
+   public EventCollection PresetEvents { get; private set; }
 
    public FsuipcConnection(string? fsuipcDirectory = null)
    {
@@ -27,17 +20,19 @@ internal class FsuipcConnection
       {
          try
          {
-            PresetEvents = EventCollection.ReadCollection(fsuipcDirectory);
+            var newEvents = EventCollection.ReadCollection(fsuipcDirectory);
+            if (newEvents != null)
+            {
+               PresetEvents = newEvents;
+               return;
+            }
          }
          catch
          {
             PresetEvents = new EventCollection();
          }
       }
-      else
-      {
-         PresetEvents = new EventCollection();
-      }
+      PresetEvents = new EventCollection();
    }
 
 
@@ -112,4 +107,26 @@ internal class FsuipcConnection
       System.Diagnostics.Debug.WriteLine($"Executing: {calculatorCode}");
       MSFSVariableServices.ExecuteCalculatorCode(calculatorCode);
    }
+
+   public void SetPauseStatus(PauseState pauseState)
+   {
+      pauseWriteStatus.SetValue((ushort)pauseState);
+   }
+
+   public PauseState GetPauseStatus()
+   {
+      ushort result = pauseReadStatus.GetValue<ushort>();
+      return (PauseState)result;
+   }
+}
+
+[Flags]
+public enum PauseState : ushort
+{
+   NoPause = 0x0,
+   FullPause = 0x1,
+   FsxLegacyPause = 0x2,
+   ActivePause = 0x4,
+   SimPause = 0x8,
+   EscPause = 0x10,
 }

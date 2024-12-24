@@ -105,6 +105,7 @@ namespace MacroSim
          if (ev != null)
          {
             txtCalculatorCode.Text = ev.CalculatorCode;
+            txtParameter.Enabled = ev.IsParameterized;
          }
       }
 
