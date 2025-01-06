@@ -14,8 +14,11 @@ internal class FsuipcConnection
 
    public EventCollection PresetEvents { get; private set; }
 
-   public FsuipcConnection(string? fsuipcDirectory = null)
+   public MainForm MainForm { get; private set; }
+
+   public FsuipcConnection(MainForm mainForm, string? fsuipcDirectory = null)
    {
+      MainForm = mainForm;
       if (fsuipcDirectory != null)
       {
          try
@@ -86,12 +89,13 @@ internal class FsuipcConnection
       SendCalculatorCode(e.CalculatorCode, param);
    }
 
-   public static void SendCalculatorCode(string calculatorCode)
+   public void SendCalculatorCode(string calculatorCode)
    {
+      System.Diagnostics.Debug.WriteLine($"Executing: {calculatorCode}");
       MSFSVariableServices.ExecuteCalculatorCode(calculatorCode);
    }
 
-   public static void SendCalculatorCode(string calculatorCode, int? param = null)
+   public void SendCalculatorCode(string calculatorCode, int? param = null)
    {
       if (calculatorCode.Length == 0)
          throw new ArgumentException(nameof(calculatorCode));
@@ -105,6 +109,10 @@ internal class FsuipcConnection
       }
 
       System.Diagnostics.Debug.WriteLine($"Executing: {calculatorCode}");
+      MainForm.InvokeAction(form =>
+      {
+         form.txtOutput.Text = calculatorCode;
+      });
       MSFSVariableServices.ExecuteCalculatorCode(calculatorCode);
    }
 

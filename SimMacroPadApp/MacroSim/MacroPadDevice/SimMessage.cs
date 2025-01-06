@@ -1,4 +1,5 @@
 ﻿using MacroSim.Ascii;
+using MacroSim.MacroPadDevice.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;

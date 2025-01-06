@@ -22,6 +22,17 @@ internal class SimAircraft
    public bool HasLogoLight { get; set; }
    public bool HasRecognitionLight { get; set; }
 
+   public int MaxCamera0 { get; set; }
+   public int MaxCamera1 { get; set; }
+   public int MaxCamera2 { get; set; }
+   public int MaxCamera3 { get; set; }
+   public int MaxCamera4 { get; set; }
+   public int MaxCamera5 { get; set; }
+   public int MaxCamera6 { get; set; }
+   public int MaxCamera7 { get; set; }
+   public int MaxCamera8 { get; set; }
+   public int MaxCamera9 { get; set; }
+
    public SimAircraft()
    {
       Title = string.Empty;

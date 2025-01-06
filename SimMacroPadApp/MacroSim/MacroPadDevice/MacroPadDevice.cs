@@ -1,4 +1,6 @@
-﻿using MacroSim.SimConnection;
+﻿using MacroSim.MacroPadDevice.Enumerations;
+using MacroSim.SimConnection.Enumerations;
+using MacroSim.SimConnection.Structures;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -537,73 +539,4 @@ internal class MacroPadDevice
             component: component,
             newState: state));
    }
-}
-
-public class EventProcessedEventArgs : EventArgs
-{
-   public MacroPadComponent Component { get; private set; }
-   public MacroPadEvent Event { get; private set; }
-   public MacroPadState NewState { get; private set; }
-
-   public EventProcessedEventArgs(MacroPadEvent macroPadEvent, MacroPadComponent component, MacroPadState newState)
-   {
-      Component = component;
-      Event = macroPadEvent;
-      NewState = newState;
-   }
-}
-
-public enum MacroPadComponent : byte
-{
-   Rotary = 0,
-   COM1 = 1,
-   COM2 = 2,
-   GPS = 3,
-   NAV1 = 4,
-   NAV2 = 5,
-   PFD = 6,
-   HDG = 7,
-   CRS = 8,
-   MFD = 9,
-   ALT = 10,
-   VS = 11,
-   XPND = 12
-}
-
-public enum MacroPadEvent : byte
-{
-   Clicked = 0,
-   DoubleClicked = 1,
-   LongPressed = 2,
-   RepeatPressed = 3,
-   Increment = 4,
-   Decrement = 5
-}
-
-public enum MacroPadState : byte
-{
-   None = 0b000000_00,
-   COM1_MHZ = 0b000001_00,
-   COM1_KHZ = 0b000001_01,
-   COM2_MHZ = 0b000010_00,
-   COM2_KHZ = 0b000010_01,
-   NAV1_MHZ = 0b000011_00,
-   NAV1_KHZ = 0b000011_01,
-   NAV2_MHZ = 0b000100_00,
-   NAV2_KHZ = 0b000100_01,
-   HEADING = 0b000101_00,
-   COURSE = 0b000110_00,
-   ALTITUDE_1000 = 0b000111_00,
-   ALTITUDE_100 = 0b000111_01,
-   VERTICAL_SPEED = 0b001000_00,
-   XPND_1000 = 0b001001_00,
-   XPND_100 = 0b001001_01,
-   XPND_10 = 0b001001_10,
-   XPND_1 = 0b001001_11,
-   GPS_GROUP = 0b001010_00,
-   GPS_PAGE = 0b001010_01,
-   PFD_GROUP = 0b001011_00,
-   PFD_PAGE = 0b001011_01,
-   MFD_GROUP = 0b001100_00,
-   MFD_PAGE = 0b001100_01,
 }

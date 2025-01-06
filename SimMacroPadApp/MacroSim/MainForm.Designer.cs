@@ -35,18 +35,71 @@
          lblFsuipcStatus = new ToolStripStatusLabel();
          lblSerialPortStatus = new ToolStripStatusLabel();
          lblMacroPadState = new ToolStripStatusLabel();
-         groupCameras = new GroupBox();
-         lblCameraCurrentView = new Label();
+         lblLocalTime = new ToolStripStatusLabel();
+         label8 = new Label();
+         btnPreviousSmartcam = new Button();
+         btnNextSmartcam = new Button();
+         checkSmartcam = new CheckBox();
+         lblSCTargetDesc = new Label();
+         lblSCTargetType = new Label();
+         trackFlaps = new TrackBar();
+         checkCustomCameraState = new CheckBox();
+         checkShowcaseFixedSubState = new CheckBox();
+         lblEngineTorquePct = new Label();
+         checkShowcaseDroneSubState = new CheckBox();
          checkCamera9 = new CheckBox();
+         lblEngineNPRpm = new Label();
          checkCamera8 = new CheckBox();
+         checkExternalQuickViewSubState = new CheckBox();
          checkCamera7 = new CheckBox();
+         lblEngineNGPct = new Label();
          checkCamera6 = new CheckBox();
+         checkExternalDefaultSubState = new CheckBox();
          checkCamera5 = new CheckBox();
+         lblEngineITT = new Label();
          checkCamera4 = new CheckBox();
+         checkCockpitQuickViewSubState = new CheckBox();
          checkCamera3 = new CheckBox();
+         lblEngineTorque = new Label();
          checkCamera2 = new CheckBox();
+         checkCockpitInstrumentSubState = new CheckBox();
          checkCamera1 = new CheckBox();
+         lblFlapsCurrentPosition = new Label();
          checkCamera10 = new CheckBox();
+         checkCockpitPilotSubState = new CheckBox();
+         lblFlapsNumberOfDetents = new Label();
+         lblIndex1 = new Label();
+         btnPreviousSubView = new Button();
+         lblIndex0 = new Label();
+         lblCurrentFlapsLimit = new Label();
+         lblCameraSubstate = new Label();
+         btnNextSubView = new Button();
+         lblCameraState = new Label();
+         lblTrailingFlapsRight = new Label();
+         btnPreviousView = new Button();
+         lblTrailingFlapsLeft = new Label();
+         btnNextView = new Button();
+         lblAileronTrimPct = new Label();
+         lblRudderTrimPct = new Label();
+         lblElevatorTrimPct = new Label();
+         btnSetCamera = new Button();
+         txtCameraIndex1 = new TextBox();
+         txtCameraIndex0 = new TextBox();
+         txtCameraSubState = new TextBox();
+         txtCameraState = new TextBox();
+         groupBox1 = new GroupBox();
+         btnSimRateReset = new Button();
+         btnSimRateDec = new Button();
+         btnSimRateInc = new Button();
+         lblSimRate = new Label();
+         lblCurrentCameraType = new Label();
+         txtOutput = new TextBox();
+         groupCameras = new GroupBox();
+         checkCameraPilotCoPilot = new CheckBox();
+         checkCameraPilotLand = new CheckBox();
+         checkCameraPilotClose = new CheckBox();
+         checkCameraPilotNormal = new CheckBox();
+         lblCameraCurrentView = new Label();
          groupFuel = new GroupBox();
          lblFuelDumpSwitch = new Label();
          btnFuelDump = new Button();
@@ -88,22 +141,6 @@
          checkApAprHold = new CheckBox();
          checkApNavHold = new CheckBox();
          checkApHdgHold = new CheckBox();
-         txtRudderTrimMax = new TextBox();
-         txtRudderTrimPosition = new TextBox();
-         txtRudderTrimDisabled = new TextBox();
-         txtRudderTrimMin = new TextBox();
-         txtAileronTrimMax = new TextBox();
-         txtAileronTrimPosition = new TextBox();
-         txtAileronTrimDisabled = new TextBox();
-         txtAileronTrimMin = new TextBox();
-         label9 = new Label();
-         txtElevatorTrimMax = new TextBox();
-         label8 = new Label();
-         label6 = new Label();
-         txtElevatorTrim = new TextBox();
-         txtElevatorTrimNeutral = new TextBox();
-         txtElevatorTrimMin = new TextBox();
-         label1 = new Label();
          groupLights = new GroupBox();
          checkBeaconLight = new CheckBox();
          checkWingLight = new CheckBox();
@@ -159,15 +196,13 @@
          utilityToolStripMenuItem = new ToolStripMenuItem();
          presetEventsToolStripMenuItem = new ToolStripMenuItem();
          toolTip1 = new ToolTip(components);
-         checkCameraPilotNormal = new CheckBox();
-         checkCameraPilotClose = new CheckBox();
-         checkCameraPilotLand = new CheckBox();
-         checkCameraPilotCoPilot = new CheckBox();
          toolStripContainer1.BottomToolStripPanel.SuspendLayout();
          toolStripContainer1.ContentPanel.SuspendLayout();
          toolStripContainer1.TopToolStripPanel.SuspendLayout();
          toolStripContainer1.SuspendLayout();
          statusStrip.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)trackFlaps).BeginInit();
+         groupBox1.SuspendLayout();
          groupCameras.SuspendLayout();
          groupFuel.SuspendLayout();
          groupPause.SuspendLayout();
@@ -190,27 +225,65 @@
          // 
          // toolStripContainer1.ContentPanel
          // 
+         toolStripContainer1.ContentPanel.Controls.Add(label8);
+         toolStripContainer1.ContentPanel.Controls.Add(btnPreviousSmartcam);
+         toolStripContainer1.ContentPanel.Controls.Add(btnNextSmartcam);
+         toolStripContainer1.ContentPanel.Controls.Add(checkSmartcam);
+         toolStripContainer1.ContentPanel.Controls.Add(lblSCTargetDesc);
+         toolStripContainer1.ContentPanel.Controls.Add(lblSCTargetType);
+         toolStripContainer1.ContentPanel.Controls.Add(trackFlaps);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCustomCameraState);
+         toolStripContainer1.ContentPanel.Controls.Add(checkShowcaseFixedSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(lblEngineTorquePct);
+         toolStripContainer1.ContentPanel.Controls.Add(checkShowcaseDroneSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera9);
+         toolStripContainer1.ContentPanel.Controls.Add(lblEngineNPRpm);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera8);
+         toolStripContainer1.ContentPanel.Controls.Add(checkExternalQuickViewSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera7);
+         toolStripContainer1.ContentPanel.Controls.Add(lblEngineNGPct);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera6);
+         toolStripContainer1.ContentPanel.Controls.Add(checkExternalDefaultSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera5);
+         toolStripContainer1.ContentPanel.Controls.Add(lblEngineITT);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera4);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCockpitQuickViewSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera3);
+         toolStripContainer1.ContentPanel.Controls.Add(lblEngineTorque);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera2);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCockpitInstrumentSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera1);
+         toolStripContainer1.ContentPanel.Controls.Add(lblFlapsCurrentPosition);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCamera10);
+         toolStripContainer1.ContentPanel.Controls.Add(checkCockpitPilotSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(lblFlapsNumberOfDetents);
+         toolStripContainer1.ContentPanel.Controls.Add(lblIndex1);
+         toolStripContainer1.ContentPanel.Controls.Add(btnPreviousSubView);
+         toolStripContainer1.ContentPanel.Controls.Add(lblIndex0);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCurrentFlapsLimit);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCameraSubstate);
+         toolStripContainer1.ContentPanel.Controls.Add(btnNextSubView);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCameraState);
+         toolStripContainer1.ContentPanel.Controls.Add(lblTrailingFlapsRight);
+         toolStripContainer1.ContentPanel.Controls.Add(btnPreviousView);
+         toolStripContainer1.ContentPanel.Controls.Add(lblTrailingFlapsLeft);
+         toolStripContainer1.ContentPanel.Controls.Add(btnNextView);
+         toolStripContainer1.ContentPanel.Controls.Add(lblAileronTrimPct);
+         toolStripContainer1.ContentPanel.Controls.Add(lblRudderTrimPct);
+         toolStripContainer1.ContentPanel.Controls.Add(lblElevatorTrimPct);
+         toolStripContainer1.ContentPanel.Controls.Add(btnSetCamera);
+         toolStripContainer1.ContentPanel.Controls.Add(txtCameraIndex1);
+         toolStripContainer1.ContentPanel.Controls.Add(txtCameraIndex0);
+         toolStripContainer1.ContentPanel.Controls.Add(txtCameraSubState);
+         toolStripContainer1.ContentPanel.Controls.Add(txtCameraState);
+         toolStripContainer1.ContentPanel.Controls.Add(groupBox1);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCurrentCameraType);
+         toolStripContainer1.ContentPanel.Controls.Add(txtOutput);
          toolStripContainer1.ContentPanel.Controls.Add(groupCameras);
          toolStripContainer1.ContentPanel.Controls.Add(groupFuel);
          toolStripContainer1.ContentPanel.Controls.Add(groupPause);
          toolStripContainer1.ContentPanel.Controls.Add(groupFms);
          toolStripContainer1.ContentPanel.Controls.Add(groupAutopilot);
-         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimMax);
-         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimPosition);
-         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimDisabled);
-         toolStripContainer1.ContentPanel.Controls.Add(txtRudderTrimMin);
-         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimMax);
-         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimPosition);
-         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimDisabled);
-         toolStripContainer1.ContentPanel.Controls.Add(txtAileronTrimMin);
-         toolStripContainer1.ContentPanel.Controls.Add(label9);
-         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimMax);
-         toolStripContainer1.ContentPanel.Controls.Add(label8);
-         toolStripContainer1.ContentPanel.Controls.Add(label6);
-         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrim);
-         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimNeutral);
-         toolStripContainer1.ContentPanel.Controls.Add(txtElevatorTrimMin);
-         toolStripContainer1.ContentPanel.Controls.Add(label1);
          toolStripContainer1.ContentPanel.Controls.Add(groupLights);
          toolStripContainer1.ContentPanel.Controls.Add(lblTransponder);
          toolStripContainer1.ContentPanel.Controls.Add(label4);
@@ -241,7 +314,7 @@
          // statusStrip
          // 
          statusStrip.Dock = DockStyle.None;
-         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectStatus, lblFsuipcStatus, lblSerialPortStatus, lblMacroPadState });
+         statusStrip.Items.AddRange(new ToolStripItem[] { lblSimConnectStatus, lblFsuipcStatus, lblSerialPortStatus, lblMacroPadState, lblLocalTime });
          statusStrip.Location = new Point(0, 0);
          statusStrip.Name = "statusStrip";
          statusStrip.Size = new Size(1133, 22);
@@ -278,6 +351,608 @@
          lblMacroPadState.Size = new Size(55, 17);
          lblMacroPadState.Text = "NONE";
          // 
+         // lblLocalTime
+         // 
+         lblLocalTime.Name = "lblLocalTime";
+         lblLocalTime.Size = new Size(77, 17);
+         lblLocalTime.Text = "Local Time: ";
+         // 
+         // label8
+         // 
+         label8.AutoSize = true;
+         label8.Location = new Point(709, 366);
+         label8.Name = "label8";
+         label8.Size = new Size(43, 17);
+         label8.TabIndex = 173;
+         label8.Text = "label8";
+         // 
+         // btnPreviousSmartcam
+         // 
+         btnPreviousSmartcam.Location = new Point(820, 438);
+         btnPreviousSmartcam.Name = "btnPreviousSmartcam";
+         btnPreviousSmartcam.Size = new Size(42, 27);
+         btnPreviousSmartcam.TabIndex = 172;
+         btnPreviousSmartcam.Text = "SC-";
+         btnPreviousSmartcam.UseVisualStyleBackColor = true;
+         btnPreviousSmartcam.Click += SmartcamCycleButton_Click;
+         // 
+         // btnNextSmartcam
+         // 
+         btnNextSmartcam.Location = new Point(820, 405);
+         btnNextSmartcam.Name = "btnNextSmartcam";
+         btnNextSmartcam.Size = new Size(42, 27);
+         btnNextSmartcam.TabIndex = 171;
+         btnNextSmartcam.Text = "SC+";
+         btnNextSmartcam.UseVisualStyleBackColor = true;
+         btnNextSmartcam.Click += SmartcamCycleButton_Click;
+         // 
+         // checkSmartcam
+         // 
+         checkSmartcam.Appearance = Appearance.Button;
+         checkSmartcam.Location = new Point(820, 372);
+         checkSmartcam.Name = "checkSmartcam";
+         checkSmartcam.Size = new Size(60, 27);
+         checkSmartcam.TabIndex = 170;
+         checkSmartcam.Text = "SC";
+         checkSmartcam.TextAlign = ContentAlignment.MiddleCenter;
+         checkSmartcam.UseVisualStyleBackColor = true;
+         checkSmartcam.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblSCTargetDesc
+         // 
+         lblSCTargetDesc.AutoSize = true;
+         lblSCTargetDesc.Location = new Point(413, 372);
+         lblSCTargetDesc.Name = "lblSCTargetDesc";
+         lblSCTargetDesc.Size = new Size(96, 17);
+         lblSCTargetDesc.TabIndex = 169;
+         lblSCTargetDesc.Text = "SC Target Desc";
+         // 
+         // lblSCTargetType
+         // 
+         lblSCTargetType.AutoSize = true;
+         lblSCTargetType.Location = new Point(413, 352);
+         lblSCTargetType.Name = "lblSCTargetType";
+         lblSCTargetType.Size = new Size(95, 17);
+         lblSCTargetType.TabIndex = 168;
+         lblSCTargetType.Text = "SC Target Type";
+         // 
+         // trackFlaps
+         // 
+         trackFlaps.Location = new Point(769, 398);
+         trackFlaps.Name = "trackFlaps";
+         trackFlaps.Orientation = Orientation.Vertical;
+         trackFlaps.Size = new Size(45, 205);
+         trackFlaps.TabIndex = 167;
+         trackFlaps.ValueChanged += TrackFlaps_ValueChanged;
+         // 
+         // checkCustomCameraState
+         // 
+         checkCustomCameraState.Appearance = Appearance.Button;
+         checkCustomCameraState.Location = new Point(1003, 603);
+         checkCustomCameraState.Name = "checkCustomCameraState";
+         checkCustomCameraState.Size = new Size(60, 27);
+         checkCustomCameraState.TabIndex = 80;
+         checkCustomCameraState.Text = "Custom";
+         checkCustomCameraState.TextAlign = ContentAlignment.MiddleCenter;
+         checkCustomCameraState.UseVisualStyleBackColor = true;
+         checkCustomCameraState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkShowcaseFixedSubState
+         // 
+         checkShowcaseFixedSubState.Appearance = Appearance.Button;
+         checkShowcaseFixedSubState.Location = new Point(1003, 570);
+         checkShowcaseFixedSubState.Name = "checkShowcaseFixedSubState";
+         checkShowcaseFixedSubState.Size = new Size(60, 27);
+         checkShowcaseFixedSubState.TabIndex = 74;
+         checkShowcaseFixedSubState.Text = "X-Fixed";
+         checkShowcaseFixedSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkShowcaseFixedSubState.UseVisualStyleBackColor = true;
+         checkShowcaseFixedSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblEngineTorquePct
+         // 
+         lblEngineTorquePct.AutoSize = true;
+         lblEngineTorquePct.Location = new Point(413, 315);
+         lblEngineTorquePct.Name = "lblEngineTorquePct";
+         lblEngineTorquePct.Size = new Size(48, 17);
+         lblEngineTorquePct.TabIndex = 79;
+         lblEngineTorquePct.Text = "TRQ %";
+         // 
+         // checkShowcaseDroneSubState
+         // 
+         checkShowcaseDroneSubState.Appearance = Appearance.Button;
+         checkShowcaseDroneSubState.Location = new Point(1003, 537);
+         checkShowcaseDroneSubState.Name = "checkShowcaseDroneSubState";
+         checkShowcaseDroneSubState.Size = new Size(60, 27);
+         checkShowcaseDroneSubState.TabIndex = 73;
+         checkShowcaseDroneSubState.Text = "Drone";
+         checkShowcaseDroneSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkShowcaseDroneSubState.UseVisualStyleBackColor = true;
+         checkShowcaseDroneSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCamera9
+         // 
+         checkCamera9.Appearance = Appearance.Button;
+         checkCamera9.Location = new Point(960, 470);
+         checkCamera9.Name = "checkCamera9";
+         checkCamera9.Size = new Size(30, 27);
+         checkCamera9.TabIndex = 52;
+         checkCamera9.Tag = "9";
+         checkCamera9.Text = "9";
+         checkCamera9.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera9.UseVisualStyleBackColor = true;
+         checkCamera9.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblEngineNPRpm
+         // 
+         lblEngineNPRpm.AutoSize = true;
+         lblEngineNPRpm.Location = new Point(294, 366);
+         lblEngineNPRpm.Name = "lblEngineNPRpm";
+         lblEngineNPRpm.Size = new Size(56, 17);
+         lblEngineNPRpm.TabIndex = 78;
+         lblEngineNPRpm.Text = "NP RPM";
+         // 
+         // checkCamera8
+         // 
+         checkCamera8.Appearance = Appearance.Button;
+         checkCamera8.Location = new Point(924, 470);
+         checkCamera8.Name = "checkCamera8";
+         checkCamera8.Size = new Size(30, 27);
+         checkCamera8.TabIndex = 51;
+         checkCamera8.Tag = "8";
+         checkCamera8.Text = "8";
+         checkCamera8.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera8.UseVisualStyleBackColor = true;
+         checkCamera8.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkExternalQuickViewSubState
+         // 
+         checkExternalQuickViewSubState.Appearance = Appearance.Button;
+         checkExternalQuickViewSubState.Location = new Point(1003, 504);
+         checkExternalQuickViewSubState.Name = "checkExternalQuickViewSubState";
+         checkExternalQuickViewSubState.Size = new Size(60, 27);
+         checkExternalQuickViewSubState.TabIndex = 72;
+         checkExternalQuickViewSubState.Text = "X-QV";
+         checkExternalQuickViewSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkExternalQuickViewSubState.UseVisualStyleBackColor = true;
+         checkExternalQuickViewSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCamera7
+         // 
+         checkCamera7.Appearance = Appearance.Button;
+         checkCamera7.Location = new Point(888, 471);
+         checkCamera7.Name = "checkCamera7";
+         checkCamera7.Size = new Size(30, 27);
+         checkCamera7.TabIndex = 50;
+         checkCamera7.Tag = "7";
+         checkCamera7.Text = "7";
+         checkCamera7.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera7.UseVisualStyleBackColor = true;
+         checkCamera7.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblEngineNGPct
+         // 
+         lblEngineNGPct.AutoSize = true;
+         lblEngineNGPct.Location = new Point(294, 349);
+         lblEngineNGPct.Name = "lblEngineNGPct";
+         lblEngineNGPct.Size = new Size(42, 17);
+         lblEngineNGPct.TabIndex = 77;
+         lblEngineNGPct.Text = "NG %";
+         // 
+         // checkCamera6
+         // 
+         checkCamera6.Appearance = Appearance.Button;
+         checkCamera6.Location = new Point(960, 504);
+         checkCamera6.Name = "checkCamera6";
+         checkCamera6.Size = new Size(30, 27);
+         checkCamera6.TabIndex = 49;
+         checkCamera6.Tag = "6";
+         checkCamera6.Text = "6";
+         checkCamera6.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera6.UseVisualStyleBackColor = true;
+         checkCamera6.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkExternalDefaultSubState
+         // 
+         checkExternalDefaultSubState.Appearance = Appearance.Button;
+         checkExternalDefaultSubState.Location = new Point(1003, 471);
+         checkExternalDefaultSubState.Name = "checkExternalDefaultSubState";
+         checkExternalDefaultSubState.Size = new Size(60, 27);
+         checkExternalDefaultSubState.TabIndex = 71;
+         checkExternalDefaultSubState.Text = "EXT";
+         checkExternalDefaultSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkExternalDefaultSubState.UseVisualStyleBackColor = true;
+         checkExternalDefaultSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCamera5
+         // 
+         checkCamera5.Appearance = Appearance.Button;
+         checkCamera5.Location = new Point(924, 504);
+         checkCamera5.Name = "checkCamera5";
+         checkCamera5.Size = new Size(30, 27);
+         checkCamera5.TabIndex = 48;
+         checkCamera5.Tag = "5";
+         checkCamera5.Text = "5";
+         checkCamera5.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera5.UseVisualStyleBackColor = true;
+         checkCamera5.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblEngineITT
+         // 
+         lblEngineITT.AutoSize = true;
+         lblEngineITT.Location = new Point(294, 332);
+         lblEngineITT.Name = "lblEngineITT";
+         lblEngineITT.Size = new Size(25, 17);
+         lblEngineITT.TabIndex = 76;
+         lblEngineITT.Text = "ITT";
+         // 
+         // checkCamera4
+         // 
+         checkCamera4.Appearance = Appearance.Button;
+         checkCamera4.Location = new Point(888, 504);
+         checkCamera4.Name = "checkCamera4";
+         checkCamera4.Size = new Size(30, 27);
+         checkCamera4.TabIndex = 47;
+         checkCamera4.Tag = "4";
+         checkCamera4.Text = "4";
+         checkCamera4.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera4.UseVisualStyleBackColor = true;
+         checkCamera4.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCockpitQuickViewSubState
+         // 
+         checkCockpitQuickViewSubState.Appearance = Appearance.Button;
+         checkCockpitQuickViewSubState.Location = new Point(1003, 438);
+         checkCockpitQuickViewSubState.Name = "checkCockpitQuickViewSubState";
+         checkCockpitQuickViewSubState.Size = new Size(60, 27);
+         checkCockpitQuickViewSubState.TabIndex = 70;
+         checkCockpitQuickViewSubState.Text = "C-QV";
+         checkCockpitQuickViewSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkCockpitQuickViewSubState.UseVisualStyleBackColor = true;
+         checkCockpitQuickViewSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCamera3
+         // 
+         checkCamera3.Appearance = Appearance.Button;
+         checkCamera3.Location = new Point(960, 537);
+         checkCamera3.Name = "checkCamera3";
+         checkCamera3.Size = new Size(30, 27);
+         checkCamera3.TabIndex = 46;
+         checkCamera3.Tag = "3";
+         checkCamera3.Text = "3";
+         checkCamera3.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera3.UseVisualStyleBackColor = true;
+         checkCamera3.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblEngineTorque
+         // 
+         lblEngineTorque.AutoSize = true;
+         lblEngineTorque.Location = new Point(294, 315);
+         lblEngineTorque.Name = "lblEngineTorque";
+         lblEngineTorque.Size = new Size(49, 17);
+         lblEngineTorque.TabIndex = 75;
+         lblEngineTorque.Text = "Torque";
+         // 
+         // checkCamera2
+         // 
+         checkCamera2.Appearance = Appearance.Button;
+         checkCamera2.Location = new Point(924, 537);
+         checkCamera2.Name = "checkCamera2";
+         checkCamera2.Size = new Size(30, 27);
+         checkCamera2.TabIndex = 45;
+         checkCamera2.Tag = "2";
+         checkCamera2.Text = "2";
+         checkCamera2.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera2.UseVisualStyleBackColor = true;
+         checkCamera2.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCockpitInstrumentSubState
+         // 
+         checkCockpitInstrumentSubState.Appearance = Appearance.Button;
+         checkCockpitInstrumentSubState.Location = new Point(1003, 405);
+         checkCockpitInstrumentSubState.Name = "checkCockpitInstrumentSubState";
+         checkCockpitInstrumentSubState.Size = new Size(60, 27);
+         checkCockpitInstrumentSubState.TabIndex = 69;
+         checkCockpitInstrumentSubState.Text = "Instr";
+         checkCockpitInstrumentSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkCockpitInstrumentSubState.UseVisualStyleBackColor = true;
+         checkCockpitInstrumentSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCamera1
+         // 
+         checkCamera1.Appearance = Appearance.Button;
+         checkCamera1.Location = new Point(888, 537);
+         checkCamera1.Name = "checkCamera1";
+         checkCamera1.Size = new Size(30, 27);
+         checkCamera1.TabIndex = 44;
+         checkCamera1.Tag = "1";
+         checkCamera1.Text = "1";
+         checkCamera1.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera1.UseVisualStyleBackColor = true;
+         checkCamera1.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblFlapsCurrentPosition
+         // 
+         lblFlapsCurrentPosition.AutoSize = true;
+         lblFlapsCurrentPosition.Location = new Point(686, 323);
+         lblFlapsCurrentPosition.Name = "lblFlapsCurrentPosition";
+         lblFlapsCurrentPosition.Size = new Size(101, 17);
+         lblFlapsCurrentPosition.TabIndex = 74;
+         lblFlapsCurrentPosition.Text = "Current Position";
+         // 
+         // checkCamera10
+         // 
+         checkCamera10.Appearance = Appearance.Button;
+         checkCamera10.Location = new Point(888, 570);
+         checkCamera10.Name = "checkCamera10";
+         checkCamera10.Size = new Size(66, 27);
+         checkCamera10.TabIndex = 43;
+         checkCamera10.Tag = "0";
+         checkCamera10.Text = "0";
+         checkCamera10.TextAlign = ContentAlignment.MiddleCenter;
+         checkCamera10.UseVisualStyleBackColor = true;
+         checkCamera10.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCockpitPilotSubState
+         // 
+         checkCockpitPilotSubState.Appearance = Appearance.Button;
+         checkCockpitPilotSubState.Location = new Point(1003, 372);
+         checkCockpitPilotSubState.Name = "checkCockpitPilotSubState";
+         checkCockpitPilotSubState.Size = new Size(60, 27);
+         checkCockpitPilotSubState.TabIndex = 68;
+         checkCockpitPilotSubState.Text = "Pilot";
+         checkCockpitPilotSubState.TextAlign = ContentAlignment.MiddleCenter;
+         checkCockpitPilotSubState.UseVisualStyleBackColor = true;
+         checkCockpitPilotSubState.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // lblFlapsNumberOfDetents
+         // 
+         lblFlapsNumberOfDetents.AutoSize = true;
+         lblFlapsNumberOfDetents.Location = new Point(686, 305);
+         lblFlapsNumberOfDetents.Name = "lblFlapsNumberOfDetents";
+         lblFlapsNumberOfDetents.Size = new Size(120, 17);
+         lblFlapsNumberOfDetents.TabIndex = 73;
+         lblFlapsNumberOfDetents.Text = "Number of Detents";
+         // 
+         // lblIndex1
+         // 
+         lblIndex1.AutoSize = true;
+         lblIndex1.Location = new Point(151, 620);
+         lblIndex1.Name = "lblIndex1";
+         lblIndex1.Size = new Size(59, 17);
+         lblIndex1.TabIndex = 60;
+         lblIndex1.Text = "Index1: x";
+         // 
+         // btnPreviousSubView
+         // 
+         btnPreviousSubView.Location = new Point(943, 405);
+         btnPreviousSubView.Name = "btnPreviousSubView";
+         btnPreviousSubView.Size = new Size(42, 27);
+         btnPreviousSubView.TabIndex = 166;
+         btnPreviousSubView.Text = "PSV";
+         btnPreviousSubView.UseVisualStyleBackColor = true;
+         btnPreviousSubView.Click += CameraViewButton_Click;
+         // 
+         // lblIndex0
+         // 
+         lblIndex0.AutoSize = true;
+         lblIndex0.Location = new Point(151, 603);
+         lblIndex0.Name = "lblIndex0";
+         lblIndex0.Size = new Size(59, 17);
+         lblIndex0.TabIndex = 60;
+         lblIndex0.Text = "Index0: x";
+         // 
+         // lblCurrentFlapsLimit
+         // 
+         lblCurrentFlapsLimit.AutoSize = true;
+         lblCurrentFlapsLimit.Location = new Point(686, 288);
+         lblCurrentFlapsLimit.Name = "lblCurrentFlapsLimit";
+         lblCurrentFlapsLimit.Size = new Size(116, 17);
+         lblCurrentFlapsLimit.TabIndex = 72;
+         lblCurrentFlapsLimit.Text = "Current Flaps Limit";
+         // 
+         // lblCameraSubstate
+         // 
+         lblCameraSubstate.AutoSize = true;
+         lblCameraSubstate.Location = new Point(151, 586);
+         lblCameraSubstate.Name = "lblCameraSubstate";
+         lblCameraSubstate.Size = new Size(71, 17);
+         lblCameraSubstate.TabIndex = 59;
+         lblCameraSubstate.Text = "Substate: x";
+         // 
+         // btnNextSubView
+         // 
+         btnNextSubView.Location = new Point(943, 372);
+         btnNextSubView.Name = "btnNextSubView";
+         btnNextSubView.Size = new Size(42, 27);
+         btnNextSubView.TabIndex = 165;
+         btnNextSubView.Text = "NSV";
+         btnNextSubView.UseVisualStyleBackColor = true;
+         btnNextSubView.Click += CameraViewButton_Click;
+         // 
+         // lblCameraState
+         // 
+         lblCameraState.AutoSize = true;
+         lblCameraState.Location = new Point(151, 569);
+         lblCameraState.Name = "lblCameraState";
+         lblCameraState.Size = new Size(50, 17);
+         lblCameraState.TabIndex = 58;
+         lblCameraState.Text = "State: x";
+         // 
+         // lblTrailingFlapsRight
+         // 
+         lblTrailingFlapsRight.AutoSize = true;
+         lblTrailingFlapsRight.Location = new Point(686, 271);
+         lblTrailingFlapsRight.Name = "lblTrailingFlapsRight";
+         lblTrailingFlapsRight.Size = new Size(118, 17);
+         lblTrailingFlapsRight.TabIndex = 71;
+         lblTrailingFlapsRight.Text = "Trailing Flaps Right";
+         // 
+         // btnPreviousView
+         // 
+         btnPreviousView.Location = new Point(888, 405);
+         btnPreviousView.Name = "btnPreviousView";
+         btnPreviousView.Size = new Size(42, 27);
+         btnPreviousView.TabIndex = 165;
+         btnPreviousView.Text = "PV";
+         btnPreviousView.UseVisualStyleBackColor = true;
+         btnPreviousView.Click += CameraViewButton_Click;
+         // 
+         // lblTrailingFlapsLeft
+         // 
+         lblTrailingFlapsLeft.AutoSize = true;
+         lblTrailingFlapsLeft.Location = new Point(686, 254);
+         lblTrailingFlapsLeft.Name = "lblTrailingFlapsLeft";
+         lblTrailingFlapsLeft.Size = new Size(109, 17);
+         lblTrailingFlapsLeft.TabIndex = 70;
+         lblTrailingFlapsLeft.Text = "Trailing Flaps Left";
+         // 
+         // btnNextView
+         // 
+         btnNextView.Location = new Point(888, 372);
+         btnNextView.Name = "btnNextView";
+         btnNextView.Size = new Size(42, 27);
+         btnNextView.TabIndex = 164;
+         btnNextView.Text = "NV";
+         btnNextView.UseVisualStyleBackColor = true;
+         btnNextView.Click += CameraViewButton_Click;
+         // 
+         // lblAileronTrimPct
+         // 
+         lblAileronTrimPct.AutoSize = true;
+         lblAileronTrimPct.Location = new Point(525, 276);
+         lblAileronTrimPct.Name = "lblAileronTrimPct";
+         lblAileronTrimPct.Size = new Size(103, 17);
+         lblAileronTrimPct.TabIndex = 69;
+         lblAileronTrimPct.Text = "Aileron Trim: 0%";
+         // 
+         // lblRudderTrimPct
+         // 
+         lblRudderTrimPct.AutoSize = true;
+         lblRudderTrimPct.Location = new Point(525, 259);
+         lblRudderTrimPct.Name = "lblRudderTrimPct";
+         lblRudderTrimPct.Size = new Size(105, 17);
+         lblRudderTrimPct.TabIndex = 68;
+         lblRudderTrimPct.Text = "Rudder Trim: 0%";
+         // 
+         // lblElevatorTrimPct
+         // 
+         lblElevatorTrimPct.AutoSize = true;
+         lblElevatorTrimPct.Location = new Point(525, 242);
+         lblElevatorTrimPct.Name = "lblElevatorTrimPct";
+         lblElevatorTrimPct.Size = new Size(109, 17);
+         lblElevatorTrimPct.TabIndex = 2;
+         lblElevatorTrimPct.Text = "Elevator Trim: 0%";
+         // 
+         // btnSetCamera
+         // 
+         btnSetCamera.Location = new Point(341, 282);
+         btnSetCamera.Name = "btnSetCamera";
+         btnSetCamera.Size = new Size(140, 23);
+         btnSetCamera.TabIndex = 67;
+         btnSetCamera.Text = "Set Camera";
+         btnSetCamera.UseVisualStyleBackColor = true;
+         btnSetCamera.Click += btnSetCamera_Click;
+         // 
+         // txtCameraIndex1
+         // 
+         txtCameraIndex1.Location = new Point(450, 251);
+         txtCameraIndex1.Name = "txtCameraIndex1";
+         txtCameraIndex1.Size = new Size(31, 25);
+         txtCameraIndex1.TabIndex = 66;
+         // 
+         // txtCameraIndex0
+         // 
+         txtCameraIndex0.Location = new Point(413, 251);
+         txtCameraIndex0.Name = "txtCameraIndex0";
+         txtCameraIndex0.Size = new Size(31, 25);
+         txtCameraIndex0.TabIndex = 65;
+         // 
+         // txtCameraSubState
+         // 
+         txtCameraSubState.Location = new Point(376, 251);
+         txtCameraSubState.Name = "txtCameraSubState";
+         txtCameraSubState.Size = new Size(31, 25);
+         txtCameraSubState.TabIndex = 64;
+         // 
+         // txtCameraState
+         // 
+         txtCameraState.Location = new Point(339, 251);
+         txtCameraState.Name = "txtCameraState";
+         txtCameraState.Size = new Size(31, 25);
+         txtCameraState.TabIndex = 63;
+         // 
+         // groupBox1
+         // 
+         groupBox1.Controls.Add(btnSimRateReset);
+         groupBox1.Controls.Add(btnSimRateDec);
+         groupBox1.Controls.Add(btnSimRateInc);
+         groupBox1.Controls.Add(lblSimRate);
+         groupBox1.Location = new Point(686, 144);
+         groupBox1.Name = "groupBox1";
+         groupBox1.Size = new Size(177, 95);
+         groupBox1.TabIndex = 62;
+         groupBox1.TabStop = false;
+         groupBox1.Text = "Time";
+         // 
+         // btnSimRateReset
+         // 
+         btnSimRateReset.AutoSize = true;
+         btnSimRateReset.Location = new Point(72, 41);
+         btnSimRateReset.Name = "btnSimRateReset";
+         btnSimRateReset.Size = new Size(50, 27);
+         btnSimRateReset.TabIndex = 69;
+         btnSimRateReset.Text = "Reset";
+         btnSimRateReset.UseVisualStyleBackColor = true;
+         btnSimRateReset.Click += SimRateButton_Click;
+         // 
+         // btnSimRateDec
+         // 
+         btnSimRateDec.Location = new Point(6, 41);
+         btnSimRateDec.Name = "btnSimRateDec";
+         btnSimRateDec.Size = new Size(27, 27);
+         btnSimRateDec.TabIndex = 68;
+         btnSimRateDec.Text = "-";
+         btnSimRateDec.UseVisualStyleBackColor = true;
+         btnSimRateDec.Click += SimRateButton_Click;
+         // 
+         // btnSimRateInc
+         // 
+         btnSimRateInc.Location = new Point(39, 41);
+         btnSimRateInc.Name = "btnSimRateInc";
+         btnSimRateInc.Size = new Size(27, 27);
+         btnSimRateInc.TabIndex = 67;
+         btnSimRateInc.Text = "+";
+         btnSimRateInc.UseVisualStyleBackColor = true;
+         btnSimRateInc.Click += SimRateButton_Click;
+         // 
+         // lblSimRate
+         // 
+         lblSimRate.AutoSize = true;
+         lblSimRate.Location = new Point(6, 21);
+         lblSimRate.Name = "lblSimRate";
+         lblSimRate.Size = new Size(79, 17);
+         lblSimRate.TabIndex = 0;
+         lblSimRate.Text = "Sim Rate: 1x";
+         // 
+         // lblCurrentCameraType
+         // 
+         lblCurrentCameraType.AutoSize = true;
+         lblCurrentCameraType.Location = new Point(725, 623);
+         lblCurrentCameraType.Name = "lblCurrentCameraType";
+         lblCurrentCameraType.Size = new Size(50, 17);
+         lblCurrentCameraType.TabIndex = 67;
+         lblCurrentCameraType.Text = "label10";
+         // 
+         // txtOutput
+         // 
+         txtOutput.Location = new Point(737, 233);
+         txtOutput.Multiline = true;
+         txtOutput.Name = "txtOutput";
+         txtOutput.ReadOnly = true;
+         txtOutput.Size = new Size(326, 116);
+         txtOutput.TabIndex = 61;
+         // 
          // groupCameras
          // 
          groupCameras.Controls.Add(checkCameraPilotCoPilot);
@@ -285,22 +960,60 @@
          groupCameras.Controls.Add(checkCameraPilotClose);
          groupCameras.Controls.Add(checkCameraPilotNormal);
          groupCameras.Controls.Add(lblCameraCurrentView);
-         groupCameras.Controls.Add(checkCamera9);
-         groupCameras.Controls.Add(checkCamera8);
-         groupCameras.Controls.Add(checkCamera7);
-         groupCameras.Controls.Add(checkCamera6);
-         groupCameras.Controls.Add(checkCamera5);
-         groupCameras.Controls.Add(checkCamera4);
-         groupCameras.Controls.Add(checkCamera3);
-         groupCameras.Controls.Add(checkCamera2);
-         groupCameras.Controls.Add(checkCamera1);
-         groupCameras.Controls.Add(checkCamera10);
          groupCameras.Location = new Point(284, 490);
          groupCameras.Name = "groupCameras";
-         groupCameras.Size = new Size(443, 94);
+         groupCameras.Size = new Size(468, 130);
          groupCameras.TabIndex = 45;
          groupCameras.TabStop = false;
          groupCameras.Text = "Cameras";
+         // 
+         // checkCameraPilotCoPilot
+         // 
+         checkCameraPilotCoPilot.Appearance = Appearance.Button;
+         checkCameraPilotCoPilot.Location = new Point(204, 57);
+         checkCameraPilotCoPilot.Name = "checkCameraPilotCoPilot";
+         checkCameraPilotCoPilot.Size = new Size(60, 27);
+         checkCameraPilotCoPilot.TabIndex = 57;
+         checkCameraPilotCoPilot.Text = "CoPilot";
+         checkCameraPilotCoPilot.TextAlign = ContentAlignment.MiddleCenter;
+         checkCameraPilotCoPilot.UseVisualStyleBackColor = true;
+         checkCameraPilotCoPilot.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCameraPilotLand
+         // 
+         checkCameraPilotLand.Appearance = Appearance.Button;
+         checkCameraPilotLand.Location = new Point(138, 57);
+         checkCameraPilotLand.Name = "checkCameraPilotLand";
+         checkCameraPilotLand.Size = new Size(60, 27);
+         checkCameraPilotLand.TabIndex = 56;
+         checkCameraPilotLand.Text = "Land";
+         checkCameraPilotLand.TextAlign = ContentAlignment.MiddleCenter;
+         checkCameraPilotLand.UseVisualStyleBackColor = true;
+         checkCameraPilotLand.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCameraPilotClose
+         // 
+         checkCameraPilotClose.Appearance = Appearance.Button;
+         checkCameraPilotClose.Location = new Point(6, 57);
+         checkCameraPilotClose.Name = "checkCameraPilotClose";
+         checkCameraPilotClose.Size = new Size(60, 27);
+         checkCameraPilotClose.TabIndex = 55;
+         checkCameraPilotClose.Text = "Close";
+         checkCameraPilotClose.TextAlign = ContentAlignment.MiddleCenter;
+         checkCameraPilotClose.UseVisualStyleBackColor = true;
+         checkCameraPilotClose.CheckedChanged += CameraButton_CheckChanged;
+         // 
+         // checkCameraPilotNormal
+         // 
+         checkCameraPilotNormal.Appearance = Appearance.Button;
+         checkCameraPilotNormal.Location = new Point(72, 57);
+         checkCameraPilotNormal.Name = "checkCameraPilotNormal";
+         checkCameraPilotNormal.Size = new Size(60, 27);
+         checkCameraPilotNormal.TabIndex = 54;
+         checkCameraPilotNormal.Text = "Pilot";
+         checkCameraPilotNormal.TextAlign = ContentAlignment.MiddleCenter;
+         checkCameraPilotNormal.UseVisualStyleBackColor = true;
+         checkCameraPilotNormal.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblCameraCurrentView
          // 
@@ -310,126 +1023,6 @@
          lblCameraCurrentView.Size = new Size(127, 17);
          lblCameraCurrentView.TabIndex = 53;
          lblCameraCurrentView.Text = "Current camera view";
-         // 
-         // checkCamera9
-         // 
-         checkCamera9.Appearance = Appearance.Button;
-         checkCamera9.Location = new Point(294, 24);
-         checkCamera9.Name = "checkCamera9";
-         checkCamera9.Size = new Size(30, 27);
-         checkCamera9.TabIndex = 52;
-         checkCamera9.Text = "9";
-         checkCamera9.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera9.UseVisualStyleBackColor = true;
-         checkCamera9.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera8
-         // 
-         checkCamera8.Appearance = Appearance.Button;
-         checkCamera8.Location = new Point(258, 24);
-         checkCamera8.Name = "checkCamera8";
-         checkCamera8.Size = new Size(30, 27);
-         checkCamera8.TabIndex = 51;
-         checkCamera8.Text = "8";
-         checkCamera8.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera8.UseVisualStyleBackColor = true;
-         checkCamera8.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera7
-         // 
-         checkCamera7.Appearance = Appearance.Button;
-         checkCamera7.Location = new Point(222, 24);
-         checkCamera7.Name = "checkCamera7";
-         checkCamera7.Size = new Size(30, 27);
-         checkCamera7.TabIndex = 50;
-         checkCamera7.Text = "7";
-         checkCamera7.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera7.UseVisualStyleBackColor = true;
-         checkCamera7.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera6
-         // 
-         checkCamera6.Appearance = Appearance.Button;
-         checkCamera6.Location = new Point(186, 24);
-         checkCamera6.Name = "checkCamera6";
-         checkCamera6.Size = new Size(30, 27);
-         checkCamera6.TabIndex = 49;
-         checkCamera6.Text = "6";
-         checkCamera6.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera6.UseVisualStyleBackColor = true;
-         checkCamera6.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera5
-         // 
-         checkCamera5.Appearance = Appearance.Button;
-         checkCamera5.Location = new Point(150, 24);
-         checkCamera5.Name = "checkCamera5";
-         checkCamera5.Size = new Size(30, 27);
-         checkCamera5.TabIndex = 48;
-         checkCamera5.Text = "5";
-         checkCamera5.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera5.UseVisualStyleBackColor = true;
-         checkCamera5.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera4
-         // 
-         checkCamera4.Appearance = Appearance.Button;
-         checkCamera4.Location = new Point(114, 24);
-         checkCamera4.Name = "checkCamera4";
-         checkCamera4.Size = new Size(30, 27);
-         checkCamera4.TabIndex = 47;
-         checkCamera4.Text = "4";
-         checkCamera4.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera4.UseVisualStyleBackColor = true;
-         checkCamera4.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera3
-         // 
-         checkCamera3.Appearance = Appearance.Button;
-         checkCamera3.Location = new Point(78, 24);
-         checkCamera3.Name = "checkCamera3";
-         checkCamera3.Size = new Size(30, 27);
-         checkCamera3.TabIndex = 46;
-         checkCamera3.Text = "3";
-         checkCamera3.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera3.UseVisualStyleBackColor = true;
-         checkCamera3.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera2
-         // 
-         checkCamera2.Appearance = Appearance.Button;
-         checkCamera2.Location = new Point(42, 24);
-         checkCamera2.Name = "checkCamera2";
-         checkCamera2.Size = new Size(30, 27);
-         checkCamera2.TabIndex = 45;
-         checkCamera2.Text = "2";
-         checkCamera2.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera2.UseVisualStyleBackColor = true;
-         checkCamera2.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera1
-         // 
-         checkCamera1.Appearance = Appearance.Button;
-         checkCamera1.Location = new Point(6, 24);
-         checkCamera1.Name = "checkCamera1";
-         checkCamera1.Size = new Size(30, 27);
-         checkCamera1.TabIndex = 44;
-         checkCamera1.Text = "1";
-         checkCamera1.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera1.UseVisualStyleBackColor = true;
-         checkCamera1.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCamera10
-         // 
-         checkCamera10.Appearance = Appearance.Button;
-         checkCamera10.Location = new Point(330, 24);
-         checkCamera10.Name = "checkCamera10";
-         checkCamera10.Size = new Size(30, 27);
-         checkCamera10.TabIndex = 43;
-         checkCamera10.Text = "10";
-         checkCamera10.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera10.UseVisualStyleBackColor = true;
-         checkCamera10.CheckedChanged += CameraButton_CheckChanged;
          // 
          // groupFuel
          // 
@@ -574,14 +1167,14 @@
          groupFms.Controls.Add(btnFmsPfdOuter);
          groupFms.Location = new Point(284, 144);
          groupFms.Name = "groupFms";
-         groupFms.Size = new Size(579, 78);
+         groupFms.Size = new Size(396, 95);
          groupFms.TabIndex = 38;
          groupFms.TabStop = false;
          groupFms.Text = "FMS";
          // 
          // btnFmsMfdInner
          // 
-         btnFmsMfdInner.Location = new Point(525, 24);
+         btnFmsMfdInner.Location = new Point(342, 30);
          btnFmsMfdInner.Name = "btnFmsMfdInner";
          btnFmsMfdInner.Size = new Size(45, 45);
          btnFmsMfdInner.TabIndex = 63;
@@ -590,7 +1183,7 @@
          // 
          // btnFmsMfdOuter
          // 
-         btnFmsMfdOuter.Location = new Point(474, 24);
+         btnFmsMfdOuter.Location = new Point(291, 30);
          btnFmsMfdOuter.Name = "btnFmsMfdOuter";
          btnFmsMfdOuter.Size = new Size(45, 45);
          btnFmsMfdOuter.TabIndex = 62;
@@ -599,7 +1192,7 @@
          // 
          // btnFmsEnt
          // 
-         btnFmsEnt.Location = new Point(413, 24);
+         btnFmsEnt.Location = new Point(230, 57);
          btnFmsEnt.Name = "btnFmsEnt";
          btnFmsEnt.Size = new Size(55, 27);
          btnFmsEnt.TabIndex = 61;
@@ -609,7 +1202,7 @@
          // 
          // btnFmsClr
          // 
-         btnFmsClr.Location = new Point(352, 24);
+         btnFmsClr.Location = new Point(169, 57);
          btnFmsClr.Name = "btnFmsClr";
          btnFmsClr.Size = new Size(55, 27);
          btnFmsClr.TabIndex = 60;
@@ -619,7 +1212,7 @@
          // 
          // btnFmsMenu
          // 
-         btnFmsMenu.Location = new Point(291, 24);
+         btnFmsMenu.Location = new Point(108, 57);
          btnFmsMenu.Name = "btnFmsMenu";
          btnFmsMenu.Size = new Size(55, 27);
          btnFmsMenu.TabIndex = 59;
@@ -659,7 +1252,7 @@
          // 
          // btnFmsPfdInner
          // 
-         btnFmsPfdInner.Location = new Point(57, 24);
+         btnFmsPfdInner.Location = new Point(57, 30);
          btnFmsPfdInner.Name = "btnFmsPfdInner";
          btnFmsPfdInner.Size = new Size(45, 45);
          btnFmsPfdInner.TabIndex = 55;
@@ -668,7 +1261,7 @@
          // 
          // btnFmsPfdOuter
          // 
-         btnFmsPfdOuter.Location = new Point(6, 24);
+         btnFmsPfdOuter.Location = new Point(6, 30);
          btnFmsPfdOuter.Name = "btnFmsPfdOuter";
          btnFmsPfdOuter.Size = new Size(45, 45);
          btnFmsPfdOuter.TabIndex = 54;
@@ -904,138 +1497,6 @@
          checkApHdgHold.UseVisualStyleBackColor = true;
          checkApHdgHold.CheckedChanged += Autopilot_CheckedChanged;
          checkApHdgHold.Click += ApButton_Click;
-         // 
-         // txtRudderTrimMax
-         // 
-         txtRudderTrimMax.Location = new Point(963, 338);
-         txtRudderTrimMax.Name = "txtRudderTrimMax";
-         txtRudderTrimMax.ReadOnly = true;
-         txtRudderTrimMax.Size = new Size(100, 25);
-         txtRudderTrimMax.TabIndex = 36;
-         // 
-         // txtRudderTrimPosition
-         // 
-         txtRudderTrimPosition.Location = new Point(963, 307);
-         txtRudderTrimPosition.Name = "txtRudderTrimPosition";
-         txtRudderTrimPosition.ReadOnly = true;
-         txtRudderTrimPosition.Size = new Size(100, 25);
-         txtRudderTrimPosition.TabIndex = 35;
-         // 
-         // txtRudderTrimDisabled
-         // 
-         txtRudderTrimDisabled.Location = new Point(963, 276);
-         txtRudderTrimDisabled.Name = "txtRudderTrimDisabled";
-         txtRudderTrimDisabled.ReadOnly = true;
-         txtRudderTrimDisabled.Size = new Size(100, 25);
-         txtRudderTrimDisabled.TabIndex = 34;
-         // 
-         // txtRudderTrimMin
-         // 
-         txtRudderTrimMin.Location = new Point(963, 245);
-         txtRudderTrimMin.Name = "txtRudderTrimMin";
-         txtRudderTrimMin.ReadOnly = true;
-         txtRudderTrimMin.Size = new Size(100, 25);
-         txtRudderTrimMin.TabIndex = 33;
-         // 
-         // txtAileronTrimMax
-         // 
-         txtAileronTrimMax.Location = new Point(857, 338);
-         txtAileronTrimMax.Name = "txtAileronTrimMax";
-         txtAileronTrimMax.ReadOnly = true;
-         txtAileronTrimMax.Size = new Size(100, 25);
-         txtAileronTrimMax.TabIndex = 32;
-         // 
-         // txtAileronTrimPosition
-         // 
-         txtAileronTrimPosition.Location = new Point(857, 307);
-         txtAileronTrimPosition.Name = "txtAileronTrimPosition";
-         txtAileronTrimPosition.ReadOnly = true;
-         txtAileronTrimPosition.Size = new Size(100, 25);
-         txtAileronTrimPosition.TabIndex = 31;
-         // 
-         // txtAileronTrimDisabled
-         // 
-         txtAileronTrimDisabled.Location = new Point(857, 276);
-         txtAileronTrimDisabled.Name = "txtAileronTrimDisabled";
-         txtAileronTrimDisabled.ReadOnly = true;
-         txtAileronTrimDisabled.Size = new Size(100, 25);
-         txtAileronTrimDisabled.TabIndex = 30;
-         // 
-         // txtAileronTrimMin
-         // 
-         txtAileronTrimMin.Location = new Point(857, 245);
-         txtAileronTrimMin.Name = "txtAileronTrimMin";
-         txtAileronTrimMin.ReadOnly = true;
-         txtAileronTrimMin.Size = new Size(100, 25);
-         txtAileronTrimMin.TabIndex = 29;
-         // 
-         // label9
-         // 
-         label9.AutoSize = true;
-         label9.Location = new Point(596, 341);
-         label9.Name = "label9";
-         label9.Size = new Size(113, 17);
-         label9.TabIndex = 28;
-         label9.Text = "Elevator Trim Max";
-         // 
-         // txtElevatorTrimMax
-         // 
-         txtElevatorTrimMax.Location = new Point(737, 338);
-         txtElevatorTrimMax.Name = "txtElevatorTrimMax";
-         txtElevatorTrimMax.ReadOnly = true;
-         txtElevatorTrimMax.Size = new Size(100, 25);
-         txtElevatorTrimMax.TabIndex = 27;
-         // 
-         // label8
-         // 
-         label8.AutoSize = true;
-         label8.Location = new Point(596, 279);
-         label8.Name = "label8";
-         label8.Size = new Size(131, 17);
-         label8.TabIndex = 26;
-         label8.Text = "Elevator Trim Neutral";
-         // 
-         // label6
-         // 
-         label6.AutoSize = true;
-         label6.Location = new Point(596, 310);
-         label6.Name = "label6";
-         label6.Size = new Size(84, 17);
-         label6.TabIndex = 25;
-         label6.Text = "Elevator Trim";
-         // 
-         // txtElevatorTrim
-         // 
-         txtElevatorTrim.Location = new Point(737, 307);
-         txtElevatorTrim.Name = "txtElevatorTrim";
-         txtElevatorTrim.ReadOnly = true;
-         txtElevatorTrim.Size = new Size(100, 25);
-         txtElevatorTrim.TabIndex = 24;
-         // 
-         // txtElevatorTrimNeutral
-         // 
-         txtElevatorTrimNeutral.Location = new Point(737, 276);
-         txtElevatorTrimNeutral.Name = "txtElevatorTrimNeutral";
-         txtElevatorTrimNeutral.ReadOnly = true;
-         txtElevatorTrimNeutral.Size = new Size(100, 25);
-         txtElevatorTrimNeutral.TabIndex = 23;
-         // 
-         // txtElevatorTrimMin
-         // 
-         txtElevatorTrimMin.Location = new Point(737, 245);
-         txtElevatorTrimMin.Name = "txtElevatorTrimMin";
-         txtElevatorTrimMin.ReadOnly = true;
-         txtElevatorTrimMin.Size = new Size(100, 25);
-         txtElevatorTrimMin.TabIndex = 22;
-         // 
-         // label1
-         // 
-         label1.AutoSize = true;
-         label1.Location = new Point(596, 248);
-         label1.Name = "label1";
-         label1.Size = new Size(110, 17);
-         label1.TabIndex = 21;
-         label1.Text = "Elevator Trim Min";
          // 
          // groupLights
          // 
@@ -1577,54 +2038,6 @@
          presetEventsToolStripMenuItem.Text = "Preset Events...";
          presetEventsToolStripMenuItem.Click += PresetEventsToolStripMenuItem_Click;
          // 
-         // checkCameraPilotNormal
-         // 
-         checkCameraPilotNormal.Appearance = Appearance.Button;
-         checkCameraPilotNormal.Location = new Point(6, 57);
-         checkCameraPilotNormal.Name = "checkCameraPilotNormal";
-         checkCameraPilotNormal.Size = new Size(60, 27);
-         checkCameraPilotNormal.TabIndex = 54;
-         checkCameraPilotNormal.Text = "Pilot";
-         checkCameraPilotNormal.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotNormal.UseVisualStyleBackColor = true;
-         checkCameraPilotNormal.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCameraPilotClose
-         // 
-         checkCameraPilotClose.Appearance = Appearance.Button;
-         checkCameraPilotClose.Location = new Point(72, 57);
-         checkCameraPilotClose.Name = "checkCameraPilotClose";
-         checkCameraPilotClose.Size = new Size(60, 27);
-         checkCameraPilotClose.TabIndex = 55;
-         checkCameraPilotClose.Text = "Close";
-         checkCameraPilotClose.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotClose.UseVisualStyleBackColor = true;
-         checkCameraPilotClose.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCameraPilotLand
-         // 
-         checkCameraPilotLand.Appearance = Appearance.Button;
-         checkCameraPilotLand.Location = new Point(138, 57);
-         checkCameraPilotLand.Name = "checkCameraPilotLand";
-         checkCameraPilotLand.Size = new Size(60, 27);
-         checkCameraPilotLand.TabIndex = 56;
-         checkCameraPilotLand.Text = "Land";
-         checkCameraPilotLand.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotLand.UseVisualStyleBackColor = true;
-         checkCameraPilotLand.CheckedChanged += CameraButton_CheckChanged;
-         // 
-         // checkCameraPilotCoPilot
-         // 
-         checkCameraPilotCoPilot.Appearance = Appearance.Button;
-         checkCameraPilotCoPilot.Location = new Point(204, 57);
-         checkCameraPilotCoPilot.Name = "checkCameraPilotCoPilot";
-         checkCameraPilotCoPilot.Size = new Size(60, 27);
-         checkCameraPilotCoPilot.TabIndex = 57;
-         checkCameraPilotCoPilot.Text = "CoPilot";
-         checkCameraPilotCoPilot.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotCoPilot.UseVisualStyleBackColor = true;
-         checkCameraPilotCoPilot.CheckedChanged += CameraButton_CheckChanged;
-         // 
          // MainForm
          // 
          AutoScaleDimensions = new SizeF(7F, 17F);
@@ -1644,6 +2057,9 @@
          toolStripContainer1.PerformLayout();
          statusStrip.ResumeLayout(false);
          statusStrip.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)trackFlaps).EndInit();
+         groupBox1.ResumeLayout(false);
+         groupBox1.PerformLayout();
          groupCameras.ResumeLayout(false);
          groupCameras.PerformLayout();
          groupFuel.ResumeLayout(false);
@@ -1725,22 +2141,6 @@
       private ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator2;
       private GroupBox groupLights;
-      private Label label9;
-      private TextBox txtElevatorTrimMax;
-      private Label label8;
-      private Label label6;
-      private TextBox txtElevatorTrim;
-      private TextBox txtElevatorTrimNeutral;
-      private TextBox txtElevatorTrimMin;
-      private Label label1;
-      private TextBox txtAileronTrimMax;
-      private TextBox txtAileronTrimPosition;
-      private TextBox txtAileronTrimDisabled;
-      private TextBox txtAileronTrimMin;
-      private TextBox txtRudderTrimMax;
-      private TextBox txtRudderTrimPosition;
-      private TextBox txtRudderTrimDisabled;
-      private TextBox txtRudderTrimMin;
       private ToolStripStatusLabel lblFsuipcStatus;
       private ToolStripMenuItem fsuipcConnectToolStripMenuItem;
       private ToolStripMenuItem utilityToolStripMenuItem;
@@ -1804,5 +2204,54 @@
       private CheckBox checkCameraPilotLand;
       private CheckBox checkCameraPilotClose;
       private CheckBox checkCameraPilotNormal;
+      private Label lblIndex1;
+      private Label lblIndex0;
+      private Label lblCameraSubstate;
+      private Label lblCameraState;
+      public TextBox txtOutput;
+      private Button btnNextView;
+      private Button btnPreviousSubView;
+      private Button btnNextSubView;
+      private Button btnPreviousView;
+      private GroupBox groupBox1;
+      private Label lblSimRate;
+      private Button btnSimRateDec;
+      private Button btnSimRateInc;
+      private ToolStripStatusLabel lblLocalTime;
+      private Button btnSimRateReset;
+      private Label lblCurrentCameraType;
+      private Button btnSetCamera;
+      private TextBox txtCameraIndex1;
+      private TextBox txtCameraIndex0;
+      private TextBox txtCameraSubState;
+      private TextBox txtCameraState;
+      private CheckBox checkExternalQuickViewSubState;
+      private CheckBox checkExternalDefaultSubState;
+      private CheckBox checkCockpitQuickViewSubState;
+      private CheckBox checkCockpitInstrumentSubState;
+      private CheckBox checkCockpitPilotSubState;
+      private CheckBox checkShowcaseFixedSubState;
+      private CheckBox checkShowcaseDroneSubState;
+      private Label lblAileronTrimPct;
+      private Label lblRudderTrimPct;
+      private Label lblElevatorTrimPct;
+      private Label lblTrailingFlapsRight;
+      private Label lblTrailingFlapsLeft;
+      private Label lblFlapsCurrentPosition;
+      private Label lblFlapsNumberOfDetents;
+      private Label lblCurrentFlapsLimit;
+      private Label lblEngineTorque;
+      private Label lblEngineITT;
+      private Label lblEngineNGPct;
+      private Label lblEngineNPRpm;
+      private Label lblEngineTorquePct;
+      private CheckBox checkCustomCameraState;
+      private TrackBar trackFlaps;
+      private Label lblSCTargetDesc;
+      private Label lblSCTargetType;
+      private CheckBox checkSmartcam;
+      private Button btnPreviousSmartcam;
+      private Button btnNextSmartcam;
+      private Label label8;
    }
 }

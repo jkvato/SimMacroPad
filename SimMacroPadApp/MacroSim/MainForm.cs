@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -8,14 +9,17 @@ using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
 using MacroSim.Properties;
 using MacroSim.SimConnection;
-using Microsoft.VisualBasic.Devices;
-using static System.Windows.Forms.AxHost;
+using MacroSim.SimConnection.Enumerations;
+using MacroSim.SimConnection.Structures;
 using static MacroSim.SimConnection.SimConnection;
 
 namespace MacroSim;
 
 public partial class MainForm : Form
 {
+   private readonly string MSFS2020ProcessName = "FlightSimulator";
+   private readonly string MSFS2024ProcessName = "FlightSimulator2024";
+
    private readonly SimConnection.SimConnection simConnection;
    private readonly MacroPadDevice.MacroPadDevice macroPadDevice;
 
@@ -24,20 +28,28 @@ public partial class MainForm : Form
 
    private bool suppressLightButtonCheckChangedEvent = true;
    private bool suppressAutopilotButtonCheckChangedEvent = true;
-   private bool suppressCameraButtonCheckChangedEvent = true;
+   private bool programmaticallyChangingCameraCheckboxes = true;
+
+   private bool isMSFS2020Running = false;
+   private bool isMSFS2024Running = false;
 
    private FsuipcConnection fsuipcConnection;
 
    private CamerasStruct previousCamera;
+   private int previousCockpitSmartcamTarget;
+   private int previousExtSmartcamTarget;
 
    public MainForm()
    {
       InitializeComponent();
 
       previousCamera.cameraState = 2;
-      previousCamera.cameraSubstate = 1;
+      previousCamera.cameraSubState = 1;
       previousCamera.cameraViewTypeIndex0 = 1;
       previousCamera.cameraViewTypeIndex1 = 1;
+
+      previousCockpitSmartcamTarget = 0;
+      previousExtSmartcamTarget = 0;
 
       btnHdgSel.MouseWheel += ApButton_MouseWheel;
       btnAltSel.MouseWheel += ApButton_MouseWheel;
@@ -51,7 +63,7 @@ public partial class MainForm : Form
       btnFmsMfdOuter.MouseWheel += FmsButton_MouseWheel;
 
       simConnection = new SimConnection.SimConnection();
-      fsuipcConnection = new FsuipcConnection();
+      fsuipcConnection = new FsuipcConnection(this);
 
       string eventsFilename;
       eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
@@ -126,6 +138,31 @@ public partial class MainForm : Form
       }
 
       UpdateConnectionStatus();
+
+      GetRunningSimulators();
+   }
+
+   private void GetRunningSimulators()
+   {
+      Process[] processes;
+
+      processes = Process.GetProcessesByName(MSFS2020ProcessName);
+      isMSFS2020Running = processes.Length > 0;
+
+      processes = Process.GetProcessesByName(MSFS2024ProcessName);
+      isMSFS2024Running = processes.Length > 0;
+   }
+
+   private void ActivateFlightSimulator()
+   {
+      if (isMSFS2024Running)
+      {
+         BringMainWindowToFront(MSFS2024ProcessName);
+      }
+      else if (isMSFS2020Running)
+      {
+         BringMainWindowToFront(MSFS2020ProcessName);
+      }
    }
 
    private void MacroPadDevice_EventProcessed(object sender, EventProcessedEventArgs e)
@@ -133,15 +170,12 @@ public partial class MainForm : Form
       InvokeAction(form =>
       {
          form.lblMacroPadState.Text = e.NewState.ToString();
-         //form.txtOutput.AppendText($"Component {e.Component}, event {e.Event} \r\n");
       });
       UpdateConnectionStatus();
    }
 
    private void SimConnection_DataReceivedFromSim(object sender, object structure)
    {
-      //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Data received from simulator");
-
       if (structure is AvionicsStruct avionicsStruct)
       {
          macroPadDevice.UpdateData(avionicsStruct);
@@ -156,30 +190,14 @@ public partial class MainForm : Form
             }
 
             // COM1
-            if (avionicsStruct.com1standbyIdent == "")
-               form.lblCom1Standby.Text = "Standby";
-            else
-               form.lblCom1Standby.Text = avionicsStruct.com1standbyIdent + " " + avionicsStruct.com1standbyType;
-
-            if (avionicsStruct.com1activeIdent == "")
-               form.lblCom1Active.Text = "Active";
-            else
-               form.lblCom1Active.Text = avionicsStruct.com1activeIdent + " " + avionicsStruct.com1activeType;
-
+            form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
+            form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;
             form.lblCom1StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com1standby);
             form.lblCom1ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com1active);
 
             // COM2
-            if (avionicsStruct.com2standbyIdent == "")
-               form.lblCom2Standby.Text = "Standby";
-            else
-               form.lblCom2Standby.Text = avionicsStruct.com2standbyIdent + " " + avionicsStruct.com2standbyType;
-
-            if (avionicsStruct.com2activeIdent == "")
-               form.lblCom2Active.Text = "Active";
-            else
-               form.lblCom2Active.Text = avionicsStruct.com2activeIdent + " " + avionicsStruct.com2activeType;
-
+            form.lblCom2Standby.Text = avionicsStruct.Com2StandbyName;
+            form.lblCom2Active.Text = avionicsStruct.Com2ActiveName;
             form.lblCom2StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com2standby);
             form.lblCom2ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com2active);
 
@@ -261,50 +279,187 @@ public partial class MainForm : Form
          // Update UI via Invoke
          InvokeAction(form =>
          {
-            form.txtElevatorTrimMin.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimMinDegrees);
-            form.txtElevatorTrimNeutral.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimNeutralDegrees);
-            form.txtElevatorTrim.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimPositionDegrees);
-            form.txtElevatorTrimMax.Text = string.Format("{0:000.00}", trimStruct.ElevatorTrimMaxDegrees);
+            double elevatorTrimMax = Math.Max(trimStruct.elevatorTrimMax, -1 * trimStruct.elevatorTrimMin);
+            double elevatorTrimPct = 100d * trimStruct.elevatorTrimPosition / elevatorTrimMax;
+            form.lblElevatorTrimPct.Text = string.Format("Elevator Trim: {0:0} %", elevatorTrimPct);
 
-            form.txtAileronTrimDisabled.Text = trimStruct.AileronTrimDisabled ? "Disabled" : "Enabled";
-            form.txtAileronTrimMin.Text = string.Format("{0:000.00}", trimStruct.AileronTrimMinDegrees);
-            form.txtAileronTrimPosition.Text = string.Format("{0:000.00}", trimStruct.AileronTrimPositionDegrees);
-            form.txtAileronTrimMax.Text = string.Format("{0:000.00}", trimStruct.AileronTrimMaxDegrees);
+            double rudderTrimMax = Math.Max(trimStruct.rudderTrimMax, -1 * trimStruct.rudderTrimMin);
+            double rudderTrimPct = 100d * trimStruct.rudderTrimPosition / rudderTrimMax;
+            form.lblRudderTrimPct.Text = string.Format("Rudder Trim: {0:0} %", rudderTrimPct);
 
-            form.txtRudderTrimDisabled.Text = trimStruct.RudderTrimDisabled ? "Disabled" : "Enabled";
-            form.txtRudderTrimMin.Text = string.Format("{0:000.00}", trimStruct.RudderTrimMinDegrees);
-            form.txtRudderTrimPosition.Text = string.Format("{0:000.00}", trimStruct.RudderTrimPositionDegrees);
-            form.txtRudderTrimMax.Text = string.Format("{0:000.00}", trimStruct.RudderTrimMaxDegrees);
+            form.lblTrailingFlapsLeft.Text = string.Format("Trailing Flaps Left: {0:0} Degrees", trimStruct.flapsTrailingEdgeLeft);
+            form.lblTrailingFlapsRight.Text = string.Format("Trailing Flaps Right: {0:0} Degrees", trimStruct.flapsTrailingEdgeRight);
+            form.lblCurrentFlapsLimit.Text = string.Format("Current Limit: {0:0} Knots", trimStruct.flapsCurrentLimitation);
+            form.lblFlapsNumberOfDetents.Text = string.Format("Number of Detents: {0}", trimStruct.flapsNumHandlePositions);
+            form.lblFlapsCurrentPosition.Text = string.Format("Current Position: {0}", trimStruct.flapsHandleIndex);
+
+            trackFlaps.Minimum = -1 * trimStruct.flapsNumHandlePositions;
+            trackFlaps.Maximum = 0;
+            trackFlaps.Value = -1 * trimStruct.flapsHandleIndex;
+            //trackFlaps.Minimum = 0;
+            //trackFlaps.Maximum = trimStruct.flapsNumHandlePositions;
+            //trackFlaps.Value = trimStruct.flapsHandleIndex;
          });
       }
       else if (structure is CamerasStruct camerasStruct)
       {
          macroPadDevice.UpdateData(camerasStruct);
 
-         //previousCamera = camerasStruct;
-
          // Update UI via Invoke
          InvokeAction(form =>
          {
-            suppressCameraButtonCheckChangedEvent = true;
-            form.checkCamera1.Checked = camerasStruct.IsInstrumentCamera1Active;
-            form.checkCamera2.Checked = camerasStruct.IsInstrumentCamera2Active;
-            form.checkCamera3.Checked = camerasStruct.IsInstrumentCamera3Active;
-            form.checkCamera4.Checked = camerasStruct.IsInstrumentCamera4Active;
-            form.checkCamera5.Checked = camerasStruct.IsInstrumentCamera5Active;
-            form.checkCamera6.Checked = camerasStruct.IsInstrumentCamera6Active;
-            form.checkCamera7.Checked = camerasStruct.IsInstrumentCamera7Active;
-            form.checkCamera8.Checked = camerasStruct.IsInstrumentCamera8Active;
-            form.checkCamera9.Checked = camerasStruct.IsInstrumentCamera9Active;
-            form.checkCamera10.Checked = camerasStruct.IsInstrumentCamera10Active;
+            programmaticallyChangingCameraCheckboxes = true;
+            if (camerasStruct.IsCockpitPilotSubState)
+            {
+               form.checkCamera1.Checked = false;
+               form.checkCamera2.Checked = false;
+               form.checkCamera3.Checked = false;
+               form.checkCamera4.Checked = false;
+               form.checkCamera5.Checked = false;
+               form.checkCamera6.Checked = false;
+               form.checkCamera7.Checked = false;
+               form.checkCamera8.Checked = false;
+               form.checkCamera9.Checked = false;
+               form.checkCamera10.Checked = false;
+            }
+            else
+            {
+               form.checkCamera1.Checked = camerasStruct.CameraViewIndex1 == 1;
+               form.checkCamera2.Checked = camerasStruct.CameraViewIndex1 == 2;
+               form.checkCamera3.Checked = camerasStruct.CameraViewIndex1 == 3;
+               form.checkCamera4.Checked = camerasStruct.CameraViewIndex1 == 4;
+               form.checkCamera5.Checked = camerasStruct.CameraViewIndex1 == 5;
+               form.checkCamera6.Checked = camerasStruct.CameraViewIndex1 == 6;
+               form.checkCamera7.Checked = camerasStruct.CameraViewIndex1 == 7;
+               form.checkCamera8.Checked = camerasStruct.CameraViewIndex1 == 8;
+               form.checkCamera9.Checked = camerasStruct.CameraViewIndex1 == 9;
+               form.checkCamera10.Checked = camerasStruct.CameraViewIndex1 == 10;
+            }
             form.checkCameraPilotNormal.Checked = camerasStruct.IsPilotNormalCameraActive;
             form.checkCameraPilotClose.Checked = camerasStruct.IsPilotCloseCameraActive;
             form.checkCameraPilotLand.Checked = camerasStruct.IsPilotLandingCameraActive;
             form.checkCameraPilotCoPilot.Checked = camerasStruct.IsPilotCoPilotCameraActive;
+            form.checkCockpitPilotSubState.Checked = camerasStruct.IsCockpitPilotSubState;
+            form.checkCockpitInstrumentSubState.Checked = camerasStruct.IsCockpitInstrumentSubState;
+            form.checkCockpitQuickViewSubState.Checked = camerasStruct.IsCockpitQuickViewSubState;
+            form.checkExternalDefaultSubState.Checked = camerasStruct.IsExternalDefaultSubState;
+            form.checkExternalQuickViewSubState.Checked = camerasStruct.IsExternalQuickViewSubState;
+            form.checkShowcaseDroneSubState.Checked = camerasStruct.IsShowcaseDroneSubState;
+            form.checkShowcaseFixedSubState.Checked = camerasStruct.IsShowcaseFixedSubState;
 
-            form.lblCameraCurrentView.Text = $"{camerasStruct.cameraViewTypeIndex0}, {camerasStruct.cameraViewTypeIndex1}, {camerasStruct.cameraState}, {camerasStruct.cameraSubstate}";
+            form.checkSmartcam.Checked = camerasStruct.IsSmartCamActive;
+            btnNextSmartcam.Enabled = camerasStruct.IsSmartCamActive;
+            btnPreviousSmartcam.Enabled = camerasStruct.IsSmartCamActive;
 
-            suppressCameraButtonCheckChangedEvent = false;
+            if (camerasStruct.IsSmartCamActive)
+            {
+               checkSmartcam.Text = $"SC {camerasStruct.SmartCameraTargetIndex}";
+            }
+            else
+            {
+               checkSmartcam.Text = $"SC {camerasStruct.SmartCameraTargetIndex}";
+            }
+
+            form.label8.Text = $"{previousCockpitSmartcamTarget}, {previousExtSmartcamTarget}";
+
+            form.lblCameraCurrentView.Text = $"{camerasStruct.cameraState}, {camerasStruct.cameraSubState}, {camerasStruct.cameraViewTypeIndex0}, {camerasStruct.cameraViewTypeIndex1}";
+            form.lblCameraState.Text = $"State: {camerasStruct.cameraState} ({camerasStruct.CameraState})";
+            form.lblCameraSubstate.Text = $"Substate: {camerasStruct.cameraSubState} ({camerasStruct.CameraSubState})";
+            form.lblIndex0.Text = $"Index0: {camerasStruct.cameraViewTypeIndex0} ({camerasStruct.CameraViewIndex0})";
+            form.lblIndex1.Text = $"Index1: {camerasStruct.cameraViewTypeIndex1} ({camerasStruct.cameraViewTypeIndex1 + 1})";
+
+
+            if (camerasStruct.IsSmartCamActive)
+            {
+               if (camerasStruct.CameraState == CameraState.Cockpit)
+                  previousCockpitSmartcamTarget = camerasStruct.SmartCameraTargetIndex;
+               else if (camerasStruct.CameraState == CameraState.External)
+                  previousExtSmartcamTarget = camerasStruct.SmartCameraTargetIndex;
+            }
+
+            if (camerasStruct.CameraViewIndex0 == CameraViewIndex0.PilotView)
+            {
+               lblIndex1.Text += $" [{(CameraViewIndex1Pilot)(camerasStruct.CameraViewIndex1 + 1)}]";
+            }
+            else if (camerasStruct.CameraViewIndex0 == CameraViewIndex0.Instruments)
+            {
+               lblIndex1.Text += $" [{(CameraViewIndex1Instrument)(camerasStruct.CameraViewIndex1 + 1)}]";
+            }
+
+            form.lblCurrentCameraType.Text = simConnection.CameraType.ToString();
+            form.lblCurrentCameraType.Text += $" [{simConnection.CamerasData.cameraviewTypeMax0}, ";
+            form.lblCurrentCameraType.Text += $" {simConnection.CamerasData.cameraviewTypeMax1}, ";
+            form.lblCurrentCameraType.Text += $" {simConnection.CamerasData.cameraviewTypeMax2}, ";
+            form.lblCurrentCameraType.Text += $" {simConnection.CamerasData.cameraviewTypeMax3}, ";
+            form.lblCurrentCameraType.Text += $" {simConnection.CamerasData.cameraviewTypeMax4}, ";
+            form.lblCurrentCameraType.Text += $" {simConnection.CamerasData.cameraviewTypeMax5}]";
+
+            if (camerasStruct.IsCockpitPilotSubState)
+            {
+               lastCockpitPilotCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+            else if (camerasStruct.IsCockpitInstrumentSubState)
+            {
+               lastCockpitInstrumentCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+            else if (camerasStruct.IsCockpitQuickViewSubState)
+            {
+               lastCockpitQuickViewCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+            else if (camerasStruct.IsExternalDefaultSubState)
+            {
+               lastExternalDefaultCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+            else if (camerasStruct.IsExternalQuickViewSubState)
+            {
+               lastExternalQuickViewCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+            else if (camerasStruct.IsShowcaseDroneSubState)
+            {
+               lastExternalDefaultCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+            else if (camerasStruct.IsShowcaseFixedSubState)
+            {
+               lastShowcaseFixedCamera = camerasStruct.cameraViewTypeIndex1;
+            }
+
+            programmaticallyChangingCameraCheckboxes = false;
+         });
+      }
+      else if (structure is TimeStruct timeStruct)
+      {
+         macroPadDevice.UpdateData(timeStruct);
+
+         // Update UI via Invoke
+         InvokeAction(form =>
+         {
+            form.lblSimRate.Text = "Sim Rate: " + timeStruct.SimulationRate.ToString();
+            form.lblLocalTime.Text = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
+         });
+      }
+      else if (structure is EngineStruct engineStruct)
+      {
+         macroPadDevice.UpdateData(engineStruct);
+
+         InvokeAction(form =>
+         {
+            form.lblEngineTorque.Text = string.Format("Torque: {0:0.0}", engineStruct.EngTorquePsi1);
+            form.lblEngineITT.Text = string.Format("{0} engines", engineStruct.numberOfEngines);
+            form.lblEngineITT.Text = string.Format("ITT: {0:0} C", engineStruct.turbEngITT1);
+            form.lblEngineNGPct.Text = string.Format("NG: {0:0.0} %", engineStruct.turbEngN1_1);
+            form.lblEngineNPRpm.Text = string.Format("NP: {0:0} RPM", engineStruct.propRpm1);
+            form.lblEngineTorquePct.Text = string.Format("TRQ PCT: {0:0} %", engineStruct.turbEngMaxTorquePct1);
+         });
+      }
+      else if (structure is SmartcamTargetsStruct smartcamtargetsStruct)
+      {
+         macroPadDevice.UpdateData(smartcamtargetsStruct);
+
+         InvokeAction(form =>
+         {
+            var targetData = smartcamtargetsStruct.GetSmartcamTarget(simConnection.CamerasData.smartCameraInfo1);
+            lblSCTargetType.Text = targetData.Item1.ToString();
+            lblSCTargetDesc.Text = targetData.Item2;
          });
       }
    }
@@ -478,7 +633,7 @@ public partial class MainForm : Form
          else if (checkBox == checkWingLight)
             simConnection.SendEvent(SimEvent.TOGGLE_WING_LIGHTS);
       }
-
+      ActivateFlightSimulator();
    }
 
    private void RefreshSerialPortsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -519,6 +674,7 @@ public partial class MainForm : Form
             fsuipcConnection.SendPresetEvent("AP_ALT_SYNC");
          }
       }
+      ActivateFlightSimulator();
    }
 
    private void FmsButton_Click(object sender, EventArgs e)
@@ -560,6 +716,7 @@ public partial class MainForm : Form
             fsuipcConnection.SendPresetEvent(preset);
          }
       }
+      ActivateFlightSimulator();
    }
 
    private void BtnPause_Click(object sender, EventArgs e)
@@ -586,6 +743,7 @@ public partial class MainForm : Form
                fsuipcConnection.SetPauseStatus(PauseState.SimPause);
          }
       }
+      ActivateFlightSimulator();
    }
 
    private void FmsButton_MouseWheel(object? sender, MouseEventArgs e)
@@ -651,9 +809,9 @@ public partial class MainForm : Form
          else if (button == btnNoseUpDn)
          {
             if (up)
-               fsuipcConnection.SendPresetEvent("C_172_AP_NOSE_UP");
+               simEvent = SimEvent.AP_VS_VAR_INC;
             else
-               fsuipcConnection.SendPresetEvent("C_172_AP_NOSE_DN");
+               simEvent = SimEvent.AP_VS_VAR_DEC;
          }
 
          if (simEvent != SimEvent.NONE)
@@ -721,31 +879,238 @@ public partial class MainForm : Form
             simConnection.SendEvent(simEvent);
          }
       }
+      ActivateFlightSimulator();
    }
 
    private void btnAddFuel_Click(object sender, EventArgs e)
    {
       fsuipcConnection.SendPresetEvent("ADD_FUEL");
+      ActivateFlightSimulator();
+      BringMainWindowToFront("flight simulator");
    }
 
    private void btnFuelDump_Click(object sender, EventArgs e)
    {
       fsuipcConnection.SendPresetEvent("FUEL_DUMP_TOGGLE");
+      ActivateFlightSimulator();
    }
+
+   private int lastCockpitPilotCamera = 1;
+   private int lastCockpitInstrumentCamera = 0;
+   private int lastCockpitQuickViewCamera = 0;
+   private int lastCockpitSmartCamCamera = 0;
+   private int lastExternalDefaultCamera = 0;
+   private int lastExternalQuickViewCamera = 0;
+   private int lastExternalSmartCamCamera = 0;
+   private int lastShowcaseFreeCamera = 0;
+   private int lastShowcaseFixedCamera = 0;
+   private int lastShowcaseSmartCamCamera = 0;
+   private int lastCustomCamera = 5;
+   private int currentCustomCamera = 0;
 
    private void CameraButton_CheckChanged(object sender, EventArgs e)
    {
       if (sender == null)
          return;
 
-      if (suppressCameraButtonCheckChangedEvent)
+      if (programmaticallyChangingCameraCheckboxes)
          return;
 
-      string previousCalcCode =
-         $"{previousCamera.cameraState} (>A:CAMERA STATE,Enum) " +
-         $"{previousCamera.cameraSubstate} (>A:CAMERA SUBSTATE,Enum) " +
-         $"{previousCamera.cameraViewTypeIndex0} (>A:CAMERA VIEW TYPE AND INDEX:0,Enum) " +
-         $"{previousCamera.cameraViewTypeIndex1} (>A:CAMERA VIEW TYPE AND INDEX:1,Enum)";
+      if (sender is CheckBox c)
+      {
+         if (c == checkSmartcam)
+         {
+            CamerasStruct temp = simConnection.CamerasData;
+            CamerasStruct newCamera = simConnection.CamerasData;
+            if (simConnection.CamerasData.IsSmartCamActive)
+            {
+               newCamera.IsSmartCamActive = false;
+            }
+            else
+            {
+               newCamera.IsSmartCamActive = true;
+               if (newCamera.CameraState == CameraState.Cockpit)
+               {
+                  newCamera.SmartCameraTargetIndex = previousCockpitSmartcamTarget;
+               }
+               else if (newCamera.CameraState == CameraState.External)
+               {
+                  newCamera.SmartCameraTargetIndex = previousExtSmartcamTarget;
+               }
+            }
+            simConnection.SetCamera(newCamera);
+            previousCamera = temp;
+         }
+         else if (c == checkCockpitPilotSubState)
+         {
+            if (simConnection.CamerasData.IsCockpitPilotSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CockpitPilotCameraInc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               CameraViewIndex1Pilot pilotCamera = (CameraViewIndex1Pilot)(lastCockpitPilotCamera + 1);
+               newCamera.SetCamera(2, 5, 2, 0);
+               simConnection.SetCamera(newCamera);
+               Thread.Sleep(10);
+               newCamera.SetPilotCamera(pilotCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkCockpitInstrumentSubState)
+         {
+            if (simConnection.CamerasData.IsCockpitInstrumentSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CameraViewTypeIndex1Inc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               CameraViewIndex1Instrument instrumentCamera = (CameraViewIndex1Instrument)(lastCockpitInstrumentCamera + 1);
+               newCamera.SetInstrumentCamera(instrumentCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkCockpitQuickViewSubState)
+         {
+            if (simConnection.CamerasData.IsCockpitQuickViewSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CameraViewTypeIndex1Inc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetCockpitQuickViewCamera(lastCockpitQuickViewCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkExternalDefaultSubState)
+         {
+            if (simConnection.CamerasData.IsExternalDefaultSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CameraViewTypeIndex1Inc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetExternalDefaultCamera(lastExternalDefaultCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkExternalQuickViewSubState)
+         {
+            if (simConnection.CamerasData.IsExternalQuickViewSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CameraViewTypeIndex1Inc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetExternalQuickViewCamera(lastExternalQuickViewCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkShowcaseDroneSubState)
+         {
+            if (simConnection.CamerasData.IsShowcaseDroneSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CameraViewTypeIndex1Inc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetShowcaseDroneCamera(lastExternalQuickViewCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkShowcaseFixedSubState)
+         {
+            if (simConnection.CamerasData.IsShowcaseFixedSubState)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               temp.CameraViewTypeIndex1Inc();
+               simConnection.SetCamera(temp);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetShowcaseFixedCamera(lastExternalQuickViewCamera);
+               simConnection.SetCamera(newCamera);
+               previousCamera = temp;
+            }
+         }
+         else if (c == checkCustomCameraState)
+         {
+            if (simConnection.CamerasData.IsCustomCamera)
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               int newCamera = lastCustomCamera + 1;
+               if (newCamera == 10)
+                  newCamera = 0;
+               currentCustomCamera = newCamera;
+               lastCustomCamera = newCamera;
+               SendKeystrokeToSimulator(newCamera);
+               previousCamera = temp;
+            }
+            else
+            {
+               CamerasStruct temp = simConnection.CamerasData;
+               SendKeystrokeToSimulator(lastCustomCamera);
+               currentCustomCamera = lastCustomCamera;
+               previousCamera = temp;
+            }
+         }
+         else
+         {
+            if (c.Tag is null)
+               return;
+
+            if (c.Tag is string tagStr)
+            {
+               if (!int.TryParse(tagStr, out int newCamera))
+                  return;
+
+               SetCameraNumber(newCamera);
+            }
+         }
+      }
+
+      ActivateFlightSimulator();
+
+      return;
 
       if (sender is CheckBox checkBox)
       {
@@ -753,127 +1118,444 @@ public partial class MainForm : Form
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera1Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_1");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera1);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera2)
+         else if (checkBox == checkCamera2)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera2Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_2");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera2);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera3)
+         else if (checkBox == checkCamera3)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera3Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_3");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera3);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera4)
+         else if (checkBox == checkCamera4)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera4Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_4");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera4);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera5)
+         else if (checkBox == checkCamera5)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera5Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_5");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera5);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera6)
+         else if (checkBox == checkCamera6)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera6Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_6");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera6);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera7)
+         else if (checkBox == checkCamera7)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera7Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_7");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera7);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera8)
+         else if (checkBox == checkCamera8)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera8Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_8");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera8);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera9)
+         else if (checkBox == checkCamera9)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera9Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_9");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera9);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCamera10)
+         else if (checkBox == checkCamera10)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsInstrumentCamera10Active)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("VIEW_CAMERA_SELECT_10");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetInstrumentCamera(CameraViewIndex1Instrument.Camera10);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCameraPilotNormal)
+         else if (checkBox == checkCameraPilotNormal)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsPilotNormalCameraActive)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("Pilot_View_-_Normal");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetPilotCamera(CameraViewIndex1Pilot.Pilot);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCameraPilotClose)
+         else if (checkBox == checkCameraPilotClose)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsPilotCloseCameraActive)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("Pilot_View_-_Close");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetPilotCamera(CameraViewIndex1Pilot.Close);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCameraPilotLand)
+         else if (checkBox == checkCameraPilotLand)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsPilotLandingCameraActive)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("Pilot_View_-_Landing");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetPilotCamera(CameraViewIndex1Pilot.Landing);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
          }
-         if (checkBox == checkCameraPilotCoPilot)
+         else if (checkBox == checkCameraPilotCoPilot)
          {
             CamerasStruct temp = simConnection.CamerasData;
             if (simConnection.CamerasData.IsPilotCoPilotCameraActive)
-               FsuipcConnection.SendCalculatorCode(previousCalcCode);
+            {
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, previousCamera);
+            }
             else
-               fsuipcConnection.SendPresetEvent("Pilot_View_-_Copilot");
+            {
+               CamerasStruct newCamera = new CamerasStruct();
+               newCamera.SetPilotCamera(CameraViewIndex1Pilot.Copilot);
+               simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamera);
+            }
             previousCamera = temp;
+         }
+         else if (sender == checkCockpitPilotSubState)
+         {
+            simConnection.SetCamera(2, 1, 1, 1);
+         }
+         else if (sender == checkCockpitInstrumentSubState)
+         {
+            simConnection.SetCamera(2, 5, 2, 0);
+         }
+         else if (sender == checkCockpitQuickViewSubState)
+         {
+            simConnection.SetCamera(2, 3, 3, 0);
+         }
+         else if (sender == checkExternalDefaultSubState)
+         {
+            simConnection.SetCamera(3, 1, 0, 0);
+         }
+         else if (sender == checkExternalQuickViewSubState)
+         {
+            simConnection.SetCamera(3, 3, 4, 0);
+         }
+         else if (sender == checkShowcaseDroneSubState)
+         {
+            simConnection.SetCamera(4, 0, 0, 0);
+         }
+         else if (sender == checkShowcaseFixedSubState)
+         {
+            simConnection.SetCamera(5, 0, 5, 0);
+         }
+      }
+      ActivateFlightSimulator();
+   }
+
+   private void SetCameraNumber(int newCameraNumber)
+   {
+      newCameraNumber--;
+      if (simConnection.CamerasData.IsCustomCamera)
+      {
+         SendKeystrokeToSimulator(newCameraNumber);
+      }
+      else
+      {
+         CamerasStruct newCamerasStruct = new CamerasStruct();
+         newCamerasStruct.cameraState = simConnection.CamerasData.cameraState;
+         newCamerasStruct.cameraSubState = simConnection.CamerasData.cameraSubState;
+         newCamerasStruct.cameraViewTypeIndex0 = simConnection.CamerasData.cameraViewTypeIndex0;
+         newCamerasStruct.cameraViewTypeIndex1 = newCameraNumber;
+         simConnection.SetCamera(newCamerasStruct);
+      }
+   }
+
+   private void SendKeystrokeToSimulator(int camera)
+   {
+      if (camera == 10)
+         camera = 0;
+      string keystrokes = "^" + camera.ToString();
+      ActivateFlightSimulator();
+      SendKeys.SendWait(keystrokes);
+   }
+
+   private void CameraViewButton_Click(object sender, EventArgs e)
+   {
+      if (sender is null)
+         return;
+
+      if (sender is Button button)
+      {
+         if (button == btnNextView)
+         {
+            simConnection.CameraTypeNext();
+            CamerasStruct newCamerasStruct = CamerasStruct.FromCameraType(simConnection.CameraType);
+            simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamerasStruct);
+            txtCameraState.Text = newCamerasStruct.cameraState.ToString();
+            txtCameraSubState.Text = newCamerasStruct.cameraSubState.ToString();
+            txtCameraIndex0.Text = newCamerasStruct.cameraViewTypeIndex0.ToString();
+            txtCameraIndex1.Text = newCamerasStruct.cameraViewTypeIndex1.ToString();
+         }
+         else if (button == btnPreviousView)
+         {
+            simConnection.CameraTypePrevious();
+            CamerasStruct newCamerasStruct = CamerasStruct.FromCameraType(simConnection.CameraType);
+            simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamerasStruct);
+            txtCameraState.Text = newCamerasStruct.cameraState.ToString();
+            txtCameraSubState.Text = newCamerasStruct.cameraSubState.ToString();
+            txtCameraIndex0.Text = newCamerasStruct.cameraViewTypeIndex0.ToString();
+            txtCameraIndex1.Text = newCamerasStruct.cameraViewTypeIndex1.ToString();
+         }
+         else if (button == btnNextSubView)
+         {
+            simConnection.SendEvent(SimEvent.NEXT_SUB_VIEW);
+         }
+         else if (button == btnPreviousSubView)
+         {
+            simConnection.SendEvent(SimEvent.PREV_SUB_VIEW);
+         }
+      }
+      ActivateFlightSimulator();
+   }
+
+   private void SimRateButton_Click(object sender, EventArgs e)
+   {
+      if (sender is null)
+         return;
+
+      if (sender is Button button)
+      {
+         if (button == btnSimRateInc)
+         {
+            simConnection.SendEvent(SimEvent.SIM_RATE_INCR);
+         }
+         else if (button == btnSimRateDec)
+         {
+            simConnection.SendEvent(SimEvent.SIM_RATE_DECR);
+         }
+         else if (button == btnSimRateReset)
+         {
+            double newSimRate = simConnection.TimeData.simulationRate;
+            while (newSimRate > 1)
+            {
+               newSimRate /= 2;
+               simConnection.SendEvent(SimEvent.SIM_RATE_DECR);
+            }
+            while (newSimRate < 1)
+            {
+               newSimRate *= 2;
+               simConnection.SendEvent(SimEvent.SIM_RATE_INCR);
+            }
+         }
+      }
+      ActivateFlightSimulator();
+   }
+
+   private void btnSetCamera_Click(object sender, EventArgs e)
+   {
+      try
+      {
+         int state = int.Parse(txtCameraState.Text);
+         int subState = int.Parse(txtCameraSubState.Text);
+         int index0 = int.Parse(txtCameraIndex0.Text);
+         int index1 = int.Parse(txtCameraIndex1.Text);
+
+         CamerasStruct newCamerasStruct = new CamerasStruct(state, subState, index0, index1);
+         simConnection.SetDataOnSimObject(SimStructDefinition.CamerasStruct, newCamerasStruct);
+      }
+      catch { }
+
+      ActivateFlightSimulator();
+   }
+
+
+
+   // https://stackoverflow.com/a/2315589/1667195
+
+   [System.Runtime.InteropServices.DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   private static extern bool ShowWindow(IntPtr hWnd, ShowWindowEnum flags);
+
+   [System.Runtime.InteropServices.DllImport("user32.dll")]
+   private static extern int SetForegroundWindow(IntPtr hwnd);
+
+   private enum ShowWindowEnum
+   {
+      Hide = 0,
+      ShowNormal = 1,
+      ShowMinimized = 2,
+      ShowMaximized = 3,
+      Maximize = 3,
+      ShowNormalNoActivate = 4,
+      Show = 5,
+      Minimize = 6,
+      ShowMinNoActivate = 7,
+      ShowNoActivate = 8,
+      Restore = 9,
+      ShowDefault = 10,
+      ForceMinimized = 11
+   };
+
+   public void BringMainWindowToFront(string processName)
+   {
+      // get the process
+      var bProcess = Process.GetProcessesByName(processName).FirstOrDefault();
+
+      // check if the process is running
+      if (bProcess != null)
+      {
+         // check if the window is hidden / minimized
+         if (bProcess.MainWindowHandle == IntPtr.Zero)
+         {
+            // the window is hidden so try to restore it before setting focus.
+            ShowWindow(bProcess.Handle, ShowWindowEnum.Restore);
+         }
+
+         // set user the focus to the window
+         SetForegroundWindow(bProcess.MainWindowHandle);
+      }
+      else
+      {
+         // the process is not running, so start it
+         //Process.Start(processName);
+      }
+   }
+
+   private void TrackFlaps_ValueChanged(object sender, EventArgs e)
+   {
+      trackFlaps.Value = -1 * simConnection.TrimData.flapsHandleIndex;
+   }
+
+   private void SmartcamCycleButton_Click(object sender, EventArgs e)
+   {
+      if (sender is null)
+         return;
+
+      if (!simConnection.CamerasData.IsSmartCamActive)
+      {
+         simConnection.SetSmartcamera(true);
+         //return;
+      }
+
+      if (sender is Button button)
+      {
+         if (sender == btnNextSmartcam)
+         {
+            CamerasStruct newCamera = simConnection.CamerasData;
+            newCamera.SmartCameraTargetIndex++;
+            simConnection.SetCamera(newCamera);
+         }
+         else if (sender == btnPreviousSmartcam)
+         {
+            CamerasStruct newCamera = simConnection.CamerasData;
+            newCamera.SmartCameraTargetIndex--;
+            if (newCamera.SmartCameraTargetIndex < 0)
+               newCamera.SmartCameraTargetIndex = 0;
+            simConnection.SetCamera(newCamera);
          }
       }
    }

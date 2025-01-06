@@ -18,10 +18,13 @@ namespace MacroSim
 
       public EventCollection PresetEvents { get; private set; }
 
+      private FsuipcConnection fsuipcConnection;
+
       public PresetEventForm(EventCollection events)
       {
          InitializeComponent();
 
+         fsuipcConnection = new FsuipcConnection((MainForm)ParentForm);
          PresetEvents = events;
 
          autoCompleteStrings = new AutoCompleteStringCollection();
@@ -116,7 +119,7 @@ namespace MacroSim
 
       private void btnSendCalculatorCode_Click(object sender, EventArgs e)
       {
-         FsuipcConnection.SendCalculatorCode(txtCalculatorCode.Text);
+         fsuipcConnection.SendCalculatorCode(txtCalculatorCode.Text);
       }
    }
 }
