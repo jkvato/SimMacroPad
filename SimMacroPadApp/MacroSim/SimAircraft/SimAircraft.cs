@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MacroSim.SimAircraft;
 
-internal class SimAircraft
+public class SimAircraft
 {
    public string Title { get; set; }
 

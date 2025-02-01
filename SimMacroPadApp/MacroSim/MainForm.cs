@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
 using FSUIPC;
@@ -32,6 +33,7 @@ public partial class MainForm : ToolbarForm
    private bool suppressLightButtonCheckChangedEvent = true;
    private bool suppressAutopilotButtonCheckChangedEvent = true;
    private bool programmaticallyChangingCameraCheckButtones = true;
+   private bool suppressPauseCheckChangedEvent = true;
 
    private bool isMSFS2020Running = false;
    private bool isMSFS2024Running = false;
@@ -45,6 +47,20 @@ public partial class MainForm : ToolbarForm
    private SimAircraft.SimAircraft? currentAircraft;
 
    private string currentAircraftTitle;
+
+   private int lastCockpitPilotCamera = 1;
+   private int lastCockpitInstrumentCamera = 0;
+   private int lastCockpitQuickViewCamera = 0;
+   private int lastCockpitSmartCamCamera = 0;
+   private int lastExternalDefaultCamera = 0;
+   private int lastExternalQuickViewCamera = 0;
+   private int lastExternalSmartCamCamera = 0;
+   private int lastShowcaseFreeCamera = 0;
+   private int lastShowcaseFixedCamera = 0;
+   private int lastShowcaseSmartCamCamera = 0;
+   private int previousCustomCamera = 5;
+   private int currentCustomCamera = 0;
+
 
    public MainForm()
    {
@@ -109,6 +125,8 @@ public partial class MainForm : ToolbarForm
          {
             fsuipcConnection.Process();
 
+            suppressPauseCheckChangedEvent = true;
+
             PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
             checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
             checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
@@ -124,6 +142,8 @@ public partial class MainForm : ToolbarForm
                btnPauseSim.Text = "Unpause";
             else
                btnPauseSim.Text = "Sim Pause";
+
+            suppressPauseCheckChangedEvent = false;
          }
          catch { }
       }
@@ -194,7 +214,7 @@ public partial class MainForm : ToolbarForm
          {
             System.Diagnostics.Debug.WriteLine("CHANGE OF PLANE");
             currentAircraftTitle = avionicsStruct.title;
-             
+
             currentAircraft = SimAircraft.SimAircraftCollection.DefaultAircraft.GetByTitleWildcard(avionicsStruct.title);
             macroPadDevice.CurrentAircraft = currentAircraft;
          }
@@ -208,12 +228,18 @@ public partial class MainForm : ToolbarForm
                Text = newFormText;
             }
 
-            string ac = avionicsStruct.title;
+            string ac = string.Empty;
+            //ac = avionicsStruct.title;
+            ac = "AC Template: ";
             if (currentAircraft != null)
             {
-               ac += " | " + currentAircraft.Title;
+               ac += currentAircraft.Title;
             }
-            lblCurrentAircraft.Text = ac;
+            else
+            {
+               ac += " null";
+            }
+            lblSimAircraft.Caption = ac;
 
 
 
@@ -351,9 +377,9 @@ public partial class MainForm : ToolbarForm
             form.lblFlapsNumberOfDetents.Text = string.Format("Number of Detents: {0}", acControlSruct.flapsNumHandlePositions);
             form.lblFlapsCurrentPosition.Text = string.Format("Current Position: {0}", acControlSruct.flapsHandleIndex);
 
-            trackFlaps.Minimum = -1 * acControlSruct.flapsNumHandlePositions;
-            trackFlaps.Maximum = 0;
-            trackFlaps.Value = -1 * acControlSruct.flapsHandleIndex;
+            trackBarFlaps.Properties.Minimum = -1 * acControlSruct.flapsNumHandlePositions;
+            trackBarFlaps.Properties.Maximum = 0;
+            trackBarFlaps.Value = -1 * acControlSruct.flapsHandleIndex;
             //trackFlaps.Minimum = 0;
             //trackFlaps.Maximum = trimStruct.flapsNumHandlePositions;
             //trackFlaps.Value = trimStruct.flapsHandleIndex;
@@ -592,25 +618,6 @@ public partial class MainForm : ToolbarForm
       }
    }
 
-   private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      Close();
-   }
-
-   private void ConnectToSimToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      if (simConnection.IsConnected)
-      {
-         simConnection.DisconnectFromSim();
-         System.Diagnostics.Debug.WriteLine("Disconnected");
-      }
-      else
-      {
-         simConnection.ConnectToSim(Handle);
-         System.Diagnostics.Debug.WriteLine("Connected");
-      }
-   }
-
    private void GetComPorts()
    {
       string[] ports = SerialPort.GetPortNames();
@@ -625,33 +632,44 @@ public partial class MainForm : ToolbarForm
          }
       }
 
+      var barManager = toolbarFormManager1;
+      barManager.ForceInitialize();
+      barManager.BeginUpdate();
+
       // Remove old list of com ports from the menu.
-      //for (int i = macroPadToolStripMenuItem.DropDownItems.Count - 1; i >= 0; i--)
-      //{
-      //   var item = macroPadToolStripMenuItem.DropDownItems[i];
-      //   if (item is ToolStripMenuItem menuItem)
-      //   {
-      //      if (menuItem.Text.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
-      //      {
-      //         macroPadToolStripMenuItem.DropDownItems.RemoveAt(i);
-      //      }
-      //   }
-      //}
+      for (int i = menuMacroPad.ItemLinks.Count - 1; i >= 0; i--)
+      {
+         var item = menuMacroPad.ItemLinks[i];
+         if (item != null)
+         {
+            if (item.Caption.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
+            {
+               menuMacroPad.ItemLinks.RemoveAt(i);
+            }
+         }
+      }
 
       // Add new list of com ports to the menu.
       foreach (string port in portList)
       {
-         ToolStripMenuItem item = new ToolStripMenuItem(port);   // create a new menu item
-         item.Click += ComPortsStripMenuItem_Click;  // add event handler
-         //macroPadToolStripMenuItem.DropDownItems.Add(item);  // add to the menu of COM ports
+         BarButtonItem barButtonItem = new BarButtonItem(barManager, port);
+         barButtonItem.ItemClick += ComPortsStripMenuItem_Click;
+         menuMacroPad.AddItem(barButtonItem);
       }
+
+      barManager.EndUpdate();
    }
 
-   private void ComPortsStripMenuItem_Click(object? sender, EventArgs e)
+   private void menuRefreshSerialPorts_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
    {
-      if (sender is ToolStripMenuItem menuItem)
+      GetComPorts();
+   }
+
+   private void ComPortsStripMenuItem_Click(object? sender, ItemClickEventArgs e)
+   {
+      if (e.Item.Caption.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
       {
-         string comPortName = menuItem.ToString();
+         string comPortName = e.Item.Caption;
          macroPadDevice.SetSerialPort(comPortName);
       }
    }
@@ -662,33 +680,33 @@ public partial class MainForm : ToolbarForm
       {
          if (macroPadDevice.SerialPort.IsOpen)
          {
-            //lblSerialPortStatus.Text = $"Serial: {macroPadDevice.SerialPort.PortName}";
+            lblSerialPortStatus.Caption = $"Serial: {macroPadDevice.SerialPort.PortName}";
          }
          else
          {
-            //lblSerialPortStatus.Text = $"Serial: Disconnected";
+            lblSerialPortStatus.Caption = $"Serial: Disconnected";
          }
 
          if (fsuipcConnection.IsConnected)
          {
-            //fsuipcConnectToolStripMenuItem.Text = "Disconnect FSUIPC";
-            //lblFsuipcStatus.Text = "FSUIPC: Connected";
+            menuConnectFsuipc.Caption = "Disconnect FSUIPC";
+            lblFsuipcStatus.Caption = "FSUIPC: Connected";
          }
          else
          {
-            //fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
-            //lblFsuipcStatus.Text = "FSUIPC: Disconnected";
+            menuConnectFsuipc.Caption = "Connect FSUIPC";
+            lblFsuipcStatus.Caption = "FSUIPC: Disconnected";
          }
 
          if (simConnection.IsConnected)
          {
-            //simConnectToolStripMenuItem.Text = "Disconnect SimConnect";
-            //lblSimConnectStatus.Text = "SimConnect: Connected";
+            menuConnectSimConnect.Caption = "Disconnect SimConnect";
+            lblSimConnectStatus.Caption = "SimConnect: Connected";
          }
          else
          {
-            //simConnectToolStripMenuItem.Text = "Connect SimConnect";
-            //lblSimConnectStatus.Text = "SimConnect: Disconnected";
+            menuConnectSimConnect.Caption = "Connect SimConnect";
+            lblSimConnectStatus.Caption = "SimConnect: Disconnected";
          }
       });
    }
@@ -730,22 +748,7 @@ public partial class MainForm : ToolbarForm
       ActivateFlightSimulator();
    }
 
-   private void RefreshSerialPortsToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      GetComPorts();
-   }
-
-   private void PresetEventsToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      using PresetEventForm dlg = new PresetEventForm(fsuipcConnection.PresetEvents);
-
-      if (dlg.ShowDialog() == DialogResult.OK)
-      {
-
-      }
-   }
-
-   private void ApButton_Click(object sender, EventArgs e)
+   private void AutopilotButton_Click(object sender, EventArgs e)
    {
       if (sender == null)
          return;
@@ -984,31 +987,18 @@ public partial class MainForm : ToolbarForm
       ActivateFlightSimulator();
    }
 
-   private void btnAddFuel_Click(object sender, EventArgs e)
+   private void AddFuelButton_Click(object sender, EventArgs e)
    {
       fsuipcConnection.SendPresetEvent("ADD_FUEL");
       ActivateFlightSimulator();
       BringMainWindowToFront("flight simulator");
    }
 
-   private void btnFuelDump_Click(object sender, EventArgs e)
+   private void FuelDumpButton_Click(object sender, EventArgs e)
    {
       fsuipcConnection.SendPresetEvent("FUEL_DUMP_TOGGLE");
       ActivateFlightSimulator();
    }
-
-   private int lastCockpitPilotCamera = 1;
-   private int lastCockpitInstrumentCamera = 0;
-   private int lastCockpitQuickViewCamera = 0;
-   private int lastCockpitSmartCamCamera = 0;
-   private int lastExternalDefaultCamera = 0;
-   private int lastExternalQuickViewCamera = 0;
-   private int lastExternalSmartCamCamera = 0;
-   private int lastShowcaseFreeCamera = 0;
-   private int lastShowcaseFixedCamera = 0;
-   private int lastShowcaseSmartCamCamera = 0;
-   private int previousCustomCamera = 5;
-   private int currentCustomCamera = 0;
 
    private void CameraButton_CheckChanged(object sender, EventArgs e)
    {
@@ -1438,9 +1428,9 @@ public partial class MainForm : ToolbarForm
       }
    }
 
-   private void TrackFlaps_ValueChanged(object sender, EventArgs e)
+   private void trackBarFlaps_ValueChanged(object sender, EventArgs e)
    {
-      trackFlaps.Value = -1 * simConnection.AircraftControlData.flapsHandleIndex;
+      trackBarFlaps.Value = -1 * simConnection.AircraftControlData.flapsHandleIndex;
    }
 
    private void SmartcamCycleButton_Click(object sender, EventArgs e)
@@ -1454,7 +1444,7 @@ public partial class MainForm : ToolbarForm
          //return;
       }
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (sender == btnNextSmartcam)
          {
@@ -1472,4 +1462,34 @@ public partial class MainForm : ToolbarForm
          }
       }
    }
+
+   private void menuExit_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+   {
+      Close();
+   }
+
+   private void ConnectToSimToolStripMenuItem_Click(object sender, EventArgs e)
+   {
+      if (simConnection.IsConnected)
+      {
+         simConnection.DisconnectFromSim();
+         System.Diagnostics.Debug.WriteLine("Disconnected");
+      }
+      else
+      {
+         simConnection.ConnectToSim(Handle);
+         System.Diagnostics.Debug.WriteLine("Connected");
+      }
+   }
+
+   private void menuPresetEvents_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+   {
+      using PresetEventForm dlg = new PresetEventForm(fsuipcConnection.PresetEvents);
+
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+
+      }
+   }
+
 }

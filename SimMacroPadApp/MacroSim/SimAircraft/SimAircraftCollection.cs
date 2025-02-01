@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MacroSim.SimAircraft;
 
-internal class SimAircraftCollection : IList<SimAircraft>
+public class SimAircraftCollection : IList<SimAircraft>
 {
    public static readonly SimAircraftCollection DefaultAircraft;
 
