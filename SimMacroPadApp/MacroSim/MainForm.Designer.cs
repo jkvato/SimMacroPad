@@ -52,34 +52,34 @@ namespace MacroSim
          lblCustomCamera = new LabelControl();
          btnPreviousSmartcam = new Button();
          btnNextSmartcam = new Button();
-         checkSmartcam = new CheckBox();
+         checkSmartcam = new CheckButton();
          lblSCTargetDesc = new LabelControl();
          lblSCTargetType = new LabelControl();
          trackFlaps = new TrackBar();
-         checkCustomCameraState = new CheckBox();
-         checkShowcaseFixedSubState = new CheckBox();
+         checkCustomCameraState = new CheckButton();
+         checkShowcaseFixedSubState = new CheckButton();
          lblEngineTorquePct = new LabelControl();
-         checkShowcaseDroneSubState = new CheckBox();
-         checkCamera9 = new CheckBox();
+         checkShowcaseDroneSubState = new CheckButton();
+         checkCamera9 = new CheckButton();
          lblEngineNPRpm = new LabelControl();
-         checkCamera8 = new CheckBox();
-         checkExternalQuickViewSubState = new CheckBox();
-         checkCamera7 = new CheckBox();
+         checkCamera8 = new CheckButton();
+         checkExternalQuickViewSubState = new CheckButton();
+         checkCamera7 = new CheckButton();
          lblEngineNGPct = new LabelControl();
-         checkCamera6 = new CheckBox();
-         checkExternalDefaultSubState = new CheckBox();
-         checkCamera5 = new CheckBox();
+         checkCamera6 = new CheckButton();
+         checkExternalDefaultSubState = new CheckButton();
+         checkCamera5 = new CheckButton();
          lblEngineITT = new LabelControl();
-         checkCamera4 = new CheckBox();
-         checkCockpitQuickViewSubState = new CheckBox();
-         checkCamera3 = new CheckBox();
+         checkCamera4 = new CheckButton();
+         checkCockpitQuickViewSubState = new CheckButton();
+         checkCamera3 = new CheckButton();
          lblEngineTorque = new LabelControl();
-         checkCamera2 = new CheckBox();
-         checkCockpitInstrumentSubState = new CheckBox();
-         checkCamera1 = new CheckBox();
+         checkCamera2 = new CheckButton();
+         checkCockpitInstrumentSubState = new CheckButton();
+         checkCamera1 = new CheckButton();
          lblFlapsCurrentPosition = new LabelControl();
-         checkCamera10 = new CheckBox();
-         checkCockpitPilotSubState = new CheckBox();
+         checkCamera10 = new CheckButton();
+         checkCockpitPilotSubState = new CheckButton();
          lblFlapsNumberOfDetents = new LabelControl();
          lblIndex1 = new LabelControl();
          btnPreviousSubView = new Button();
@@ -108,10 +108,10 @@ namespace MacroSim
          lblCurrentCameraType = new LabelControl();
          txtOutput = new TextBox();
          groupCameras = new GroupBox();
-         checkCameraPilotCoPilot = new CheckBox();
-         checkCameraPilotLand = new CheckBox();
-         checkCameraPilotClose = new CheckBox();
-         checkCameraPilotNormal = new CheckBox();
+         checkCameraPilotCoPilot = new CheckButton();
+         checkCameraPilotLand = new CheckButton();
+         checkCameraPilotClose = new CheckButton();
+         checkCameraPilotNormal = new CheckButton();
          lblCameraCurrentView = new LabelControl();
          groupFuel = new GroupBox();
          lblFuelDumpSwitch = new LabelControl();
@@ -120,10 +120,10 @@ namespace MacroSim
          btnAddFuel = new Button();
          groupPause = new GroupBox();
          btnPauseSim = new Button();
-         checkPauseEsc = new CheckBox();
-         checkPauseSim = new CheckBox();
-         checkPauseActive = new CheckBox();
-         checkPauseFull = new CheckBox();
+         checkPauseEsc = new CheckButton();
+         checkPauseSim = new CheckButton();
+         checkPauseActive = new CheckButton();
+         checkPauseFull = new CheckButton();
          btnPauseFull = new Button();
          groupFms = new GroupBox();
          btnFmsMfdInner = new Button();
@@ -139,35 +139,35 @@ namespace MacroSim
          groupAutopilot = new GroupBox();
          lblApproachStatus = new LabelControl();
          btnCrs2Sel = new Button();
-         checkApSpd = new CheckBox();
-         checkApFlc = new CheckBox();
+         checkApSpd = new CheckButton();
+         checkApFlc = new CheckButton();
          btnNoseUpDn = new Button();
-         checkApVnv = new CheckBox();
-         checkApVsHold = new CheckBox();
+         checkApVnv = new CheckButton();
+         checkApVsHold = new CheckButton();
          btnAltSel = new Button();
-         checkApAltHold = new CheckBox();
-         checkApYd = new CheckBox();
-         checkApFd = new CheckBox();
-         checkApMaster = new CheckBox();
+         checkApAltHold = new CheckButton();
+         checkApYd = new CheckButton();
+         checkApFd = new CheckButton();
+         checkApMaster = new CheckButton();
          btnCrs1Sel = new Button();
          btnHdgSel = new Button();
-         checkApBcHold = new CheckBox();
-         checkApAprHold = new CheckBox();
-         checkApNavHold = new CheckBox();
-         checkApHdgHold = new CheckBox();
+         checkApBcHold = new CheckButton();
+         checkApAprHold = new CheckButton();
+         checkApNavHold = new CheckButton();
+         checkApHdgHold = new CheckButton();
          groupLights = new GroupBox();
-         checkBeaconLight = new CheckBox();
-         checkWingLight = new CheckBox();
-         checkCabinLight = new CheckBox();
-         checkTaxiLight = new CheckBox();
-         checkGlareshieldLight = new CheckBox();
-         checkStrobeLight = new CheckBox();
-         checkLandingLight = new CheckBox();
-         checkRecognitionLight = new CheckBox();
-         checkLogoLight = new CheckBox();
-         checkPedestralLight = new CheckBox();
-         checkNavLight = new CheckBox();
-         checkPanelLight = new CheckBox();
+         checkBeaconLight = new CheckButton();
+         checkWingLight = new CheckButton();
+         checkCabinLight = new CheckButton();
+         checkTaxiLight = new CheckButton();
+         checkGlareshieldLight = new CheckButton();
+         checkStrobeLight = new CheckButton();
+         checkLandingLight = new CheckButton();
+         checkRecognitionLight = new CheckButton();
+         checkLogoLight = new CheckButton();
+         checkPedestralLight = new CheckButton();
+         checkNavLight = new CheckButton();
+         checkPanelLight = new CheckButton();
          lblTransponder = new LabelControl();
          label4 = new LabelControl();
          lblVerticalSpeedValue = new LabelControl();
@@ -324,11 +324,13 @@ namespace MacroSim
          toolStripContainer1.ContentPanel.Controls.Add(groupNav1);
          toolStripContainer1.ContentPanel.Controls.Add(groupCom2);
          toolStripContainer1.ContentPanel.Controls.Add(groupCom1);
-         toolStripContainer1.ContentPanel.Size = new Size(1133, 673);
+         toolStripContainer1.ContentPanel.Margin = new Padding(4, 3, 4, 3);
+         toolStripContainer1.ContentPanel.Size = new Size(1133, 674);
          toolStripContainer1.Dock = DockStyle.Fill;
          toolStripContainer1.Location = new Point(0, 0);
+         toolStripContainer1.Margin = new Padding(4, 3, 4, 3);
          toolStripContainer1.Name = "toolStripContainer1";
-         toolStripContainer1.Size = new Size(1133, 720);
+         toolStripContainer1.Size = new Size(1133, 721);
          toolStripContainer1.TabIndex = 1;
          toolStripContainer1.Text = "toolStripContainer1";
          // 
@@ -384,116 +386,118 @@ namespace MacroSim
          // 
          // lblBarometer1
          // 
-         lblBarometer1.AutoSize = true;
-         lblBarometer1.Font = new Font("Segoe UI", 21.75F);
-         lblBarometer1.Location = new Point(159, 522);
+         lblBarometer1.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblBarometer1.Appearance.Options.UseFont = true;
+         lblBarometer1.Location = new Point(158, 522);
+         lblBarometer1.Margin = new Padding(4, 3, 4, 3);
          lblBarometer1.Name = "lblBarometer1";
-         lblBarometer1.Size = new Size(87, 40);
+         lblBarometer1.Size = new Size(70, 40);
          lblBarometer1.TabIndex = 184;
          lblBarometer1.Text = "00.00";
          // 
          // label6
          // 
-         label6.AutoSize = true;
-         label6.Location = new Point(159, 502);
+         label6.Location = new Point(158, 502);
+         label6.Margin = new Padding(4, 3, 4, 3);
          label6.Name = "label6";
-         label6.Size = new Size(60, 17);
+         label6.Size = new Size(52, 17);
          label6.TabIndex = 183;
          label6.Text = "Altimeter";
          // 
          // lblCurrentAircraft
          // 
-         lblCurrentAircraft.AutoSize = true;
-         lblCurrentAircraft.Location = new Point(502, 650);
+         lblCurrentAircraft.Location = new Point(501, 650);
+         lblCurrentAircraft.Margin = new Padding(4, 3, 4, 3);
          lblCurrentAircraft.Name = "lblCurrentAircraft";
-         lblCurrentAircraft.Size = new Size(50, 17);
+         lblCurrentAircraft.Size = new Size(42, 17);
          lblCurrentAircraft.TabIndex = 182;
          lblCurrentAircraft.Text = "Aircraft";
          // 
          // lblEngCondition1
          // 
-         lblEngCondition1.AutoSize = true;
-         lblEngCondition1.Location = new Point(525, 356);
+         lblEngCondition1.Location = new Point(525, 355);
+         lblEngCondition1.Margin = new Padding(4, 3, 4, 3);
          lblEngCondition1.Name = "lblEngCondition1";
-         lblEngCondition1.Size = new Size(82, 17);
+         lblEngCondition1.Size = new Size(74, 17);
          lblEngCondition1.TabIndex = 181;
          lblEngCondition1.Text = "Condition 1: ";
          // 
          // lblMixture1Pct
          // 
-         lblMixture1Pct.AutoSize = true;
-         lblMixture1Pct.Location = new Point(525, 339);
+         lblMixture1Pct.Location = new Point(525, 338);
+         lblMixture1Pct.Margin = new Padding(4, 3, 4, 3);
          lblMixture1Pct.Name = "lblMixture1Pct";
-         lblMixture1Pct.Size = new Size(88, 17);
+         lblMixture1Pct.Size = new Size(80, 17);
          lblMixture1Pct.TabIndex = 180;
          lblMixture1Pct.Text = "Mixture 1: 0%";
          // 
          // lblPropeller1Pct
          // 
-         lblPropeller1Pct.AutoSize = true;
-         lblPropeller1Pct.Location = new Point(525, 322);
+         lblPropeller1Pct.Location = new Point(525, 321);
+         lblPropeller1Pct.Margin = new Padding(4, 3, 4, 3);
          lblPropeller1Pct.Name = "lblPropeller1Pct";
-         lblPropeller1Pct.Size = new Size(97, 17);
+         lblPropeller1Pct.Size = new Size(89, 17);
          lblPropeller1Pct.TabIndex = 179;
          lblPropeller1Pct.Text = "Propeller 1: 0%";
          // 
          // lblThrottle1Pct
          // 
-         lblThrottle1Pct.AutoSize = true;
-         lblThrottle1Pct.Location = new Point(525, 305);
+         lblThrottle1Pct.Location = new Point(525, 304);
+         lblThrottle1Pct.Margin = new Padding(4, 3, 4, 3);
          lblThrottle1Pct.Name = "lblThrottle1Pct";
-         lblThrottle1Pct.Size = new Size(89, 17);
+         lblThrottle1Pct.Size = new Size(81, 17);
          lblThrottle1Pct.TabIndex = 178;
          lblThrottle1Pct.Text = "Throttle 1: 0%";
          // 
          // lblSpoilersPosition
          // 
-         lblSpoilersPosition.AutoSize = true;
-         lblSpoilersPosition.Location = new Point(911, 305);
+         lblSpoilersPosition.Location = new Point(911, 304);
+         lblSpoilersPosition.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersPosition.Name = "lblSpoilersPosition";
-         lblSpoilersPosition.Size = new Size(155, 17);
+         lblSpoilersPosition.Size = new Size(148, 17);
          lblSpoilersPosition.TabIndex = 177;
          lblSpoilersPosition.Text = "Spoilers Position: 0 L, 0 R";
          // 
          // lblSpoilersHandlePosition
          // 
-         lblSpoilersHandlePosition.AutoSize = true;
-         lblSpoilersHandlePosition.Location = new Point(911, 288);
+         lblSpoilersHandlePosition.Location = new Point(911, 287);
+         lblSpoilersHandlePosition.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersHandlePosition.Name = "lblSpoilersHandlePosition";
-         lblSpoilersHandlePosition.Size = new Size(114, 17);
+         lblSpoilersHandlePosition.Size = new Size(106, 17);
          lblSpoilersHandlePosition.TabIndex = 176;
          lblSpoilersHandlePosition.Text = "Spoilers Handle: 0";
          // 
          // lblSpoilersArmed
          // 
-         lblSpoilersArmed.AutoSize = true;
-         lblSpoilersArmed.Location = new Point(911, 271);
+         lblSpoilersArmed.Location = new Point(911, 270);
+         lblSpoilersArmed.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersArmed.Name = "lblSpoilersArmed";
-         lblSpoilersArmed.Size = new Size(124, 17);
+         lblSpoilersArmed.Size = new Size(116, 17);
          lblSpoilersArmed.TabIndex = 175;
          lblSpoilersArmed.Text = "Spoilers Not Armed";
          // 
          // lblSpoilersAvailable
          // 
-         lblSpoilersAvailable.AutoSize = true;
-         lblSpoilersAvailable.Location = new Point(911, 254);
+         lblSpoilersAvailable.Location = new Point(911, 253);
+         lblSpoilersAvailable.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersAvailable.Name = "lblSpoilersAvailable";
-         lblSpoilersAvailable.Size = new Size(94, 17);
+         lblSpoilersAvailable.Size = new Size(86, 17);
          lblSpoilersAvailable.TabIndex = 174;
          lblSpoilersAvailable.Text = "Spoilers: None";
          // 
          // lblCustomCamera
          // 
-         lblCustomCamera.AutoSize = true;
-         lblCustomCamera.Location = new Point(686, 356);
+         lblCustomCamera.Location = new Point(686, 355);
+         lblCustomCamera.Margin = new Padding(4, 3, 4, 3);
          lblCustomCamera.Name = "lblCustomCamera";
-         lblCustomCamera.Size = new Size(82, 17);
+         lblCustomCamera.Size = new Size(74, 17);
          lblCustomCamera.TabIndex = 173;
          lblCustomCamera.Text = "Cust Camera";
          // 
          // btnPreviousSmartcam
          // 
          btnPreviousSmartcam.Location = new Point(820, 438);
+         btnPreviousSmartcam.Margin = new Padding(4, 3, 4, 3);
          btnPreviousSmartcam.Name = "btnPreviousSmartcam";
          btnPreviousSmartcam.Size = new Size(42, 27);
          btnPreviousSmartcam.TabIndex = 172;
@@ -504,6 +508,7 @@ namespace MacroSim
          // btnNextSmartcam
          // 
          btnNextSmartcam.Location = new Point(820, 405);
+         btnNextSmartcam.Margin = new Padding(4, 3, 4, 3);
          btnNextSmartcam.Name = "btnNextSmartcam";
          btnNextSmartcam.Size = new Size(42, 27);
          btnNextSmartcam.TabIndex = 171;
@@ -513,344 +518,308 @@ namespace MacroSim
          // 
          // checkSmartcam
          // 
-         checkSmartcam.Appearance = System.Windows.Forms.Appearance.Button;
-         checkSmartcam.Location = new Point(820, 372);
+         checkSmartcam.Location = new Point(820, 371);
+         checkSmartcam.Margin = new Padding(4, 3, 4, 3);
          checkSmartcam.Name = "checkSmartcam";
          checkSmartcam.Size = new Size(60, 27);
          checkSmartcam.TabIndex = 170;
          checkSmartcam.Text = "SC";
-         checkSmartcam.TextAlign = ContentAlignment.MiddleCenter;
-         checkSmartcam.UseVisualStyleBackColor = true;
          checkSmartcam.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblSCTargetDesc
          // 
-         lblSCTargetDesc.AutoSize = true;
-         lblSCTargetDesc.Location = new Point(413, 372);
+         lblSCTargetDesc.Location = new Point(413, 371);
+         lblSCTargetDesc.Margin = new Padding(4, 3, 4, 3);
          lblSCTargetDesc.Name = "lblSCTargetDesc";
-         lblSCTargetDesc.Size = new Size(96, 17);
+         lblSCTargetDesc.Size = new Size(89, 17);
          lblSCTargetDesc.TabIndex = 169;
          lblSCTargetDesc.Text = "SC Target Desc";
          // 
          // lblSCTargetType
          // 
-         lblSCTargetType.AutoSize = true;
          lblSCTargetType.Location = new Point(413, 352);
+         lblSCTargetType.Margin = new Padding(4, 3, 4, 3);
          lblSCTargetType.Name = "lblSCTargetType";
-         lblSCTargetType.Size = new Size(95, 17);
+         lblSCTargetType.Size = new Size(89, 17);
          lblSCTargetType.TabIndex = 168;
          lblSCTargetType.Text = "SC Target Type";
          // 
          // trackFlaps
          // 
          trackFlaps.Location = new Point(769, 398);
+         trackFlaps.Margin = new Padding(4, 3, 4, 3);
          trackFlaps.Name = "trackFlaps";
          trackFlaps.Orientation = Orientation.Vertical;
-         trackFlaps.Size = new Size(45, 205);
+         trackFlaps.Size = new Size(45, 206);
          trackFlaps.TabIndex = 167;
          trackFlaps.ValueChanged += TrackFlaps_ValueChanged;
          // 
          // checkCustomCameraState
          // 
-         checkCustomCameraState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCustomCameraState.Location = new Point(1003, 603);
+         checkCustomCameraState.Location = new Point(1004, 603);
+         checkCustomCameraState.Margin = new Padding(4, 3, 4, 3);
          checkCustomCameraState.Name = "checkCustomCameraState";
          checkCustomCameraState.Size = new Size(60, 27);
          checkCustomCameraState.TabIndex = 80;
          checkCustomCameraState.Text = "Custom";
-         checkCustomCameraState.TextAlign = ContentAlignment.MiddleCenter;
-         checkCustomCameraState.UseVisualStyleBackColor = true;
          checkCustomCameraState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkShowcaseFixedSubState
          // 
-         checkShowcaseFixedSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkShowcaseFixedSubState.Location = new Point(1003, 570);
+         checkShowcaseFixedSubState.Location = new Point(1004, 570);
+         checkShowcaseFixedSubState.Margin = new Padding(4, 3, 4, 3);
          checkShowcaseFixedSubState.Name = "checkShowcaseFixedSubState";
          checkShowcaseFixedSubState.Size = new Size(60, 27);
          checkShowcaseFixedSubState.TabIndex = 74;
          checkShowcaseFixedSubState.Text = "X-Fixed";
-         checkShowcaseFixedSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkShowcaseFixedSubState.UseVisualStyleBackColor = true;
          checkShowcaseFixedSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblEngineTorquePct
          // 
-         lblEngineTorquePct.AutoSize = true;
          lblEngineTorquePct.Location = new Point(413, 315);
+         lblEngineTorquePct.Margin = new Padding(4, 3, 4, 3);
          lblEngineTorquePct.Name = "lblEngineTorquePct";
-         lblEngineTorquePct.Size = new Size(48, 17);
+         lblEngineTorquePct.Size = new Size(40, 17);
          lblEngineTorquePct.TabIndex = 79;
          lblEngineTorquePct.Text = "TRQ %";
          // 
          // checkShowcaseDroneSubState
          // 
-         checkShowcaseDroneSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkShowcaseDroneSubState.Location = new Point(1003, 537);
+         checkShowcaseDroneSubState.Location = new Point(1004, 537);
+         checkShowcaseDroneSubState.Margin = new Padding(4, 3, 4, 3);
          checkShowcaseDroneSubState.Name = "checkShowcaseDroneSubState";
          checkShowcaseDroneSubState.Size = new Size(60, 27);
          checkShowcaseDroneSubState.TabIndex = 73;
          checkShowcaseDroneSubState.Text = "Drone";
-         checkShowcaseDroneSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkShowcaseDroneSubState.UseVisualStyleBackColor = true;
          checkShowcaseDroneSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCamera9
          // 
-         checkCamera9.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCamera9.Location = new Point(960, 470);
+         checkCamera9.Location = new Point(960, 469);
+         checkCamera9.Margin = new Padding(4, 3, 4, 3);
          checkCamera9.Name = "checkCamera9";
-         checkCamera9.Size = new Size(30, 27);
+         checkCamera9.Size = new Size(31, 27);
          checkCamera9.TabIndex = 52;
          checkCamera9.Tag = "9";
          checkCamera9.Text = "9";
-         checkCamera9.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera9.UseVisualStyleBackColor = true;
          checkCamera9.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblEngineNPRpm
          // 
-         lblEngineNPRpm.AutoSize = true;
          lblEngineNPRpm.Location = new Point(294, 366);
+         lblEngineNPRpm.Margin = new Padding(4, 3, 4, 3);
          lblEngineNPRpm.Name = "lblEngineNPRpm";
-         lblEngineNPRpm.Size = new Size(56, 17);
+         lblEngineNPRpm.Size = new Size(48, 17);
          lblEngineNPRpm.TabIndex = 78;
          lblEngineNPRpm.Text = "NP RPM";
          // 
          // checkCamera8
          // 
-         checkCamera8.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCamera8.Location = new Point(924, 470);
+         checkCamera8.Location = new Point(924, 469);
+         checkCamera8.Margin = new Padding(4, 3, 4, 3);
          checkCamera8.Name = "checkCamera8";
-         checkCamera8.Size = new Size(30, 27);
+         checkCamera8.Size = new Size(31, 27);
          checkCamera8.TabIndex = 51;
          checkCamera8.Tag = "8";
          checkCamera8.Text = "8";
-         checkCamera8.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera8.UseVisualStyleBackColor = true;
          checkCamera8.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkExternalQuickViewSubState
          // 
-         checkExternalQuickViewSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkExternalQuickViewSubState.Location = new Point(1003, 504);
+         checkExternalQuickViewSubState.Location = new Point(1004, 503);
+         checkExternalQuickViewSubState.Margin = new Padding(4, 3, 4, 3);
          checkExternalQuickViewSubState.Name = "checkExternalQuickViewSubState";
          checkExternalQuickViewSubState.Size = new Size(60, 27);
          checkExternalQuickViewSubState.TabIndex = 72;
          checkExternalQuickViewSubState.Text = "X-QV";
-         checkExternalQuickViewSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkExternalQuickViewSubState.UseVisualStyleBackColor = true;
          checkExternalQuickViewSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCamera7
          // 
-         checkCamera7.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera7.Location = new Point(888, 471);
+         checkCamera7.Margin = new Padding(4, 3, 4, 3);
          checkCamera7.Name = "checkCamera7";
-         checkCamera7.Size = new Size(30, 27);
+         checkCamera7.Size = new Size(31, 27);
          checkCamera7.TabIndex = 50;
          checkCamera7.Tag = "7";
          checkCamera7.Text = "7";
-         checkCamera7.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera7.UseVisualStyleBackColor = true;
          checkCamera7.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblEngineNGPct
          // 
-         lblEngineNGPct.AutoSize = true;
          lblEngineNGPct.Location = new Point(294, 349);
+         lblEngineNGPct.Margin = new Padding(4, 3, 4, 3);
          lblEngineNGPct.Name = "lblEngineNGPct";
-         lblEngineNGPct.Size = new Size(42, 17);
+         lblEngineNGPct.Size = new Size(34, 17);
          lblEngineNGPct.TabIndex = 77;
          lblEngineNGPct.Text = "NG %";
          // 
          // checkCamera6
          // 
-         checkCamera6.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCamera6.Location = new Point(960, 504);
+         checkCamera6.Location = new Point(960, 503);
+         checkCamera6.Margin = new Padding(4, 3, 4, 3);
          checkCamera6.Name = "checkCamera6";
-         checkCamera6.Size = new Size(30, 27);
+         checkCamera6.Size = new Size(31, 27);
          checkCamera6.TabIndex = 49;
          checkCamera6.Tag = "6";
          checkCamera6.Text = "6";
-         checkCamera6.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera6.UseVisualStyleBackColor = true;
          checkCamera6.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkExternalDefaultSubState
          // 
-         checkExternalDefaultSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkExternalDefaultSubState.Location = new Point(1003, 471);
+         checkExternalDefaultSubState.Location = new Point(1004, 471);
+         checkExternalDefaultSubState.Margin = new Padding(4, 3, 4, 3);
          checkExternalDefaultSubState.Name = "checkExternalDefaultSubState";
          checkExternalDefaultSubState.Size = new Size(60, 27);
          checkExternalDefaultSubState.TabIndex = 71;
          checkExternalDefaultSubState.Text = "EXT";
-         checkExternalDefaultSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkExternalDefaultSubState.UseVisualStyleBackColor = true;
          checkExternalDefaultSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCamera5
          // 
-         checkCamera5.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCamera5.Location = new Point(924, 504);
+         checkCamera5.Location = new Point(924, 503);
+         checkCamera5.Margin = new Padding(4, 3, 4, 3);
          checkCamera5.Name = "checkCamera5";
-         checkCamera5.Size = new Size(30, 27);
+         checkCamera5.Size = new Size(31, 27);
          checkCamera5.TabIndex = 48;
          checkCamera5.Tag = "5";
          checkCamera5.Text = "5";
-         checkCamera5.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera5.UseVisualStyleBackColor = true;
          checkCamera5.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblEngineITT
          // 
-         lblEngineITT.AutoSize = true;
          lblEngineITT.Location = new Point(294, 332);
+         lblEngineITT.Margin = new Padding(4, 3, 4, 3);
          lblEngineITT.Name = "lblEngineITT";
-         lblEngineITT.Size = new Size(25, 17);
+         lblEngineITT.Size = new Size(17, 17);
          lblEngineITT.TabIndex = 76;
          lblEngineITT.Text = "ITT";
          // 
          // checkCamera4
          // 
-         checkCamera4.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCamera4.Location = new Point(888, 504);
+         checkCamera4.Location = new Point(888, 503);
+         checkCamera4.Margin = new Padding(4, 3, 4, 3);
          checkCamera4.Name = "checkCamera4";
-         checkCamera4.Size = new Size(30, 27);
+         checkCamera4.Size = new Size(31, 27);
          checkCamera4.TabIndex = 47;
          checkCamera4.Tag = "4";
          checkCamera4.Text = "4";
-         checkCamera4.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera4.UseVisualStyleBackColor = true;
          checkCamera4.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCockpitQuickViewSubState
          // 
-         checkCockpitQuickViewSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCockpitQuickViewSubState.Location = new Point(1003, 438);
+         checkCockpitQuickViewSubState.Location = new Point(1004, 438);
+         checkCockpitQuickViewSubState.Margin = new Padding(4, 3, 4, 3);
          checkCockpitQuickViewSubState.Name = "checkCockpitQuickViewSubState";
          checkCockpitQuickViewSubState.Size = new Size(60, 27);
          checkCockpitQuickViewSubState.TabIndex = 70;
          checkCockpitQuickViewSubState.Text = "C-QV";
-         checkCockpitQuickViewSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkCockpitQuickViewSubState.UseVisualStyleBackColor = true;
          checkCockpitQuickViewSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCamera3
          // 
-         checkCamera3.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera3.Location = new Point(960, 537);
+         checkCamera3.Margin = new Padding(4, 3, 4, 3);
          checkCamera3.Name = "checkCamera3";
-         checkCamera3.Size = new Size(30, 27);
+         checkCamera3.Size = new Size(31, 27);
          checkCamera3.TabIndex = 46;
          checkCamera3.Tag = "3";
          checkCamera3.Text = "3";
-         checkCamera3.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera3.UseVisualStyleBackColor = true;
          checkCamera3.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblEngineTorque
          // 
-         lblEngineTorque.AutoSize = true;
          lblEngineTorque.Location = new Point(294, 315);
+         lblEngineTorque.Margin = new Padding(4, 3, 4, 3);
          lblEngineTorque.Name = "lblEngineTorque";
-         lblEngineTorque.Size = new Size(49, 17);
+         lblEngineTorque.Size = new Size(42, 17);
          lblEngineTorque.TabIndex = 75;
          lblEngineTorque.Text = "Torque";
          // 
          // checkCamera2
          // 
-         checkCamera2.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera2.Location = new Point(924, 537);
+         checkCamera2.Margin = new Padding(4, 3, 4, 3);
          checkCamera2.Name = "checkCamera2";
-         checkCamera2.Size = new Size(30, 27);
+         checkCamera2.Size = new Size(31, 27);
          checkCamera2.TabIndex = 45;
          checkCamera2.Tag = "2";
          checkCamera2.Text = "2";
-         checkCamera2.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera2.UseVisualStyleBackColor = true;
          checkCamera2.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCockpitInstrumentSubState
          // 
-         checkCockpitInstrumentSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCockpitInstrumentSubState.Location = new Point(1003, 405);
+         checkCockpitInstrumentSubState.Location = new Point(1004, 405);
+         checkCockpitInstrumentSubState.Margin = new Padding(4, 3, 4, 3);
          checkCockpitInstrumentSubState.Name = "checkCockpitInstrumentSubState";
          checkCockpitInstrumentSubState.Size = new Size(60, 27);
          checkCockpitInstrumentSubState.TabIndex = 69;
          checkCockpitInstrumentSubState.Text = "Instr";
-         checkCockpitInstrumentSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkCockpitInstrumentSubState.UseVisualStyleBackColor = true;
          checkCockpitInstrumentSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCamera1
          // 
-         checkCamera1.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera1.Location = new Point(888, 537);
+         checkCamera1.Margin = new Padding(4, 3, 4, 3);
          checkCamera1.Name = "checkCamera1";
-         checkCamera1.Size = new Size(30, 27);
+         checkCamera1.Size = new Size(31, 27);
          checkCamera1.TabIndex = 44;
          checkCamera1.Tag = "1";
          checkCamera1.Text = "1";
-         checkCamera1.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera1.UseVisualStyleBackColor = true;
          checkCamera1.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblFlapsCurrentPosition
          // 
-         lblFlapsCurrentPosition.AutoSize = true;
          lblFlapsCurrentPosition.Location = new Point(686, 323);
+         lblFlapsCurrentPosition.Margin = new Padding(4, 3, 4, 3);
          lblFlapsCurrentPosition.Name = "lblFlapsCurrentPosition";
-         lblFlapsCurrentPosition.Size = new Size(101, 17);
+         lblFlapsCurrentPosition.Size = new Size(93, 17);
          lblFlapsCurrentPosition.TabIndex = 74;
          lblFlapsCurrentPosition.Text = "Current Position";
          // 
          // checkCamera10
          // 
-         checkCamera10.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera10.Location = new Point(888, 570);
+         checkCamera10.Margin = new Padding(4, 3, 4, 3);
          checkCamera10.Name = "checkCamera10";
          checkCamera10.Size = new Size(66, 27);
          checkCamera10.TabIndex = 43;
          checkCamera10.Tag = "0";
          checkCamera10.Text = "0";
-         checkCamera10.TextAlign = ContentAlignment.MiddleCenter;
-         checkCamera10.UseVisualStyleBackColor = true;
          checkCamera10.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCockpitPilotSubState
          // 
-         checkCockpitPilotSubState.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCockpitPilotSubState.Location = new Point(1003, 372);
+         checkCockpitPilotSubState.Location = new Point(1004, 371);
+         checkCockpitPilotSubState.Margin = new Padding(4, 3, 4, 3);
          checkCockpitPilotSubState.Name = "checkCockpitPilotSubState";
          checkCockpitPilotSubState.Size = new Size(60, 27);
          checkCockpitPilotSubState.TabIndex = 68;
          checkCockpitPilotSubState.Text = "Pilot";
-         checkCockpitPilotSubState.TextAlign = ContentAlignment.MiddleCenter;
-         checkCockpitPilotSubState.UseVisualStyleBackColor = true;
          checkCockpitPilotSubState.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblFlapsNumberOfDetents
          // 
-         lblFlapsNumberOfDetents.AutoSize = true;
-         lblFlapsNumberOfDetents.Location = new Point(686, 305);
+         lblFlapsNumberOfDetents.Location = new Point(686, 304);
+         lblFlapsNumberOfDetents.Margin = new Padding(4, 3, 4, 3);
          lblFlapsNumberOfDetents.Name = "lblFlapsNumberOfDetents";
-         lblFlapsNumberOfDetents.Size = new Size(120, 17);
+         lblFlapsNumberOfDetents.Size = new Size(112, 17);
          lblFlapsNumberOfDetents.TabIndex = 73;
          lblFlapsNumberOfDetents.Text = "Number of Detents";
          // 
          // lblIndex1
          // 
-         lblIndex1.AutoSize = true;
-         lblIndex1.Location = new Point(191, 654);
+         lblIndex1.Location = new Point(192, 654);
+         lblIndex1.Margin = new Padding(4, 3, 4, 3);
          lblIndex1.Name = "lblIndex1";
-         lblIndex1.Size = new Size(59, 17);
+         lblIndex1.Size = new Size(51, 17);
          lblIndex1.TabIndex = 60;
          lblIndex1.Text = "Index1: x";
          // 
          // btnPreviousSubView
          // 
-         btnPreviousSubView.Location = new Point(943, 405);
+         btnPreviousSubView.Location = new Point(942, 405);
+         btnPreviousSubView.Margin = new Padding(4, 3, 4, 3);
          btnPreviousSubView.Name = "btnPreviousSubView";
          btnPreviousSubView.Size = new Size(42, 27);
          btnPreviousSubView.TabIndex = 166;
@@ -860,34 +829,35 @@ namespace MacroSim
          // 
          // lblIndex0
          // 
-         lblIndex0.AutoSize = true;
-         lblIndex0.Location = new Point(191, 637);
+         lblIndex0.Location = new Point(192, 637);
+         lblIndex0.Margin = new Padding(4, 3, 4, 3);
          lblIndex0.Name = "lblIndex0";
-         lblIndex0.Size = new Size(59, 17);
+         lblIndex0.Size = new Size(51, 17);
          lblIndex0.TabIndex = 60;
          lblIndex0.Text = "Index0: x";
          // 
          // lblCurrentFlapsLimit
          // 
-         lblCurrentFlapsLimit.AutoSize = true;
-         lblCurrentFlapsLimit.Location = new Point(686, 288);
+         lblCurrentFlapsLimit.Location = new Point(686, 287);
+         lblCurrentFlapsLimit.Margin = new Padding(4, 3, 4, 3);
          lblCurrentFlapsLimit.Name = "lblCurrentFlapsLimit";
-         lblCurrentFlapsLimit.Size = new Size(116, 17);
+         lblCurrentFlapsLimit.Size = new Size(108, 17);
          lblCurrentFlapsLimit.TabIndex = 72;
          lblCurrentFlapsLimit.Text = "Current Flaps Limit";
          // 
          // lblCameraSubstate
          // 
-         lblCameraSubstate.AutoSize = true;
-         lblCameraSubstate.Location = new Point(191, 620);
+         lblCameraSubstate.Location = new Point(192, 620);
+         lblCameraSubstate.Margin = new Padding(4, 3, 4, 3);
          lblCameraSubstate.Name = "lblCameraSubstate";
-         lblCameraSubstate.Size = new Size(71, 17);
+         lblCameraSubstate.Size = new Size(63, 17);
          lblCameraSubstate.TabIndex = 59;
          lblCameraSubstate.Text = "Substate: x";
          // 
          // btnNextSubView
          // 
-         btnNextSubView.Location = new Point(943, 372);
+         btnNextSubView.Location = new Point(942, 371);
+         btnNextSubView.Margin = new Padding(4, 3, 4, 3);
          btnNextSubView.Name = "btnNextSubView";
          btnNextSubView.Size = new Size(42, 27);
          btnNextSubView.TabIndex = 165;
@@ -897,25 +867,26 @@ namespace MacroSim
          // 
          // lblCameraState
          // 
-         lblCameraState.AutoSize = true;
-         lblCameraState.Location = new Point(191, 603);
+         lblCameraState.Location = new Point(192, 603);
+         lblCameraState.Margin = new Padding(4, 3, 4, 3);
          lblCameraState.Name = "lblCameraState";
-         lblCameraState.Size = new Size(50, 17);
+         lblCameraState.Size = new Size(42, 17);
          lblCameraState.TabIndex = 58;
          lblCameraState.Text = "State: x";
          // 
          // lblTrailingFlapsRight
          // 
-         lblTrailingFlapsRight.AutoSize = true;
-         lblTrailingFlapsRight.Location = new Point(686, 271);
+         lblTrailingFlapsRight.Location = new Point(686, 270);
+         lblTrailingFlapsRight.Margin = new Padding(4, 3, 4, 3);
          lblTrailingFlapsRight.Name = "lblTrailingFlapsRight";
-         lblTrailingFlapsRight.Size = new Size(118, 17);
+         lblTrailingFlapsRight.Size = new Size(111, 17);
          lblTrailingFlapsRight.TabIndex = 71;
          lblTrailingFlapsRight.Text = "Trailing Flaps Right";
          // 
          // btnPreviousView
          // 
          btnPreviousView.Location = new Point(888, 405);
+         btnPreviousView.Margin = new Padding(4, 3, 4, 3);
          btnPreviousView.Name = "btnPreviousView";
          btnPreviousView.Size = new Size(42, 27);
          btnPreviousView.TabIndex = 165;
@@ -925,16 +896,17 @@ namespace MacroSim
          // 
          // lblTrailingFlapsLeft
          // 
-         lblTrailingFlapsLeft.AutoSize = true;
-         lblTrailingFlapsLeft.Location = new Point(686, 254);
+         lblTrailingFlapsLeft.Location = new Point(686, 253);
+         lblTrailingFlapsLeft.Margin = new Padding(4, 3, 4, 3);
          lblTrailingFlapsLeft.Name = "lblTrailingFlapsLeft";
-         lblTrailingFlapsLeft.Size = new Size(109, 17);
+         lblTrailingFlapsLeft.Size = new Size(102, 17);
          lblTrailingFlapsLeft.TabIndex = 70;
          lblTrailingFlapsLeft.Text = "Trailing Flaps Left";
          // 
          // btnNextView
          // 
-         btnNextView.Location = new Point(888, 372);
+         btnNextView.Location = new Point(888, 371);
+         btnNextView.Margin = new Padding(4, 3, 4, 3);
          btnNextView.Name = "btnNextView";
          btnNextView.Size = new Size(42, 27);
          btnNextView.TabIndex = 164;
@@ -944,36 +916,37 @@ namespace MacroSim
          // 
          // lblAileronTrimPct
          // 
-         lblAileronTrimPct.AutoSize = true;
          lblAileronTrimPct.Location = new Point(525, 276);
+         lblAileronTrimPct.Margin = new Padding(4, 3, 4, 3);
          lblAileronTrimPct.Name = "lblAileronTrimPct";
-         lblAileronTrimPct.Size = new Size(103, 17);
+         lblAileronTrimPct.Size = new Size(96, 17);
          lblAileronTrimPct.TabIndex = 69;
          lblAileronTrimPct.Text = "Aileron Trim: 0%";
          // 
          // lblRudderTrimPct
          // 
-         lblRudderTrimPct.AutoSize = true;
          lblRudderTrimPct.Location = new Point(525, 259);
+         lblRudderTrimPct.Margin = new Padding(4, 3, 4, 3);
          lblRudderTrimPct.Name = "lblRudderTrimPct";
-         lblRudderTrimPct.Size = new Size(105, 17);
+         lblRudderTrimPct.Size = new Size(98, 17);
          lblRudderTrimPct.TabIndex = 68;
          lblRudderTrimPct.Text = "Rudder Trim: 0%";
          // 
          // lblElevatorTrimPct
          // 
-         lblElevatorTrimPct.AutoSize = true;
          lblElevatorTrimPct.Location = new Point(525, 242);
+         lblElevatorTrimPct.Margin = new Padding(4, 3, 4, 3);
          lblElevatorTrimPct.Name = "lblElevatorTrimPct";
-         lblElevatorTrimPct.Size = new Size(109, 17);
+         lblElevatorTrimPct.Size = new Size(102, 17);
          lblElevatorTrimPct.TabIndex = 2;
          lblElevatorTrimPct.Text = "Elevator Trim: 0%";
          // 
          // btnSetCamera
          // 
-         btnSetCamera.Location = new Point(341, 282);
+         btnSetCamera.Location = new Point(340, 282);
+         btnSetCamera.Margin = new Padding(4, 3, 4, 3);
          btnSetCamera.Name = "btnSetCamera";
-         btnSetCamera.Size = new Size(140, 23);
+         btnSetCamera.Size = new Size(140, 24);
          btnSetCamera.TabIndex = 67;
          btnSetCamera.Text = "Set Camera";
          btnSetCamera.UseVisualStyleBackColor = true;
@@ -981,7 +954,8 @@ namespace MacroSim
          // 
          // txtCameraIndex1
          // 
-         txtCameraIndex1.Location = new Point(450, 251);
+         txtCameraIndex1.Location = new Point(451, 251);
+         txtCameraIndex1.Margin = new Padding(4, 3, 4, 3);
          txtCameraIndex1.Name = "txtCameraIndex1";
          txtCameraIndex1.Size = new Size(31, 25);
          txtCameraIndex1.TabIndex = 66;
@@ -989,20 +963,23 @@ namespace MacroSim
          // txtCameraIndex0
          // 
          txtCameraIndex0.Location = new Point(413, 251);
+         txtCameraIndex0.Margin = new Padding(4, 3, 4, 3);
          txtCameraIndex0.Name = "txtCameraIndex0";
          txtCameraIndex0.Size = new Size(31, 25);
          txtCameraIndex0.TabIndex = 65;
          // 
          // txtCameraSubState
          // 
-         txtCameraSubState.Location = new Point(376, 251);
+         txtCameraSubState.Location = new Point(375, 251);
+         txtCameraSubState.Margin = new Padding(4, 3, 4, 3);
          txtCameraSubState.Name = "txtCameraSubState";
          txtCameraSubState.Size = new Size(31, 25);
          txtCameraSubState.TabIndex = 64;
          // 
          // txtCameraState
          // 
-         txtCameraState.Location = new Point(339, 251);
+         txtCameraState.Location = new Point(340, 251);
+         txtCameraState.Margin = new Padding(4, 3, 4, 3);
          txtCameraState.Name = "txtCameraState";
          txtCameraState.Size = new Size(31, 25);
          txtCameraState.TabIndex = 63;
@@ -1014,8 +991,10 @@ namespace MacroSim
          groupBox1.Controls.Add(btnSimRateInc);
          groupBox1.Controls.Add(lblSimRate);
          groupBox1.Location = new Point(686, 144);
+         groupBox1.Margin = new Padding(4, 3, 4, 3);
          groupBox1.Name = "groupBox1";
-         groupBox1.Size = new Size(177, 95);
+         groupBox1.Padding = new Padding(4, 3, 4, 3);
+         groupBox1.Size = new Size(178, 95);
          groupBox1.TabIndex = 62;
          groupBox1.TabStop = false;
          groupBox1.Text = "Time";
@@ -1023,9 +1002,10 @@ namespace MacroSim
          // btnSimRateReset
          // 
          btnSimRateReset.AutoSize = true;
-         btnSimRateReset.Location = new Point(72, 41);
+         btnSimRateReset.Location = new Point(73, 41);
+         btnSimRateReset.Margin = new Padding(4, 3, 4, 3);
          btnSimRateReset.Name = "btnSimRateReset";
-         btnSimRateReset.Size = new Size(50, 27);
+         btnSimRateReset.Size = new Size(52, 30);
          btnSimRateReset.TabIndex = 69;
          btnSimRateReset.Text = "Reset";
          btnSimRateReset.UseVisualStyleBackColor = true;
@@ -1034,6 +1014,7 @@ namespace MacroSim
          // btnSimRateDec
          // 
          btnSimRateDec.Location = new Point(6, 41);
+         btnSimRateDec.Margin = new Padding(4, 3, 4, 3);
          btnSimRateDec.Name = "btnSimRateDec";
          btnSimRateDec.Size = new Size(27, 27);
          btnSimRateDec.TabIndex = 68;
@@ -1043,7 +1024,8 @@ namespace MacroSim
          // 
          // btnSimRateInc
          // 
-         btnSimRateInc.Location = new Point(39, 41);
+         btnSimRateInc.Location = new Point(38, 41);
+         btnSimRateInc.Margin = new Padding(4, 3, 4, 3);
          btnSimRateInc.Name = "btnSimRateInc";
          btnSimRateInc.Size = new Size(27, 27);
          btnSimRateInc.TabIndex = 67;
@@ -1053,29 +1035,30 @@ namespace MacroSim
          // 
          // lblSimRate
          // 
-         lblSimRate.AutoSize = true;
          lblSimRate.Location = new Point(6, 21);
+         lblSimRate.Margin = new Padding(4, 3, 4, 3);
          lblSimRate.Name = "lblSimRate";
-         lblSimRate.Size = new Size(79, 17);
+         lblSimRate.Size = new Size(71, 17);
          lblSimRate.TabIndex = 0;
          lblSimRate.Text = "Sim Rate: 1x";
          // 
          // lblCurrentCameraType
          // 
-         lblCurrentCameraType.AutoSize = true;
-         lblCurrentCameraType.Location = new Point(725, 623);
+         lblCurrentCameraType.Location = new Point(724, 622);
+         lblCurrentCameraType.Margin = new Padding(4, 3, 4, 3);
          lblCurrentCameraType.Name = "lblCurrentCameraType";
-         lblCurrentCameraType.Size = new Size(131, 17);
+         lblCurrentCameraType.Size = new Size(124, 17);
          lblCurrentCameraType.TabIndex = 67;
          lblCurrentCameraType.Text = "Current Camera Type";
          // 
          // txtOutput
          // 
-         txtOutput.Location = new Point(737, 233);
+         txtOutput.Location = new Point(738, 233);
+         txtOutput.Margin = new Padding(4, 3, 4, 3);
          txtOutput.Multiline = true;
          txtOutput.Name = "txtOutput";
          txtOutput.ReadOnly = true;
-         txtOutput.Size = new Size(326, 116);
+         txtOutput.Size = new Size(326, 91);
          txtOutput.TabIndex = 61;
          // 
          // groupCameras
@@ -1086,66 +1069,60 @@ namespace MacroSim
          groupCameras.Controls.Add(checkCameraPilotNormal);
          groupCameras.Controls.Add(lblCameraCurrentView);
          groupCameras.Location = new Point(284, 490);
+         groupCameras.Margin = new Padding(4, 3, 4, 3);
          groupCameras.Name = "groupCameras";
-         groupCameras.Size = new Size(468, 130);
+         groupCameras.Padding = new Padding(4, 3, 4, 3);
+         groupCameras.Size = new Size(468, 129);
          groupCameras.TabIndex = 45;
          groupCameras.TabStop = false;
          groupCameras.Text = "Cameras";
          // 
          // checkCameraPilotCoPilot
          // 
-         checkCameraPilotCoPilot.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCameraPilotCoPilot.Location = new Point(204, 57);
+         checkCameraPilotCoPilot.Location = new Point(204, 58);
+         checkCameraPilotCoPilot.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotCoPilot.Name = "checkCameraPilotCoPilot";
          checkCameraPilotCoPilot.Size = new Size(60, 27);
          checkCameraPilotCoPilot.TabIndex = 57;
          checkCameraPilotCoPilot.Text = "CoPilot";
-         checkCameraPilotCoPilot.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotCoPilot.UseVisualStyleBackColor = true;
          checkCameraPilotCoPilot.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCameraPilotLand
          // 
-         checkCameraPilotLand.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCameraPilotLand.Location = new Point(138, 57);
+         checkCameraPilotLand.Location = new Point(137, 58);
+         checkCameraPilotLand.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotLand.Name = "checkCameraPilotLand";
          checkCameraPilotLand.Size = new Size(60, 27);
          checkCameraPilotLand.TabIndex = 56;
          checkCameraPilotLand.Text = "Land";
-         checkCameraPilotLand.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotLand.UseVisualStyleBackColor = true;
          checkCameraPilotLand.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCameraPilotClose
          // 
-         checkCameraPilotClose.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCameraPilotClose.Location = new Point(6, 57);
+         checkCameraPilotClose.Location = new Point(6, 58);
+         checkCameraPilotClose.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotClose.Name = "checkCameraPilotClose";
          checkCameraPilotClose.Size = new Size(60, 27);
          checkCameraPilotClose.TabIndex = 55;
          checkCameraPilotClose.Text = "Close";
-         checkCameraPilotClose.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotClose.UseVisualStyleBackColor = true;
          checkCameraPilotClose.CheckedChanged += CameraButton_CheckChanged;
          // 
          // checkCameraPilotNormal
          // 
-         checkCameraPilotNormal.Appearance = System.Windows.Forms.Appearance.Button;
-         checkCameraPilotNormal.Location = new Point(72, 57);
+         checkCameraPilotNormal.Location = new Point(73, 58);
+         checkCameraPilotNormal.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotNormal.Name = "checkCameraPilotNormal";
          checkCameraPilotNormal.Size = new Size(60, 27);
          checkCameraPilotNormal.TabIndex = 54;
          checkCameraPilotNormal.Text = "Pilot";
-         checkCameraPilotNormal.TextAlign = ContentAlignment.MiddleCenter;
-         checkCameraPilotNormal.UseVisualStyleBackColor = true;
          checkCameraPilotNormal.CheckedChanged += CameraButton_CheckChanged;
          // 
          // lblCameraCurrentView
          // 
-         lblCameraCurrentView.AutoSize = true;
-         lblCameraCurrentView.Location = new Point(295, 62);
+         lblCameraCurrentView.Location = new Point(295, 61);
+         lblCameraCurrentView.Margin = new Padding(4, 3, 4, 3);
          lblCameraCurrentView.Name = "lblCameraCurrentView";
-         lblCameraCurrentView.Size = new Size(127, 17);
+         lblCameraCurrentView.Size = new Size(119, 17);
          lblCameraCurrentView.TabIndex = 53;
          lblCameraCurrentView.Text = "Current camera view";
          // 
@@ -1156,24 +1133,27 @@ namespace MacroSim
          groupFuel.Controls.Add(lblTotalFuelPct);
          groupFuel.Controls.Add(btnAddFuel);
          groupFuel.Location = new Point(869, 144);
+         groupFuel.Margin = new Padding(4, 3, 4, 3);
          groupFuel.Name = "groupFuel";
-         groupFuel.Size = new Size(194, 83);
+         groupFuel.Padding = new Padding(4, 3, 4, 3);
+         groupFuel.Size = new Size(193, 82);
          groupFuel.TabIndex = 40;
          groupFuel.TabStop = false;
          groupFuel.Text = "Fuel";
          // 
          // lblFuelDumpSwitch
          // 
-         lblFuelDumpSwitch.Location = new Point(128, 52);
+         lblFuelDumpSwitch.Location = new Point(129, 53);
+         lblFuelDumpSwitch.Margin = new Padding(4, 3, 4, 3);
          lblFuelDumpSwitch.Name = "lblFuelDumpSwitch";
-         lblFuelDumpSwitch.Size = new Size(60, 23);
+         lblFuelDumpSwitch.Size = new Size(16, 17);
          lblFuelDumpSwitch.TabIndex = 67;
          lblFuelDumpSwitch.Text = "off";
-         //lblFuelDumpSwitch.TextAlign = ContentAlignment.MiddleCenter;
          // 
          // btnFuelDump
          // 
-         btnFuelDump.Location = new Point(67, 50);
+         btnFuelDump.Location = new Point(66, 49);
+         btnFuelDump.Margin = new Padding(4, 3, 4, 3);
          btnFuelDump.Name = "btnFuelDump";
          btnFuelDump.Size = new Size(55, 27);
          btnFuelDump.TabIndex = 66;
@@ -1183,16 +1163,17 @@ namespace MacroSim
          // 
          // lblTotalFuelPct
          // 
-         lblTotalFuelPct.AutoSize = true;
          lblTotalFuelPct.Location = new Point(6, 21);
+         lblTotalFuelPct.Margin = new Padding(4, 3, 4, 3);
          lblTotalFuelPct.Name = "lblTotalFuelPct";
-         lblTotalFuelPct.Size = new Size(112, 17);
+         lblTotalFuelPct.Size = new Size(105, 17);
          lblTotalFuelPct.TabIndex = 65;
          lblTotalFuelPct.Text = "Total Fuel: 100.0%";
          // 
          // btnAddFuel
          // 
-         btnAddFuel.Location = new Point(6, 50);
+         btnAddFuel.Location = new Point(6, 49);
+         btnAddFuel.Margin = new Padding(4, 3, 4, 3);
          btnAddFuel.Name = "btnAddFuel";
          btnAddFuel.Size = new Size(55, 27);
          btnAddFuel.TabIndex = 64;
@@ -1209,8 +1190,10 @@ namespace MacroSim
          groupPause.Controls.Add(checkPauseFull);
          groupPause.Controls.Add(btnPauseFull);
          groupPause.Location = new Point(820, 3);
+         groupPause.Margin = new Padding(4, 3, 4, 3);
          groupPause.Name = "groupPause";
-         groupPause.Size = new Size(243, 135);
+         groupPause.Padding = new Padding(4, 3, 4, 3);
+         groupPause.Size = new Size(242, 134);
          groupPause.TabIndex = 39;
          groupPause.TabStop = false;
          groupPause.Text = "Pause";
@@ -1218,6 +1201,7 @@ namespace MacroSim
          // btnPauseSim
          // 
          btnPauseSim.Location = new Point(6, 78);
+         btnPauseSim.Margin = new Padding(4, 3, 4, 3);
          btnPauseSim.Name = "btnPauseSim";
          btnPauseSim.Size = new Size(97, 48);
          btnPauseSim.TabIndex = 5;
@@ -1227,50 +1211,48 @@ namespace MacroSim
          // 
          // checkPauseEsc
          // 
-         checkPauseEsc.AutoCheck = false;
          checkPauseEsc.AutoSize = true;
-         checkPauseEsc.Location = new Point(115, 105);
+         checkPauseEsc.Location = new Point(116, 105);
+         checkPauseEsc.Margin = new Padding(4, 3, 4, 3);
          checkPauseEsc.Name = "checkPauseEsc";
-         checkPauseEsc.Size = new Size(84, 21);
+         checkPauseEsc.Size = new Size(64, 22);
          checkPauseEsc.TabIndex = 4;
          checkPauseEsc.Text = "Esc Pause";
-         checkPauseEsc.UseVisualStyleBackColor = true;
          // 
          // checkPauseSim
          // 
          checkPauseSim.AutoSize = true;
-         checkPauseSim.Location = new Point(115, 78);
+         checkPauseSim.Location = new Point(116, 78);
+         checkPauseSim.Margin = new Padding(4, 3, 4, 3);
          checkPauseSim.Name = "checkPauseSim";
-         checkPauseSim.Size = new Size(86, 21);
+         checkPauseSim.Size = new Size(66, 22);
          checkPauseSim.TabIndex = 3;
          checkPauseSim.Text = "Sim Pause";
-         checkPauseSim.UseVisualStyleBackColor = true;
          // 
          // checkPauseActive
          // 
-         checkPauseActive.AutoCheck = false;
          checkPauseActive.AutoSize = true;
-         checkPauseActive.Location = new Point(115, 51);
+         checkPauseActive.Location = new Point(116, 51);
+         checkPauseActive.Margin = new Padding(4, 3, 4, 3);
          checkPauseActive.Name = "checkPauseActive";
-         checkPauseActive.Size = new Size(99, 21);
+         checkPauseActive.Size = new Size(79, 22);
          checkPauseActive.TabIndex = 2;
          checkPauseActive.Text = "Active Pause";
-         checkPauseActive.UseVisualStyleBackColor = true;
          // 
          // checkPauseFull
          // 
-         checkPauseFull.AutoCheck = false;
          checkPauseFull.AutoSize = true;
-         checkPauseFull.Location = new Point(115, 24);
+         checkPauseFull.Location = new Point(116, 24);
+         checkPauseFull.Margin = new Padding(4, 3, 4, 3);
          checkPauseFull.Name = "checkPauseFull";
-         checkPauseFull.Size = new Size(84, 21);
+         checkPauseFull.Size = new Size(64, 22);
          checkPauseFull.TabIndex = 1;
          checkPauseFull.Text = "Full Pause";
-         checkPauseFull.UseVisualStyleBackColor = true;
          // 
          // btnPauseFull
          // 
          btnPauseFull.Location = new Point(6, 24);
+         btnPauseFull.Margin = new Padding(4, 3, 4, 3);
          btnPauseFull.Name = "btnPauseFull";
          btnPauseFull.Size = new Size(97, 48);
          btnPauseFull.TabIndex = 0;
@@ -1291,7 +1273,9 @@ namespace MacroSim
          groupFms.Controls.Add(btnFmsPfdInner);
          groupFms.Controls.Add(btnFmsPfdOuter);
          groupFms.Location = new Point(284, 144);
+         groupFms.Margin = new Padding(4, 3, 4, 3);
          groupFms.Name = "groupFms";
+         groupFms.Padding = new Padding(4, 3, 4, 3);
          groupFms.Size = new Size(396, 95);
          groupFms.TabIndex = 38;
          groupFms.TabStop = false;
@@ -1300,24 +1284,27 @@ namespace MacroSim
          // btnFmsMfdInner
          // 
          btnFmsMfdInner.Location = new Point(342, 30);
+         btnFmsMfdInner.Margin = new Padding(4, 3, 4, 3);
          btnFmsMfdInner.Name = "btnFmsMfdInner";
-         btnFmsMfdInner.Size = new Size(45, 45);
+         btnFmsMfdInner.Size = new Size(46, 44);
          btnFmsMfdInner.TabIndex = 63;
          btnFmsMfdInner.Text = "MFD\r\nIN";
          btnFmsMfdInner.UseVisualStyleBackColor = true;
          // 
          // btnFmsMfdOuter
          // 
-         btnFmsMfdOuter.Location = new Point(291, 30);
+         btnFmsMfdOuter.Location = new Point(290, 30);
+         btnFmsMfdOuter.Margin = new Padding(4, 3, 4, 3);
          btnFmsMfdOuter.Name = "btnFmsMfdOuter";
-         btnFmsMfdOuter.Size = new Size(45, 45);
+         btnFmsMfdOuter.Size = new Size(46, 44);
          btnFmsMfdOuter.TabIndex = 62;
          btnFmsMfdOuter.Text = "MFD\r\nOUT";
          btnFmsMfdOuter.UseVisualStyleBackColor = true;
          // 
          // btnFmsEnt
          // 
-         btnFmsEnt.Location = new Point(230, 57);
+         btnFmsEnt.Location = new Point(230, 58);
+         btnFmsEnt.Margin = new Padding(4, 3, 4, 3);
          btnFmsEnt.Name = "btnFmsEnt";
          btnFmsEnt.Size = new Size(55, 27);
          btnFmsEnt.TabIndex = 61;
@@ -1327,7 +1314,8 @@ namespace MacroSim
          // 
          // btnFmsClr
          // 
-         btnFmsClr.Location = new Point(169, 57);
+         btnFmsClr.Location = new Point(169, 58);
+         btnFmsClr.Margin = new Padding(4, 3, 4, 3);
          btnFmsClr.Name = "btnFmsClr";
          btnFmsClr.Size = new Size(55, 27);
          btnFmsClr.TabIndex = 60;
@@ -1337,7 +1325,8 @@ namespace MacroSim
          // 
          // btnFmsMenu
          // 
-         btnFmsMenu.Location = new Point(108, 57);
+         btnFmsMenu.Location = new Point(108, 58);
+         btnFmsMenu.Margin = new Padding(4, 3, 4, 3);
          btnFmsMenu.Name = "btnFmsMenu";
          btnFmsMenu.Size = new Size(55, 27);
          btnFmsMenu.TabIndex = 59;
@@ -1348,6 +1337,7 @@ namespace MacroSim
          // btnFmsProc
          // 
          btnFmsProc.Location = new Point(230, 24);
+         btnFmsProc.Margin = new Padding(4, 3, 4, 3);
          btnFmsProc.Name = "btnFmsProc";
          btnFmsProc.Size = new Size(55, 27);
          btnFmsProc.TabIndex = 58;
@@ -1358,6 +1348,7 @@ namespace MacroSim
          // btnFmsFpl
          // 
          btnFmsFpl.Location = new Point(169, 24);
+         btnFmsFpl.Margin = new Padding(4, 3, 4, 3);
          btnFmsFpl.Name = "btnFmsFpl";
          btnFmsFpl.Size = new Size(55, 27);
          btnFmsFpl.TabIndex = 57;
@@ -1368,6 +1359,7 @@ namespace MacroSim
          // btnFmsDirect
          // 
          btnFmsDirect.Location = new Point(108, 24);
+         btnFmsDirect.Margin = new Padding(4, 3, 4, 3);
          btnFmsDirect.Name = "btnFmsDirect";
          btnFmsDirect.Size = new Size(55, 27);
          btnFmsDirect.TabIndex = 56;
@@ -1378,8 +1370,9 @@ namespace MacroSim
          // btnFmsPfdInner
          // 
          btnFmsPfdInner.Location = new Point(57, 30);
+         btnFmsPfdInner.Margin = new Padding(4, 3, 4, 3);
          btnFmsPfdInner.Name = "btnFmsPfdInner";
-         btnFmsPfdInner.Size = new Size(45, 45);
+         btnFmsPfdInner.Size = new Size(46, 44);
          btnFmsPfdInner.TabIndex = 55;
          btnFmsPfdInner.Text = "PFD\r\nIN";
          btnFmsPfdInner.UseVisualStyleBackColor = true;
@@ -1387,8 +1380,9 @@ namespace MacroSim
          // btnFmsPfdOuter
          // 
          btnFmsPfdOuter.Location = new Point(6, 30);
+         btnFmsPfdOuter.Margin = new Padding(4, 3, 4, 3);
          btnFmsPfdOuter.Name = "btnFmsPfdOuter";
-         btnFmsPfdOuter.Size = new Size(45, 45);
+         btnFmsPfdOuter.Size = new Size(46, 44);
          btnFmsPfdOuter.TabIndex = 54;
          btnFmsPfdOuter.Text = "PFD\r\nOUT";
          btnFmsPfdOuter.UseVisualStyleBackColor = true;
@@ -1414,26 +1408,29 @@ namespace MacroSim
          groupAutopilot.Controls.Add(checkApNavHold);
          groupAutopilot.Controls.Add(checkApHdgHold);
          groupAutopilot.Location = new Point(284, 3);
+         groupAutopilot.Margin = new Padding(4, 3, 4, 3);
          groupAutopilot.Name = "groupAutopilot";
-         groupAutopilot.Size = new Size(530, 135);
+         groupAutopilot.Padding = new Padding(4, 3, 4, 3);
+         groupAutopilot.Size = new Size(529, 134);
          groupAutopilot.TabIndex = 37;
          groupAutopilot.TabStop = false;
          groupAutopilot.Text = "Autopilot";
          // 
          // lblApproachStatus
          // 
-         lblApproachStatus.AutoSize = true;
          lblApproachStatus.Location = new Point(10, 109);
+         lblApproachStatus.Margin = new Padding(4, 3, 4, 3);
          lblApproachStatus.Name = "lblApproachStatus";
-         lblApproachStatus.Size = new Size(72, 17);
+         lblApproachStatus.Size = new Size(64, 17);
          lblApproachStatus.TabIndex = 54;
          lblApproachStatus.Text = "Approach: ";
          // 
          // btnCrs2Sel
          // 
-         btnCrs2Sel.Location = new Point(474, 57);
+         btnCrs2Sel.Location = new Point(473, 58);
+         btnCrs2Sel.Margin = new Padding(4, 3, 4, 3);
          btnCrs2Sel.Name = "btnCrs2Sel";
-         btnCrs2Sel.Size = new Size(45, 45);
+         btnCrs2Sel.Size = new Size(46, 44);
          btnCrs2Sel.TabIndex = 53;
          btnCrs2Sel.Text = "CS2\r\nSEL";
          btnCrs2Sel.UseVisualStyleBackColor = true;
@@ -1441,33 +1438,30 @@ namespace MacroSim
          // 
          // checkApSpd
          // 
-         checkApSpd.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApSpd.Location = new Point(417, 57);
+         checkApSpd.Location = new Point(416, 58);
+         checkApSpd.Margin = new Padding(4, 3, 4, 3);
          checkApSpd.Name = "checkApSpd";
-         checkApSpd.Size = new Size(45, 27);
+         checkApSpd.Size = new Size(46, 27);
          checkApSpd.TabIndex = 52;
          checkApSpd.Text = "SPD";
-         checkApSpd.TextAlign = ContentAlignment.MiddleCenter;
-         checkApSpd.UseVisualStyleBackColor = true;
          checkApSpd.CheckedChanged += Autopilot_CheckedChanged;
          checkApSpd.Click += ApButton_Click;
          // 
          // checkApFlc
          // 
-         checkApFlc.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApFlc.Location = new Point(417, 24);
+         checkApFlc.Location = new Point(416, 24);
+         checkApFlc.Margin = new Padding(4, 3, 4, 3);
          checkApFlc.Name = "checkApFlc";
-         checkApFlc.Size = new Size(45, 27);
+         checkApFlc.Size = new Size(46, 27);
          checkApFlc.TabIndex = 51;
          checkApFlc.Text = "FLC";
-         checkApFlc.TextAlign = ContentAlignment.MiddleCenter;
-         checkApFlc.UseVisualStyleBackColor = true;
          checkApFlc.CheckedChanged += Autopilot_CheckedChanged;
          checkApFlc.Click += ApButton_Click;
          // 
          // btnNoseUpDn
          // 
-         btnNoseUpDn.Location = new Point(376, 24);
+         btnNoseUpDn.Location = new Point(375, 24);
+         btnNoseUpDn.Margin = new Padding(4, 3, 4, 3);
          btnNoseUpDn.Name = "btnNoseUpDn";
          btnNoseUpDn.Size = new Size(35, 78);
          btnNoseUpDn.TabIndex = 50;
@@ -1476,35 +1470,32 @@ namespace MacroSim
          // 
          // checkApVnv
          // 
-         checkApVnv.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApVnv.Location = new Point(325, 57);
+         checkApVnv.Location = new Point(326, 58);
+         checkApVnv.Margin = new Padding(4, 3, 4, 3);
          checkApVnv.Name = "checkApVnv";
-         checkApVnv.Size = new Size(45, 27);
+         checkApVnv.Size = new Size(46, 27);
          checkApVnv.TabIndex = 49;
          checkApVnv.Text = "VNV";
-         checkApVnv.TextAlign = ContentAlignment.MiddleCenter;
-         checkApVnv.UseVisualStyleBackColor = true;
          checkApVnv.CheckedChanged += Autopilot_CheckedChanged;
          checkApVnv.Click += ApButton_Click;
          // 
          // checkApVsHold
          // 
-         checkApVsHold.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApVsHold.Location = new Point(325, 24);
+         checkApVsHold.Location = new Point(326, 24);
+         checkApVsHold.Margin = new Padding(4, 3, 4, 3);
          checkApVsHold.Name = "checkApVsHold";
-         checkApVsHold.Size = new Size(45, 27);
+         checkApVsHold.Size = new Size(46, 27);
          checkApVsHold.TabIndex = 48;
          checkApVsHold.Text = "VS";
-         checkApVsHold.TextAlign = ContentAlignment.MiddleCenter;
-         checkApVsHold.UseVisualStyleBackColor = true;
          checkApVsHold.CheckedChanged += Autopilot_CheckedChanged;
          checkApVsHold.Click += ApButton_Click;
          // 
          // btnAltSel
          // 
-         btnAltSel.Location = new Point(275, 57);
+         btnAltSel.Location = new Point(276, 58);
+         btnAltSel.Margin = new Padding(4, 3, 4, 3);
          btnAltSel.Name = "btnAltSel";
-         btnAltSel.Size = new Size(45, 45);
+         btnAltSel.Size = new Size(46, 44);
          btnAltSel.TabIndex = 47;
          btnAltSel.Text = "ALT\r\nSEL";
          btnAltSel.UseVisualStyleBackColor = true;
@@ -1512,61 +1503,54 @@ namespace MacroSim
          // 
          // checkApAltHold
          // 
-         checkApAltHold.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApAltHold.Location = new Point(275, 24);
+         checkApAltHold.Location = new Point(276, 24);
+         checkApAltHold.Margin = new Padding(4, 3, 4, 3);
          checkApAltHold.Name = "checkApAltHold";
-         checkApAltHold.Size = new Size(45, 27);
+         checkApAltHold.Size = new Size(46, 27);
          checkApAltHold.TabIndex = 46;
          checkApAltHold.Text = "ALT";
-         checkApAltHold.TextAlign = ContentAlignment.MiddleCenter;
-         checkApAltHold.UseVisualStyleBackColor = true;
          checkApAltHold.CheckedChanged += Autopilot_CheckedChanged;
          checkApAltHold.Click += ApButton_Click;
          // 
          // checkApYd
          // 
-         checkApYd.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApYd.Location = new Point(218, 57);
+         checkApYd.Location = new Point(218, 58);
+         checkApYd.Margin = new Padding(4, 3, 4, 3);
          checkApYd.Name = "checkApYd";
-         checkApYd.Size = new Size(45, 27);
+         checkApYd.Size = new Size(46, 27);
          checkApYd.TabIndex = 45;
          checkApYd.Text = "YD";
-         checkApYd.TextAlign = ContentAlignment.MiddleCenter;
-         checkApYd.UseVisualStyleBackColor = true;
          checkApYd.CheckedChanged += Autopilot_CheckedChanged;
          checkApYd.Click += ApButton_Click;
          // 
          // checkApFd
          // 
-         checkApFd.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApFd.Location = new Point(193, 24);
+         checkApFd.Location = new Point(192, 24);
+         checkApFd.Margin = new Padding(4, 3, 4, 3);
          checkApFd.Name = "checkApFd";
-         checkApFd.Size = new Size(45, 27);
+         checkApFd.Size = new Size(46, 27);
          checkApFd.TabIndex = 44;
          checkApFd.Text = "FD";
-         checkApFd.TextAlign = ContentAlignment.MiddleCenter;
-         checkApFd.UseVisualStyleBackColor = true;
          checkApFd.CheckedChanged += Autopilot_CheckedChanged;
          checkApFd.Click += ApButton_Click;
          // 
          // checkApMaster
          // 
-         checkApMaster.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApMaster.Location = new Point(167, 57);
+         checkApMaster.Location = new Point(167, 58);
+         checkApMaster.Margin = new Padding(4, 3, 4, 3);
          checkApMaster.Name = "checkApMaster";
-         checkApMaster.Size = new Size(45, 27);
+         checkApMaster.Size = new Size(46, 27);
          checkApMaster.TabIndex = 38;
          checkApMaster.Text = "AP";
-         checkApMaster.TextAlign = ContentAlignment.MiddleCenter;
-         checkApMaster.UseVisualStyleBackColor = true;
          checkApMaster.CheckedChanged += Autopilot_CheckedChanged;
          checkApMaster.Click += ApButton_Click;
          // 
          // btnCrs1Sel
          // 
-         btnCrs1Sel.Location = new Point(110, 57);
+         btnCrs1Sel.Location = new Point(109, 58);
+         btnCrs1Sel.Margin = new Padding(4, 3, 4, 3);
          btnCrs1Sel.Name = "btnCrs1Sel";
-         btnCrs1Sel.Size = new Size(45, 45);
+         btnCrs1Sel.Size = new Size(46, 44);
          btnCrs1Sel.TabIndex = 43;
          btnCrs1Sel.Text = "CS1\r\nSEL";
          btnCrs1Sel.UseVisualStyleBackColor = true;
@@ -1574,9 +1558,10 @@ namespace MacroSim
          // 
          // btnHdgSel
          // 
-         btnHdgSel.Location = new Point(10, 57);
+         btnHdgSel.Location = new Point(10, 58);
+         btnHdgSel.Margin = new Padding(4, 3, 4, 3);
          btnHdgSel.Name = "btnHdgSel";
-         btnHdgSel.Size = new Size(45, 45);
+         btnHdgSel.Size = new Size(46, 44);
          btnHdgSel.TabIndex = 39;
          btnHdgSel.Text = "HDG\r\nSEL";
          btnHdgSel.UseVisualStyleBackColor = true;
@@ -1584,52 +1569,44 @@ namespace MacroSim
          // 
          // checkApBcHold
          // 
-         checkApBcHold.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApBcHold.Location = new Point(61, 57);
+         checkApBcHold.Location = new Point(60, 58);
+         checkApBcHold.Margin = new Padding(4, 3, 4, 3);
          checkApBcHold.Name = "checkApBcHold";
-         checkApBcHold.Size = new Size(45, 27);
+         checkApBcHold.Size = new Size(46, 27);
          checkApBcHold.TabIndex = 42;
          checkApBcHold.Text = "BC";
-         checkApBcHold.TextAlign = ContentAlignment.MiddleCenter;
-         checkApBcHold.UseVisualStyleBackColor = true;
          checkApBcHold.CheckedChanged += Autopilot_CheckedChanged;
          checkApBcHold.Click += ApButton_Click;
          // 
          // checkApAprHold
          // 
-         checkApAprHold.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApAprHold.Location = new Point(61, 24);
+         checkApAprHold.Location = new Point(60, 24);
+         checkApAprHold.Margin = new Padding(4, 3, 4, 3);
          checkApAprHold.Name = "checkApAprHold";
-         checkApAprHold.Size = new Size(45, 27);
+         checkApAprHold.Size = new Size(46, 27);
          checkApAprHold.TabIndex = 41;
          checkApAprHold.Text = "APR";
-         checkApAprHold.TextAlign = ContentAlignment.MiddleCenter;
-         checkApAprHold.UseVisualStyleBackColor = true;
          checkApAprHold.CheckedChanged += Autopilot_CheckedChanged;
          checkApAprHold.Click += ApButton_Click;
          // 
          // checkApNavHold
          // 
-         checkApNavHold.Appearance = System.Windows.Forms.Appearance.Button;
-         checkApNavHold.Location = new Point(110, 24);
+         checkApNavHold.Location = new Point(109, 24);
+         checkApNavHold.Margin = new Padding(4, 3, 4, 3);
          checkApNavHold.Name = "checkApNavHold";
-         checkApNavHold.Size = new Size(45, 27);
+         checkApNavHold.Size = new Size(46, 27);
          checkApNavHold.TabIndex = 40;
          checkApNavHold.Text = "NAV";
-         checkApNavHold.TextAlign = ContentAlignment.MiddleCenter;
-         checkApNavHold.UseVisualStyleBackColor = true;
          checkApNavHold.CheckedChanged += Autopilot_CheckedChanged;
          // 
          // checkApHdgHold
          // 
-         checkApHdgHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApHdgHold.Location = new Point(10, 24);
+         checkApHdgHold.Margin = new Padding(4, 3, 4, 3);
          checkApHdgHold.Name = "checkApHdgHold";
-         checkApHdgHold.Size = new Size(45, 27);
+         checkApHdgHold.Size = new Size(46, 27);
          checkApHdgHold.TabIndex = 39;
          checkApHdgHold.Text = "HDG";
-         checkApHdgHold.TextAlign = ContentAlignment.MiddleCenter;
-         checkApHdgHold.UseVisualStyleBackColor = true;
          checkApHdgHold.CheckedChanged += Autopilot_CheckedChanged;
          checkApHdgHold.Click += ApButton_Click;
          // 
@@ -1647,8 +1624,10 @@ namespace MacroSim
          groupLights.Controls.Add(checkPedestralLight);
          groupLights.Controls.Add(checkNavLight);
          groupLights.Controls.Add(checkPanelLight);
-         groupLights.Location = new Point(284, 392);
+         groupLights.Location = new Point(284, 393);
+         groupLights.Margin = new Padding(4, 3, 4, 3);
          groupLights.Name = "groupLights";
+         groupLights.Padding = new Padding(4, 3, 4, 3);
          groupLights.Size = new Size(396, 92);
          groupLights.TabIndex = 2;
          groupLights.TabStop = false;
@@ -1656,232 +1635,224 @@ namespace MacroSim
          // 
          // checkBeaconLight
          // 
-         checkBeaconLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkBeaconLight.AutoSize = true;
          checkBeaconLight.Location = new Point(6, 24);
+         checkBeaconLight.Margin = new Padding(4, 3, 4, 3);
          checkBeaconLight.Name = "checkBeaconLight";
-         checkBeaconLight.Size = new Size(60, 27);
+         checkBeaconLight.Size = new Size(49, 22);
          checkBeaconLight.TabIndex = 2;
          checkBeaconLight.Text = "Beacon";
-         checkBeaconLight.UseVisualStyleBackColor = true;
          checkBeaconLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkWingLight
          // 
-         checkWingLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkWingLight.AutoSize = true;
-         checkWingLight.Location = new Point(341, 57);
+         checkWingLight.Location = new Point(340, 58);
+         checkWingLight.Margin = new Padding(4, 3, 4, 3);
          checkWingLight.Name = "checkWingLight";
-         checkWingLight.Size = new Size(48, 27);
+         checkWingLight.Size = new Size(37, 22);
          checkWingLight.TabIndex = 44;
          checkWingLight.Text = "Wing";
-         checkWingLight.UseVisualStyleBackColor = true;
          checkWingLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkCabinLight
          // 
-         checkCabinLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkCabinLight.AutoSize = true;
-         checkCabinLight.Location = new Point(72, 24);
+         checkCabinLight.Location = new Point(73, 24);
+         checkCabinLight.Margin = new Padding(4, 3, 4, 3);
          checkCabinLight.Name = "checkCabinLight";
-         checkCabinLight.Size = new Size(51, 27);
+         checkCabinLight.Size = new Size(40, 22);
          checkCabinLight.TabIndex = 34;
          checkCabinLight.Text = "Cabin";
-         checkCabinLight.UseVisualStyleBackColor = true;
          checkCabinLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkTaxiLight
          // 
-         checkTaxiLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkTaxiLight.AutoSize = true;
-         checkTaxiLight.Location = new Point(295, 57);
+         checkTaxiLight.Location = new Point(295, 58);
+         checkTaxiLight.Margin = new Padding(4, 3, 4, 3);
          checkTaxiLight.Name = "checkTaxiLight";
-         checkTaxiLight.Size = new Size(40, 27);
+         checkTaxiLight.Size = new Size(30, 22);
          checkTaxiLight.TabIndex = 43;
          checkTaxiLight.Text = "Taxi";
-         checkTaxiLight.UseVisualStyleBackColor = true;
          checkTaxiLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkGlareshieldLight
          // 
-         checkGlareshieldLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkGlareshieldLight.AutoSize = true;
-         checkGlareshieldLight.Location = new Point(129, 24);
+         checkGlareshieldLight.Location = new Point(130, 24);
+         checkGlareshieldLight.Margin = new Padding(4, 3, 4, 3);
          checkGlareshieldLight.Name = "checkGlareshieldLight";
-         checkGlareshieldLight.Size = new Size(83, 27);
+         checkGlareshieldLight.Size = new Size(72, 22);
          checkGlareshieldLight.TabIndex = 35;
          checkGlareshieldLight.Text = "Glareshield";
-         checkGlareshieldLight.UseVisualStyleBackColor = true;
          checkGlareshieldLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkStrobeLight
          // 
-         checkStrobeLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkStrobeLight.AutoSize = true;
-         checkStrobeLight.Location = new Point(232, 57);
+         checkStrobeLight.Location = new Point(232, 58);
+         checkStrobeLight.Margin = new Padding(4, 3, 4, 3);
          checkStrobeLight.Name = "checkStrobeLight";
-         checkStrobeLight.Size = new Size(57, 27);
+         checkStrobeLight.Size = new Size(46, 22);
          checkStrobeLight.TabIndex = 42;
          checkStrobeLight.Text = "Strobe";
-         checkStrobeLight.UseVisualStyleBackColor = true;
          checkStrobeLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkLandingLight
          // 
-         checkLandingLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkLandingLight.AutoSize = true;
          checkLandingLight.Location = new Point(218, 24);
+         checkLandingLight.Margin = new Padding(4, 3, 4, 3);
          checkLandingLight.Name = "checkLandingLight";
-         checkLandingLight.Size = new Size(64, 27);
+         checkLandingLight.Size = new Size(53, 22);
          checkLandingLight.TabIndex = 36;
          checkLandingLight.Text = "Landing";
-         checkLandingLight.UseVisualStyleBackColor = true;
          checkLandingLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkRecognitionLight
          // 
-         checkRecognitionLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkRecognitionLight.AutoSize = true;
-         checkRecognitionLight.Location = new Point(139, 57);
+         checkRecognitionLight.Location = new Point(139, 58);
+         checkRecognitionLight.Margin = new Padding(4, 3, 4, 3);
          checkRecognitionLight.Name = "checkRecognitionLight";
-         checkRecognitionLight.Size = new Size(87, 27);
+         checkRecognitionLight.Size = new Size(76, 22);
          checkRecognitionLight.TabIndex = 41;
          checkRecognitionLight.Text = "Recognition";
-         checkRecognitionLight.UseVisualStyleBackColor = true;
          checkRecognitionLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkLogoLight
          // 
-         checkLogoLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkLogoLight.AutoSize = true;
          checkLogoLight.Location = new Point(288, 24);
+         checkLogoLight.Margin = new Padding(4, 3, 4, 3);
          checkLogoLight.Name = "checkLogoLight";
-         checkLogoLight.Size = new Size(48, 27);
+         checkLogoLight.Size = new Size(37, 22);
          checkLogoLight.TabIndex = 37;
          checkLogoLight.Text = "Logo";
-         checkLogoLight.UseVisualStyleBackColor = true;
          checkLogoLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkPedestralLight
          // 
-         checkPedestralLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkPedestralLight.AutoSize = true;
-         checkPedestralLight.Location = new Point(61, 57);
+         checkPedestralLight.Location = new Point(60, 58);
+         checkPedestralLight.Margin = new Padding(4, 3, 4, 3);
          checkPedestralLight.Name = "checkPedestralLight";
-         checkPedestralLight.Size = new Size(72, 27);
+         checkPedestralLight.Size = new Size(61, 22);
          checkPedestralLight.TabIndex = 40;
          checkPedestralLight.Text = "Pedestral";
-         checkPedestralLight.UseVisualStyleBackColor = true;
          checkPedestralLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkNavLight
          // 
-         checkNavLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkNavLight.AutoSize = true;
          checkNavLight.Location = new Point(342, 24);
+         checkNavLight.Margin = new Padding(4, 3, 4, 3);
          checkNavLight.Name = "checkNavLight";
-         checkNavLight.Size = new Size(41, 27);
+         checkNavLight.Size = new Size(30, 22);
          checkNavLight.TabIndex = 38;
          checkNavLight.Text = "Nav";
-         checkNavLight.UseVisualStyleBackColor = true;
          checkNavLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // checkPanelLight
          // 
-         checkPanelLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkPanelLight.AutoSize = true;
-         checkPanelLight.Location = new Point(6, 57);
+         checkPanelLight.Location = new Point(6, 58);
+         checkPanelLight.Margin = new Padding(4, 3, 4, 3);
          checkPanelLight.Name = "checkPanelLight";
-         checkPanelLight.Size = new Size(49, 27);
+         checkPanelLight.Size = new Size(38, 22);
          checkPanelLight.TabIndex = 39;
          checkPanelLight.Text = "Panel";
-         checkPanelLight.UseVisualStyleBackColor = true;
          checkPanelLight.CheckedChanged += LightButton_CheckedChanged;
          // 
          // lblTransponder
          // 
-         lblTransponder.AutoSize = true;
-         lblTransponder.Font = new Font("Segoe UI", 21.75F);
-         lblTransponder.Location = new Point(12, 522);
+         lblTransponder.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblTransponder.Appearance.Options.UseFont = true;
+         lblTransponder.Location = new Point(11, 522);
+         lblTransponder.Margin = new Padding(4, 3, 4, 3);
          lblTransponder.Name = "lblTransponder";
-         lblTransponder.Size = new Size(81, 40);
+         lblTransponder.Size = new Size(64, 40);
          lblTransponder.TabIndex = 20;
          lblTransponder.Text = "0000";
          // 
          // label4
          // 
-         label4.AutoSize = true;
-         label4.Location = new Point(12, 502);
+         label4.Location = new Point(11, 502);
+         label4.Margin = new Padding(4, 3, 4, 3);
          label4.Name = "label4";
-         label4.Size = new Size(82, 17);
+         label4.Size = new Size(75, 17);
          label4.TabIndex = 19;
          label4.Text = "Transponder";
          // 
          // lblVerticalSpeedValue
          // 
-         lblVerticalSpeedValue.AutoSize = true;
-         lblVerticalSpeedValue.Font = new Font("Segoe UI", 21.75F);
-         lblVerticalSpeedValue.Location = new Point(159, 457);
+         lblVerticalSpeedValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblVerticalSpeedValue.Appearance.Options.UseFont = true;
+         lblVerticalSpeedValue.Location = new Point(158, 456);
+         lblVerticalSpeedValue.Margin = new Padding(4, 3, 4, 3);
          lblVerticalSpeedValue.Name = "lblVerticalSpeedValue";
-         lblVerticalSpeedValue.Size = new Size(93, 40);
+         lblVerticalSpeedValue.Size = new Size(76, 40);
          lblVerticalSpeedValue.TabIndex = 18;
          lblVerticalSpeedValue.Text = "-0000";
-         //lblVerticalSpeedValue.TextAlign = ContentAlignment.TopRight;
          // 
          // label7
          // 
-         label7.AutoSize = true;
-         label7.Location = new Point(159, 437);
+         label7.Location = new Point(158, 437);
+         label7.Margin = new Padding(4, 3, 4, 3);
          label7.Name = "label7";
-         label7.Size = new Size(91, 17);
+         label7.Size = new Size(84, 17);
          label7.TabIndex = 17;
          label7.Text = "Vertical Speed";
          // 
          // lblAltitudeValue
          // 
-         lblAltitudeValue.AutoSize = true;
-         lblAltitudeValue.Font = new Font("Segoe UI", 21.75F);
-         lblAltitudeValue.Location = new Point(12, 457);
+         lblAltitudeValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblAltitudeValue.Appearance.Options.UseFont = true;
+         lblAltitudeValue.Location = new Point(11, 456);
+         lblAltitudeValue.Margin = new Padding(4, 3, 4, 3);
          lblAltitudeValue.Name = "lblAltitudeValue";
-         lblAltitudeValue.Size = new Size(97, 40);
+         lblAltitudeValue.Size = new Size(80, 40);
          lblAltitudeValue.TabIndex = 16;
          lblAltitudeValue.Text = "00000";
          // 
          // label5
          // 
-         label5.AutoSize = true;
-         label5.Location = new Point(12, 437);
+         label5.Location = new Point(11, 437);
+         label5.Margin = new Padding(4, 3, 4, 3);
          label5.Name = "label5";
-         label5.Size = new Size(52, 17);
+         label5.Size = new Size(44, 17);
          label5.TabIndex = 15;
          label5.Text = "Altitude";
          // 
          // lblCourseValue
          // 
-         lblCourseValue.AutoSize = true;
-         lblCourseValue.Font = new Font("Segoe UI", 21.75F);
-         lblCourseValue.Location = new Point(159, 392);
+         lblCourseValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblCourseValue.Appearance.Options.UseFont = true;
+         lblCourseValue.Location = new Point(158, 393);
+         lblCourseValue.Margin = new Padding(4, 3, 4, 3);
          lblCourseValue.Name = "lblCourseValue";
-         lblCourseValue.Size = new Size(65, 40);
+         lblCourseValue.Size = new Size(48, 40);
          lblCourseValue.TabIndex = 14;
          lblCourseValue.Text = "000";
          // 
          // label3
          // 
-         label3.AutoSize = true;
-         label3.Location = new Point(159, 372);
+         label3.Location = new Point(158, 371);
+         label3.Margin = new Padding(4, 3, 4, 3);
          label3.Name = "label3";
-         label3.Size = new Size(49, 17);
+         label3.Size = new Size(41, 17);
          label3.TabIndex = 13;
          label3.Text = "Course";
          // 
          // lblHeadingValue
          // 
-         lblHeadingValue.AutoSize = true;
-         lblHeadingValue.Font = new Font("Segoe UI", 21.75F);
-         lblHeadingValue.Location = new Point(12, 392);
+         lblHeadingValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblHeadingValue.Appearance.Options.UseFont = true;
+         lblHeadingValue.Location = new Point(11, 393);
+         lblHeadingValue.Margin = new Padding(4, 3, 4, 3);
          lblHeadingValue.Name = "lblHeadingValue";
-         lblHeadingValue.Size = new Size(65, 40);
+         lblHeadingValue.Size = new Size(48, 40);
          lblHeadingValue.TabIndex = 7;
          lblHeadingValue.Text = "000";
          // 
@@ -1891,57 +1862,61 @@ namespace MacroSim
          groupNav2.Controls.Add(lblNav2ActiveValue);
          groupNav2.Controls.Add(lblNav2Standby);
          groupNav2.Controls.Add(lblNav2Active);
-         groupNav2.Location = new Point(3, 282);
+         groupNav2.Location = new Point(4, 282);
+         groupNav2.Margin = new Padding(4, 3, 4, 3);
          groupNav2.Name = "groupNav2";
-         groupNav2.Size = new Size(275, 87);
+         groupNav2.Padding = new Padding(4, 3, 4, 3);
+         groupNav2.Size = new Size(276, 88);
          groupNav2.TabIndex = 12;
          groupNav2.TabStop = false;
          groupNav2.Text = "NAV 2";
          // 
          // lblNav2StandbyValue
          // 
-         lblNav2StandbyValue.AutoSize = true;
-         lblNav2StandbyValue.Font = new Font("Segoe UI", 21.75F);
+         lblNav2StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblNav2StandbyValue.Appearance.Options.UseFont = true;
          lblNav2StandbyValue.Location = new Point(6, 41);
+         lblNav2StandbyValue.Margin = new Padding(4, 3, 4, 3);
          lblNav2StandbyValue.Name = "lblNav2StandbyValue";
-         lblNav2StandbyValue.Size = new Size(103, 40);
+         lblNav2StandbyValue.Size = new Size(86, 40);
          lblNav2StandbyValue.TabIndex = 4;
          lblNav2StandbyValue.Text = "000.00";
          // 
          // lblNav2ActiveValue
          // 
-         lblNav2ActiveValue.AutoSize = true;
-         lblNav2ActiveValue.Font = new Font("Segoe UI", 21.75F);
-         lblNav2ActiveValue.Location = new Point(156, 41);
+         lblNav2ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblNav2ActiveValue.Appearance.Options.UseFont = true;
+         lblNav2ActiveValue.Location = new Point(157, 41);
+         lblNav2ActiveValue.Margin = new Padding(4, 3, 4, 3);
          lblNav2ActiveValue.Name = "lblNav2ActiveValue";
-         lblNav2ActiveValue.Size = new Size(103, 40);
+         lblNav2ActiveValue.Size = new Size(86, 40);
          lblNav2ActiveValue.TabIndex = 5;
          lblNav2ActiveValue.Text = "000.00";
          // 
          // lblNav2Standby
          // 
-         lblNav2Standby.AutoSize = true;
          lblNav2Standby.Location = new Point(6, 21);
+         lblNav2Standby.Margin = new Padding(4, 3, 4, 3);
          lblNav2Standby.Name = "lblNav2Standby";
-         lblNav2Standby.Size = new Size(55, 17);
+         lblNav2Standby.Size = new Size(47, 17);
          lblNav2Standby.TabIndex = 2;
          lblNav2Standby.Text = "Standby";
          // 
          // lblNav2Active
          // 
-         lblNav2Active.AutoSize = true;
-         lblNav2Active.Location = new Point(156, 21);
+         lblNav2Active.Location = new Point(157, 21);
+         lblNav2Active.Margin = new Padding(4, 3, 4, 3);
          lblNav2Active.Name = "lblNav2Active";
-         lblNav2Active.Size = new Size(42, 17);
+         lblNav2Active.Size = new Size(34, 17);
          lblNav2Active.TabIndex = 3;
          lblNav2Active.Text = "Active";
          // 
          // label2
          // 
-         label2.AutoSize = true;
-         label2.Location = new Point(12, 372);
+         label2.Location = new Point(11, 371);
+         label2.Margin = new Padding(4, 3, 4, 3);
          label2.Name = "label2";
-         label2.Size = new Size(57, 17);
+         label2.Size = new Size(49, 17);
          label2.TabIndex = 6;
          label2.Text = "Heading";
          // 
@@ -1951,48 +1926,52 @@ namespace MacroSim
          groupNav1.Controls.Add(lblNav1ActiveValue);
          groupNav1.Controls.Add(lblNav1Standby);
          groupNav1.Controls.Add(lblNav1Active);
-         groupNav1.Location = new Point(3, 189);
+         groupNav1.Location = new Point(4, 190);
+         groupNav1.Margin = new Padding(4, 3, 4, 3);
          groupNav1.Name = "groupNav1";
-         groupNav1.Size = new Size(275, 87);
+         groupNav1.Padding = new Padding(4, 3, 4, 3);
+         groupNav1.Size = new Size(276, 88);
          groupNav1.TabIndex = 11;
          groupNav1.TabStop = false;
          groupNav1.Text = "NAV 1";
          // 
          // lblNav1StandbyValue
          // 
-         lblNav1StandbyValue.AutoSize = true;
-         lblNav1StandbyValue.Font = new Font("Segoe UI", 21.75F);
+         lblNav1StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblNav1StandbyValue.Appearance.Options.UseFont = true;
          lblNav1StandbyValue.Location = new Point(6, 41);
+         lblNav1StandbyValue.Margin = new Padding(4, 3, 4, 3);
          lblNav1StandbyValue.Name = "lblNav1StandbyValue";
-         lblNav1StandbyValue.Size = new Size(103, 40);
+         lblNav1StandbyValue.Size = new Size(86, 40);
          lblNav1StandbyValue.TabIndex = 4;
          lblNav1StandbyValue.Text = "000.00";
          // 
          // lblNav1ActiveValue
          // 
-         lblNav1ActiveValue.AutoSize = true;
-         lblNav1ActiveValue.Font = new Font("Segoe UI", 21.75F);
-         lblNav1ActiveValue.Location = new Point(156, 41);
+         lblNav1ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblNav1ActiveValue.Appearance.Options.UseFont = true;
+         lblNav1ActiveValue.Location = new Point(157, 41);
+         lblNav1ActiveValue.Margin = new Padding(4, 3, 4, 3);
          lblNav1ActiveValue.Name = "lblNav1ActiveValue";
-         lblNav1ActiveValue.Size = new Size(103, 40);
+         lblNav1ActiveValue.Size = new Size(86, 40);
          lblNav1ActiveValue.TabIndex = 5;
          lblNav1ActiveValue.Text = "000.00";
          // 
          // lblNav1Standby
          // 
-         lblNav1Standby.AutoSize = true;
          lblNav1Standby.Location = new Point(6, 21);
+         lblNav1Standby.Margin = new Padding(4, 3, 4, 3);
          lblNav1Standby.Name = "lblNav1Standby";
-         lblNav1Standby.Size = new Size(55, 17);
+         lblNav1Standby.Size = new Size(47, 17);
          lblNav1Standby.TabIndex = 2;
          lblNav1Standby.Text = "Standby";
          // 
          // lblNav1Active
          // 
-         lblNav1Active.AutoSize = true;
-         lblNav1Active.Location = new Point(156, 21);
+         lblNav1Active.Location = new Point(157, 21);
+         lblNav1Active.Margin = new Padding(4, 3, 4, 3);
          lblNav1Active.Name = "lblNav1Active";
-         lblNav1Active.Size = new Size(42, 17);
+         lblNav1Active.Size = new Size(34, 17);
          lblNav1Active.TabIndex = 3;
          lblNav1Active.Text = "Active";
          // 
@@ -2002,48 +1981,52 @@ namespace MacroSim
          groupCom2.Controls.Add(lblCom2StandbyValue);
          groupCom2.Controls.Add(lblCom2ActiveValue);
          groupCom2.Controls.Add(lblCom2Active);
-         groupCom2.Location = new Point(3, 96);
+         groupCom2.Location = new Point(4, 95);
+         groupCom2.Margin = new Padding(4, 3, 4, 3);
          groupCom2.Name = "groupCom2";
-         groupCom2.Size = new Size(275, 87);
+         groupCom2.Padding = new Padding(4, 3, 4, 3);
+         groupCom2.Size = new Size(276, 88);
          groupCom2.TabIndex = 11;
          groupCom2.TabStop = false;
          groupCom2.Text = "COM 2";
          // 
          // lblCom2Standby
          // 
-         lblCom2Standby.AutoSize = true;
          lblCom2Standby.Location = new Point(6, 21);
+         lblCom2Standby.Margin = new Padding(4, 3, 4, 3);
          lblCom2Standby.Name = "lblCom2Standby";
-         lblCom2Standby.Size = new Size(55, 17);
+         lblCom2Standby.Size = new Size(47, 17);
          lblCom2Standby.TabIndex = 6;
          lblCom2Standby.Text = "Standby";
          // 
          // lblCom2StandbyValue
          // 
-         lblCom2StandbyValue.AutoSize = true;
-         lblCom2StandbyValue.Font = new Font("Segoe UI", 21.75F);
+         lblCom2StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblCom2StandbyValue.Appearance.Options.UseFont = true;
          lblCom2StandbyValue.Location = new Point(6, 38);
+         lblCom2StandbyValue.Margin = new Padding(4, 3, 4, 3);
          lblCom2StandbyValue.Name = "lblCom2StandbyValue";
-         lblCom2StandbyValue.Size = new Size(119, 40);
+         lblCom2StandbyValue.Size = new Size(102, 40);
          lblCom2StandbyValue.TabIndex = 8;
          lblCom2StandbyValue.Text = "000.000";
          // 
          // lblCom2ActiveValue
          // 
-         lblCom2ActiveValue.AutoSize = true;
-         lblCom2ActiveValue.Font = new Font("Segoe UI", 21.75F);
-         lblCom2ActiveValue.Location = new Point(156, 38);
+         lblCom2ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F);
+         lblCom2ActiveValue.Appearance.Options.UseFont = true;
+         lblCom2ActiveValue.Location = new Point(157, 38);
+         lblCom2ActiveValue.Margin = new Padding(4, 3, 4, 3);
          lblCom2ActiveValue.Name = "lblCom2ActiveValue";
-         lblCom2ActiveValue.Size = new Size(119, 40);
+         lblCom2ActiveValue.Size = new Size(102, 40);
          lblCom2ActiveValue.TabIndex = 9;
          lblCom2ActiveValue.Text = "000.000";
          // 
          // lblCom2Active
          // 
-         lblCom2Active.AutoSize = true;
-         lblCom2Active.Location = new Point(156, 21);
+         lblCom2Active.Location = new Point(157, 21);
+         lblCom2Active.Margin = new Padding(4, 3, 4, 3);
          lblCom2Active.Name = "lblCom2Active";
-         lblCom2Active.Size = new Size(42, 17);
+         lblCom2Active.Size = new Size(34, 17);
          lblCom2Active.TabIndex = 7;
          lblCom2Active.Text = "Active";
          // 
@@ -2053,48 +2036,52 @@ namespace MacroSim
          groupCom1.Controls.Add(lblCom1ActiveValue);
          groupCom1.Controls.Add(lblCom1Standby);
          groupCom1.Controls.Add(lblCom1Active);
-         groupCom1.Location = new Point(3, 3);
+         groupCom1.Location = new Point(4, 3);
+         groupCom1.Margin = new Padding(4, 3, 4, 3);
          groupCom1.Name = "groupCom1";
-         groupCom1.Size = new Size(275, 87);
+         groupCom1.Padding = new Padding(4, 3, 4, 3);
+         groupCom1.Size = new Size(276, 88);
          groupCom1.TabIndex = 10;
          groupCom1.TabStop = false;
          groupCom1.Text = "COM 1";
          // 
          // lblCom1StandbyValue
          // 
-         lblCom1StandbyValue.AutoSize = true;
-         lblCom1StandbyValue.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+         lblCom1StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+         lblCom1StandbyValue.Appearance.Options.UseFont = true;
          lblCom1StandbyValue.Location = new Point(6, 41);
+         lblCom1StandbyValue.Margin = new Padding(4, 3, 4, 3);
          lblCom1StandbyValue.Name = "lblCom1StandbyValue";
-         lblCom1StandbyValue.Size = new Size(119, 40);
+         lblCom1StandbyValue.Size = new Size(102, 40);
          lblCom1StandbyValue.TabIndex = 4;
          lblCom1StandbyValue.Text = "000.000";
          // 
          // lblCom1ActiveValue
          // 
-         lblCom1ActiveValue.AutoSize = true;
-         lblCom1ActiveValue.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-         lblCom1ActiveValue.Location = new Point(156, 41);
+         lblCom1ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+         lblCom1ActiveValue.Appearance.Options.UseFont = true;
+         lblCom1ActiveValue.Location = new Point(157, 41);
+         lblCom1ActiveValue.Margin = new Padding(4, 3, 4, 3);
          lblCom1ActiveValue.Name = "lblCom1ActiveValue";
-         lblCom1ActiveValue.Size = new Size(119, 40);
+         lblCom1ActiveValue.Size = new Size(102, 40);
          lblCom1ActiveValue.TabIndex = 5;
          lblCom1ActiveValue.Text = "000.000";
          // 
          // lblCom1Standby
          // 
-         lblCom1Standby.AutoSize = true;
          lblCom1Standby.Location = new Point(6, 21);
+         lblCom1Standby.Margin = new Padding(4, 3, 4, 3);
          lblCom1Standby.Name = "lblCom1Standby";
-         lblCom1Standby.Size = new Size(55, 17);
+         lblCom1Standby.Size = new Size(47, 17);
          lblCom1Standby.TabIndex = 2;
          lblCom1Standby.Text = "Standby";
          // 
          // lblCom1Active
          // 
-         lblCom1Active.AutoSize = true;
-         lblCom1Active.Location = new Point(156, 21);
+         lblCom1Active.Location = new Point(157, 21);
+         lblCom1Active.Margin = new Padding(4, 3, 4, 3);
          lblCom1Active.Name = "lblCom1Active";
-         lblCom1Active.Size = new Size(42, 17);
+         lblCom1Active.Size = new Size(34, 17);
          lblCom1Active.TabIndex = 3;
          lblCom1Active.Text = "Active";
          // 
@@ -2177,9 +2164,11 @@ namespace MacroSim
          // 
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(1133, 720);
+         ClientSize = new Size(1133, 721);
          Controls.Add(toolStripContainer1);
+         Font = new Font("Segoe UI", 9.75F);
          MainMenuStrip = mainMenu;
+         Margin = new Padding(4, 3, 4, 3);
          Name = "MainForm";
          Text = "MainForm";
          toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
@@ -2262,18 +2251,18 @@ namespace MacroSim
       private ToolStripSeparator toolStripSeparator1;
       private ToolStripStatusLabel lblMacroPadState;
       private ToolStripStatusLabel lblSerialPortStatus;
-      private CheckBox checkGlareshieldLight;
-      private CheckBox checkCabinLight;
-      private CheckBox checkBeaconLight;
-      private CheckBox checkWingLight;
-      private CheckBox checkTaxiLight;
-      private CheckBox checkStrobeLight;
-      private CheckBox checkRecognitionLight;
-      private CheckBox checkPedestralLight;
-      private CheckBox checkPanelLight;
-      private CheckBox checkNavLight;
-      private CheckBox checkLogoLight;
-      private CheckBox checkLandingLight;
+      private CheckButton checkGlareshieldLight;
+      private CheckButton checkCabinLight;
+      private CheckButton checkBeaconLight;
+      private CheckButton checkWingLight;
+      private CheckButton checkTaxiLight;
+      private CheckButton checkStrobeLight;
+      private CheckButton checkRecognitionLight;
+      private CheckButton checkPedestralLight;
+      private CheckButton checkPanelLight;
+      private CheckButton checkNavLight;
+      private CheckButton checkLogoLight;
+      private CheckButton checkLandingLight;
       private ToolStripMenuItem refreshSerialPortsToolStripMenuItem;
       private ToolStripSeparator toolStripSeparator2;
       private GroupBox groupLights;
@@ -2282,22 +2271,22 @@ namespace MacroSim
       private ToolStripMenuItem utilityToolStripMenuItem;
       private ToolStripMenuItem presetEventsToolStripMenuItem;
       private GroupBox groupAutopilot;
-      private CheckBox checkApNavHold;
-      private CheckBox checkApHdgHold;
-      private CheckBox checkApMaster;
-      private CheckBox checkApAprHold;
+      private CheckButton checkApNavHold;
+      private CheckButton checkApHdgHold;
+      private CheckButton checkApMaster;
+      private CheckButton checkApAprHold;
       private Button btnCrs1Sel;
       private Button btnHdgSel;
-      private CheckBox checkApBcHold;
-      private CheckBox checkApYd;
-      private CheckBox checkApFd;
-      private CheckBox checkApAltHold;
+      private CheckButton checkApBcHold;
+      private CheckButton checkApYd;
+      private CheckButton checkApFd;
+      private CheckButton checkApAltHold;
       private Button btnAltSel;
-      private CheckBox checkApVsHold;
-      private CheckBox checkApVnv;
+      private CheckButton checkApVsHold;
+      private CheckButton checkApVnv;
       private Button btnNoseUpDn;
-      private CheckBox checkApFlc;
-      private CheckBox checkApSpd;
+      private CheckButton checkApFlc;
+      private CheckButton checkApSpd;
       private Button btnCrs2Sel;
       private GroupBox groupFms;
       private Button btnFmsFpl;
@@ -2313,10 +2302,10 @@ namespace MacroSim
       private ToolTip toolTip1;
       private GroupBox groupPause;
       private Button btnPauseFull;
-      private CheckBox checkPauseFull;
-      private CheckBox checkPauseActive;
-      private CheckBox checkPauseEsc;
-      private CheckBox checkPauseSim;
+      private CheckButton checkPauseFull;
+      private CheckButton checkPauseActive;
+      private CheckButton checkPauseEsc;
+      private CheckButton checkPauseSim;
       private Button btnPauseSim;
       private GroupBox groupFuel;
       private Button btnAddFuel;
@@ -2325,21 +2314,21 @@ namespace MacroSim
       private Button btnFuelDump;
       private LabelControl lblFuelDumpSwitch;
       private GroupBox groupCameras;
-      private CheckBox checkCamera10;
-      private CheckBox checkCamera9;
-      private CheckBox checkCamera8;
-      private CheckBox checkCamera7;
-      private CheckBox checkCamera6;
-      private CheckBox checkCamera5;
-      private CheckBox checkCamera4;
-      private CheckBox checkCamera3;
-      private CheckBox checkCamera2;
-      private CheckBox checkCamera1;
+      private CheckButton checkCamera10;
+      private CheckButton checkCamera9;
+      private CheckButton checkCamera8;
+      private CheckButton checkCamera7;
+      private CheckButton checkCamera6;
+      private CheckButton checkCamera5;
+      private CheckButton checkCamera4;
+      private CheckButton checkCamera3;
+      private CheckButton checkCamera2;
+      private CheckButton checkCamera1;
       private LabelControl lblCameraCurrentView;
-      private CheckBox checkCameraPilotCoPilot;
-      private CheckBox checkCameraPilotLand;
-      private CheckBox checkCameraPilotClose;
-      private CheckBox checkCameraPilotNormal;
+      private CheckButton checkCameraPilotCoPilot;
+      private CheckButton checkCameraPilotLand;
+      private CheckButton checkCameraPilotClose;
+      private CheckButton checkCameraPilotNormal;
       private LabelControl lblIndex1;
       private LabelControl lblIndex0;
       private LabelControl lblCameraSubstate;
@@ -2361,13 +2350,13 @@ namespace MacroSim
       private TextBox txtCameraIndex0;
       private TextBox txtCameraSubState;
       private TextBox txtCameraState;
-      private CheckBox checkExternalQuickViewSubState;
-      private CheckBox checkExternalDefaultSubState;
-      private CheckBox checkCockpitQuickViewSubState;
-      private CheckBox checkCockpitInstrumentSubState;
-      private CheckBox checkCockpitPilotSubState;
-      private CheckBox checkShowcaseFixedSubState;
-      private CheckBox checkShowcaseDroneSubState;
+      private CheckButton checkExternalQuickViewSubState;
+      private CheckButton checkExternalDefaultSubState;
+      private CheckButton checkCockpitQuickViewSubState;
+      private CheckButton checkCockpitInstrumentSubState;
+      private CheckButton checkCockpitPilotSubState;
+      private CheckButton checkShowcaseFixedSubState;
+      private CheckButton checkShowcaseDroneSubState;
       private LabelControl lblAileronTrimPct;
       private LabelControl lblRudderTrimPct;
       private LabelControl lblElevatorTrimPct;
@@ -2381,11 +2370,11 @@ namespace MacroSim
       private LabelControl lblEngineNGPct;
       private LabelControl lblEngineNPRpm;
       private LabelControl lblEngineTorquePct;
-      private CheckBox checkCustomCameraState;
+      private CheckButton checkCustomCameraState;
       private TrackBar trackFlaps;
       private LabelControl lblSCTargetDesc;
       private LabelControl lblSCTargetType;
-      private CheckBox checkSmartcam;
+      private CheckButton checkSmartcam;
       private Button btnPreviousSmartcam;
       private Button btnNextSmartcam;
       private LabelControl lblCustomCamera;

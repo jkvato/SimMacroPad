@@ -30,7 +30,7 @@ public partial class MainForm : XtraForm
 
    private bool suppressLightButtonCheckChangedEvent = true;
    private bool suppressAutopilotButtonCheckChangedEvent = true;
-   private bool programmaticallyChangingCameraCheckboxes = true;
+   private bool programmaticallyChangingCameraCheckButtones = true;
 
    private bool isMSFS2020Running = false;
    private bool isMSFS2024Running = false;
@@ -374,7 +374,7 @@ public partial class MainForm : XtraForm
          // Update UI via Invoke
          InvokeAction(form =>
          {
-            programmaticallyChangingCameraCheckboxes = true;
+            programmaticallyChangingCameraCheckButtones = true;
             if (camerasStruct.IsCockpitPilotSubState)
             {
                form.checkCamera1.Checked = false;
@@ -511,7 +511,7 @@ public partial class MainForm : XtraForm
                lastShowcaseFixedCamera = camerasStruct.cameraViewTypeIndex1;
             }
 
-            programmaticallyChangingCameraCheckboxes = false;
+            programmaticallyChangingCameraCheckButtones = false;
          });
       }
       else if (structure is TimeStruct timeStruct)
@@ -699,31 +699,31 @@ public partial class MainForm : XtraForm
          return;
       }
 
-      if (sender is CheckBox checkBox)
+      if (sender is CheckButton CheckButton)
       {
-         if (checkBox == checkBeaconLight)
+         if (CheckButton == checkBeaconLight)
             simConnection.SendEvent(SimEvent.TOGGLE_BEACON_LIGHTS);
-         else if (checkBox == checkCabinLight)
+         else if (CheckButton == checkCabinLight)
             simConnection.SendEvent(SimEvent.TOGGLE_CABIN_LIGHTS);
-         else if (checkBox == checkGlareshieldLight)
+         else if (CheckButton == checkGlareshieldLight)
             simConnection.SendEvent(SimEvent.GLARESHIELD_LIGHTS_TOGGLE);
-         else if (checkBox == checkLandingLight)
+         else if (CheckButton == checkLandingLight)
             simConnection.SendEvent(SimEvent.LANDING_LIGHTS_TOGGLE);
-         else if (checkBox == checkLogoLight)
+         else if (CheckButton == checkLogoLight)
             simConnection.SendEvent(SimEvent.TOGGLE_LOGO_LIGHTS);
-         else if (checkBox == checkNavLight)
+         else if (CheckButton == checkNavLight)
             simConnection.SendEvent(SimEvent.TOGGLE_NAV_LIGHTS);
-         else if (checkBox == checkPanelLight)
+         else if (CheckButton == checkPanelLight)
             simConnection.SendEvent(SimEvent.PANEL_LIGHTS_TOGGLE);
-         else if (checkBox == checkPedestralLight)
+         else if (CheckButton == checkPedestralLight)
             simConnection.SendEvent(SimEvent.PEDESTRAL_LIGHTS_TOGGLE);
-         else if (checkBox == checkRecognitionLight)
+         else if (CheckButton == checkRecognitionLight)
             simConnection.SendEvent(SimEvent.TOGGLE_RECOGNITION_LIGHTS);
-         else if (checkBox == checkStrobeLight)
+         else if (CheckButton == checkStrobeLight)
             simConnection.SendEvent(SimEvent.STROBES_TOGGLE);
-         else if (checkBox == checkTaxiLight)
+         else if (CheckButton == checkTaxiLight)
             simConnection.SendEvent(SimEvent.TOGGLE_TAXI_LIGHTS);
-         else if (checkBox == checkWingLight)
+         else if (CheckButton == checkWingLight)
             simConnection.SendEvent(SimEvent.TOGGLE_WING_LIGHTS);
       }
       ActivateFlightSimulator();
@@ -924,53 +924,53 @@ public partial class MainForm : XtraForm
 
       SimEvent simEvent = SimEvent.NONE;
 
-      if (sender is CheckBox checkBox)
+      if (sender is CheckButton CheckButton)
       {
-         if (checkBox == checkApMaster)
+         if (CheckButton == checkApMaster)
          {
             simEvent = SimEvent.AP_MASTER;
          }
-         else if (checkBox == checkApHdgHold)
+         else if (CheckButton == checkApHdgHold)
          {
             simEvent = SimEvent.AP_HDG_HOLD;
          }
-         else if (checkBox == checkApAprHold)
+         else if (CheckButton == checkApAprHold)
          {
             simEvent = SimEvent.AP_APR_HOLD;
          }
-         else if (checkBox == checkApBcHold)
+         else if (CheckButton == checkApBcHold)
          {
             simEvent = SimEvent.AP_BC_HOLD;
          }
-         else if (checkBox == checkApNavHold)
+         else if (CheckButton == checkApNavHold)
          {
             simEvent = SimEvent.AP_NAV1_HOLD;
          }
-         else if (checkBox == checkApFd)
+         else if (CheckButton == checkApFd)
          {
             simEvent = SimEvent.TOGGLE_FLIGHT_DIRECTOR;
          }
-         else if (checkBox == checkApYd)
+         else if (CheckButton == checkApYd)
          {
             simEvent = SimEvent.YAW_DAMPER_TOGGLE;
          }
-         else if (checkBox == checkApAltHold)
+         else if (CheckButton == checkApAltHold)
          {
             simEvent = SimEvent.AP_ALT_HOLD;
          }
-         else if (checkBox == checkApVsHold)
+         else if (CheckButton == checkApVsHold)
          {
             simEvent = SimEvent.AP_VS_HOLD;
          }
-         else if (checkBox == checkApVnv)
+         else if (CheckButton == checkApVnv)
          {
             simEvent = SimEvent.NONE;
          }
-         else if (checkBox == checkApFlc)
+         else if (CheckButton == checkApFlc)
          {
             simEvent = SimEvent.FLIGHT_LEVEL_CHANGE;
          }
-         else if (checkBox == checkApSpd)
+         else if (CheckButton == checkApSpd)
          {
             simEvent = SimEvent.AP_AIRSPEED_HOLD;
          }
@@ -1014,10 +1014,10 @@ public partial class MainForm : XtraForm
       if (sender == null)
          return;
 
-      if (programmaticallyChangingCameraCheckboxes)
+      if (programmaticallyChangingCameraCheckButtones)
          return;
 
-      if (sender is CheckBox c)
+      if (sender is CheckButton c)
       {
          if (c == checkSmartcam)
          {
