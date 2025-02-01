@@ -50,8 +50,8 @@ namespace MacroSim
          lblSpoilersArmed = new LabelControl();
          lblSpoilersAvailable = new LabelControl();
          lblCustomCamera = new LabelControl();
-         btnPreviousSmartcam = new Button();
-         btnNextSmartcam = new Button();
+         btnPreviousSmartcam = new SimpleButton();
+         btnNextSmartcam = new SimpleButton();
          checkSmartcam = new CheckButton();
          lblSCTargetDesc = new LabelControl();
          lblSCTargetType = new LabelControl();
@@ -82,28 +82,28 @@ namespace MacroSim
          checkCockpitPilotSubState = new CheckButton();
          lblFlapsNumberOfDetents = new LabelControl();
          lblIndex1 = new LabelControl();
-         btnPreviousSubView = new Button();
+         btnPreviousSubView = new SimpleButton();
          lblIndex0 = new LabelControl();
          lblCurrentFlapsLimit = new LabelControl();
          lblCameraSubstate = new LabelControl();
-         btnNextSubView = new Button();
+         btnNextSubView = new SimpleButton();
          lblCameraState = new LabelControl();
          lblTrailingFlapsRight = new LabelControl();
-         btnPreviousView = new Button();
+         btnPreviousView = new SimpleButton();
          lblTrailingFlapsLeft = new LabelControl();
-         btnNextView = new Button();
+         btnNextView = new SimpleButton();
          lblAileronTrimPct = new LabelControl();
          lblRudderTrimPct = new LabelControl();
          lblElevatorTrimPct = new LabelControl();
-         btnSetCamera = new Button();
+         btnSetCamera = new SimpleButton();
          txtCameraIndex1 = new TextBox();
          txtCameraIndex0 = new TextBox();
          txtCameraSubState = new TextBox();
          txtCameraState = new TextBox();
          groupBox1 = new GroupBox();
-         btnSimRateReset = new Button();
-         btnSimRateDec = new Button();
-         btnSimRateInc = new Button();
+         btnSimRateReset = new SimpleButton();
+         btnSimRateDec = new SimpleButton();
+         btnSimRateInc = new SimpleButton();
          lblSimRate = new LabelControl();
          lblCurrentCameraType = new LabelControl();
          txtOutput = new TextBox();
@@ -115,42 +115,42 @@ namespace MacroSim
          lblCameraCurrentView = new LabelControl();
          groupFuel = new GroupBox();
          lblFuelDumpSwitch = new LabelControl();
-         btnFuelDump = new Button();
+         btnFuelDump = new SimpleButton();
          lblTotalFuelPct = new LabelControl();
-         btnAddFuel = new Button();
+         btnAddFuel = new SimpleButton();
          groupPause = new GroupBox();
-         btnPauseSim = new Button();
+         btnPauseSim = new SimpleButton();
          checkPauseEsc = new CheckButton();
          checkPauseSim = new CheckButton();
          checkPauseActive = new CheckButton();
          checkPauseFull = new CheckButton();
-         btnPauseFull = new Button();
+         btnPauseFull = new SimpleButton();
          groupFms = new GroupBox();
-         btnFmsMfdInner = new Button();
-         btnFmsMfdOuter = new Button();
-         btnFmsEnt = new Button();
-         btnFmsClr = new Button();
-         btnFmsMenu = new Button();
-         btnFmsProc = new Button();
-         btnFmsFpl = new Button();
-         btnFmsDirect = new Button();
-         btnFmsPfdInner = new Button();
-         btnFmsPfdOuter = new Button();
+         btnFmsMfdInner = new SimpleButton();
+         btnFmsMfdOuter = new SimpleButton();
+         btnFmsEnt = new SimpleButton();
+         btnFmsClr = new SimpleButton();
+         btnFmsMenu = new SimpleButton();
+         btnFmsProc = new SimpleButton();
+         btnFmsFpl = new SimpleButton();
+         btnFmsDirect = new SimpleButton();
+         btnFmsPfdInner = new SimpleButton();
+         btnFmsPfdOuter = new SimpleButton();
          groupAutopilot = new GroupBox();
          lblApproachStatus = new LabelControl();
-         btnCrs2Sel = new Button();
+         btnCrs2Sel = new SimpleButton();
          checkApSpd = new CheckButton();
          checkApFlc = new CheckButton();
-         btnNoseUpDn = new Button();
+         btnNoseUpDn = new SimpleButton();
          checkApVnv = new CheckButton();
          checkApVsHold = new CheckButton();
-         btnAltSel = new Button();
+         btnAltSel = new SimpleButton();
          checkApAltHold = new CheckButton();
          checkApYd = new CheckButton();
          checkApFd = new CheckButton();
          checkApMaster = new CheckButton();
-         btnCrs1Sel = new Button();
-         btnHdgSel = new Button();
+         btnCrs1Sel = new SimpleButton();
+         btnHdgSel = new SimpleButton();
          checkApBcHold = new CheckButton();
          checkApAprHold = new CheckButton();
          checkApNavHold = new CheckButton();
@@ -502,7 +502,7 @@ namespace MacroSim
          btnPreviousSmartcam.Size = new Size(42, 27);
          btnPreviousSmartcam.TabIndex = 172;
          btnPreviousSmartcam.Text = "SC-";
-         btnPreviousSmartcam.UseVisualStyleBackColor = true;
+         //btnPreviousSmartcam.UseVisualStyleBackColor = true;
          btnPreviousSmartcam.Click += SmartcamCycleButton_Click;
          // 
          // btnNextSmartcam
@@ -513,7 +513,7 @@ namespace MacroSim
          btnNextSmartcam.Size = new Size(42, 27);
          btnNextSmartcam.TabIndex = 171;
          btnNextSmartcam.Text = "SC+";
-         btnNextSmartcam.UseVisualStyleBackColor = true;
+         //btnNextSmartcam.UseVisualStyleBackColor = true;
          btnNextSmartcam.Click += SmartcamCycleButton_Click;
          // 
          // checkSmartcam
@@ -824,7 +824,7 @@ namespace MacroSim
          btnPreviousSubView.Size = new Size(42, 27);
          btnPreviousSubView.TabIndex = 166;
          btnPreviousSubView.Text = "PSV";
-         btnPreviousSubView.UseVisualStyleBackColor = true;
+         //btnPreviousSubView.UseVisualStyleBackColor = true;
          btnPreviousSubView.Click += CameraViewButton_Click;
          // 
          // lblIndex0
@@ -862,7 +862,7 @@ namespace MacroSim
          btnNextSubView.Size = new Size(42, 27);
          btnNextSubView.TabIndex = 165;
          btnNextSubView.Text = "NSV";
-         btnNextSubView.UseVisualStyleBackColor = true;
+         //btnNextSubView.UseVisualStyleBackColor = true;
          btnNextSubView.Click += CameraViewButton_Click;
          // 
          // lblCameraState
@@ -891,7 +891,7 @@ namespace MacroSim
          btnPreviousView.Size = new Size(42, 27);
          btnPreviousView.TabIndex = 165;
          btnPreviousView.Text = "PV";
-         btnPreviousView.UseVisualStyleBackColor = true;
+         //btnPreviousView.UseVisualStyleBackColor = true;
          btnPreviousView.Click += CameraViewButton_Click;
          // 
          // lblTrailingFlapsLeft
@@ -911,7 +911,7 @@ namespace MacroSim
          btnNextView.Size = new Size(42, 27);
          btnNextView.TabIndex = 164;
          btnNextView.Text = "NV";
-         btnNextView.UseVisualStyleBackColor = true;
+         //btnNextView.UseVisualStyleBackColor = true;
          btnNextView.Click += CameraViewButton_Click;
          // 
          // lblAileronTrimPct
@@ -949,7 +949,7 @@ namespace MacroSim
          btnSetCamera.Size = new Size(140, 24);
          btnSetCamera.TabIndex = 67;
          btnSetCamera.Text = "Set Camera";
-         btnSetCamera.UseVisualStyleBackColor = true;
+         //btnSetCamera.UseVisualStyleBackColor = true;
          btnSetCamera.Click += btnSetCamera_Click;
          // 
          // txtCameraIndex1
@@ -1008,7 +1008,7 @@ namespace MacroSim
          btnSimRateReset.Size = new Size(52, 30);
          btnSimRateReset.TabIndex = 69;
          btnSimRateReset.Text = "Reset";
-         btnSimRateReset.UseVisualStyleBackColor = true;
+         //btnSimRateReset.UseVisualStyleBackColor = true;
          btnSimRateReset.Click += SimRateButton_Click;
          // 
          // btnSimRateDec
@@ -1019,7 +1019,7 @@ namespace MacroSim
          btnSimRateDec.Size = new Size(27, 27);
          btnSimRateDec.TabIndex = 68;
          btnSimRateDec.Text = "-";
-         btnSimRateDec.UseVisualStyleBackColor = true;
+         //btnSimRateDec.UseVisualStyleBackColor = true;
          btnSimRateDec.Click += SimRateButton_Click;
          // 
          // btnSimRateInc
@@ -1030,7 +1030,7 @@ namespace MacroSim
          btnSimRateInc.Size = new Size(27, 27);
          btnSimRateInc.TabIndex = 67;
          btnSimRateInc.Text = "+";
-         btnSimRateInc.UseVisualStyleBackColor = true;
+         //btnSimRateInc.UseVisualStyleBackColor = true;
          btnSimRateInc.Click += SimRateButton_Click;
          // 
          // lblSimRate
@@ -1158,7 +1158,7 @@ namespace MacroSim
          btnFuelDump.Size = new Size(55, 27);
          btnFuelDump.TabIndex = 66;
          btnFuelDump.Text = "DUMP";
-         btnFuelDump.UseVisualStyleBackColor = true;
+         //btnFuelDump.UseVisualStyleBackColor = true;
          btnFuelDump.Click += btnFuelDump_Click;
          // 
          // lblTotalFuelPct
@@ -1178,7 +1178,7 @@ namespace MacroSim
          btnAddFuel.Size = new Size(55, 27);
          btnAddFuel.TabIndex = 64;
          btnAddFuel.Text = "ADD";
-         btnAddFuel.UseVisualStyleBackColor = true;
+         //btnAddFuel.UseVisualStyleBackColor = true;
          btnAddFuel.Click += btnAddFuel_Click;
          // 
          // groupPause
@@ -1206,7 +1206,7 @@ namespace MacroSim
          btnPauseSim.Size = new Size(97, 48);
          btnPauseSim.TabIndex = 5;
          btnPauseSim.Text = "Sim Pause";
-         btnPauseSim.UseVisualStyleBackColor = true;
+         //btnPauseSim.UseVisualStyleBackColor = true;
          btnPauseSim.Click += BtnPause_Click;
          // 
          // checkPauseEsc
@@ -1257,7 +1257,7 @@ namespace MacroSim
          btnPauseFull.Size = new Size(97, 48);
          btnPauseFull.TabIndex = 0;
          btnPauseFull.Text = "Full Pause";
-         btnPauseFull.UseVisualStyleBackColor = true;
+         //btnPauseFull.UseVisualStyleBackColor = true;
          btnPauseFull.Click += BtnPause_Click;
          // 
          // groupFms
@@ -1289,7 +1289,7 @@ namespace MacroSim
          btnFmsMfdInner.Size = new Size(46, 44);
          btnFmsMfdInner.TabIndex = 63;
          btnFmsMfdInner.Text = "MFD\r\nIN";
-         btnFmsMfdInner.UseVisualStyleBackColor = true;
+         //btnFmsMfdInner.UseVisualStyleBackColor = true;
          // 
          // btnFmsMfdOuter
          // 
@@ -1299,7 +1299,7 @@ namespace MacroSim
          btnFmsMfdOuter.Size = new Size(46, 44);
          btnFmsMfdOuter.TabIndex = 62;
          btnFmsMfdOuter.Text = "MFD\r\nOUT";
-         btnFmsMfdOuter.UseVisualStyleBackColor = true;
+         //btnFmsMfdOuter.UseVisualStyleBackColor = true;
          // 
          // btnFmsEnt
          // 
@@ -1309,7 +1309,7 @@ namespace MacroSim
          btnFmsEnt.Size = new Size(55, 27);
          btnFmsEnt.TabIndex = 61;
          btnFmsEnt.Text = "ENT";
-         btnFmsEnt.UseVisualStyleBackColor = true;
+         //btnFmsEnt.UseVisualStyleBackColor = true;
          btnFmsEnt.Click += FmsButton_Click;
          // 
          // btnFmsClr
@@ -1320,7 +1320,7 @@ namespace MacroSim
          btnFmsClr.Size = new Size(55, 27);
          btnFmsClr.TabIndex = 60;
          btnFmsClr.Text = "CLR";
-         btnFmsClr.UseVisualStyleBackColor = true;
+         //btnFmsClr.UseVisualStyleBackColor = true;
          btnFmsClr.Click += FmsButton_Click;
          // 
          // btnFmsMenu
@@ -1331,7 +1331,7 @@ namespace MacroSim
          btnFmsMenu.Size = new Size(55, 27);
          btnFmsMenu.TabIndex = 59;
          btnFmsMenu.Text = "MENU";
-         btnFmsMenu.UseVisualStyleBackColor = true;
+         //btnFmsMenu.UseVisualStyleBackColor = true;
          btnFmsMenu.Click += FmsButton_Click;
          // 
          // btnFmsProc
@@ -1342,7 +1342,7 @@ namespace MacroSim
          btnFmsProc.Size = new Size(55, 27);
          btnFmsProc.TabIndex = 58;
          btnFmsProc.Text = "PROC";
-         btnFmsProc.UseVisualStyleBackColor = true;
+         //btnFmsProc.UseVisualStyleBackColor = true;
          btnFmsProc.Click += FmsButton_Click;
          // 
          // btnFmsFpl
@@ -1353,7 +1353,7 @@ namespace MacroSim
          btnFmsFpl.Size = new Size(55, 27);
          btnFmsFpl.TabIndex = 57;
          btnFmsFpl.Text = "FPL";
-         btnFmsFpl.UseVisualStyleBackColor = true;
+         //btnFmsFpl.UseVisualStyleBackColor = true;
          btnFmsFpl.Click += FmsButton_Click;
          // 
          // btnFmsDirect
@@ -1364,7 +1364,7 @@ namespace MacroSim
          btnFmsDirect.Size = new Size(55, 27);
          btnFmsDirect.TabIndex = 56;
          btnFmsDirect.Text = "DIR";
-         btnFmsDirect.UseVisualStyleBackColor = true;
+         //btnFmsDirect.UseVisualStyleBackColor = true;
          btnFmsDirect.Click += FmsButton_Click;
          // 
          // btnFmsPfdInner
@@ -1375,7 +1375,7 @@ namespace MacroSim
          btnFmsPfdInner.Size = new Size(46, 44);
          btnFmsPfdInner.TabIndex = 55;
          btnFmsPfdInner.Text = "PFD\r\nIN";
-         btnFmsPfdInner.UseVisualStyleBackColor = true;
+         //btnFmsPfdInner.UseVisualStyleBackColor = true;
          // 
          // btnFmsPfdOuter
          // 
@@ -1385,7 +1385,7 @@ namespace MacroSim
          btnFmsPfdOuter.Size = new Size(46, 44);
          btnFmsPfdOuter.TabIndex = 54;
          btnFmsPfdOuter.Text = "PFD\r\nOUT";
-         btnFmsPfdOuter.UseVisualStyleBackColor = true;
+         //btnFmsPfdOuter.UseVisualStyleBackColor = true;
          // 
          // groupAutopilot
          // 
@@ -1433,7 +1433,7 @@ namespace MacroSim
          btnCrs2Sel.Size = new Size(46, 44);
          btnCrs2Sel.TabIndex = 53;
          btnCrs2Sel.Text = "CS2\r\nSEL";
-         btnCrs2Sel.UseVisualStyleBackColor = true;
+         //btnCrs2Sel.UseVisualStyleBackColor = true;
          btnCrs2Sel.Click += ApButton_Click;
          // 
          // checkApSpd
@@ -1466,7 +1466,7 @@ namespace MacroSim
          btnNoseUpDn.Size = new Size(35, 78);
          btnNoseUpDn.TabIndex = 50;
          btnNoseUpDn.Text = "DN\r\n\r\n\r\nUP";
-         btnNoseUpDn.UseVisualStyleBackColor = true;
+         //btnNoseUpDn.UseVisualStyleBackColor = true;
          // 
          // checkApVnv
          // 
@@ -1498,7 +1498,7 @@ namespace MacroSim
          btnAltSel.Size = new Size(46, 44);
          btnAltSel.TabIndex = 47;
          btnAltSel.Text = "ALT\r\nSEL";
-         btnAltSel.UseVisualStyleBackColor = true;
+         //btnAltSel.UseVisualStyleBackColor = true;
          btnAltSel.Click += ApButton_Click;
          // 
          // checkApAltHold
@@ -1553,7 +1553,7 @@ namespace MacroSim
          btnCrs1Sel.Size = new Size(46, 44);
          btnCrs1Sel.TabIndex = 43;
          btnCrs1Sel.Text = "CS1\r\nSEL";
-         btnCrs1Sel.UseVisualStyleBackColor = true;
+         //btnCrs1Sel.UseVisualStyleBackColor = true;
          btnCrs1Sel.Click += ApButton_Click;
          // 
          // btnHdgSel
@@ -1564,7 +1564,7 @@ namespace MacroSim
          btnHdgSel.Size = new Size(46, 44);
          btnHdgSel.TabIndex = 39;
          btnHdgSel.Text = "HDG\r\nSEL";
-         btnHdgSel.UseVisualStyleBackColor = true;
+         //btnHdgSel.UseVisualStyleBackColor = true;
          btnHdgSel.Click += ApButton_Click;
          // 
          // checkApBcHold
@@ -2275,43 +2275,43 @@ namespace MacroSim
       private CheckButton checkApHdgHold;
       private CheckButton checkApMaster;
       private CheckButton checkApAprHold;
-      private Button btnCrs1Sel;
-      private Button btnHdgSel;
+      private SimpleButton btnCrs1Sel;
+      private SimpleButton btnHdgSel;
       private CheckButton checkApBcHold;
       private CheckButton checkApYd;
       private CheckButton checkApFd;
       private CheckButton checkApAltHold;
-      private Button btnAltSel;
+      private SimpleButton btnAltSel;
       private CheckButton checkApVsHold;
       private CheckButton checkApVnv;
-      private Button btnNoseUpDn;
+      private SimpleButton btnNoseUpDn;
       private CheckButton checkApFlc;
       private CheckButton checkApSpd;
-      private Button btnCrs2Sel;
+      private SimpleButton btnCrs2Sel;
       private GroupBox groupFms;
-      private Button btnFmsFpl;
-      private Button btnFmsDirect;
-      private Button btnFmsPfdInner;
-      private Button btnFmsPfdOuter;
-      private Button btnFmsProc;
-      private Button btnFmsMfdInner;
-      private Button btnFmsMfdOuter;
-      private Button btnFmsEnt;
-      private Button btnFmsClr;
-      private Button btnFmsMenu;
+      private SimpleButton btnFmsFpl;
+      private SimpleButton btnFmsDirect;
+      private SimpleButton btnFmsPfdInner;
+      private SimpleButton btnFmsPfdOuter;
+      private SimpleButton btnFmsProc;
+      private SimpleButton btnFmsMfdInner;
+      private SimpleButton btnFmsMfdOuter;
+      private SimpleButton btnFmsEnt;
+      private SimpleButton btnFmsClr;
+      private SimpleButton btnFmsMenu;
       private ToolTip toolTip1;
       private GroupBox groupPause;
-      private Button btnPauseFull;
+      private SimpleButton btnPauseFull;
       private CheckButton checkPauseFull;
       private CheckButton checkPauseActive;
       private CheckButton checkPauseEsc;
       private CheckButton checkPauseSim;
-      private Button btnPauseSim;
+      private SimpleButton btnPauseSim;
       private GroupBox groupFuel;
-      private Button btnAddFuel;
+      private SimpleButton btnAddFuel;
       private TextBox txtTotalFuelPct;
       private LabelControl lblTotalFuelPct;
-      private Button btnFuelDump;
+      private SimpleButton btnFuelDump;
       private LabelControl lblFuelDumpSwitch;
       private GroupBox groupCameras;
       private CheckButton checkCamera10;
@@ -2334,18 +2334,18 @@ namespace MacroSim
       private LabelControl lblCameraSubstate;
       private LabelControl lblCameraState;
       public TextBox txtOutput;
-      private Button btnNextView;
-      private Button btnPreviousSubView;
-      private Button btnNextSubView;
-      private Button btnPreviousView;
+      private SimpleButton btnNextView;
+      private SimpleButton btnPreviousSubView;
+      private SimpleButton btnNextSubView;
+      private SimpleButton btnPreviousView;
       private GroupBox groupBox1;
       private LabelControl lblSimRate;
-      private Button btnSimRateDec;
-      private Button btnSimRateInc;
+      private SimpleButton btnSimRateDec;
+      private SimpleButton btnSimRateInc;
       private ToolStripStatusLabel lblLocalTime;
-      private Button btnSimRateReset;
+      private SimpleButton btnSimRateReset;
       private LabelControl lblCurrentCameraType;
-      private Button btnSetCamera;
+      private SimpleButton btnSetCamera;
       private TextBox txtCameraIndex1;
       private TextBox txtCameraIndex0;
       private TextBox txtCameraSubState;
@@ -2375,8 +2375,8 @@ namespace MacroSim
       private LabelControl lblSCTargetDesc;
       private LabelControl lblSCTargetType;
       private CheckButton checkSmartcam;
-      private Button btnPreviousSmartcam;
-      private Button btnNextSmartcam;
+      private SimpleButton btnPreviousSmartcam;
+      private SimpleButton btnNextSmartcam;
       private LabelControl lblCustomCamera;
       private LabelControl lblSpoilersPosition;
       private LabelControl lblSpoilersHandlePosition;

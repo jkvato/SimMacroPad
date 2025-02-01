@@ -748,7 +748,7 @@ public partial class MainForm : XtraForm
    {
       if (sender == null)
          return;
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (button == btnHdgSel)
          {
@@ -775,7 +775,7 @@ public partial class MainForm : XtraForm
       if (sender == null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          string preset = string.Empty;
 
@@ -817,7 +817,7 @@ public partial class MainForm : XtraForm
       if (sender == null)
          return;
 
-      if (sender is Button btnPause)
+      if (sender is SimpleButton btnPause)
       {
          PauseState pauseState = fsuipcConnection.GetPauseStatus();
 
@@ -844,7 +844,7 @@ public partial class MainForm : XtraForm
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          bool up = (e.Delta > 0);
          string preset = string.Empty;
@@ -878,7 +878,7 @@ public partial class MainForm : XtraForm
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          bool up = (e.Delta > 0);
          SimEvent simEvent = SimEvent.NONE;
@@ -1292,7 +1292,7 @@ public partial class MainForm : XtraForm
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (button == btnNextView)
          {
@@ -1339,7 +1339,7 @@ public partial class MainForm : XtraForm
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (button == btnSimRateInc)
          {
