@@ -36,7 +36,18 @@
          lblSerialPortStatus = new ToolStripStatusLabel();
          lblMacroPadState = new ToolStripStatusLabel();
          lblLocalTime = new ToolStripStatusLabel();
-         label8 = new Label();
+         lblBarometer1 = new Label();
+         label6 = new Label();
+         lblCurrentAircraft = new Label();
+         lblEngCondition1 = new Label();
+         lblMixture1Pct = new Label();
+         lblPropeller1Pct = new Label();
+         lblThrottle1Pct = new Label();
+         lblSpoilersPosition = new Label();
+         lblSpoilersHandlePosition = new Label();
+         lblSpoilersArmed = new Label();
+         lblSpoilersAvailable = new Label();
+         lblCustomCamera = new Label();
          btnPreviousSmartcam = new Button();
          btnNextSmartcam = new Button();
          checkSmartcam = new CheckBox();
@@ -124,6 +135,7 @@
          btnFmsPfdInner = new Button();
          btnFmsPfdOuter = new Button();
          groupAutopilot = new GroupBox();
+         lblApproachStatus = new Label();
          btnCrs2Sel = new Button();
          checkApSpd = new CheckBox();
          checkApFlc = new CheckBox();
@@ -225,7 +237,18 @@
          // 
          // toolStripContainer1.ContentPanel
          // 
-         toolStripContainer1.ContentPanel.Controls.Add(label8);
+         toolStripContainer1.ContentPanel.Controls.Add(lblBarometer1);
+         toolStripContainer1.ContentPanel.Controls.Add(label6);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCurrentAircraft);
+         toolStripContainer1.ContentPanel.Controls.Add(lblEngCondition1);
+         toolStripContainer1.ContentPanel.Controls.Add(lblMixture1Pct);
+         toolStripContainer1.ContentPanel.Controls.Add(lblPropeller1Pct);
+         toolStripContainer1.ContentPanel.Controls.Add(lblThrottle1Pct);
+         toolStripContainer1.ContentPanel.Controls.Add(lblSpoilersPosition);
+         toolStripContainer1.ContentPanel.Controls.Add(lblSpoilersHandlePosition);
+         toolStripContainer1.ContentPanel.Controls.Add(lblSpoilersArmed);
+         toolStripContainer1.ContentPanel.Controls.Add(lblSpoilersAvailable);
+         toolStripContainer1.ContentPanel.Controls.Add(lblCustomCamera);
          toolStripContainer1.ContentPanel.Controls.Add(btnPreviousSmartcam);
          toolStripContainer1.ContentPanel.Controls.Add(btnNextSmartcam);
          toolStripContainer1.ContentPanel.Controls.Add(checkSmartcam);
@@ -357,14 +380,114 @@
          lblLocalTime.Size = new Size(77, 17);
          lblLocalTime.Text = "Local Time: ";
          // 
-         // label8
+         // lblBarometer1
          // 
-         label8.AutoSize = true;
-         label8.Location = new Point(709, 366);
-         label8.Name = "label8";
-         label8.Size = new Size(43, 17);
-         label8.TabIndex = 173;
-         label8.Text = "label8";
+         lblBarometer1.AutoSize = true;
+         lblBarometer1.Font = new Font("Segoe UI", 21.75F);
+         lblBarometer1.Location = new Point(159, 522);
+         lblBarometer1.Name = "lblBarometer1";
+         lblBarometer1.Size = new Size(87, 40);
+         lblBarometer1.TabIndex = 184;
+         lblBarometer1.Text = "00.00";
+         // 
+         // label6
+         // 
+         label6.AutoSize = true;
+         label6.Location = new Point(159, 502);
+         label6.Name = "label6";
+         label6.Size = new Size(60, 17);
+         label6.TabIndex = 183;
+         label6.Text = "Altimeter";
+         // 
+         // lblCurrentAircraft
+         // 
+         lblCurrentAircraft.AutoSize = true;
+         lblCurrentAircraft.Location = new Point(502, 650);
+         lblCurrentAircraft.Name = "lblCurrentAircraft";
+         lblCurrentAircraft.Size = new Size(50, 17);
+         lblCurrentAircraft.TabIndex = 182;
+         lblCurrentAircraft.Text = "Aircraft";
+         // 
+         // lblEngCondition1
+         // 
+         lblEngCondition1.AutoSize = true;
+         lblEngCondition1.Location = new Point(525, 356);
+         lblEngCondition1.Name = "lblEngCondition1";
+         lblEngCondition1.Size = new Size(82, 17);
+         lblEngCondition1.TabIndex = 181;
+         lblEngCondition1.Text = "Condition 1: ";
+         // 
+         // lblMixture1Pct
+         // 
+         lblMixture1Pct.AutoSize = true;
+         lblMixture1Pct.Location = new Point(525, 339);
+         lblMixture1Pct.Name = "lblMixture1Pct";
+         lblMixture1Pct.Size = new Size(88, 17);
+         lblMixture1Pct.TabIndex = 180;
+         lblMixture1Pct.Text = "Mixture 1: 0%";
+         // 
+         // lblPropeller1Pct
+         // 
+         lblPropeller1Pct.AutoSize = true;
+         lblPropeller1Pct.Location = new Point(525, 322);
+         lblPropeller1Pct.Name = "lblPropeller1Pct";
+         lblPropeller1Pct.Size = new Size(97, 17);
+         lblPropeller1Pct.TabIndex = 179;
+         lblPropeller1Pct.Text = "Propeller 1: 0%";
+         // 
+         // lblThrottle1Pct
+         // 
+         lblThrottle1Pct.AutoSize = true;
+         lblThrottle1Pct.Location = new Point(525, 305);
+         lblThrottle1Pct.Name = "lblThrottle1Pct";
+         lblThrottle1Pct.Size = new Size(89, 17);
+         lblThrottle1Pct.TabIndex = 178;
+         lblThrottle1Pct.Text = "Throttle 1: 0%";
+         // 
+         // lblSpoilersPosition
+         // 
+         lblSpoilersPosition.AutoSize = true;
+         lblSpoilersPosition.Location = new Point(911, 305);
+         lblSpoilersPosition.Name = "lblSpoilersPosition";
+         lblSpoilersPosition.Size = new Size(155, 17);
+         lblSpoilersPosition.TabIndex = 177;
+         lblSpoilersPosition.Text = "Spoilers Position: 0 L, 0 R";
+         // 
+         // lblSpoilersHandlePosition
+         // 
+         lblSpoilersHandlePosition.AutoSize = true;
+         lblSpoilersHandlePosition.Location = new Point(911, 288);
+         lblSpoilersHandlePosition.Name = "lblSpoilersHandlePosition";
+         lblSpoilersHandlePosition.Size = new Size(114, 17);
+         lblSpoilersHandlePosition.TabIndex = 176;
+         lblSpoilersHandlePosition.Text = "Spoilers Handle: 0";
+         // 
+         // lblSpoilersArmed
+         // 
+         lblSpoilersArmed.AutoSize = true;
+         lblSpoilersArmed.Location = new Point(911, 271);
+         lblSpoilersArmed.Name = "lblSpoilersArmed";
+         lblSpoilersArmed.Size = new Size(124, 17);
+         lblSpoilersArmed.TabIndex = 175;
+         lblSpoilersArmed.Text = "Spoilers Not Armed";
+         // 
+         // lblSpoilersAvailable
+         // 
+         lblSpoilersAvailable.AutoSize = true;
+         lblSpoilersAvailable.Location = new Point(911, 254);
+         lblSpoilersAvailable.Name = "lblSpoilersAvailable";
+         lblSpoilersAvailable.Size = new Size(94, 17);
+         lblSpoilersAvailable.TabIndex = 174;
+         lblSpoilersAvailable.Text = "Spoilers: None";
+         // 
+         // lblCustomCamera
+         // 
+         lblCustomCamera.AutoSize = true;
+         lblCustomCamera.Location = new Point(686, 356);
+         lblCustomCamera.Name = "lblCustomCamera";
+         lblCustomCamera.Size = new Size(82, 17);
+         lblCustomCamera.TabIndex = 173;
+         lblCustomCamera.Text = "Cust Camera";
          // 
          // btnPreviousSmartcam
          // 
@@ -717,7 +840,7 @@
          // lblIndex1
          // 
          lblIndex1.AutoSize = true;
-         lblIndex1.Location = new Point(151, 620);
+         lblIndex1.Location = new Point(191, 654);
          lblIndex1.Name = "lblIndex1";
          lblIndex1.Size = new Size(59, 17);
          lblIndex1.TabIndex = 60;
@@ -736,7 +859,7 @@
          // lblIndex0
          // 
          lblIndex0.AutoSize = true;
-         lblIndex0.Location = new Point(151, 603);
+         lblIndex0.Location = new Point(191, 637);
          lblIndex0.Name = "lblIndex0";
          lblIndex0.Size = new Size(59, 17);
          lblIndex0.TabIndex = 60;
@@ -754,7 +877,7 @@
          // lblCameraSubstate
          // 
          lblCameraSubstate.AutoSize = true;
-         lblCameraSubstate.Location = new Point(151, 586);
+         lblCameraSubstate.Location = new Point(191, 620);
          lblCameraSubstate.Name = "lblCameraSubstate";
          lblCameraSubstate.Size = new Size(71, 17);
          lblCameraSubstate.TabIndex = 59;
@@ -773,7 +896,7 @@
          // lblCameraState
          // 
          lblCameraState.AutoSize = true;
-         lblCameraState.Location = new Point(151, 569);
+         lblCameraState.Location = new Point(191, 603);
          lblCameraState.Name = "lblCameraState";
          lblCameraState.Size = new Size(50, 17);
          lblCameraState.TabIndex = 58;
@@ -940,9 +1063,9 @@
          lblCurrentCameraType.AutoSize = true;
          lblCurrentCameraType.Location = new Point(725, 623);
          lblCurrentCameraType.Name = "lblCurrentCameraType";
-         lblCurrentCameraType.Size = new Size(50, 17);
+         lblCurrentCameraType.Size = new Size(131, 17);
          lblCurrentCameraType.TabIndex = 67;
-         lblCurrentCameraType.Text = "label10";
+         lblCurrentCameraType.Text = "Current Camera Type";
          // 
          // txtOutput
          // 
@@ -1270,6 +1393,7 @@
          // 
          // groupAutopilot
          // 
+         groupAutopilot.Controls.Add(lblApproachStatus);
          groupAutopilot.Controls.Add(btnCrs2Sel);
          groupAutopilot.Controls.Add(checkApSpd);
          groupAutopilot.Controls.Add(checkApFlc);
@@ -1293,6 +1417,15 @@
          groupAutopilot.TabIndex = 37;
          groupAutopilot.TabStop = false;
          groupAutopilot.Text = "Autopilot";
+         // 
+         // lblApproachStatus
+         // 
+         lblApproachStatus.AutoSize = true;
+         lblApproachStatus.Location = new Point(10, 109);
+         lblApproachStatus.Name = "lblApproachStatus";
+         lblApproachStatus.Size = new Size(72, 17);
+         lblApproachStatus.TabIndex = 54;
+         lblApproachStatus.Text = "Approach: ";
          // 
          // btnCrs2Sel
          // 
@@ -2068,6 +2201,7 @@
          groupPause.PerformLayout();
          groupFms.ResumeLayout(false);
          groupAutopilot.ResumeLayout(false);
+         groupAutopilot.PerformLayout();
          groupLights.ResumeLayout(false);
          groupLights.PerformLayout();
          groupNav2.ResumeLayout(false);
@@ -2252,6 +2386,18 @@
       private CheckBox checkSmartcam;
       private Button btnPreviousSmartcam;
       private Button btnNextSmartcam;
-      private Label label8;
+      private Label lblCustomCamera;
+      private Label lblSpoilersPosition;
+      private Label lblSpoilersHandlePosition;
+      private Label lblSpoilersArmed;
+      private Label lblSpoilersAvailable;
+      private Label lblEngCondition1;
+      private Label lblMixture1Pct;
+      private Label lblPropeller1Pct;
+      private Label lblThrottle1Pct;
+      private Label lblCurrentAircraft;
+      private Label lblApproachStatus;
+      private Label lblBarometer1;
+      private Label label6;
    }
 }

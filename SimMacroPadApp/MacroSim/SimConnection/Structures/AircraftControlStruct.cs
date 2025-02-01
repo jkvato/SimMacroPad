@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MacroSim.SimConnection.Structures;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
-public struct TrimStruct
+public struct AircraftControlStruct
 {
    public double elevatorTrimMin;
    public double elevatorTrimNeutral;
@@ -33,6 +33,12 @@ public struct TrimStruct
    public int flapsHandleIndex;
    public double flapsTrailingEdgeLeft;
    public double flapsTrailingEdgeRight;
+
+   public int spoilersAvailable;
+   public int spoilersArmed;
+   public double spoilersHandlePosition;
+   public double spoilersLeftPosition;
+   public double spoilersRightPosition;
 
 
    // FLAPS NUM HANDLE POSITIONS
@@ -60,9 +66,17 @@ public struct TrimStruct
       simConnect.AddToDataDefinition(simStructure, "TRAILING EDGE FLAPS LEFT ANGLE", "Degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "TRAILING EDGE FLAPS RIGHT ANGLE", "Degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
-      simConnect.RegisterDataDefineStruct<TrimStruct>(simStructure);
+      simConnect.AddToDataDefinition(simStructure, "SPOILER AVAILABLE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "SPOILERS ARMED", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "SPOILERS HANDLE POSITION", "percent", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "SPOILERS LEFT POSITION", "percent", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "SPOILERS RIGHT POSITION", "percent", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+      simConnect.RegisterDataDefineStruct<AircraftControlStruct>(simStructure);
    }
 
    public readonly bool AileronTrimDisabled => aileronTrimDisabled == 1;
    public readonly bool RudderTrimDisabled => rudderTrimDisabled == 1;
+   public readonly bool SpoilersAvailable => spoilersAvailable == 1;
+   public readonly bool SpoilersArmed => spoilersArmed == 1;
 }

@@ -10,7 +10,7 @@ public enum SimStructure
 {
    AvionicsStruct,
    LightsStruct,
-   TrimStruct,
+   AircraftControlStruct,
    CamerasStruct,
    TimeStruct,
    EngineStruct,

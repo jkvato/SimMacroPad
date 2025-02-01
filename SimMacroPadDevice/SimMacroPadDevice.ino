@@ -8,6 +8,7 @@
 //#define EVENT_TIMER_MILLIS    600000
 #define EVENT_TIMER_MILLIS    600000
 
+// Macropad events
 #define EVENT_ENCODER_INC     0b00000100
 #define EVENT_ENCODER_DEC     0b00000101
 #define EVENT_KEY_CLICKED     0b00000000
@@ -15,42 +16,84 @@
 #define EVENT_KEY_LONGPRESS   0b00000010
 #define EVENT_KEY_REPEATPRESS 0b00000011
 
-#define STATE_COM1_MHZ        0b00000100
-#define STATE_COM1_KHZ        0b00000101
-#define STATE_COM2_MHZ        0b00001000
-#define STATE_COM2_KHZ        0b00001001
-#define STATE_NAV1_MHZ        0b00001100
-#define STATE_NAV1_KHZ        0b00001101
-#define STATE_NAV2_MHZ        0b00010000
-#define STATE_NAV2_KHZ        0b00010001
-#define STATE_HEADING         0b00010100
-#define STATE_COURSE          0b00011000
-#define STATE_ALTITUDE_1000   0b00011100
-#define STATE_ALTITUDE_100    0b00011101
-#define STATE_VERTICAL_SPEED  0b00100000
-#define STATE_XPND_1000       0b00100100
-#define STATE_XPND_100        0b00100101
-#define STATE_XPND_10         0b00100110
-#define STATE_XPND_1          0b00100111
-#define STATE_GPS_GROUP       0b00101000
-#define STATE_GPS_PAGE        0b00101001
-#define STATE_PFD_GROUP       0b00101100
-#define STATE_PFD_PAGE        0b00101101
-#define STATE_MFD_GROUP       0b00110000
-#define STATE_MFD_PAGE        0b00110001
+// Macropad states
+#define STATE_COM1_MHZ              0b00000100
+#define STATE_COM1_KHZ              0b00000101
+#define STATE_COM2_MHZ              0b00001000
+#define STATE_COM2_KHZ              0b00001001
+#define STATE_NAV1_MHZ              0b00001100
+#define STATE_NAV1_KHZ              0b00001101
+#define STATE_NAV2_MHZ              0b00010000
+#define STATE_NAV2_KHZ              0b00010001
+#define STATE_BAROMETER             0b00010011
+#define STATE_HEADING               0b00010100
+#define STATE_COURSE1               0b00011000
+#define STATE_COURSE2               0b00011001
+#define STATE_ALTITUDE_1000         0b00011100
+#define STATE_ALTITUDE_100          0b00011101
+#define STATE_VERTICAL_SPEED        0b00100000
+#define STATE_IAS                   0b00100001
+#define STATE_MACH                  0b00100010
+#define STATE_XPND_1000             0b00100100
+#define STATE_XPND_100              0b00100101
+#define STATE_XPND_10               0b00100110
+#define STATE_XPND_1                0b00100111
+#define STATE_GPS_GROUP             0b00101000
+#define STATE_GPS_PAGE              0b00101001
+#define STATE_PFD_GROUP             0b00101100
+#define STATE_PFD_PAGE              0b00101101
+#define STATE_MFD_GROUP             0b00110000
+#define STATE_MFD_PAGE              0b00110001
+#define STATE_AS530_LF_LG           0b01000000
+#define STATE_AS530_LF_SM           0b01000001
+#define STATE_AS530_RT_LG           0b01000010
+#define STATE_AS530_RT_SM           0b01000011
+#define STATE_AS430_LF_LG           0b01000100
+#define STATE_AS430_LF_SM           0b01000101
+#define STATE_AS430_RT_LG           0b01000110
+#define STATE_AS430_RT_SM           0b01000111
+#define STATE_AS1000_PFD_LG         0b01010000
+#define STATE_AS1000_PFD_SM         0b01010001
+#define STATE_AS1000_PFD_RANGE      0b01010010
+#define STATE_AS1000_MFD_LG         0b01010100
+#define STATE_AS1000_MFD_SM         0b01010101
+#define STATE_AS1000_MFD_RANGE      0b01010111
+#define STATE_AS3000H_TSC1_TOP_LG   0b01011000
+#define STATE_AS3000H_TSC1_TOP_SM   0b01011001
+#define STATE_AS3000H_TSC1_BTM      0b01011010
+#define STATE_AS3000H_TSC2_TOP_LG   0b01011100
+#define STATE_AS3000H_TSC2_TOP_SM   0b01011101
+#define STATE_AS3000H_TSC2_BTM      0b01011110
+#define STATE_AS3000V_TSC1_LF       0b01100000
+#define STATE_AS3000V_TSC1_MD       0b01100010
+#define STATE_AS3000V_TSC1_LG       0b01100100
+#define STATE_AS3000V_TSC1_SM       0b01100101
+#define STATE_AS3000V_TSC2_LF       0b01101000
+#define STATE_AS3000V_TSC2_MD       0b01101010
+#define STATE_AS3000V_TSC2_LG       0b01101100
+#define STATE_AS3000V_TSC2_SM       0b01101101
+#define STATE_G3X_1_LF_LG           0b01110000
+#define STATE_G3X_1_LF_SM           0b01110001
+#define STATE_G3X_1_RT_LG           0b01110010
+#define STATE_G3X_1_RT_SM           0b01110011
+#define STATE_G3X_2_LF_LG           0b01110100
+#define STATE_G3X_2_LF_SM           0b01110101
+#define STATE_G3X_2_RT_LG           0b01110110
+#define STATE_G3X_2_RT_SM           0b01110111
 
+// Device components
 #define CONTROL_ROTARY  0
 #define CONTROL_COM1    1
 #define CONTROL_COM2    2
-#define CONTROL_GPS     3
-#define CONTROL_NAV1    4
-#define CONTROL_NAV2    5
-#define CONTROL_PFD     6
-#define CONTROL_HDG     7
-#define CONTROL_CRS     8
-#define CONTROL_MFD     9
-#define CONTROL_ALT    10
-#define CONTROL_VS     11
+#define CONTROL_BAR     3
+#define CONTROL_NAV     4
+#define CONTROL_HDG_CRS 5
+#define CONTROL_ALT_VS  6
+#define CONTROL_AV1     7
+#define CONTROL_AV2     8
+#define CONTROL_SPD_MCH 9
+#define CONTROL_AV3    10
+#define CONTROL_AV4    11
 #define CONTROL_XPND   12
 
 
@@ -295,7 +338,7 @@ void handleSimMessageReceived()
       }
       break;
     case STATE_NAV1_MHZ:
-      currentPixel = CONTROL_NAV1 - 1;
+      currentPixel = CONTROL_NAV - 1;
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
@@ -309,7 +352,7 @@ void handleSimMessageReceived()
       }
       break;
     case STATE_NAV1_KHZ:
-      currentPixel = CONTROL_NAV1 - 1;
+      currentPixel = CONTROL_NAV - 1;
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
@@ -323,8 +366,8 @@ void handleSimMessageReceived()
       }
       break;
     case STATE_NAV2_MHZ:
-      currentPixel = CONTROL_NAV2 - 1;
-      r = 0; g = 255; b = 0;
+      currentPixel = CONTROL_NAV - 1;
+      r = 255; g = 255; b = 0;
       if (!blankScreen)
       {
         display.clearDisplay();
@@ -337,8 +380,8 @@ void handleSimMessageReceived()
       }
       break;
     case STATE_NAV2_KHZ:
-      currentPixel = CONTROL_NAV2 - 1;
-      r = 0; g = 0; b = 255;
+      currentPixel = CONTROL_NAV - 1;
+      r = 255; g = 0; b = 0;
       if (!blankScreen)
       {
         display.clearDisplay();
@@ -350,8 +393,20 @@ void handleSimMessageReceived()
         display.println(simMessage.Text2);
       }
       break;
+    case STATE_BAROMETER:
+      currentPixel = CONTROL_BAR - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("BARO");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
     case STATE_HEADING:
-      currentPixel = CONTROL_HDG - 1;
+      currentPixel = CONTROL_HDG_CRS - 1;
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
@@ -362,20 +417,32 @@ void handleSimMessageReceived()
         display.println(simMessage.Text1);
       }
       break;
-    case STATE_COURSE:
-      currentPixel = CONTROL_CRS - 1;
-      r = 0; g = 255; b = 0;
+    case STATE_COURSE1:
+      currentPixel = CONTROL_HDG_CRS - 1;
+      r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
         display.clearDisplay();
         display.setCursor(0, 0);
-        display.println("CRS");
+        display.println("CRS1");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_COURSE2:
+      currentPixel = CONTROL_HDG_CRS - 1;
+      r = 255; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("CRS2");
         display.setCursor(0, 16);
         display.println(simMessage.Text1);
       }
       break;
     case STATE_ALTITUDE_1000:
-      currentPixel = CONTROL_ALT - 1;
+      currentPixel = CONTROL_ALT_VS - 1;
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
@@ -387,7 +454,7 @@ void handleSimMessageReceived()
       }
       break;
     case STATE_ALTITUDE_100:
-      currentPixel = CONTROL_ALT - 1;
+      currentPixel = CONTROL_ALT_VS - 1;
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
@@ -399,8 +466,8 @@ void handleSimMessageReceived()
       }
       break;
     case STATE_VERTICAL_SPEED:
-      currentPixel = CONTROL_VS - 1;
-      r = 0; g = 255; b = 0;
+      currentPixel = CONTROL_ALT_VS - 1;
+      r = 255; g = 255; b = 0;
       if (!blankScreen)
       {
         display.clearDisplay();
@@ -410,6 +477,31 @@ void handleSimMessageReceived()
         display.println(simMessage.Text1);
       }
       break;
+    case STATE_IAS:
+      currentPixel = CONTROL_SPD_MCH - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("IAS");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_MACH:
+      currentPixel = CONTROL_SPD_MCH - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("MACH");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
     case STATE_XPND_1000:
       currentPixel = CONTROL_XPND - 1;
       r = 0; g = 255; b = 0;
@@ -458,58 +550,510 @@ void handleSimMessageReceived()
         display.println(simMessage.Text1);
       }
       break;
-    case STATE_GPS_GROUP:
-      currentPixel = CONTROL_GPS - 1;
-      r = 0; g = 255; b = 0;
+
+
+    // AS530
+    case STATE_AS530_LF_LG:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0, g = 255, b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("530 L LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
       break;
-    case STATE_GPS_PAGE:
-      currentPixel = CONTROL_GPS - 1;
-      r = 0; g = 0; b = 255;
+    case STATE_AS530_LF_SM:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0, g = 0, b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("530 L SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
       break;
-    case STATE_PFD_GROUP:
-      currentPixel = CONTROL_PFD - 1;
+    case STATE_AS530_RT_LG:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0, g = 255, b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("530 R LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS530_RT_SM:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0, g = 0, b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("530 R SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
+
+    // AS430
+    case STATE_AS430_LF_LG:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0, g = 255, b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("430 L LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS430_LF_SM:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0, g = 0, b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("430 L SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS430_RT_LG:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0, g = 255, b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("430 R LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS430_RT_SM:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0, g = 0, b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("430 R SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
+
+    // AS1000
+    case STATE_AS1000_PFD_LG:
+      currentPixel = CONTROL_AV1 - 1;
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
         display.clearDisplay();
         display.setCursor(0, 0);
-        display.println("PFD OUTER");
+        display.println("PFD LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS1000_PFD_SM:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("PFD SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS1000_PFD_RANGE:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("PFD RNG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS1000_MFD_LG:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("MFD LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS1000_MFD_SM:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("MFD SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS1000_MFD_RANGE:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("MFD RNG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
+
+    // AS3000 HORIZ
+    case STATE_AS3000H_TSC1_TOP_LG:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TOP1 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000H_TSC1_TOP_SM:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TOP1 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000H_TSC1_BTM:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("BTM1");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000H_TSC2_TOP_LG:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TOP2 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000H_TSC2_TOP_SM:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TOP2 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000H_TSC2_BTM:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("BTM2");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
+
+    // AS3000 VERT
+    case STATE_AS3000V_TSC1_LF:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC1 LF");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC1_MD:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC1 MD");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC1_LG:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC1 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC1_SM:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC1 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC2_LF:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC2 LF");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC2_MD:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC2 MD");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC2_LG:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC2 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_AS3000V_TSC2_SM:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("TSC2 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
+
+    // AS3X - G3X
+    case STATE_G3X_1_LF_LG:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("LF1 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_1_LF_SM:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("LF1 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_1_RT_LG:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("RT1 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_1_RT_SM:
+      currentPixel = CONTROL_AV2 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("RT1 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_2_LF_LG:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("LF2 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_2_LF_SM:
+      currentPixel = CONTROL_AV3 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("LF2 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_2_RT_LG:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("RT2 LG");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+    case STATE_G3X_2_RT_SM:
+      currentPixel = CONTROL_AV4 - 1;
+      r = 0; g = 0; b = 255;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("RT2 SM");
+        display.setCursor(0, 16);
+        display.println(simMessage.Text1);
+      }
+      break;
+
+
+    case STATE_GPS_GROUP:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 255; b = 0;
+      break;
+    case STATE_GPS_PAGE:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 0; b = 255;
+      break;
+    case STATE_PFD_GROUP:
+      currentPixel = CONTROL_AV1 - 1;
+      r = 0; g = 255; b = 0;
+      if (!blankScreen)
+      {
+        display.clearDisplay();
+        display.setCursor(0, 0);
+        display.println("PFD GROUP");
         display.setCursor(0, 16);
         display.println(simMessage.Text1);
       }
       break;
     case STATE_PFD_PAGE:
-      currentPixel = CONTROL_PFD - 1;
+      currentPixel = CONTROL_AV1 - 1;
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
         display.clearDisplay();
         display.setCursor(0, 0);
-        display.println("PFD INNER");
+        display.println("PFD PAGE");
         display.setCursor(0, 16);
         display.println(simMessage.Text1);
       }
       break;
     case STATE_MFD_GROUP:
-      currentPixel = CONTROL_MFD - 1;
+      currentPixel = CONTROL_AV2 - 1;
       r = 0; g = 255; b = 0;
       if (!blankScreen)
       {
         display.clearDisplay();
         display.setCursor(0, 0);
-        display.println("MFD OUTER");
+        display.println("MFD GROUP");
         display.setCursor(0, 16);
         display.println(simMessage.Text1);
       }
       break;
     case STATE_MFD_PAGE:
-      currentPixel = CONTROL_MFD - 1;
+      currentPixel = CONTROL_AV2 - 1;
       r = 0; g = 0; b = 255;
       if (!blankScreen)
       {
         display.clearDisplay();
         display.setCursor(0, 0);
-        display.println("MFD INNER");
+        display.println("MFD PAGE");
         display.setCursor(0, 16);
         display.println(simMessage.Text1);
       }
@@ -536,7 +1080,7 @@ void handleSimMessageReceived()
 
 
 //////////////////////////
-// COM1 // COM2 // GPS  //
+// COM1 // COM2 // BAR  //
 //////////////////////////
 // NAV1 // NAV2 // PFD  //
 //////////////////////////
@@ -544,6 +1088,45 @@ void handleSimMessageReceived()
 //////////////////////////
 // ALT  //  VS  // XPND //
 //////////////////////////
+
+//////////////////////////
+// COM1 // COM2 // BAR  //
+//      //      //      //
+//////////////////////////
+// NAV1 // HDG  // ALT  //
+// NAV2 // CRS  // VS   //
+//////////////////////////
+// AV1  // AV2  // SPD  //
+//      //      // MCH  //
+//////////////////////////
+// AV3  // AV4  // XPND //
+//      //      //      //
+//////////////////////////
+
+
+// AS530
+//Microsoft/Generic/Avionics
+// AV1: LEFT KNOBS
+// AV2: RIGHT KNOBS
+
+// AS430
+//Microsoft/Generic/Avionics
+// AV3: LEFT KNOBS
+// AV4: RIGHT KNOBS
+
+// AS3000H 2X TBM
+//Asobo/TBM 930/Avionics
+// AV1: GTC TOP KNOBS (PILOT)
+// AV2: GTC BOTTOM KNOB (PILOT)
+// AV3: GTC TOP KNOBS (CO-PILOT)
+// AV4: GTC BOTTOM KNOB (CO-PILOT)
+
+// AS1000
+//Microsoft/Generic/Avionics
+// AV1: PFD FMS KNOBS
+// AV2: PFD RANGE KNOB
+// AV3: MFD FMS KNOBS
+// AV4: PFD RANGE KNOB
 
 // COM1 First press : COM1_MHZ
 // COM1 Second press: COM1_KHZ
@@ -579,3 +1162,7 @@ void handleSimMessageReceived()
 // MFD First press  : G1000_MFD_GROUP_KNOB
 // MFD Second press : G1000_MFD_PAGE_KNOB
 // MFD Rotary press : G1000_MFD_CURSOR_BUTTON
+// GPS First press  : GPS530_RT_SM
+// GPS Second press : GPS530_RT_LG
+// GPS Third press  : GPS430_RT_SM
+// GPS Fourth press : GPS430_RT_LG

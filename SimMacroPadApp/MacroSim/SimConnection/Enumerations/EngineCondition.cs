@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace MacroSim.SimConnection.Enumerations;
 
-public enum CameraSubState : int
+public enum EngineCondition : int
 {
-   None = 0,
-   Locked = 1,
-   Unlocked = 2,
-   QuickView = 3,
-   Smart = 4,
-   Instrument = 5
+   FuelCutOff = 0,
+   LowIdle = 1,
+   HighIdle = 2,
 }

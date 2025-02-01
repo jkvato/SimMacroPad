@@ -27,7 +27,7 @@ public class SimConnection
    private readonly BackgroundWorker simConnectionBackgroundWorker = new BackgroundWorker();
 
    public AvionicsStruct AvionicsData { get; private set; }
-   public TrimStruct TrimData { get; private set; }
+   public AircraftControlStruct AircraftControlData { get; private set; }
    public LightsStruct LightsData { get; private set; }
    public CamerasStruct CamerasData { get; private set; }
    public TimeStruct TimeData { get; private set; }
@@ -139,7 +139,7 @@ public class SimConnection
          CamerasStruct.InitializeSimConnect(simConnect, SimStructure.CamerasStruct);
          LightsStruct.InitializeSimConnect(simConnect, SimStructure.LightsStruct);
          TimeStruct.InitializeSimConnect(simConnect, SimStructure.TimeStruct);
-         TrimStruct.InitializeSimConnect(simConnect, SimStructure.TrimStruct);
+         AircraftControlStruct.InitializeSimConnect(simConnect, SimStructure.AircraftControlStruct);
          EngineStruct.InitializeSimConnect(simConnect, SimStructure.EngineStruct);
          SmartcamTargetsStruct.InitializeSimConnect(simConnect, SimStructure.SmartcamTargetsStruct);
       }
@@ -169,9 +169,9 @@ public class SimConnection
             OnDataReceived(lightsStruct);
             break;
          case SimDataRequest.TrimRequest:
-            TrimStruct trimStruct = (TrimStruct)data.dwData[0];
-            TrimData = trimStruct;
-            OnDataReceived(trimStruct);
+            AircraftControlStruct acControlStruct = (AircraftControlStruct)data.dwData[0];
+            AircraftControlData = acControlStruct;
+            OnDataReceived(acControlStruct);
             break;
          case SimDataRequest.CamerasRequest:
             CamerasStruct camerasStruct = (CamerasStruct)data.dwData[0];
@@ -238,7 +238,7 @@ public class SimConnection
       }
       else if (data.dwRequestID == (uint)SimDataRequest.TrimRequest)
       {
-         TrimStruct s = (TrimStruct)data.dwData[0];
+         AircraftControlStruct s = (AircraftControlStruct)data.dwData[0];
          OnDataReceived(s);
       }
       else if (data.dwRequestID == (uint)SimDataRequest.CamerasRequest)
@@ -303,6 +303,10 @@ public class SimConnection
       SetDataOnSimObject(SimStructDefinition.CamerasStruct, camera);
    }
 
+   /// <summary>
+   /// Turns smart camera targetting on or off; toggles if <paramref name="enabled"/> is <see langword="null"/>.
+   /// </summary>
+   /// <param name="enabled">Whether to turn smart camera targetting on or off.</param>
    public void SetSmartcamera(bool? enabled = null)
    {
       if (enabled == null)

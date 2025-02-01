@@ -12,8 +12,11 @@ namespace MacroSim.SimConnection.Structures;
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
 public struct AvionicsStruct
 {
-   [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-   public string Title;
+   [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+   public string title;
+   [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+   public string liveryName;
+
    public double com1standby;
    public double com1active;
    public double com2standby;
@@ -26,12 +29,37 @@ public struct AvionicsStruct
    public int apVerticalSpeedSel;
    public int apHeadingSel;
    public int apNav1ObsSel;
+   public int apNav2ObsSel;
+
+   public double apAirspeedHoldSel;
+   public double apMachHoldSel;
+   public double apPitchHoldSel;
+   public double apRpmHoldSel;
 
    public int apMaster;
    public int apAltHold;
    public int apVsHold;
    public int apHdgHold;
    public int apNav1Hold;
+
+   public int apAirspeedHold;
+   public int apMachHold;
+   public int apApproachHold;
+   public int apApproachCaptured;
+   public int apApproachArm;
+   public int apApproachActive;
+   public int apAttitudeHold;
+   public int apPitchHold;
+   public int apBackCourseHold;
+   public int apFlightDirectorActive;
+   public int apFlightLevelChange;
+   public int apGlideslopeActive;
+   public int apGlideslopeArm;
+   public int apGlideslopeHold;
+   public int apRpmHold;
+   public int apThrottleArm;
+   public int apWingLeveler;
+   public int apYawDamper;
 
    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 8)]
    public string com1activeIdent;
@@ -65,9 +93,13 @@ public struct AvionicsStruct
    public int fuelDumpActive;
    public int fuelDumpSwitch;
 
+   public double baro1Setting;
+
    public static void InitializeSimConnect(SimConnect simConnect, SimStructure simStructure)
    {
-      simConnect.AddToDataDefinition(simStructure, "Title", null, SIMCONNECT_DATATYPE.STRING256, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "TITLE", null, SIMCONNECT_DATATYPE.STRING128, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "LIVERY NAME", null, SIMCONNECT_DATATYPE.STRING128, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
       simConnect.AddToDataDefinition(simStructure, "COM STANDBY FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "COM ACTIVE FREQUENCY:1", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "COM STANDBY FREQUENCY:2", "Megahertz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
@@ -80,12 +112,37 @@ public struct AvionicsStruct
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT VERTICAL HOLD VAR", "feet per minute", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT HEADING LOCK DIR", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "NAV OBS:1", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "NAV OBS:2", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT AIRSPEED HOLD VAR", "Knots", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT MACH HOLD VAR", "Number", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT PITCH HOLD REF", "Degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT RPM HOLD VAR", "Number", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT MASTER", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT ALTITUDE LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT VERTICAL HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT HEADING LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "AUTOPILOT NAV1 LOCK", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT AIRSPEED HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT MACH HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT APPROACH HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT APPROACH CAPTURED", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT APPROACH ARM", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT APPROACH ACTIVE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT ATTITUDE HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT PITCH HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT BACKCOURSE HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT FLIGHT DIRECTOR ACTIVE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT FLIGHT LEVEL CHANGE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT GLIDESLOPE ACTIVE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT GLIDESLOPE ARM", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT GLIDESLOPE HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT RPM HOLD", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT THROTTLE ARM", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT WING LEVELER", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+      simConnect.AddToDataDefinition(simStructure, "AUTOPILOT YAW DAMPER", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
       simConnect.AddToDataDefinition(simStructure, "COM ACTIVE FREQ IDENT:1", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "COM ACTIVE FREQ IDENT:2", null, SIMCONNECT_DATATYPE.STRING8, 0.0f, SimConnect.SIMCONNECT_UNUSED);
@@ -107,6 +164,8 @@ public struct AvionicsStruct
       simConnect.AddToDataDefinition(simStructure, "FUEL DUMP ACTIVE", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
       simConnect.AddToDataDefinition(simStructure, "FUEL DUMP SWITCH", "Bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
+      simConnect.AddToDataDefinition(simStructure, "KOHLSMAN SETTING HG:1", "inHg", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+
       simConnect.RegisterDataDefineStruct<AvionicsStruct>(simStructure);
    }
 
@@ -115,6 +174,29 @@ public struct AvionicsStruct
    public readonly bool ApVerticalSpeedHoldEngaged => apVsHold == 1;
    public readonly bool ApHeadingHoldEngaged => apHdgHold == 1;
    public readonly bool ApNav1HoldEngaged => apNav1Hold == 1;
+
+   public readonly bool ApAirspeedHoldEngaged => apAirspeedHold == 1;
+   public readonly bool ApMachHoldEngaged => apMachHold == 1;
+   public readonly bool ApApproachHoldEngaged => apApproachHold == 1;
+   public readonly bool ApIsApproachCaptured => apApproachCaptured == 1;
+   public readonly bool ApIsApproachArmed => apApproachArm == 1;
+   public readonly bool ApIsApproachActive => apApproachActive == 1;
+   public readonly bool ApAttitudeHoldEngaged => apAttitudeHold == 1;
+   public readonly bool ApPitchHoldEngaged => apPitchHold == 1;
+   public readonly bool ApBackCourseHoldEngaged => apBackCourseHold == 1;
+   public readonly bool ApFlightDirectorEnabled => apFlightDirectorActive == 1;
+   public readonly bool ApFlightLevelChangeEngaged => apFlightLevelChange == 1;
+   public readonly bool ApIsGlideslopeActive => apGlideslopeActive == 1;
+   public readonly bool ApIsGlideslopeArmed => apGlideslopeArm == 1;
+   public readonly bool ApGlideslopeHoldEngaged => apGlideslopeHold == 1;
+   public readonly bool ApRpmHoldEngaged => apRpmHold == 1;
+   public readonly bool ApAutoThrottleArmed => apThrottleArm == 1;
+   public readonly bool ApWingLevelerEngaged => apWingLeveler == 1;
+   public readonly bool ApYawDamperEngaged => apYawDamper == 1;
+
+
+
+
    public readonly bool FuelDumpActive => fuelDumpActive == 1;
    public readonly bool FuelDumpSwitch => fuelDumpSwitch == 1;
 
