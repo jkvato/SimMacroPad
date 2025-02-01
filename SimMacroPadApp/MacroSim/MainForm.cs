@@ -178,7 +178,7 @@ public partial class MainForm : XtraForm
    {
       InvokeAction(form =>
       {
-         form.lblMacroPadState.Text = e.NewState.ToString();
+         //form.lblMacroPadState.Text = e.NewState.ToString();
       });
       UpdateConnectionStatus();
    }
@@ -522,7 +522,7 @@ public partial class MainForm : XtraForm
          InvokeAction(form =>
          {
             form.lblSimRate.Text = "Sim Rate: " + timeStruct.SimulationRate.ToString();
-            form.lblLocalTime.Text = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
+            //form.lblLocalTime.Text = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
          });
       }
       else if (structure is EngineStruct engineStruct)
@@ -625,24 +625,24 @@ public partial class MainForm : XtraForm
       }
 
       // Remove old list of com ports from the menu.
-      for (int i = macroPadToolStripMenuItem.DropDownItems.Count - 1; i >= 0; i--)
-      {
-         var item = macroPadToolStripMenuItem.DropDownItems[i];
-         if (item is ToolStripMenuItem menuItem)
-         {
-            if (menuItem.Text.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
-            {
-               macroPadToolStripMenuItem.DropDownItems.RemoveAt(i);
-            }
-         }
-      }
+      //for (int i = macroPadToolStripMenuItem.DropDownItems.Count - 1; i >= 0; i--)
+      //{
+      //   var item = macroPadToolStripMenuItem.DropDownItems[i];
+      //   if (item is ToolStripMenuItem menuItem)
+      //   {
+      //      if (menuItem.Text.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
+      //      {
+      //         macroPadToolStripMenuItem.DropDownItems.RemoveAt(i);
+      //      }
+      //   }
+      //}
 
       // Add new list of com ports to the menu.
       foreach (string port in portList)
       {
          ToolStripMenuItem item = new ToolStripMenuItem(port);   // create a new menu item
          item.Click += ComPortsStripMenuItem_Click;  // add event handler
-         macroPadToolStripMenuItem.DropDownItems.Add(item);  // add to the menu of COM ports
+         //macroPadToolStripMenuItem.DropDownItems.Add(item);  // add to the menu of COM ports
       }
    }
 
@@ -661,33 +661,33 @@ public partial class MainForm : XtraForm
       {
          if (macroPadDevice.SerialPort.IsOpen)
          {
-            lblSerialPortStatus.Text = $"Serial: {macroPadDevice.SerialPort.PortName}";
+            //lblSerialPortStatus.Text = $"Serial: {macroPadDevice.SerialPort.PortName}";
          }
          else
          {
-            lblSerialPortStatus.Text = $"Serial: Disconnected";
+            //lblSerialPortStatus.Text = $"Serial: Disconnected";
          }
 
          if (fsuipcConnection.IsConnected)
          {
-            fsuipcConnectToolStripMenuItem.Text = "Disconnect FSUIPC";
-            lblFsuipcStatus.Text = "FSUIPC: Connected";
+            //fsuipcConnectToolStripMenuItem.Text = "Disconnect FSUIPC";
+            //lblFsuipcStatus.Text = "FSUIPC: Connected";
          }
          else
          {
-            fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
-            lblFsuipcStatus.Text = "FSUIPC: Disconnected";
+            //fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
+            //lblFsuipcStatus.Text = "FSUIPC: Disconnected";
          }
 
          if (simConnection.IsConnected)
          {
-            simConnectToolStripMenuItem.Text = "Disconnect SimConnect";
-            lblSimConnectStatus.Text = "SimConnect: Connected";
+            //simConnectToolStripMenuItem.Text = "Disconnect SimConnect";
+            //lblSimConnectStatus.Text = "SimConnect: Connected";
          }
          else
          {
-            simConnectToolStripMenuItem.Text = "Connect SimConnect";
-            lblSimConnectStatus.Text = "SimConnect: Disconnected";
+            //simConnectToolStripMenuItem.Text = "Connect SimConnect";
+            //lblSimConnectStatus.Text = "SimConnect: Disconnected";
          }
       });
    }
