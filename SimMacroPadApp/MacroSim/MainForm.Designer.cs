@@ -30,6 +30,7 @@ namespace MacroSim
       /// </summary>
       private void InitializeComponent()
       {
+         components = new System.ComponentModel.Container();
          lblBarometer1 = new LabelControl();
          label6 = new LabelControl();
          lblCurrentAircraft = new LabelControl();
@@ -190,6 +191,12 @@ namespace MacroSim
          lblCom1ActiveValue = new LabelControl();
          lblCom1Standby = new LabelControl();
          lblCom1Active = new LabelControl();
+         toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
+         toolbarFormManager1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormManager(components);
+         barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+         barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+         barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+         barDockControlRight = new DevExpress.XtraBars.BarDockControl();
          ((System.ComponentModel.ISupportInitialize)trackFlaps).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
@@ -218,13 +225,15 @@ namespace MacroSim
          groupCom2.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)groupCom1).BeginInit();
          groupCom1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)toolbarFormControl1).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)toolbarFormManager1).BeginInit();
          SuspendLayout();
          // 
          // lblBarometer1
          // 
          lblBarometer1.Appearance.Font = new Font("Segoe UI", 21.75F);
          lblBarometer1.Appearance.Options.UseFont = true;
-         lblBarometer1.Location = new Point(164, 478);
+         lblBarometer1.Location = new Point(163, 503);
          lblBarometer1.Margin = new Padding(3, 2, 3, 2);
          lblBarometer1.Name = "lblBarometer1";
          lblBarometer1.Size = new Size(70, 40);
@@ -233,7 +242,7 @@ namespace MacroSim
          // 
          // label6
          // 
-         label6.Location = new Point(164, 461);
+         label6.Location = new Point(163, 486);
          label6.Margin = new Padding(3, 2, 3, 2);
          label6.Name = "label6";
          label6.Size = new Size(52, 17);
@@ -242,7 +251,7 @@ namespace MacroSim
          // 
          // lblCurrentAircraft
          // 
-         lblCurrentAircraft.Location = new Point(500, 594);
+         lblCurrentAircraft.Location = new Point(499, 619);
          lblCurrentAircraft.Margin = new Padding(3, 2, 3, 2);
          lblCurrentAircraft.Name = "lblCurrentAircraft";
          lblCurrentAircraft.Size = new Size(42, 17);
@@ -251,7 +260,7 @@ namespace MacroSim
          // 
          // lblEngCondition1
          // 
-         lblEngCondition1.Location = new Point(524, 328);
+         lblEngCondition1.Location = new Point(523, 353);
          lblEngCondition1.Margin = new Padding(3, 2, 3, 2);
          lblEngCondition1.Name = "lblEngCondition1";
          lblEngCondition1.Size = new Size(74, 17);
@@ -260,7 +269,7 @@ namespace MacroSim
          // 
          // lblMixture1Pct
          // 
-         lblMixture1Pct.Location = new Point(524, 313);
+         lblMixture1Pct.Location = new Point(523, 338);
          lblMixture1Pct.Margin = new Padding(3, 2, 3, 2);
          lblMixture1Pct.Name = "lblMixture1Pct";
          lblMixture1Pct.Size = new Size(80, 17);
@@ -269,7 +278,7 @@ namespace MacroSim
          // 
          // lblPropeller1Pct
          // 
-         lblPropeller1Pct.Location = new Point(524, 297);
+         lblPropeller1Pct.Location = new Point(523, 322);
          lblPropeller1Pct.Margin = new Padding(3, 2, 3, 2);
          lblPropeller1Pct.Name = "lblPropeller1Pct";
          lblPropeller1Pct.Size = new Size(89, 17);
@@ -278,7 +287,7 @@ namespace MacroSim
          // 
          // lblThrottle1Pct
          // 
-         lblThrottle1Pct.Location = new Point(524, 282);
+         lblThrottle1Pct.Location = new Point(523, 307);
          lblThrottle1Pct.Margin = new Padding(3, 2, 3, 2);
          lblThrottle1Pct.Name = "lblThrottle1Pct";
          lblThrottle1Pct.Size = new Size(81, 17);
@@ -287,7 +296,7 @@ namespace MacroSim
          // 
          // lblSpoilersPosition
          // 
-         lblSpoilersPosition.Location = new Point(903, 282);
+         lblSpoilersPosition.Location = new Point(902, 307);
          lblSpoilersPosition.Margin = new Padding(3, 2, 3, 2);
          lblSpoilersPosition.Name = "lblSpoilersPosition";
          lblSpoilersPosition.Size = new Size(148, 17);
@@ -296,7 +305,7 @@ namespace MacroSim
          // 
          // lblSpoilersHandlePosition
          // 
-         lblSpoilersHandlePosition.Location = new Point(903, 267);
+         lblSpoilersHandlePosition.Location = new Point(902, 292);
          lblSpoilersHandlePosition.Margin = new Padding(3, 2, 3, 2);
          lblSpoilersHandlePosition.Name = "lblSpoilersHandlePosition";
          lblSpoilersHandlePosition.Size = new Size(106, 17);
@@ -305,7 +314,7 @@ namespace MacroSim
          // 
          // lblSpoilersArmed
          // 
-         lblSpoilersArmed.Location = new Point(903, 251);
+         lblSpoilersArmed.Location = new Point(902, 276);
          lblSpoilersArmed.Margin = new Padding(3, 2, 3, 2);
          lblSpoilersArmed.Name = "lblSpoilersArmed";
          lblSpoilersArmed.Size = new Size(116, 17);
@@ -314,7 +323,7 @@ namespace MacroSim
          // 
          // lblSpoilersAvailable
          // 
-         lblSpoilersAvailable.Location = new Point(903, 236);
+         lblSpoilersAvailable.Location = new Point(902, 261);
          lblSpoilersAvailable.Margin = new Padding(3, 2, 3, 2);
          lblSpoilersAvailable.Name = "lblSpoilersAvailable";
          lblSpoilersAvailable.Size = new Size(86, 17);
@@ -323,7 +332,7 @@ namespace MacroSim
          // 
          // lblCustomCamera
          // 
-         lblCustomCamera.Location = new Point(682, 328);
+         lblCustomCamera.Location = new Point(681, 353);
          lblCustomCamera.Margin = new Padding(3, 2, 3, 2);
          lblCustomCamera.Name = "lblCustomCamera";
          lblCustomCamera.Size = new Size(74, 17);
@@ -332,7 +341,7 @@ namespace MacroSim
          // 
          // btnPreviousSmartcam
          // 
-         btnPreviousSmartcam.Location = new Point(813, 403);
+         btnPreviousSmartcam.Location = new Point(812, 428);
          btnPreviousSmartcam.Margin = new Padding(3, 2, 3, 2);
          btnPreviousSmartcam.Name = "btnPreviousSmartcam";
          btnPreviousSmartcam.Size = new Size(41, 25);
@@ -341,7 +350,7 @@ namespace MacroSim
          // 
          // btnNextSmartcam
          // 
-         btnNextSmartcam.Location = new Point(813, 374);
+         btnNextSmartcam.Location = new Point(812, 399);
          btnNextSmartcam.Margin = new Padding(3, 2, 3, 2);
          btnNextSmartcam.Name = "btnNextSmartcam";
          btnNextSmartcam.Size = new Size(41, 25);
@@ -350,7 +359,7 @@ namespace MacroSim
          // 
          // checkSmartcam
          // 
-         checkSmartcam.Location = new Point(813, 343);
+         checkSmartcam.Location = new Point(812, 368);
          checkSmartcam.Margin = new Padding(3, 2, 3, 2);
          checkSmartcam.Name = "checkSmartcam";
          checkSmartcam.Size = new Size(58, 25);
@@ -359,7 +368,7 @@ namespace MacroSim
          // 
          // lblSCTargetDesc
          // 
-         lblSCTargetDesc.Location = new Point(415, 343);
+         lblSCTargetDesc.Location = new Point(414, 368);
          lblSCTargetDesc.Margin = new Padding(3, 2, 3, 2);
          lblSCTargetDesc.Name = "lblSCTargetDesc";
          lblSCTargetDesc.Size = new Size(89, 17);
@@ -368,7 +377,7 @@ namespace MacroSim
          // 
          // lblSCTargetType
          // 
-         lblSCTargetType.Location = new Point(415, 325);
+         lblSCTargetType.Location = new Point(414, 350);
          lblSCTargetType.Margin = new Padding(3, 2, 3, 2);
          lblSCTargetType.Name = "lblSCTargetType";
          lblSCTargetType.Size = new Size(89, 17);
@@ -377,7 +386,7 @@ namespace MacroSim
          // 
          // trackFlaps
          // 
-         trackFlaps.Location = new Point(763, 367);
+         trackFlaps.Location = new Point(762, 392);
          trackFlaps.Margin = new Padding(3, 2, 3, 2);
          trackFlaps.Name = "trackFlaps";
          trackFlaps.Orientation = Orientation.Vertical;
@@ -386,7 +395,7 @@ namespace MacroSim
          // 
          // checkCustomCameraState
          // 
-         checkCustomCameraState.Location = new Point(994, 551);
+         checkCustomCameraState.Location = new Point(993, 576);
          checkCustomCameraState.Margin = new Padding(3, 2, 3, 2);
          checkCustomCameraState.Name = "checkCustomCameraState";
          checkCustomCameraState.Size = new Size(58, 25);
@@ -395,7 +404,7 @@ namespace MacroSim
          // 
          // checkShowcaseFixedSubState
          // 
-         checkShowcaseFixedSubState.Location = new Point(994, 522);
+         checkShowcaseFixedSubState.Location = new Point(993, 547);
          checkShowcaseFixedSubState.Margin = new Padding(3, 2, 3, 2);
          checkShowcaseFixedSubState.Name = "checkShowcaseFixedSubState";
          checkShowcaseFixedSubState.Size = new Size(58, 25);
@@ -404,7 +413,7 @@ namespace MacroSim
          // 
          // lblEngineTorquePct
          // 
-         lblEngineTorquePct.Location = new Point(415, 293);
+         lblEngineTorquePct.Location = new Point(414, 318);
          lblEngineTorquePct.Margin = new Padding(3, 2, 3, 2);
          lblEngineTorquePct.Name = "lblEngineTorquePct";
          lblEngineTorquePct.Size = new Size(40, 17);
@@ -413,7 +422,7 @@ namespace MacroSim
          // 
          // checkShowcaseDroneSubState
          // 
-         checkShowcaseDroneSubState.Location = new Point(994, 493);
+         checkShowcaseDroneSubState.Location = new Point(993, 518);
          checkShowcaseDroneSubState.Margin = new Padding(3, 2, 3, 2);
          checkShowcaseDroneSubState.Name = "checkShowcaseDroneSubState";
          checkShowcaseDroneSubState.Size = new Size(58, 25);
@@ -422,7 +431,7 @@ namespace MacroSim
          // 
          // checkCamera9
          // 
-         checkCamera9.Location = new Point(951, 431);
+         checkCamera9.Location = new Point(950, 456);
          checkCamera9.Margin = new Padding(3, 2, 3, 2);
          checkCamera9.Name = "checkCamera9";
          checkCamera9.Size = new Size(31, 25);
@@ -432,7 +441,7 @@ namespace MacroSim
          // 
          // lblEngineNPRpm
          // 
-         lblEngineNPRpm.Location = new Point(298, 338);
+         lblEngineNPRpm.Location = new Point(297, 363);
          lblEngineNPRpm.Margin = new Padding(3, 2, 3, 2);
          lblEngineNPRpm.Name = "lblEngineNPRpm";
          lblEngineNPRpm.Size = new Size(48, 17);
@@ -441,7 +450,7 @@ namespace MacroSim
          // 
          // checkCamera8
          // 
-         checkCamera8.Location = new Point(915, 431);
+         checkCamera8.Location = new Point(914, 456);
          checkCamera8.Margin = new Padding(3, 2, 3, 2);
          checkCamera8.Name = "checkCamera8";
          checkCamera8.Size = new Size(31, 25);
@@ -451,7 +460,7 @@ namespace MacroSim
          // 
          // checkExternalQuickViewSubState
          // 
-         checkExternalQuickViewSubState.Location = new Point(994, 462);
+         checkExternalQuickViewSubState.Location = new Point(993, 487);
          checkExternalQuickViewSubState.Margin = new Padding(3, 2, 3, 2);
          checkExternalQuickViewSubState.Name = "checkExternalQuickViewSubState";
          checkExternalQuickViewSubState.Size = new Size(58, 25);
@@ -460,7 +469,7 @@ namespace MacroSim
          // 
          // checkCamera7
          // 
-         checkCamera7.Location = new Point(880, 433);
+         checkCamera7.Location = new Point(879, 456);
          checkCamera7.Margin = new Padding(3, 2, 3, 2);
          checkCamera7.Name = "checkCamera7";
          checkCamera7.Size = new Size(31, 25);
@@ -470,7 +479,7 @@ namespace MacroSim
          // 
          // lblEngineNGPct
          // 
-         lblEngineNGPct.Location = new Point(298, 323);
+         lblEngineNGPct.Location = new Point(297, 348);
          lblEngineNGPct.Margin = new Padding(3, 2, 3, 2);
          lblEngineNGPct.Name = "lblEngineNGPct";
          lblEngineNGPct.Size = new Size(34, 17);
@@ -479,7 +488,7 @@ namespace MacroSim
          // 
          // checkCamera6
          // 
-         checkCamera6.Location = new Point(951, 462);
+         checkCamera6.Location = new Point(950, 487);
          checkCamera6.Margin = new Padding(3, 2, 3, 2);
          checkCamera6.Name = "checkCamera6";
          checkCamera6.Size = new Size(31, 25);
@@ -489,7 +498,7 @@ namespace MacroSim
          // 
          // checkExternalDefaultSubState
          // 
-         checkExternalDefaultSubState.Location = new Point(994, 433);
+         checkExternalDefaultSubState.Location = new Point(993, 458);
          checkExternalDefaultSubState.Margin = new Padding(3, 2, 3, 2);
          checkExternalDefaultSubState.Name = "checkExternalDefaultSubState";
          checkExternalDefaultSubState.Size = new Size(58, 25);
@@ -498,7 +507,7 @@ namespace MacroSim
          // 
          // checkCamera5
          // 
-         checkCamera5.Location = new Point(915, 462);
+         checkCamera5.Location = new Point(914, 487);
          checkCamera5.Margin = new Padding(3, 2, 3, 2);
          checkCamera5.Name = "checkCamera5";
          checkCamera5.Size = new Size(31, 25);
@@ -508,7 +517,7 @@ namespace MacroSim
          // 
          // lblEngineITT
          // 
-         lblEngineITT.Location = new Point(298, 308);
+         lblEngineITT.Location = new Point(297, 333);
          lblEngineITT.Margin = new Padding(3, 2, 3, 2);
          lblEngineITT.Name = "lblEngineITT";
          lblEngineITT.Size = new Size(17, 17);
@@ -517,7 +526,7 @@ namespace MacroSim
          // 
          // checkCamera4
          // 
-         checkCamera4.Location = new Point(880, 462);
+         checkCamera4.Location = new Point(879, 487);
          checkCamera4.Margin = new Padding(3, 2, 3, 2);
          checkCamera4.Name = "checkCamera4";
          checkCamera4.Size = new Size(31, 25);
@@ -527,7 +536,7 @@ namespace MacroSim
          // 
          // checkCockpitQuickViewSubState
          // 
-         checkCockpitQuickViewSubState.Location = new Point(994, 403);
+         checkCockpitQuickViewSubState.Location = new Point(993, 428);
          checkCockpitQuickViewSubState.Margin = new Padding(3, 2, 3, 2);
          checkCockpitQuickViewSubState.Name = "checkCockpitQuickViewSubState";
          checkCockpitQuickViewSubState.Size = new Size(58, 25);
@@ -536,7 +545,7 @@ namespace MacroSim
          // 
          // checkCamera3
          // 
-         checkCamera3.Location = new Point(951, 493);
+         checkCamera3.Location = new Point(950, 518);
          checkCamera3.Margin = new Padding(3, 2, 3, 2);
          checkCamera3.Name = "checkCamera3";
          checkCamera3.Size = new Size(31, 25);
@@ -546,7 +555,7 @@ namespace MacroSim
          // 
          // lblEngineTorque
          // 
-         lblEngineTorque.Location = new Point(298, 293);
+         lblEngineTorque.Location = new Point(297, 318);
          lblEngineTorque.Margin = new Padding(3, 2, 3, 2);
          lblEngineTorque.Name = "lblEngineTorque";
          lblEngineTorque.Size = new Size(42, 17);
@@ -555,7 +564,7 @@ namespace MacroSim
          // 
          // checkCamera2
          // 
-         checkCamera2.Location = new Point(915, 493);
+         checkCamera2.Location = new Point(914, 518);
          checkCamera2.Margin = new Padding(3, 2, 3, 2);
          checkCamera2.Name = "checkCamera2";
          checkCamera2.Size = new Size(31, 25);
@@ -565,7 +574,7 @@ namespace MacroSim
          // 
          // checkCockpitInstrumentSubState
          // 
-         checkCockpitInstrumentSubState.Location = new Point(994, 374);
+         checkCockpitInstrumentSubState.Location = new Point(993, 399);
          checkCockpitInstrumentSubState.Margin = new Padding(3, 2, 3, 2);
          checkCockpitInstrumentSubState.Name = "checkCockpitInstrumentSubState";
          checkCockpitInstrumentSubState.Size = new Size(58, 25);
@@ -574,7 +583,7 @@ namespace MacroSim
          // 
          // checkCamera1
          // 
-         checkCamera1.Location = new Point(880, 493);
+         checkCamera1.Location = new Point(879, 518);
          checkCamera1.Margin = new Padding(3, 2, 3, 2);
          checkCamera1.Name = "checkCamera1";
          checkCamera1.Size = new Size(31, 25);
@@ -584,7 +593,7 @@ namespace MacroSim
          // 
          // lblFlapsCurrentPosition
          // 
-         lblFlapsCurrentPosition.Location = new Point(682, 300);
+         lblFlapsCurrentPosition.Location = new Point(681, 325);
          lblFlapsCurrentPosition.Margin = new Padding(3, 2, 3, 2);
          lblFlapsCurrentPosition.Name = "lblFlapsCurrentPosition";
          lblFlapsCurrentPosition.Size = new Size(93, 17);
@@ -593,7 +602,7 @@ namespace MacroSim
          // 
          // checkCamera10
          // 
-         checkCamera10.Location = new Point(880, 522);
+         checkCamera10.Location = new Point(879, 547);
          checkCamera10.Margin = new Padding(3, 2, 3, 2);
          checkCamera10.Name = "checkCamera10";
          checkCamera10.Size = new Size(65, 25);
@@ -603,7 +612,7 @@ namespace MacroSim
          // 
          // checkCockpitPilotSubState
          // 
-         checkCockpitPilotSubState.Location = new Point(994, 343);
+         checkCockpitPilotSubState.Location = new Point(993, 368);
          checkCockpitPilotSubState.Margin = new Padding(3, 2, 3, 2);
          checkCockpitPilotSubState.Name = "checkCockpitPilotSubState";
          checkCockpitPilotSubState.Size = new Size(58, 25);
@@ -612,7 +621,7 @@ namespace MacroSim
          // 
          // lblFlapsNumberOfDetents
          // 
-         lblFlapsNumberOfDetents.Location = new Point(682, 282);
+         lblFlapsNumberOfDetents.Location = new Point(681, 307);
          lblFlapsNumberOfDetents.Margin = new Padding(3, 2, 3, 2);
          lblFlapsNumberOfDetents.Name = "lblFlapsNumberOfDetents";
          lblFlapsNumberOfDetents.Size = new Size(112, 17);
@@ -621,7 +630,7 @@ namespace MacroSim
          // 
          // lblIndex1
          // 
-         lblIndex1.Location = new Point(199, 597);
+         lblIndex1.Location = new Point(198, 622);
          lblIndex1.Margin = new Padding(3, 2, 3, 2);
          lblIndex1.Name = "lblIndex1";
          lblIndex1.Size = new Size(51, 17);
@@ -630,7 +639,7 @@ namespace MacroSim
          // 
          // btnPreviousSubView
          // 
-         btnPreviousSubView.Location = new Point(932, 374);
+         btnPreviousSubView.Location = new Point(931, 399);
          btnPreviousSubView.Margin = new Padding(3, 2, 3, 2);
          btnPreviousSubView.Name = "btnPreviousSubView";
          btnPreviousSubView.Size = new Size(41, 25);
@@ -639,7 +648,7 @@ namespace MacroSim
          // 
          // lblIndex0
          // 
-         lblIndex0.Location = new Point(199, 582);
+         lblIndex0.Location = new Point(198, 607);
          lblIndex0.Margin = new Padding(3, 2, 3, 2);
          lblIndex0.Name = "lblIndex0";
          lblIndex0.Size = new Size(51, 17);
@@ -648,7 +657,7 @@ namespace MacroSim
          // 
          // lblCurrentFlapsLimit
          // 
-         lblCurrentFlapsLimit.Location = new Point(682, 267);
+         lblCurrentFlapsLimit.Location = new Point(681, 292);
          lblCurrentFlapsLimit.Margin = new Padding(3, 2, 3, 2);
          lblCurrentFlapsLimit.Name = "lblCurrentFlapsLimit";
          lblCurrentFlapsLimit.Size = new Size(108, 17);
@@ -657,7 +666,7 @@ namespace MacroSim
          // 
          // lblCameraSubstate
          // 
-         lblCameraSubstate.Location = new Point(199, 567);
+         lblCameraSubstate.Location = new Point(198, 592);
          lblCameraSubstate.Margin = new Padding(3, 2, 3, 2);
          lblCameraSubstate.Name = "lblCameraSubstate";
          lblCameraSubstate.Size = new Size(63, 17);
@@ -666,7 +675,7 @@ namespace MacroSim
          // 
          // btnNextSubView
          // 
-         btnNextSubView.Location = new Point(932, 343);
+         btnNextSubView.Location = new Point(931, 368);
          btnNextSubView.Margin = new Padding(3, 2, 3, 2);
          btnNextSubView.Name = "btnNextSubView";
          btnNextSubView.Size = new Size(41, 25);
@@ -675,7 +684,7 @@ namespace MacroSim
          // 
          // lblCameraState
          // 
-         lblCameraState.Location = new Point(199, 551);
+         lblCameraState.Location = new Point(198, 576);
          lblCameraState.Margin = new Padding(3, 2, 3, 2);
          lblCameraState.Name = "lblCameraState";
          lblCameraState.Size = new Size(42, 17);
@@ -684,7 +693,7 @@ namespace MacroSim
          // 
          // lblTrailingFlapsRight
          // 
-         lblTrailingFlapsRight.Location = new Point(682, 251);
+         lblTrailingFlapsRight.Location = new Point(681, 276);
          lblTrailingFlapsRight.Margin = new Padding(3, 2, 3, 2);
          lblTrailingFlapsRight.Name = "lblTrailingFlapsRight";
          lblTrailingFlapsRight.Size = new Size(111, 17);
@@ -693,7 +702,7 @@ namespace MacroSim
          // 
          // btnPreviousView
          // 
-         btnPreviousView.Location = new Point(880, 374);
+         btnPreviousView.Location = new Point(879, 399);
          btnPreviousView.Margin = new Padding(3, 2, 3, 2);
          btnPreviousView.Name = "btnPreviousView";
          btnPreviousView.Size = new Size(41, 25);
@@ -702,7 +711,7 @@ namespace MacroSim
          // 
          // lblTrailingFlapsLeft
          // 
-         lblTrailingFlapsLeft.Location = new Point(682, 236);
+         lblTrailingFlapsLeft.Location = new Point(681, 261);
          lblTrailingFlapsLeft.Margin = new Padding(3, 2, 3, 2);
          lblTrailingFlapsLeft.Name = "lblTrailingFlapsLeft";
          lblTrailingFlapsLeft.Size = new Size(102, 17);
@@ -711,7 +720,7 @@ namespace MacroSim
          // 
          // btnNextView
          // 
-         btnNextView.Location = new Point(880, 343);
+         btnNextView.Location = new Point(879, 368);
          btnNextView.Margin = new Padding(3, 2, 3, 2);
          btnNextView.Name = "btnNextView";
          btnNextView.Size = new Size(41, 25);
@@ -720,7 +729,7 @@ namespace MacroSim
          // 
          // lblAileronTrimPct
          // 
-         lblAileronTrimPct.Location = new Point(524, 257);
+         lblAileronTrimPct.Location = new Point(523, 282);
          lblAileronTrimPct.Margin = new Padding(3, 2, 3, 2);
          lblAileronTrimPct.Name = "lblAileronTrimPct";
          lblAileronTrimPct.Size = new Size(96, 17);
@@ -729,7 +738,7 @@ namespace MacroSim
          // 
          // lblRudderTrimPct
          // 
-         lblRudderTrimPct.Location = new Point(524, 242);
+         lblRudderTrimPct.Location = new Point(523, 267);
          lblRudderTrimPct.Margin = new Padding(3, 2, 3, 2);
          lblRudderTrimPct.Name = "lblRudderTrimPct";
          lblRudderTrimPct.Size = new Size(98, 17);
@@ -738,7 +747,7 @@ namespace MacroSim
          // 
          // lblElevatorTrimPct
          // 
-         lblElevatorTrimPct.Location = new Point(524, 227);
+         lblElevatorTrimPct.Location = new Point(523, 252);
          lblElevatorTrimPct.Margin = new Padding(3, 2, 3, 2);
          lblElevatorTrimPct.Name = "lblElevatorTrimPct";
          lblElevatorTrimPct.Size = new Size(102, 17);
@@ -747,7 +756,7 @@ namespace MacroSim
          // 
          // btnSetCamera
          // 
-         btnSetCamera.Location = new Point(343, 263);
+         btnSetCamera.Location = new Point(342, 288);
          btnSetCamera.Margin = new Padding(3, 2, 3, 2);
          btnSetCamera.Name = "btnSetCamera";
          btnSetCamera.Size = new Size(137, 21);
@@ -756,7 +765,7 @@ namespace MacroSim
          // 
          // txtCameraIndex1
          // 
-         txtCameraIndex1.Location = new Point(452, 235);
+         txtCameraIndex1.Location = new Point(451, 260);
          txtCameraIndex1.Margin = new Padding(3, 2, 3, 2);
          txtCameraIndex1.Name = "txtCameraIndex1";
          txtCameraIndex1.Size = new Size(31, 24);
@@ -764,7 +773,7 @@ namespace MacroSim
          // 
          // txtCameraIndex0
          // 
-         txtCameraIndex0.Location = new Point(415, 235);
+         txtCameraIndex0.Location = new Point(414, 260);
          txtCameraIndex0.Margin = new Padding(3, 2, 3, 2);
          txtCameraIndex0.Name = "txtCameraIndex0";
          txtCameraIndex0.Size = new Size(31, 24);
@@ -772,7 +781,7 @@ namespace MacroSim
          // 
          // txtCameraSubState
          // 
-         txtCameraSubState.Location = new Point(377, 235);
+         txtCameraSubState.Location = new Point(376, 260);
          txtCameraSubState.Margin = new Padding(3, 2, 3, 2);
          txtCameraSubState.Name = "txtCameraSubState";
          txtCameraSubState.Size = new Size(31, 24);
@@ -780,7 +789,7 @@ namespace MacroSim
          // 
          // txtCameraState
          // 
-         txtCameraState.Location = new Point(343, 235);
+         txtCameraState.Location = new Point(342, 260);
          txtCameraState.Margin = new Padding(3, 2, 3, 2);
          txtCameraState.Name = "txtCameraState";
          txtCameraState.Size = new Size(31, 24);
@@ -792,7 +801,7 @@ namespace MacroSim
          GroupControl1.Controls.Add(btnSimRateDec);
          GroupControl1.Controls.Add(btnSimRateInc);
          GroupControl1.Controls.Add(lblSimRate);
-         GroupControl1.Location = new Point(682, 138);
+         GroupControl1.Location = new Point(681, 163);
          GroupControl1.Margin = new Padding(3, 2, 3, 2);
          GroupControl1.Name = "GroupControl1";
          GroupControl1.Padding = new Padding(3, 2, 3, 2);
@@ -839,7 +848,7 @@ namespace MacroSim
          // 
          // lblCurrentCameraType
          // 
-         lblCurrentCameraType.Location = new Point(720, 569);
+         lblCurrentCameraType.Location = new Point(719, 594);
          lblCurrentCameraType.Margin = new Padding(3, 2, 3, 2);
          lblCurrentCameraType.Name = "lblCurrentCameraType";
          lblCurrentCameraType.Size = new Size(124, 17);
@@ -848,7 +857,7 @@ namespace MacroSim
          // 
          // txtOutput
          // 
-         txtOutput.Location = new Point(733, 218);
+         txtOutput.Location = new Point(732, 243);
          txtOutput.Margin = new Padding(3, 2, 3, 2);
          txtOutput.Name = "txtOutput";
          txtOutput.Properties.ReadOnly = true;
@@ -862,7 +871,7 @@ namespace MacroSim
          groupCameras.Controls.Add(checkCameraPilotClose);
          groupCameras.Controls.Add(checkCameraPilotNormal);
          groupCameras.Controls.Add(lblCameraCurrentView);
-         groupCameras.Location = new Point(288, 450);
+         groupCameras.Location = new Point(287, 475);
          groupCameras.Margin = new Padding(3, 2, 3, 2);
          groupCameras.Name = "groupCameras";
          groupCameras.Padding = new Padding(3, 2, 3, 2);
@@ -921,7 +930,7 @@ namespace MacroSim
          groupFuel.Controls.Add(btnFuelDump);
          groupFuel.Controls.Add(lblTotalFuelPct);
          groupFuel.Controls.Add(btnAddFuel);
-         groupFuel.Location = new Point(861, 138);
+         groupFuel.Location = new Point(860, 163);
          groupFuel.Margin = new Padding(3, 2, 3, 2);
          groupFuel.Name = "groupFuel";
          groupFuel.Padding = new Padding(3, 2, 3, 2);
@@ -973,7 +982,7 @@ namespace MacroSim
          groupPause.Controls.Add(checkPauseActive);
          groupPause.Controls.Add(checkPauseFull);
          groupPause.Controls.Add(btnPauseFull);
-         groupPause.Location = new Point(813, 11);
+         groupPause.Location = new Point(812, 36);
          groupPause.Margin = new Padding(3, 2, 3, 2);
          groupPause.Name = "groupPause";
          groupPause.Padding = new Padding(3, 2, 3, 2);
@@ -1051,7 +1060,7 @@ namespace MacroSim
          groupFms.Controls.Add(btnFmsDirect);
          groupFms.Controls.Add(btnFmsPfdInner);
          groupFms.Controls.Add(btnFmsPfdOuter);
-         groupFms.Location = new Point(288, 138);
+         groupFms.Location = new Point(287, 163);
          groupFms.Margin = new Padding(3, 2, 3, 2);
          groupFms.Name = "groupFms";
          groupFms.Padding = new Padding(3, 2, 3, 2);
@@ -1169,7 +1178,7 @@ namespace MacroSim
          groupAutopilot.Controls.Add(checkApAprHold);
          groupAutopilot.Controls.Add(checkApNavHold);
          groupAutopilot.Controls.Add(checkApHdgHold);
-         groupAutopilot.Location = new Point(288, 11);
+         groupAutopilot.Location = new Point(287, 36);
          groupAutopilot.Margin = new Padding(3, 2, 3, 2);
          groupAutopilot.Name = "groupAutopilot";
          groupAutopilot.Padding = new Padding(3, 2, 3, 2);
@@ -1353,7 +1362,7 @@ namespace MacroSim
          groupLights.Controls.Add(checkPedestralLight);
          groupLights.Controls.Add(checkNavLight);
          groupLights.Controls.Add(checkPanelLight);
-         groupLights.Location = new Point(288, 363);
+         groupLights.Location = new Point(287, 388);
          groupLights.Margin = new Padding(3, 2, 3, 2);
          groupLights.Name = "groupLights";
          groupLights.Padding = new Padding(3, 2, 3, 2);
@@ -1485,7 +1494,7 @@ namespace MacroSim
          // 
          lblTransponder.Appearance.Font = new Font("Segoe UI", 21.75F);
          lblTransponder.Appearance.Options.UseFont = true;
-         lblTransponder.Location = new Point(20, 478);
+         lblTransponder.Location = new Point(19, 503);
          lblTransponder.Margin = new Padding(3, 2, 3, 2);
          lblTransponder.Name = "lblTransponder";
          lblTransponder.Size = new Size(64, 40);
@@ -1494,7 +1503,7 @@ namespace MacroSim
          // 
          // label4
          // 
-         label4.Location = new Point(20, 461);
+         label4.Location = new Point(19, 486);
          label4.Margin = new Padding(3, 2, 3, 2);
          label4.Name = "label4";
          label4.Size = new Size(75, 17);
@@ -1505,7 +1514,7 @@ namespace MacroSim
          // 
          lblVerticalSpeedValue.Appearance.Font = new Font("Segoe UI", 21.75F);
          lblVerticalSpeedValue.Appearance.Options.UseFont = true;
-         lblVerticalSpeedValue.Location = new Point(164, 420);
+         lblVerticalSpeedValue.Location = new Point(163, 445);
          lblVerticalSpeedValue.Margin = new Padding(3, 2, 3, 2);
          lblVerticalSpeedValue.Name = "lblVerticalSpeedValue";
          lblVerticalSpeedValue.Size = new Size(76, 40);
@@ -1514,7 +1523,7 @@ namespace MacroSim
          // 
          // label7
          // 
-         label7.Location = new Point(164, 402);
+         label7.Location = new Point(163, 427);
          label7.Margin = new Padding(3, 2, 3, 2);
          label7.Name = "label7";
          label7.Size = new Size(84, 17);
@@ -1525,7 +1534,7 @@ namespace MacroSim
          // 
          lblAltitudeValue.Appearance.Font = new Font("Segoe UI", 21.75F);
          lblAltitudeValue.Appearance.Options.UseFont = true;
-         lblAltitudeValue.Location = new Point(20, 420);
+         lblAltitudeValue.Location = new Point(19, 445);
          lblAltitudeValue.Margin = new Padding(3, 2, 3, 2);
          lblAltitudeValue.Name = "lblAltitudeValue";
          lblAltitudeValue.Size = new Size(80, 40);
@@ -1534,7 +1543,7 @@ namespace MacroSim
          // 
          // label5
          // 
-         label5.Location = new Point(20, 402);
+         label5.Location = new Point(19, 427);
          label5.Margin = new Padding(3, 2, 3, 2);
          label5.Name = "label5";
          label5.Size = new Size(44, 17);
@@ -1545,7 +1554,7 @@ namespace MacroSim
          // 
          lblCourseValue.Appearance.Font = new Font("Segoe UI", 21.75F);
          lblCourseValue.Appearance.Options.UseFont = true;
-         lblCourseValue.Location = new Point(164, 363);
+         lblCourseValue.Location = new Point(163, 388);
          lblCourseValue.Margin = new Padding(3, 2, 3, 2);
          lblCourseValue.Name = "lblCourseValue";
          lblCourseValue.Size = new Size(48, 40);
@@ -1554,7 +1563,7 @@ namespace MacroSim
          // 
          // label3
          // 
-         label3.Location = new Point(164, 343);
+         label3.Location = new Point(163, 368);
          label3.Margin = new Padding(3, 2, 3, 2);
          label3.Name = "label3";
          label3.Size = new Size(41, 17);
@@ -1565,7 +1574,7 @@ namespace MacroSim
          // 
          lblHeadingValue.Appearance.Font = new Font("Segoe UI", 21.75F);
          lblHeadingValue.Appearance.Options.UseFont = true;
-         lblHeadingValue.Location = new Point(20, 363);
+         lblHeadingValue.Location = new Point(19, 388);
          lblHeadingValue.Margin = new Padding(3, 2, 3, 2);
          lblHeadingValue.Name = "lblHeadingValue";
          lblHeadingValue.Size = new Size(48, 40);
@@ -1578,7 +1587,7 @@ namespace MacroSim
          groupNav2.Controls.Add(lblNav2ActiveValue);
          groupNav2.Controls.Add(lblNav2Standby);
          groupNav2.Controls.Add(lblNav2Active);
-         groupNav2.Location = new Point(13, 263);
+         groupNav2.Location = new Point(12, 288);
          groupNav2.Margin = new Padding(3, 2, 3, 2);
          groupNav2.Name = "groupNav2";
          groupNav2.Padding = new Padding(3, 2, 3, 2);
@@ -1628,7 +1637,7 @@ namespace MacroSim
          // 
          // label2
          // 
-         label2.Location = new Point(20, 343);
+         label2.Location = new Point(19, 368);
          label2.Margin = new Padding(3, 2, 3, 2);
          label2.Name = "label2";
          label2.Size = new Size(49, 17);
@@ -1641,7 +1650,7 @@ namespace MacroSim
          groupNav1.Controls.Add(lblNav1ActiveValue);
          groupNav1.Controls.Add(lblNav1Standby);
          groupNav1.Controls.Add(lblNav1Active);
-         groupNav1.Location = new Point(13, 180);
+         groupNav1.Location = new Point(12, 205);
          groupNav1.Margin = new Padding(3, 2, 3, 2);
          groupNav1.Name = "groupNav1";
          groupNav1.Padding = new Padding(3, 2, 3, 2);
@@ -1695,7 +1704,7 @@ namespace MacroSim
          groupCom2.Controls.Add(lblCom2StandbyValue);
          groupCom2.Controls.Add(lblCom2ActiveValue);
          groupCom2.Controls.Add(lblCom2Active);
-         groupCom2.Location = new Point(13, 95);
+         groupCom2.Location = new Point(12, 120);
          groupCom2.Margin = new Padding(3, 2, 3, 2);
          groupCom2.Name = "groupCom2";
          groupCom2.Padding = new Padding(3, 2, 3, 2);
@@ -1749,7 +1758,7 @@ namespace MacroSim
          groupCom1.Controls.Add(lblCom1ActiveValue);
          groupCom1.Controls.Add(lblCom1Standby);
          groupCom1.Controls.Add(lblCom1Active);
-         groupCom1.Location = new Point(13, 11);
+         groupCom1.Location = new Point(12, 36);
          groupCom1.Margin = new Padding(3, 2, 3, 2);
          groupCom1.Name = "groupCom1";
          groupCom1.Padding = new Padding(3, 2, 3, 2);
@@ -1797,12 +1806,62 @@ namespace MacroSim
          lblCom1Active.TabIndex = 3;
          lblCom1Active.Text = "Active";
          // 
+         // toolbarFormControl1
+         // 
+         toolbarFormControl1.Location = new Point(0, 0);
+         toolbarFormControl1.Manager = toolbarFormManager1;
+         toolbarFormControl1.Name = "toolbarFormControl1";
+         toolbarFormControl1.Size = new Size(1133, 31);
+         toolbarFormControl1.TabIndex = 270;
+         toolbarFormControl1.TabStop = false;
+         toolbarFormControl1.ToolbarForm = this;
+         // 
+         // toolbarFormManager1
+         // 
+         toolbarFormManager1.DockControls.Add(barDockControlTop);
+         toolbarFormManager1.DockControls.Add(barDockControlBottom);
+         toolbarFormManager1.DockControls.Add(barDockControlLeft);
+         toolbarFormManager1.DockControls.Add(barDockControlRight);
+         toolbarFormManager1.Form = this;
+         // 
+         // barDockControlTop
+         // 
+         barDockControlTop.CausesValidation = false;
+         barDockControlTop.Dock = DockStyle.Top;
+         barDockControlTop.Location = new Point(0, 31);
+         barDockControlTop.Manager = toolbarFormManager1;
+         barDockControlTop.Size = new Size(1133, 0);
+         // 
+         // barDockControlBottom
+         // 
+         barDockControlBottom.CausesValidation = false;
+         barDockControlBottom.Dock = DockStyle.Bottom;
+         barDockControlBottom.Location = new Point(0, 695);
+         barDockControlBottom.Manager = toolbarFormManager1;
+         barDockControlBottom.Size = new Size(1133, 0);
+         // 
+         // barDockControlLeft
+         // 
+         barDockControlLeft.CausesValidation = false;
+         barDockControlLeft.Dock = DockStyle.Left;
+         barDockControlLeft.Location = new Point(0, 31);
+         barDockControlLeft.Manager = toolbarFormManager1;
+         barDockControlLeft.Size = new Size(0, 664);
+         // 
+         // barDockControlRight
+         // 
+         barDockControlRight.CausesValidation = false;
+         barDockControlRight.Dock = DockStyle.Right;
+         barDockControlRight.Location = new Point(1133, 31);
+         barDockControlRight.Manager = toolbarFormManager1;
+         barDockControlRight.Size = new Size(0, 664);
+         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(1133, 643);
+         ClientSize = new Size(1133, 695);
          Controls.Add(lblBarometer1);
          Controls.Add(label6);
          Controls.Add(lblCurrentAircraft);
@@ -1888,9 +1947,15 @@ namespace MacroSim
          Controls.Add(groupNav1);
          Controls.Add(groupCom2);
          Controls.Add(groupCom1);
+         Controls.Add(barDockControlLeft);
+         Controls.Add(barDockControlRight);
+         Controls.Add(barDockControlBottom);
+         Controls.Add(barDockControlTop);
+         Controls.Add(toolbarFormControl1);
          Margin = new Padding(4, 3, 4, 3);
          Name = "MainForm";
          Text = "MainForm";
+         ToolbarFormControl = toolbarFormControl1;
          ((System.ComponentModel.ISupportInitialize)trackFlaps).EndInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).EndInit();
@@ -1929,6 +1994,8 @@ namespace MacroSim
          ((System.ComponentModel.ISupportInitialize)groupCom1).EndInit();
          groupCom1.ResumeLayout(false);
          groupCom1.PerformLayout();
+         ((System.ComponentModel.ISupportInitialize)toolbarFormControl1).EndInit();
+         ((System.ComponentModel.ISupportInitialize)toolbarFormManager1).EndInit();
          ResumeLayout(false);
          PerformLayout();
       }
@@ -2096,5 +2163,11 @@ namespace MacroSim
       private LabelControl lblCom1ActiveValue;
       private LabelControl lblCom1Standby;
       private LabelControl lblCom1Active;
+      private DevExpress.XtraBars.ToolbarForm.ToolbarFormControl toolbarFormControl1;
+      private DevExpress.XtraBars.ToolbarForm.ToolbarFormManager toolbarFormManager1;
+      private DevExpress.XtraBars.BarDockControl barDockControlTop;
+      private DevExpress.XtraBars.BarDockControl barDockControlBottom;
+      private DevExpress.XtraBars.BarDockControl barDockControlLeft;
+      private DevExpress.XtraBars.BarDockControl barDockControlRight;
    }
 }
