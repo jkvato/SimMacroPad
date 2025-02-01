@@ -511,7 +511,7 @@
          // 
          // checkSmartcam
          // 
-         checkSmartcam.Appearance = Appearance.Button;
+         checkSmartcam.Appearance = System.Windows.Forms.Appearance.Button;
          checkSmartcam.Location = new Point(820, 372);
          checkSmartcam.Name = "checkSmartcam";
          checkSmartcam.Size = new Size(60, 27);
@@ -550,7 +550,7 @@
          // 
          // checkCustomCameraState
          // 
-         checkCustomCameraState.Appearance = Appearance.Button;
+         checkCustomCameraState.Appearance = System.Windows.Forms.Appearance.Button;
          checkCustomCameraState.Location = new Point(1003, 603);
          checkCustomCameraState.Name = "checkCustomCameraState";
          checkCustomCameraState.Size = new Size(60, 27);
@@ -562,7 +562,7 @@
          // 
          // checkShowcaseFixedSubState
          // 
-         checkShowcaseFixedSubState.Appearance = Appearance.Button;
+         checkShowcaseFixedSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkShowcaseFixedSubState.Location = new Point(1003, 570);
          checkShowcaseFixedSubState.Name = "checkShowcaseFixedSubState";
          checkShowcaseFixedSubState.Size = new Size(60, 27);
@@ -583,7 +583,7 @@
          // 
          // checkShowcaseDroneSubState
          // 
-         checkShowcaseDroneSubState.Appearance = Appearance.Button;
+         checkShowcaseDroneSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkShowcaseDroneSubState.Location = new Point(1003, 537);
          checkShowcaseDroneSubState.Name = "checkShowcaseDroneSubState";
          checkShowcaseDroneSubState.Size = new Size(60, 27);
@@ -595,7 +595,7 @@
          // 
          // checkCamera9
          // 
-         checkCamera9.Appearance = Appearance.Button;
+         checkCamera9.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera9.Location = new Point(960, 470);
          checkCamera9.Name = "checkCamera9";
          checkCamera9.Size = new Size(30, 27);
@@ -617,7 +617,7 @@
          // 
          // checkCamera8
          // 
-         checkCamera8.Appearance = Appearance.Button;
+         checkCamera8.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera8.Location = new Point(924, 470);
          checkCamera8.Name = "checkCamera8";
          checkCamera8.Size = new Size(30, 27);
@@ -630,7 +630,7 @@
          // 
          // checkExternalQuickViewSubState
          // 
-         checkExternalQuickViewSubState.Appearance = Appearance.Button;
+         checkExternalQuickViewSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkExternalQuickViewSubState.Location = new Point(1003, 504);
          checkExternalQuickViewSubState.Name = "checkExternalQuickViewSubState";
          checkExternalQuickViewSubState.Size = new Size(60, 27);
@@ -642,7 +642,7 @@
          // 
          // checkCamera7
          // 
-         checkCamera7.Appearance = Appearance.Button;
+         checkCamera7.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera7.Location = new Point(888, 471);
          checkCamera7.Name = "checkCamera7";
          checkCamera7.Size = new Size(30, 27);
@@ -664,7 +664,7 @@
          // 
          // checkCamera6
          // 
-         checkCamera6.Appearance = Appearance.Button;
+         checkCamera6.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera6.Location = new Point(960, 504);
          checkCamera6.Name = "checkCamera6";
          checkCamera6.Size = new Size(30, 27);
@@ -677,7 +677,7 @@
          // 
          // checkExternalDefaultSubState
          // 
-         checkExternalDefaultSubState.Appearance = Appearance.Button;
+         checkExternalDefaultSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkExternalDefaultSubState.Location = new Point(1003, 471);
          checkExternalDefaultSubState.Name = "checkExternalDefaultSubState";
          checkExternalDefaultSubState.Size = new Size(60, 27);
@@ -689,7 +689,7 @@
          // 
          // checkCamera5
          // 
-         checkCamera5.Appearance = Appearance.Button;
+         checkCamera5.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera5.Location = new Point(924, 504);
          checkCamera5.Name = "checkCamera5";
          checkCamera5.Size = new Size(30, 27);
@@ -711,7 +711,7 @@
          // 
          // checkCamera4
          // 
-         checkCamera4.Appearance = Appearance.Button;
+         checkCamera4.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera4.Location = new Point(888, 504);
          checkCamera4.Name = "checkCamera4";
          checkCamera4.Size = new Size(30, 27);
@@ -724,7 +724,7 @@
          // 
          // checkCockpitQuickViewSubState
          // 
-         checkCockpitQuickViewSubState.Appearance = Appearance.Button;
+         checkCockpitQuickViewSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkCockpitQuickViewSubState.Location = new Point(1003, 438);
          checkCockpitQuickViewSubState.Name = "checkCockpitQuickViewSubState";
          checkCockpitQuickViewSubState.Size = new Size(60, 27);
@@ -736,7 +736,7 @@
          // 
          // checkCamera3
          // 
-         checkCamera3.Appearance = Appearance.Button;
+         checkCamera3.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera3.Location = new Point(960, 537);
          checkCamera3.Name = "checkCamera3";
          checkCamera3.Size = new Size(30, 27);
@@ -758,7 +758,7 @@
          // 
          // checkCamera2
          // 
-         checkCamera2.Appearance = Appearance.Button;
+         checkCamera2.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera2.Location = new Point(924, 537);
          checkCamera2.Name = "checkCamera2";
          checkCamera2.Size = new Size(30, 27);
@@ -771,7 +771,7 @@
          // 
          // checkCockpitInstrumentSubState
          // 
-         checkCockpitInstrumentSubState.Appearance = Appearance.Button;
+         checkCockpitInstrumentSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkCockpitInstrumentSubState.Location = new Point(1003, 405);
          checkCockpitInstrumentSubState.Name = "checkCockpitInstrumentSubState";
          checkCockpitInstrumentSubState.Size = new Size(60, 27);
@@ -783,7 +783,7 @@
          // 
          // checkCamera1
          // 
-         checkCamera1.Appearance = Appearance.Button;
+         checkCamera1.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera1.Location = new Point(888, 537);
          checkCamera1.Name = "checkCamera1";
          checkCamera1.Size = new Size(30, 27);
@@ -805,7 +805,7 @@
          // 
          // checkCamera10
          // 
-         checkCamera10.Appearance = Appearance.Button;
+         checkCamera10.Appearance = System.Windows.Forms.Appearance.Button;
          checkCamera10.Location = new Point(888, 570);
          checkCamera10.Name = "checkCamera10";
          checkCamera10.Size = new Size(66, 27);
@@ -818,7 +818,7 @@
          // 
          // checkCockpitPilotSubState
          // 
-         checkCockpitPilotSubState.Appearance = Appearance.Button;
+         checkCockpitPilotSubState.Appearance = System.Windows.Forms.Appearance.Button;
          checkCockpitPilotSubState.Location = new Point(1003, 372);
          checkCockpitPilotSubState.Name = "checkCockpitPilotSubState";
          checkCockpitPilotSubState.Size = new Size(60, 27);
@@ -1092,7 +1092,7 @@
          // 
          // checkCameraPilotCoPilot
          // 
-         checkCameraPilotCoPilot.Appearance = Appearance.Button;
+         checkCameraPilotCoPilot.Appearance = System.Windows.Forms.Appearance.Button;
          checkCameraPilotCoPilot.Location = new Point(204, 57);
          checkCameraPilotCoPilot.Name = "checkCameraPilotCoPilot";
          checkCameraPilotCoPilot.Size = new Size(60, 27);
@@ -1104,7 +1104,7 @@
          // 
          // checkCameraPilotLand
          // 
-         checkCameraPilotLand.Appearance = Appearance.Button;
+         checkCameraPilotLand.Appearance = System.Windows.Forms.Appearance.Button;
          checkCameraPilotLand.Location = new Point(138, 57);
          checkCameraPilotLand.Name = "checkCameraPilotLand";
          checkCameraPilotLand.Size = new Size(60, 27);
@@ -1116,7 +1116,7 @@
          // 
          // checkCameraPilotClose
          // 
-         checkCameraPilotClose.Appearance = Appearance.Button;
+         checkCameraPilotClose.Appearance = System.Windows.Forms.Appearance.Button;
          checkCameraPilotClose.Location = new Point(6, 57);
          checkCameraPilotClose.Name = "checkCameraPilotClose";
          checkCameraPilotClose.Size = new Size(60, 27);
@@ -1128,7 +1128,7 @@
          // 
          // checkCameraPilotNormal
          // 
-         checkCameraPilotNormal.Appearance = Appearance.Button;
+         checkCameraPilotNormal.Appearance = System.Windows.Forms.Appearance.Button;
          checkCameraPilotNormal.Location = new Point(72, 57);
          checkCameraPilotNormal.Name = "checkCameraPilotNormal";
          checkCameraPilotNormal.Size = new Size(60, 27);
@@ -1439,7 +1439,7 @@
          // 
          // checkApSpd
          // 
-         checkApSpd.Appearance = Appearance.Button;
+         checkApSpd.Appearance = System.Windows.Forms.Appearance.Button;
          checkApSpd.Location = new Point(417, 57);
          checkApSpd.Name = "checkApSpd";
          checkApSpd.Size = new Size(45, 27);
@@ -1452,7 +1452,7 @@
          // 
          // checkApFlc
          // 
-         checkApFlc.Appearance = Appearance.Button;
+         checkApFlc.Appearance = System.Windows.Forms.Appearance.Button;
          checkApFlc.Location = new Point(417, 24);
          checkApFlc.Name = "checkApFlc";
          checkApFlc.Size = new Size(45, 27);
@@ -1474,7 +1474,7 @@
          // 
          // checkApVnv
          // 
-         checkApVnv.Appearance = Appearance.Button;
+         checkApVnv.Appearance = System.Windows.Forms.Appearance.Button;
          checkApVnv.Location = new Point(325, 57);
          checkApVnv.Name = "checkApVnv";
          checkApVnv.Size = new Size(45, 27);
@@ -1487,7 +1487,7 @@
          // 
          // checkApVsHold
          // 
-         checkApVsHold.Appearance = Appearance.Button;
+         checkApVsHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApVsHold.Location = new Point(325, 24);
          checkApVsHold.Name = "checkApVsHold";
          checkApVsHold.Size = new Size(45, 27);
@@ -1510,7 +1510,7 @@
          // 
          // checkApAltHold
          // 
-         checkApAltHold.Appearance = Appearance.Button;
+         checkApAltHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApAltHold.Location = new Point(275, 24);
          checkApAltHold.Name = "checkApAltHold";
          checkApAltHold.Size = new Size(45, 27);
@@ -1523,7 +1523,7 @@
          // 
          // checkApYd
          // 
-         checkApYd.Appearance = Appearance.Button;
+         checkApYd.Appearance = System.Windows.Forms.Appearance.Button;
          checkApYd.Location = new Point(218, 57);
          checkApYd.Name = "checkApYd";
          checkApYd.Size = new Size(45, 27);
@@ -1536,7 +1536,7 @@
          // 
          // checkApFd
          // 
-         checkApFd.Appearance = Appearance.Button;
+         checkApFd.Appearance = System.Windows.Forms.Appearance.Button;
          checkApFd.Location = new Point(193, 24);
          checkApFd.Name = "checkApFd";
          checkApFd.Size = new Size(45, 27);
@@ -1549,7 +1549,7 @@
          // 
          // checkApMaster
          // 
-         checkApMaster.Appearance = Appearance.Button;
+         checkApMaster.Appearance = System.Windows.Forms.Appearance.Button;
          checkApMaster.Location = new Point(167, 57);
          checkApMaster.Name = "checkApMaster";
          checkApMaster.Size = new Size(45, 27);
@@ -1582,7 +1582,7 @@
          // 
          // checkApBcHold
          // 
-         checkApBcHold.Appearance = Appearance.Button;
+         checkApBcHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApBcHold.Location = new Point(61, 57);
          checkApBcHold.Name = "checkApBcHold";
          checkApBcHold.Size = new Size(45, 27);
@@ -1595,7 +1595,7 @@
          // 
          // checkApAprHold
          // 
-         checkApAprHold.Appearance = Appearance.Button;
+         checkApAprHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApAprHold.Location = new Point(61, 24);
          checkApAprHold.Name = "checkApAprHold";
          checkApAprHold.Size = new Size(45, 27);
@@ -1608,7 +1608,7 @@
          // 
          // checkApNavHold
          // 
-         checkApNavHold.Appearance = Appearance.Button;
+         checkApNavHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApNavHold.Location = new Point(110, 24);
          checkApNavHold.Name = "checkApNavHold";
          checkApNavHold.Size = new Size(45, 27);
@@ -1620,7 +1620,7 @@
          // 
          // checkApHdgHold
          // 
-         checkApHdgHold.Appearance = Appearance.Button;
+         checkApHdgHold.Appearance = System.Windows.Forms.Appearance.Button;
          checkApHdgHold.Location = new Point(10, 24);
          checkApHdgHold.Name = "checkApHdgHold";
          checkApHdgHold.Size = new Size(45, 27);
@@ -1654,7 +1654,7 @@
          // 
          // checkBeaconLight
          // 
-         checkBeaconLight.Appearance = Appearance.Button;
+         checkBeaconLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkBeaconLight.AutoSize = true;
          checkBeaconLight.Location = new Point(6, 24);
          checkBeaconLight.Name = "checkBeaconLight";
@@ -1666,7 +1666,7 @@
          // 
          // checkWingLight
          // 
-         checkWingLight.Appearance = Appearance.Button;
+         checkWingLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkWingLight.AutoSize = true;
          checkWingLight.Location = new Point(341, 57);
          checkWingLight.Name = "checkWingLight";
@@ -1678,7 +1678,7 @@
          // 
          // checkCabinLight
          // 
-         checkCabinLight.Appearance = Appearance.Button;
+         checkCabinLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkCabinLight.AutoSize = true;
          checkCabinLight.Location = new Point(72, 24);
          checkCabinLight.Name = "checkCabinLight";
@@ -1690,7 +1690,7 @@
          // 
          // checkTaxiLight
          // 
-         checkTaxiLight.Appearance = Appearance.Button;
+         checkTaxiLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkTaxiLight.AutoSize = true;
          checkTaxiLight.Location = new Point(295, 57);
          checkTaxiLight.Name = "checkTaxiLight";
@@ -1702,7 +1702,7 @@
          // 
          // checkGlareshieldLight
          // 
-         checkGlareshieldLight.Appearance = Appearance.Button;
+         checkGlareshieldLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkGlareshieldLight.AutoSize = true;
          checkGlareshieldLight.Location = new Point(129, 24);
          checkGlareshieldLight.Name = "checkGlareshieldLight";
@@ -1714,7 +1714,7 @@
          // 
          // checkStrobeLight
          // 
-         checkStrobeLight.Appearance = Appearance.Button;
+         checkStrobeLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkStrobeLight.AutoSize = true;
          checkStrobeLight.Location = new Point(232, 57);
          checkStrobeLight.Name = "checkStrobeLight";
@@ -1726,7 +1726,7 @@
          // 
          // checkLandingLight
          // 
-         checkLandingLight.Appearance = Appearance.Button;
+         checkLandingLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkLandingLight.AutoSize = true;
          checkLandingLight.Location = new Point(218, 24);
          checkLandingLight.Name = "checkLandingLight";
@@ -1738,7 +1738,7 @@
          // 
          // checkRecognitionLight
          // 
-         checkRecognitionLight.Appearance = Appearance.Button;
+         checkRecognitionLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkRecognitionLight.AutoSize = true;
          checkRecognitionLight.Location = new Point(139, 57);
          checkRecognitionLight.Name = "checkRecognitionLight";
@@ -1750,7 +1750,7 @@
          // 
          // checkLogoLight
          // 
-         checkLogoLight.Appearance = Appearance.Button;
+         checkLogoLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkLogoLight.AutoSize = true;
          checkLogoLight.Location = new Point(288, 24);
          checkLogoLight.Name = "checkLogoLight";
@@ -1762,7 +1762,7 @@
          // 
          // checkPedestralLight
          // 
-         checkPedestralLight.Appearance = Appearance.Button;
+         checkPedestralLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkPedestralLight.AutoSize = true;
          checkPedestralLight.Location = new Point(61, 57);
          checkPedestralLight.Name = "checkPedestralLight";
@@ -1774,7 +1774,7 @@
          // 
          // checkNavLight
          // 
-         checkNavLight.Appearance = Appearance.Button;
+         checkNavLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkNavLight.AutoSize = true;
          checkNavLight.Location = new Point(342, 24);
          checkNavLight.Name = "checkNavLight";
@@ -1786,7 +1786,7 @@
          // 
          // checkPanelLight
          // 
-         checkPanelLight.Appearance = Appearance.Button;
+         checkPanelLight.Appearance = System.Windows.Forms.Appearance.Button;
          checkPanelLight.AutoSize = true;
          checkPanelLight.Location = new Point(6, 57);
          checkPanelLight.Name = "checkPanelLight";

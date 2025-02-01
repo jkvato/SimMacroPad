@@ -1,9 +1,11 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using DevExpress.XtraEditors;
 using FSUIPC;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
@@ -15,7 +17,7 @@ using static MacroSim.SimConnection.SimConnection;
 
 namespace MacroSim;
 
-public partial class MainForm : Form
+public partial class MainForm : XtraForm
 {
    private readonly string MSFS2020ProcessName = "FlightSimulator";
    private readonly string MSFS2024ProcessName = "FlightSimulator2024";
