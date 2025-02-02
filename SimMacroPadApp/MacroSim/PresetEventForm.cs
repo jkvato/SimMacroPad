@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using DevExpress.XtraRichEdit.Model;
 using MacroSim.Fsuipc;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,6 @@ namespace MacroSim
 {
    public partial class PresetEventForm : XtraForm
    {
-
-      private AutoCompleteStringCollection autoCompleteStrings;
-
       public EventCollection PresetEvents { get; private set; }
 
       private FsuipcConnection fsuipcConnection;
@@ -32,28 +30,33 @@ namespace MacroSim
 
          aircraftList = new List<string>(PresetEvents.GetAircraft());
          aircraftList.Sort();
+         aircraftList.Insert(0, "ANY");
 
          gridLookUpEditAircraft.Properties.DataSource = aircraftList;
          gridLookUpEditAircraft.Properties.SearchMode = DevExpress.XtraEditors.Repository.GridLookUpSearchMode.AutoSearch;
          gridLookUpEditAircraft.EditValue = "Select Aircraft";
+
+         searchControl1.Client = listPresets;
 
          btnSendCalculatorCode.Enabled = false;
       }
 
       private void btnClearAircraft_Click(object sender, EventArgs e)
       {
-         //txtAircraft.Text = "";
          gridLookUpEditAircraft.EditValue = "";
          txtCalculatorCode.Text = "";
+         txtActiveAircraft.Text = "";
       }
 
       private void listPresets_SelectedIndexChanged(object sender, EventArgs e)
       {
-         var ev = PresetEvents.GetEvent(listPresets.Text);
-         if (ev != null)
+         var evt = (Event)listPresets.SelectedItem;
+         if (evt != null)
          {
-            txtCalculatorCode.Text = ev.CalculatorCode;
-            txtParameter.Enabled = ev.IsParameterized;
+            txtCalculatorCode.Text = evt.CalculatorCode;
+            txtParameter.Enabled = evt.IsParameterized;
+
+            txtActiveAircraft.Text = evt.Developer + " | " + evt.Aircraft + " | " + evt.Classification;
          }
       }
 
@@ -71,13 +74,18 @@ namespace MacroSim
       {
          listPresets.Items.Clear();
 
-         var presets = PresetEvents.GetEventsForAircraft(gridLookUpEditAircraft.EditValue.ToString());
-         if (presets != null && presets.Count > 0)
+         string ac = (string)gridLookUpEditAircraft.EditValue;
+
+         if (ac == "ANY")
          {
-            foreach (var preset in presets)
-            {
-               listPresets.Items.Add(preset.PresetName);
-            }
+            listPresets.DataSource = PresetEvents;
+            listPresets.DisplayMember = "PresetName";
+         }
+         else
+         {
+            var presets = PresetEvents.GetEventsForAircraft(ac);
+            listPresets.DataSource = presets;
+            listPresets.DisplayMember = "PresetName";
          }
       }
    }

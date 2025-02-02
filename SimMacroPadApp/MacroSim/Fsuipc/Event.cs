@@ -37,15 +37,7 @@ public class Event
    /// Gets a value indicating whether an event expects
    /// a parameter.
    /// </summary>
-   public bool IsParameterized
-   {
-      get
-      {
-         if (CalculatorCode.Length > 0)
-            return CalculatorCode[0] == '@';
-         return false;
-      }
-   }
+   public bool IsParameterized {  get; set; }
 
    public Event()
    {
@@ -54,6 +46,7 @@ public class Event
       Classification = string.Empty;
       PresetName = string.Empty;
       CalculatorCode = string.Empty;
+      IsParameterized = false;
    }
 
    public Event(string developer, string aircraft, string classification, string presetName, string calculatorCode)

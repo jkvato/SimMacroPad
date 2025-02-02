@@ -32,7 +32,7 @@ namespace MacroSim
       {
          components = new System.ComponentModel.Container();
          label1 = new LabelControl();
-         listPresets = new ListBox();
+         listPresets = new ListBoxControl();
          btnClearAircraft = new SimpleButton();
          txtCalculatorCode = new MemoEdit();
          btnSendCalculatorCode = new SimpleButton();
@@ -41,11 +41,16 @@ namespace MacroSim
          gridLookUpEditAircraft = new GridLookUpEdit();
          gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
          simAircraftBindingSource = new BindingSource(components);
+         searchControl1 = new SearchControl();
+         txtActiveAircraft = new TextEdit();
+         ((System.ComponentModel.ISupportInitialize)listPresets).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCalculatorCode.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtParameter.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)gridLookUpEditAircraft.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)gridLookUpEdit1View).BeginInit();
          ((System.ComponentModel.ISupportInitialize)simAircraftBindingSource).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)searchControl1.Properties).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)txtActiveAircraft.Properties).BeginInit();
          SuspendLayout();
          // 
          // label1
@@ -59,18 +64,17 @@ namespace MacroSim
          // 
          // listPresets
          // 
-         listPresets.FormattingEnabled = true;
          listPresets.ItemHeight = 17;
          listPresets.Location = new Point(13, 60);
          listPresets.Margin = new Padding(4, 3, 4, 3);
          listPresets.Name = "listPresets";
-         listPresets.Size = new Size(457, 191);
+         listPresets.Size = new Size(537, 225);
          listPresets.TabIndex = 3;
          listPresets.SelectedIndexChanged += listPresets_SelectedIndexChanged;
          // 
          // btnClearAircraft
          // 
-         btnClearAircraft.Location = new Point(181, 31);
+         btnClearAircraft.Location = new Point(181, 30);
          btnClearAircraft.Margin = new Padding(4, 3, 4, 3);
          btnClearAircraft.Name = "btnClearAircraft";
          btnClearAircraft.Size = new Size(75, 24);
@@ -80,16 +84,16 @@ namespace MacroSim
          // 
          // txtCalculatorCode
          // 
-         txtCalculatorCode.Location = new Point(12, 258);
+         txtCalculatorCode.Location = new Point(12, 325);
          txtCalculatorCode.Margin = new Padding(4, 3, 4, 3);
          txtCalculatorCode.Name = "txtCalculatorCode";
-         txtCalculatorCode.Size = new Size(458, 75);
+         txtCalculatorCode.Size = new Size(537, 117);
          txtCalculatorCode.TabIndex = 5;
          txtCalculatorCode.TextChanged += txtCalculatorCode_TextChanged;
          // 
          // btnSendCalculatorCode
          // 
-         btnSendCalculatorCode.Location = new Point(12, 377);
+         btnSendCalculatorCode.Location = new Point(244, 448);
          btnSendCalculatorCode.Margin = new Padding(4, 3, 4, 3);
          btnSendCalculatorCode.Name = "btnSendCalculatorCode";
          btnSendCalculatorCode.Size = new Size(75, 24);
@@ -99,7 +103,7 @@ namespace MacroSim
          // 
          // label2
          // 
-         label2.Location = new Point(12, 344);
+         label2.Location = new Point(13, 451);
          label2.Margin = new Padding(4, 3, 4, 3);
          label2.Name = "label2";
          label2.Size = new Size(60, 17);
@@ -108,7 +112,7 @@ namespace MacroSim
          // 
          // txtParameter
          // 
-         txtParameter.Location = new Point(86, 341);
+         txtParameter.Location = new Point(95, 448);
          txtParameter.Margin = new Padding(4, 3, 4, 3);
          txtParameter.Name = "txtParameter";
          txtParameter.Size = new Size(100, 24);
@@ -136,11 +140,30 @@ namespace MacroSim
          // 
          simAircraftBindingSource.DataSource = typeof(SimAircraft.SimAircraft);
          // 
+         // searchControl1
+         // 
+         searchControl1.Location = new Point(263, 30);
+         searchControl1.Name = "searchControl1";
+         searchControl1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Repository.ClearButton(), new DevExpress.XtraEditors.Repository.SearchButton() });
+         searchControl1.Size = new Size(207, 24);
+         searchControl1.TabIndex = 10;
+         // 
+         // txtActiveAircraft
+         // 
+         txtActiveAircraft.Location = new Point(12, 293);
+         txtActiveAircraft.Name = "txtActiveAircraft";
+         txtActiveAircraft.Properties.ReadOnly = true;
+         txtActiveAircraft.Size = new Size(537, 24);
+         txtActiveAircraft.TabIndex = 11;
+         // 
          // PresetEventForm
          // 
+         Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(512, 417);
+         ClientSize = new Size(563, 484);
+         Controls.Add(txtActiveAircraft);
+         Controls.Add(searchControl1);
          Controls.Add(gridLookUpEditAircraft);
          Controls.Add(txtParameter);
          Controls.Add(label2);
@@ -154,11 +177,14 @@ namespace MacroSim
          ShowInTaskbar = false;
          StartPosition = FormStartPosition.CenterParent;
          Text = "PresetEventForm";
+         ((System.ComponentModel.ISupportInitialize)listPresets).EndInit();
          ((System.ComponentModel.ISupportInitialize)txtCalculatorCode.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)txtParameter.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)gridLookUpEditAircraft.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)gridLookUpEdit1View).EndInit();
          ((System.ComponentModel.ISupportInitialize)simAircraftBindingSource).EndInit();
+         ((System.ComponentModel.ISupportInitialize)searchControl1.Properties).EndInit();
+         ((System.ComponentModel.ISupportInitialize)txtActiveAircraft.Properties).EndInit();
          ResumeLayout(false);
          PerformLayout();
       }
@@ -166,7 +192,7 @@ namespace MacroSim
       #endregion
 
       private LabelControl label1;
-      private ListBox listPresets;
+      private ListBoxControl listPresets;
       private SimpleButton btnClearAircraft;
       private MemoEdit txtCalculatorCode;
       private SimpleButton btnSendCalculatorCode;
@@ -175,5 +201,7 @@ namespace MacroSim
       private GridLookUpEdit gridLookUpEditAircraft;
       private DevExpress.XtraGrid.Views.Grid.GridView gridLookUpEdit1View;
       private BindingSource simAircraftBindingSource;
+      private SearchControl searchControl1;
+      private TextEdit txtActiveAircraft;
    }
 }

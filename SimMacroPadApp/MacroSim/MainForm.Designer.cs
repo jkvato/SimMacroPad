@@ -166,7 +166,7 @@ namespace MacroSim
          lblAltitudeValue = new LabelControl();
          label5 = new LabelControl();
          lblCourseValue = new LabelControl();
-         label3 = new LabelControl();
+         lblCourseSel = new LabelControl();
          lblHeadingValue = new LabelControl();
          groupNav2 = new GroupControl();
          lblNav2StandbyValue = new LabelControl();
@@ -205,6 +205,8 @@ namespace MacroSim
          lblFsuipcStatus = new DevExpress.XtraBars.BarStaticItem();
          lblSerialPortStatus = new DevExpress.XtraBars.BarStaticItem();
          lblSimAircraft = new DevExpress.XtraBars.BarStaticItem();
+         lblMacroPadState = new DevExpress.XtraBars.BarStaticItem();
+         lblLocalTime = new DevExpress.XtraBars.BarStaticItem();
          barDockControlTop = new DevExpress.XtraBars.BarDockControl();
          barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
          barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
@@ -1240,6 +1242,9 @@ namespace MacroSim
          btnCrs2Sel.TabIndex = 53;
          btnCrs2Sel.Text = "CS2\r\nSEL";
          btnCrs2Sel.Click += AutopilotButton_Click;
+         btnCrs2Sel.MouseEnter += btnCrs2Sel_MouseEnter;
+         btnCrs2Sel.MouseLeave += btnCrs2Sel_MouseLeave;
+         btnCrs2Sel.MouseHover += btnCrs2Sel_MouseHover;
          // 
          // checkApSpd
          // 
@@ -1349,6 +1354,8 @@ namespace MacroSim
          btnCrs1Sel.TabIndex = 43;
          btnCrs1Sel.Text = "CS1\r\nSEL";
          btnCrs1Sel.Click += AutopilotButton_Click;
+         btnCrs1Sel.MouseEnter += btnCrs2Sel_MouseEnter;
+         btnCrs1Sel.MouseLeave += btnCrs2Sel_MouseLeave;
          // 
          // btnHdgSel
          // 
@@ -1637,14 +1644,14 @@ namespace MacroSim
          lblCourseValue.TabIndex = 194;
          lblCourseValue.Text = "000";
          // 
-         // label3
+         // lblCourseSel
          // 
-         label3.Location = new Point(150, 485);
-         label3.Margin = new Padding(4, 3, 4, 3);
-         label3.Name = "label3";
-         label3.Size = new Size(41, 17);
-         label3.TabIndex = 193;
-         label3.Text = "Course";
+         lblCourseSel.Location = new Point(150, 485);
+         lblCourseSel.Margin = new Padding(4, 3, 4, 3);
+         lblCourseSel.Name = "lblCourseSel";
+         lblCourseSel.Size = new Size(41, 17);
+         lblCourseSel.TabIndex = 193;
+         lblCourseSel.Text = "Course";
          // 
          // lblHeadingValue
          // 
@@ -1903,9 +1910,9 @@ namespace MacroSim
          toolbarFormManager1.DockControls.Add(barDockControlLeft);
          toolbarFormManager1.DockControls.Add(barDockControlRight);
          toolbarFormManager1.Form = this;
-         toolbarFormManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] { lblSimConnectStatus, lblFsuipcStatus, menuApp, menuMacroPad, menuUtility, skinPaletteDropDownButtonItem1, skinDropDownButtonItem1, menuConnectSimConnect, menuExit, menuConnectFsuipc, lblSerialPortStatus, menuRefreshSerialPorts, menuPresetEvents, lblSimAircraft });
+         toolbarFormManager1.Items.AddRange(new DevExpress.XtraBars.BarItem[] { lblSimConnectStatus, lblFsuipcStatus, menuApp, menuMacroPad, menuUtility, skinPaletteDropDownButtonItem1, skinDropDownButtonItem1, menuConnectSimConnect, menuExit, menuConnectFsuipc, lblSerialPortStatus, menuRefreshSerialPorts, menuPresetEvents, lblSimAircraft, lblMacroPadState, lblLocalTime });
          toolbarFormManager1.MainMenu = bar1;
-         toolbarFormManager1.MaxItemId = 14;
+         toolbarFormManager1.MaxItemId = 16;
          toolbarFormManager1.StatusBar = bar2;
          // 
          // bar1
@@ -1980,7 +1987,7 @@ namespace MacroSim
          bar2.DockCol = 0;
          bar2.DockRow = 0;
          bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Bottom;
-         bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] { new DevExpress.XtraBars.LinkPersistInfo(lblSimConnectStatus), new DevExpress.XtraBars.LinkPersistInfo(lblFsuipcStatus), new DevExpress.XtraBars.LinkPersistInfo(lblSerialPortStatus), new DevExpress.XtraBars.LinkPersistInfo(lblSimAircraft) });
+         bar2.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] { new DevExpress.XtraBars.LinkPersistInfo(lblSimConnectStatus), new DevExpress.XtraBars.LinkPersistInfo(lblFsuipcStatus), new DevExpress.XtraBars.LinkPersistInfo(lblSerialPortStatus), new DevExpress.XtraBars.LinkPersistInfo(lblSimAircraft), new DevExpress.XtraBars.LinkPersistInfo(lblMacroPadState), new DevExpress.XtraBars.LinkPersistInfo(lblLocalTime) });
          bar2.OptionsBar.AllowQuickCustomization = false;
          bar2.OptionsBar.DrawDragBorder = false;
          bar2.OptionsBar.UseWholeRow = true;
@@ -2010,6 +2017,18 @@ namespace MacroSim
          lblSimAircraft.Id = 13;
          lblSimAircraft.Name = "lblSimAircraft";
          // 
+         // lblMacroPadState
+         // 
+         lblMacroPadState.Caption = "State";
+         lblMacroPadState.Id = 14;
+         lblMacroPadState.Name = "lblMacroPadState";
+         // 
+         // lblLocalTime
+         // 
+         lblLocalTime.Caption = "Local Time";
+         lblLocalTime.Id = 15;
+         lblLocalTime.Name = "lblLocalTime";
+         // 
          // barDockControlTop
          // 
          barDockControlTop.CausesValidation = false;
@@ -2023,7 +2042,7 @@ namespace MacroSim
          // 
          barDockControlBottom.CausesValidation = false;
          barDockControlBottom.Dock = DockStyle.Bottom;
-         barDockControlBottom.Location = new Point(0, 829);
+         barDockControlBottom.Location = new Point(0, 848);
          barDockControlBottom.Manager = toolbarFormManager1;
          barDockControlBottom.Margin = new Padding(4, 3, 4, 3);
          barDockControlBottom.Size = new Size(1133, 26);
@@ -2035,7 +2054,7 @@ namespace MacroSim
          barDockControlLeft.Location = new Point(0, 55);
          barDockControlLeft.Manager = toolbarFormManager1;
          barDockControlLeft.Margin = new Padding(4, 3, 4, 3);
-         barDockControlLeft.Size = new Size(0, 774);
+         barDockControlLeft.Size = new Size(0, 793);
          // 
          // barDockControlRight
          // 
@@ -2044,7 +2063,7 @@ namespace MacroSim
          barDockControlRight.Location = new Point(1133, 55);
          barDockControlRight.Manager = toolbarFormManager1;
          barDockControlRight.Margin = new Padding(4, 3, 4, 3);
-         barDockControlRight.Size = new Size(0, 774);
+         barDockControlRight.Size = new Size(0, 793);
          // 
          // skinPaletteDropDownButtonItem1
          // 
@@ -2089,7 +2108,7 @@ namespace MacroSim
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(1133, 855);
+         ClientSize = new Size(1133, 874);
          Controls.Add(trackBarFlaps);
          Controls.Add(lblBarometer1);
          Controls.Add(label6);
@@ -2167,7 +2186,7 @@ namespace MacroSim
          Controls.Add(lblAltitudeValue);
          Controls.Add(label5);
          Controls.Add(lblCourseValue);
-         Controls.Add(label3);
+         Controls.Add(lblCourseSel);
          Controls.Add(lblHeadingValue);
          Controls.Add(groupNav2);
          Controls.Add(label2);
@@ -2369,7 +2388,7 @@ namespace MacroSim
       private LabelControl lblAltitudeValue;
       private LabelControl label5;
       private LabelControl lblCourseValue;
-      private LabelControl label3;
+      private LabelControl lblCourseSel;
       private LabelControl lblHeadingValue;
       private GroupControl groupNav2;
       private LabelControl lblNav2StandbyValue;
@@ -2416,5 +2435,7 @@ namespace MacroSim
       private DevExpress.XtraBars.Bar bar3;
       private TrackBarControl trackBarFlaps;
       private DevExpress.XtraBars.BarStaticItem lblSimAircraft;
+      private DevExpress.XtraBars.BarStaticItem lblMacroPadState;
+      private DevExpress.XtraBars.BarStaticItem lblLocalTime;
    }
 }

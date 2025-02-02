@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using DevExpress.XtraBars;
@@ -27,8 +28,8 @@ public partial class MainForm : ToolbarForm
    private readonly SimConnection.SimConnection simConnection;
    private readonly MacroPadDevice.MacroPadDevice macroPadDevice;
 
-   private readonly System.Windows.Forms.Timer timerConnection;
-   private readonly System.Windows.Forms.Timer timerFsuipcProcess;
+   private readonly System.Timers.Timer timerConnection;
+   private readonly System.Timers.Timer timerFsuipcProcess;
 
    private bool suppressLightButtonCheckChangedEvent = true;
    private bool suppressAutopilotButtonCheckChangedEvent = true;
@@ -60,6 +61,10 @@ public partial class MainForm : ToolbarForm
    private int lastShowcaseSmartCamCamera = 0;
    private int previousCustomCamera = 5;
    private int currentCustomCamera = 0;
+
+   private bool isMouseInCourse1SelBox = false;
+   private bool isMouseInCourse2SelBox = false;
+   private bool isCourseSelNav1 = true;
 
 
    public MainForm()
@@ -106,18 +111,18 @@ public partial class MainForm : ToolbarForm
 
       GetComPorts();
 
-      timerConnection = new System.Windows.Forms.Timer();
+      timerConnection = new System.Timers.Timer();
       timerConnection.Interval = 1000;
-      timerConnection.Tick += TimerConnection_Tick;
+      timerConnection.Elapsed += TimerConnection_Elapsed;
       timerConnection.Start();
 
-      timerFsuipcProcess = new System.Windows.Forms.Timer();
+      timerFsuipcProcess = new System.Timers.Timer();
       timerFsuipcProcess.Interval = 250;
-      timerFsuipcProcess.Tick += TimerFsuipcProcess_Tick;
+      timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
    }
 
-   private void TimerFsuipcProcess_Tick(object? sender, EventArgs e)
+   private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
    {
       if (fsuipcConnection.IsConnected)
       {
@@ -149,7 +154,7 @@ public partial class MainForm : ToolbarForm
       }
    }
 
-   private void TimerConnection_Tick(object? sender, EventArgs e)
+   private void TimerConnection_Elapsed(object? sender, ElapsedEventArgs e)
    {
       if (!simConnection.IsConnected)
       {
@@ -199,7 +204,7 @@ public partial class MainForm : ToolbarForm
    {
       InvokeAction(form =>
       {
-         //form.lblMacroPadState.Text = e.NewState.ToString();
+         form.lblMacroPadState.Caption = $"State: {e.NewState}";
       });
       UpdateConnectionStatus();
    }
@@ -218,6 +223,8 @@ public partial class MainForm : ToolbarForm
             currentAircraft = SimAircraft.SimAircraftCollection.DefaultAircraft.GetByTitleWildcard(avionicsStruct.title);
             macroPadDevice.CurrentAircraft = currentAircraft;
          }
+
+         DetermineCourse1or2();
 
          // Update UI via Invoke
          InvokeAction(form =>
@@ -240,8 +247,6 @@ public partial class MainForm : ToolbarForm
                ac += " null";
             }
             lblSimAircraft.Caption = ac;
-
-
 
             // COM1
             form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
@@ -277,7 +282,16 @@ public partial class MainForm : ToolbarForm
             form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);
 
             // AP Course
-            form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
+            if (isCourseSelNav1)
+            {
+               form.lblCourseSel.Text = "Course 1";
+               form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
+            }
+            else
+            {
+               form.lblCourseSel.Text = "Course 2";
+               form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav2ObsSel);
+            }
 
             // AP Altitude
             form.lblAltitudeValue.Text = string.Format("{0:00000}", avionicsStruct.apAltitudeSel);
@@ -549,7 +563,7 @@ public partial class MainForm : ToolbarForm
          InvokeAction(form =>
          {
             form.lblSimRate.Text = "Sim Rate: " + timeStruct.SimulationRate.ToString();
-            //form.lblLocalTime.Text = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
+            form.lblLocalTime.Caption = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
          });
       }
       else if (structure is EngineStruct engineStruct)
@@ -1386,23 +1400,6 @@ public partial class MainForm : ToolbarForm
    [System.Runtime.InteropServices.DllImport("user32.dll")]
    private static extern int SetForegroundWindow(IntPtr hwnd);
 
-   private enum ShowWindowEnum
-   {
-      Hide = 0,
-      ShowNormal = 1,
-      ShowMinimized = 2,
-      ShowMaximized = 3,
-      Maximize = 3,
-      ShowNormalNoActivate = 4,
-      Show = 5,
-      Minimize = 6,
-      ShowMinNoActivate = 7,
-      ShowNoActivate = 8,
-      Restore = 9,
-      ShowDefault = 10,
-      ForceMinimized = 11
-   };
-
    public void BringMainWindowToFront(string processName)
    {
       // get the process
@@ -1492,4 +1489,62 @@ public partial class MainForm : ToolbarForm
       }
    }
 
+   private void btnCrs2Sel_MouseHover(object sender, EventArgs e)
+   {
+
+   }
+
+   private void btnCrs2Sel_MouseEnter(object sender, EventArgs e)
+   {
+      if (sender is SimpleButton btn)
+      {
+         if (btn == btnCrs1Sel)
+            isMouseInCourse1SelBox = true;
+         else if (btn == btnCrs2Sel)
+            isMouseInCourse2SelBox = true;
+      }
+      DetermineCourse1or2();
+   }
+
+   private void btnCrs2Sel_MouseLeave(object sender, EventArgs e)
+   {
+      if (sender is SimpleButton btn)
+      {
+         if (btn == btnCrs1Sel)
+            isMouseInCourse1SelBox = false;
+         else if (btn == btnCrs2Sel)
+            isMouseInCourse2SelBox = false;
+      }
+      DetermineCourse1or2();
+   }
+
+   private void DetermineCourse1or2()
+   {
+      if (isMouseInCourse1SelBox)
+         isCourseSelNav1 = true;
+      else if (isMouseInCourse2SelBox)
+         isCourseSelNav1 = false;
+      else if (macroPadDevice.State == MacroPadDevice.Enumerations.MacroPadState.COURSE2)
+         isCourseSelNav1 = false;
+      else
+         isCourseSelNav1 = true;
+   }
 }
+
+internal enum ShowWindowEnum
+{
+   Hide = 0,
+   ShowNormal = 1,
+   ShowMinimized = 2,
+   ShowMaximized = 3,
+   Maximize = 3,
+   ShowNormalNoActivate = 4,
+   Show = 5,
+   Minimize = 6,
+   ShowMinNoActivate = 7,
+   ShowNoActivate = 8,
+   Restore = 9,
+   ShowDefault = 10,
+   ForceMinimized = 11
+};
+

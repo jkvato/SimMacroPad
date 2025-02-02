@@ -194,7 +194,20 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
          else
          {
             lines = line.Split('#', 2);
-            events.Add(developer, aircraft, classification, lines[0], lines[1]);
+            if (lines[1][0] == '@')
+            {
+               events.Add(
+                  developer: developer,
+                  aircraft: aircraft,
+                  classification: classification,
+                  presetName: lines[0],
+                  calculatorCode: lines[1].Substring(1).Trim(),
+                  isParameterized: true);
+            }
+            else
+            {
+               events.Add(developer, aircraft, classification, lines[0], lines[1]);
+            }
          }
       }
 
@@ -210,9 +223,10 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
    /// <param name="presetName"></param>
    /// <param name="calculatorCode"></param>
    /// <returns>the newly created <see cref="Event"/></returns>
-   public Event Add(string developer, string aircraft, string classification, string presetName, string calculatorCode)
+   public Event Add(string developer, string aircraft, string classification, string presetName, string calculatorCode, bool isParameterized = false)
    {
       Event e = new Event(developer, aircraft, classification, presetName, calculatorCode);
+      e.IsParameterized = isParameterized;
       events.Add(e);
       return e;
    }
