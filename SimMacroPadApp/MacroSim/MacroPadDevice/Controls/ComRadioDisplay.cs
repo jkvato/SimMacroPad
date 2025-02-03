@@ -23,7 +23,7 @@ public partial class ComRadioDisplay : UserControl
       {
          macroPadState = value;
 
-         Skin skin = CommonSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
+         Skin skin = CommonSkins.GetSkin(UserLookAndFeel.Default.ActiveLookAndFeel);
 
          lblMHz.Appearance.ForeColor = skin.Colors["ControlText"];
          lblMHz.Appearance.BackColor = skin.Colors["Control"];

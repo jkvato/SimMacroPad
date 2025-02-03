@@ -1,23 +1,18 @@
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Ports;
-using System.Runtime.InteropServices;
-using System.Timers;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
 using FSUIPC;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
-using MacroSim.MacroPadDevice.Controls;
 using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.Properties;
-using MacroSim.SimConnection;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Ports;
+using System.Runtime.InteropServices;
+using System.Timers;
 using static MacroSim.SimConnection.SimConnection;
 
 namespace MacroSim;
@@ -140,6 +135,8 @@ public partial class MainForm : ToolbarForm
 
       dirHeadingDisplay.CurrentMacroPadState = macroPadDevice.State;
       dirCourse1Display.CurrentMacroPadState = macroPadDevice.State;
+
+      altitudeDisplay.CurrentMacroPadState = macroPadDevice.State;
    }
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
@@ -238,6 +235,8 @@ public partial class MainForm : ToolbarForm
 
          dirHeadingDisplay.CurrentMacroPadState = e.NewState;
          dirCourse1Display.CurrentMacroPadState = e.NewState;
+
+         altitudeDisplay.CurrentMacroPadState = e.NewState;
       });
 
       UpdateConnectionStatus();
@@ -270,7 +269,6 @@ public partial class MainForm : ToolbarForm
             }
 
             string ac = string.Empty;
-            //ac = avionicsStruct.title;
             ac = "AC Template: ";
             if (currentAircraft != null)
             {
@@ -314,7 +312,6 @@ public partial class MainForm : ToolbarForm
 
             // AP Heading
             form.dirHeadingDisplay.Value = avionicsStruct.apHeadingSel;
-            //form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);
 
             // AP Course
             if (isCourseSelNav1)
@@ -323,7 +320,6 @@ public partial class MainForm : ToolbarForm
                form.dirCourse1Display.MacroPadStateId = MacroPadState.COURSE1;
                form.dirCourse1Display.CurrentMacroPadState = form.dirCourse1Display.CurrentMacroPadState;
                form.dirCourse1Display.Value = avionicsStruct.apNav1ObsSel;
-               //form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
             }
             else
             {
@@ -331,11 +327,10 @@ public partial class MainForm : ToolbarForm
                form.dirCourse1Display.MacroPadStateId = MacroPadState.COURSE2;
                form.dirCourse1Display.CurrentMacroPadState = form.dirCourse1Display.CurrentMacroPadState;
                form.dirCourse1Display.Value = avionicsStruct.apNav2ObsSel;
-               //form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav2ObsSel);
             }
 
             // AP Altitude
-            form.lblAltitudeValue.Text = string.Format("{0:00000}", avionicsStruct.apAltitudeSel);
+            form.altitudeDisplay.Value = avionicsStruct.apAltitudeSel;
 
             // AP Vertical Speed
             form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", avionicsStruct.apVerticalSpeedSel);
@@ -435,9 +430,6 @@ public partial class MainForm : ToolbarForm
             trackBarFlaps.Properties.Minimum = -1 * acControlSruct.flapsNumHandlePositions;
             trackBarFlaps.Properties.Maximum = 0;
             trackBarFlaps.Value = -1 * acControlSruct.flapsHandleIndex;
-            //trackFlaps.Minimum = 0;
-            //trackFlaps.Maximum = trimStruct.flapsNumHandlePositions;
-            //trackFlaps.Value = trimStruct.flapsHandleIndex;
 
             lblSpoilersAvailable.Text = acControlSruct.SpoilersAvailable ?
                "Spoilers: Available" : "Spoilers: None";
@@ -523,7 +515,6 @@ public partial class MainForm : ToolbarForm
                checkSmartcam.Text = $"SC {camerasStruct.SmartCameraTargetIndex}";
             }
 
-            //form.lblCustomCamera.Text = $"{previousCockpitSmartcamTarget}, {previousExtSmartcamTarget}";
             form.lblCustomCamera.Text = $"c {currentCustomCamera}, p {previousCustomCamera}";
 
             form.lblCameraCurrentView.Text = $"{camerasStruct.cameraState}, {camerasStruct.cameraSubState}, {camerasStruct.cameraViewTypeIndex0}, {camerasStruct.cameraViewTypeIndex1}";
@@ -1365,7 +1356,6 @@ public partial class MainForm : ToolbarForm
             var newCamera = simConnection.CamerasData;
             newCamera.CameraViewIndex1++;
             simConnection.SetCamera(newCamera);
-            //simConnection.SendEvent(SimEvent.NEXT_SUB_VIEW);
          }
          else if (button == btnPreviousSubView)
          {
@@ -1374,7 +1364,6 @@ public partial class MainForm : ToolbarForm
             if (newCamera.CameraViewIndex1 < 0)
                newCamera.CameraViewIndex1 = 0;
             simConnection.SetCamera(newCamera);
-            //simConnection.SendEvent(SimEvent.PREV_SUB_VIEW);
          }
       }
       ActivateFlightSimulator();
@@ -1511,12 +1500,12 @@ public partial class MainForm : ToolbarForm
       if (simConnection.IsConnected)
       {
          simConnection.DisconnectFromSim();
-         System.Diagnostics.Debug.WriteLine("Disconnected");
+         Debug.WriteLine("Disconnected");
       }
       else
       {
          simConnection.ConnectToSim(Handle);
-         System.Diagnostics.Debug.WriteLine("Connected");
+         Debug.WriteLine("Connected");
       }
    }
 
