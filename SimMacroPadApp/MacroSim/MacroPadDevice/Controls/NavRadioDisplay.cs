@@ -1,14 +1,9 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
+using MacroSim.MacroPadDevice.Enumerations;
+using System.ComponentModel;
 
 namespace MacroSim.MacroPadDevice.Controls;
-
-public enum NavRadioHighlight : int
-{
-   None = 0,
-   MHz = 1,
-   KHz = 2,
-}
 
 public partial class NavRadioDisplay : UserControl
 {
@@ -19,40 +14,88 @@ public partial class NavRadioDisplay : UserControl
 
    private double frequency;
    private string text;
-   private NavRadioHighlight highlight;
+   MacroPadState macroPadState;
 
-   public NavRadioHighlight Highlight
+   public MacroPadState MacroPadState
    {
-      get => highlight;
+      get => macroPadState;
       set
       {
-         highlight = value;
+         macroPadState = value;
 
          Skin skin = CommonSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
 
-         switch (highlight)
+         lblMHz.Appearance.ForeColor = skin.Colors["ControlText"];
+         lblMHz.Appearance.BackColor = skin.Colors["Control"];
+         lblKHz.Appearance.ForeColor = skin.Colors["ControlText"];
+         lblKHz.Appearance.BackColor = skin.Colors["Control"];
+
+         if (IsHighlightable)
          {
-            case NavRadioHighlight.MHz:
+            if (macroPadState == MacroPadState.NAV1_MHZ && Id == 1)
+            {
                lblMHz.Appearance.ForeColor = HighlightForeColor;
                lblMHz.Appearance.BackColor = skin.Colors["Control"];
-               lblKHz.Appearance.ForeColor = DXSkinColors.ForeColors.ControlText;
-               lblKHz.Appearance.BackColor = skin.Colors["Control"];
-               break;
-            case NavRadioHighlight.KHz:
-               lblMHz.Appearance.ForeColor = DXSkinColors.ForeColors.ControlText;
-               lblMHz.Appearance.BackColor = skin.Colors["Control"];
+            }
+            else if (macroPadState == MacroPadState.NAV1_KHZ && Id == 1)
+            {
                lblKHz.Appearance.ForeColor = HighlightForeColor;
                lblKHz.Appearance.BackColor = skin.Colors["Control"];
-               break;
-            default:
-               lblMHz.Appearance.ForeColor = skin.Colors["ControlText"];
+            }
+            else if (macroPadState == MacroPadState.NAV2_MHZ && Id == 2)
+            {
+               lblMHz.Appearance.ForeColor = HighlightForeColor;
                lblMHz.Appearance.BackColor = skin.Colors["Control"];
-               lblKHz.Appearance.ForeColor = skin.Colors["ControlText"];
+            }
+            else if (macroPadState == MacroPadState.NAV2_KHZ && Id == 2)
+            {
+               lblKHz.Appearance.ForeColor = HighlightForeColor;
                lblKHz.Appearance.BackColor = skin.Colors["Control"];
-               break;
+            }
          }
       }
    }
+
+   [Browsable(true)]
+   [DefaultValue(1)]
+   public int Id { get; set; } = 1;
+
+   [Browsable(true)]
+   [DefaultValue(false)]
+   public bool IsHighlightable { get; set; } = false;
+
+   //public NavRadioHighlight Highlight
+   //{
+   //   get => highlight;
+   //   set
+   //   {
+   //      highlight = value;
+
+   //      Skin skin = CommonSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
+
+   //      switch (highlight)
+   //      {
+   //         case NavRadioHighlight.MHz:
+   //            lblMHz.Appearance.ForeColor = HighlightForeColor;
+   //            lblMHz.Appearance.BackColor = skin.Colors["Control"];
+   //            lblKHz.Appearance.ForeColor = DXSkinColors.ForeColors.ControlText;
+   //            lblKHz.Appearance.BackColor = skin.Colors["Control"];
+   //            break;
+   //         case NavRadioHighlight.KHz:
+   //            lblMHz.Appearance.ForeColor = DXSkinColors.ForeColors.ControlText;
+   //            lblMHz.Appearance.BackColor = skin.Colors["Control"];
+   //            lblKHz.Appearance.ForeColor = HighlightForeColor;
+   //            lblKHz.Appearance.BackColor = skin.Colors["Control"];
+   //            break;
+   //         default:
+   //            lblMHz.Appearance.ForeColor = skin.Colors["ControlText"];
+   //            lblMHz.Appearance.BackColor = skin.Colors["Control"];
+   //            lblKHz.Appearance.ForeColor = skin.Colors["ControlText"];
+   //            lblKHz.Appearance.BackColor = skin.Colors["Control"];
+   //            break;
+   //      }
+   //   }
+   //}
 
    public override string Text
    {

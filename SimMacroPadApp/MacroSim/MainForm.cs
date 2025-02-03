@@ -128,14 +128,15 @@ public partial class MainForm : ToolbarForm
 
    private void Default_StyleChanged(object? sender, EventArgs e)
    {
-      navRadioDisplay1Standby.Highlight = navRadioDisplay1Standby.Highlight;
-      navRadioDisplay2Standby.Highlight = navRadioDisplay2Standby.Highlight;
-      navRadioDisplay1Active.Highlight = navRadioDisplay1Active.Highlight;
-      navRadioDisplay2Active.Highlight = navRadioDisplay2Active.Highlight;
-      comRadioDisplay1Standby.Highlight = comRadioDisplay1Standby.Highlight;
-      comRadioDisplay2Standby.Highlight = comRadioDisplay2Standby.Highlight;
-      comRadioDisplay1Active.Highlight = comRadioDisplay1Active.Highlight;
-      comRadioDisplay2Active.Highlight = comRadioDisplay2Active.Highlight;
+      comRadioDisplay1Standby.MacroPadState = macroPadDevice.State;
+      comRadioDisplay1Active.MacroPadState = macroPadDevice.State;
+      comRadioDisplay2Standby.MacroPadState = macroPadDevice.State;
+      comRadioDisplay2Active.MacroPadState = macroPadDevice.State;
+
+      navRadioDisplay1Standby.MacroPadState = macroPadDevice.State;
+      navRadioDisplay1Active.MacroPadState = macroPadDevice.State;
+      navRadioDisplay2Standby.MacroPadState = macroPadDevice.State;
+      navRadioDisplay2Active.MacroPadState = macroPadDevice.State;
    }
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
@@ -222,42 +223,15 @@ public partial class MainForm : ToolbarForm
       {
          form.lblMacroPadState.Caption = $"State: {e.NewState}";
 
-         form.comRadioDisplay1Standby.Highlight = ComRadioHighlight.None;
-         form.comRadioDisplay2Standby.Highlight = ComRadioHighlight.None;
-         form.navRadioDisplay1Standby.Highlight = NavRadioHighlight.None;
-         form.navRadioDisplay2Standby.Highlight = NavRadioHighlight.None;
+         comRadioDisplay1Standby.MacroPadState = e.NewState;
+         comRadioDisplay1Active.MacroPadState = e.NewState;
+         comRadioDisplay2Standby.MacroPadState = e.NewState;
+         comRadioDisplay2Active.MacroPadState = e.NewState;
 
-         switch (e.NewState)
-         {
-            case MacroPadState.NAV1_MHZ:
-               form.navRadioDisplay1Standby.Highlight = NavRadioHighlight.MHz;
-               break;
-            case MacroPadState.NAV1_KHZ:
-               form.navRadioDisplay1Standby.Highlight = NavRadioHighlight.KHz;
-               break;
-            case MacroPadState.NAV2_MHZ:
-               form.navRadioDisplay2Standby.Highlight = NavRadioHighlight.MHz;
-               break;
-            case MacroPadState.NAV2_KHZ:
-               form.navRadioDisplay2Standby.Highlight = NavRadioHighlight.KHz;
-               break;
-
-            case MacroPadState.COM1_MHZ:
-               form.comRadioDisplay1Standby.Highlight = ComRadioHighlight.MHz;
-               break;
-            case MacroPadState.COM1_KHZ:
-               form.comRadioDisplay1Standby.Highlight = ComRadioHighlight.KHz;
-               break;
-            case MacroPadState.COM2_MHZ:
-               form.comRadioDisplay2Standby.Highlight = ComRadioHighlight.MHz;
-               break;
-            case MacroPadState.COM2_KHZ:
-               form.comRadioDisplay2Standby.Highlight = ComRadioHighlight.KHz;
-               break;
-
-            default:
-               break;
-         }
+         navRadioDisplay1Standby.MacroPadState = e.NewState;
+         navRadioDisplay1Active.MacroPadState = e.NewState;
+         navRadioDisplay2Standby.MacroPadState = e.NewState;
+         navRadioDisplay2Active.MacroPadState = e.NewState;
       });
 
       UpdateConnectionStatus();

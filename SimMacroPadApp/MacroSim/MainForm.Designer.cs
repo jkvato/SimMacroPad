@@ -180,9 +180,13 @@ namespace MacroSim
          navRadioDisplay1Standby = new MacroPadDevice.Controls.NavRadioDisplay();
          navRadioDisplay1Active = new MacroPadDevice.Controls.NavRadioDisplay();
          groupCom2 = new GroupControl();
+         comRadioDisplay2Active = new MacroPadDevice.Controls.ComRadioDisplay();
+         comRadioDisplay2Standby = new MacroPadDevice.Controls.ComRadioDisplay();
          lblCom2Standby = new LabelControl();
          lblCom2Active = new LabelControl();
          groupCom1 = new GroupControl();
+         comRadioDisplay1Active = new MacroPadDevice.Controls.ComRadioDisplay();
+         comRadioDisplay1Standby = new MacroPadDevice.Controls.ComRadioDisplay();
          lblCom1Standby = new LabelControl();
          lblCom1Active = new LabelControl();
          toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
@@ -213,10 +217,6 @@ namespace MacroSim
          gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
          bar3 = new DevExpress.XtraBars.Bar();
          trackBarFlaps = new TrackBarControl();
-         comRadioDisplay1Standby = new MacroPadDevice.Controls.ComRadioDisplay();
-         comRadioDisplay1Active = new MacroPadDevice.Controls.ComRadioDisplay();
-         comRadioDisplay2Standby = new MacroPadDevice.Controls.ComRadioDisplay();
-         comRadioDisplay2Active = new MacroPadDevice.Controls.ComRadioDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -1703,8 +1703,9 @@ namespace MacroSim
          // 
          // navRadioDisplay2Active
          // 
-         navRadioDisplay2Active.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay2Active.Id = 2;
          navRadioDisplay2Active.Location = new Point(139, 48);
+         navRadioDisplay2Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay2Active.Name = "navRadioDisplay2Active";
          navRadioDisplay2Active.Size = new Size(86, 40);
@@ -1713,8 +1714,10 @@ namespace MacroSim
          // 
          // navRadioDisplay2Standby
          // 
-         navRadioDisplay2Standby.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay2Standby.Id = 2;
+         navRadioDisplay2Standby.IsHighlightable = true;
          navRadioDisplay2Standby.Location = new Point(10, 48);
+         navRadioDisplay2Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay2Standby.Name = "navRadioDisplay2Standby";
          navRadioDisplay2Standby.Size = new Size(86, 40);
@@ -1764,8 +1767,9 @@ namespace MacroSim
          // 
          // navRadioDisplay1Standby
          // 
-         navRadioDisplay1Standby.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay1Standby.IsHighlightable = true;
          navRadioDisplay1Standby.Location = new Point(10, 48);
+         navRadioDisplay1Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay1Standby.Name = "navRadioDisplay1Standby";
          navRadioDisplay1Standby.Size = new Size(86, 40);
@@ -1774,8 +1778,8 @@ namespace MacroSim
          // 
          // navRadioDisplay1Active
          // 
-         navRadioDisplay1Active.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
          navRadioDisplay1Active.Location = new Point(139, 48);
+         navRadioDisplay1Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay1Active.Name = "navRadioDisplay1Active";
          navRadioDisplay1Active.Size = new Size(86, 40);
@@ -1795,6 +1799,29 @@ namespace MacroSim
          groupCom2.Size = new Size(255, 99);
          groupCom2.TabIndex = 190;
          groupCom2.Text = "COM 2";
+         // 
+         // comRadioDisplay2Active
+         // 
+         comRadioDisplay2Active.Id = 2;
+         comRadioDisplay2Active.Location = new Point(139, 48);
+         comRadioDisplay2Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
+         comRadioDisplay2Active.Name = "comRadioDisplay2Active";
+         comRadioDisplay2Active.Size = new Size(102, 40);
+         comRadioDisplay2Active.TabIndex = 8;
+         comRadioDisplay2Active.Value = 118D;
+         // 
+         // comRadioDisplay2Standby
+         // 
+         comRadioDisplay2Standby.Id = 2;
+         comRadioDisplay2Standby.IsHighlightable = true;
+         comRadioDisplay2Standby.Location = new Point(10, 48);
+         comRadioDisplay2Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
+         comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
+         comRadioDisplay2Standby.Size = new Size(102, 40);
+         comRadioDisplay2Standby.TabIndex = 6;
+         comRadioDisplay2Standby.Value = 118D;
          // 
          // lblCom2Standby
          // 
@@ -1827,6 +1854,27 @@ namespace MacroSim
          groupCom1.Size = new Size(255, 99);
          groupCom1.TabIndex = 189;
          groupCom1.Text = "COM 1";
+         // 
+         // comRadioDisplay1Active
+         // 
+         comRadioDisplay1Active.Location = new Point(139, 48);
+         comRadioDisplay1Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
+         comRadioDisplay1Active.Name = "comRadioDisplay1Active";
+         comRadioDisplay1Active.Size = new Size(102, 40);
+         comRadioDisplay1Active.TabIndex = 5;
+         comRadioDisplay1Active.Value = 118D;
+         // 
+         // comRadioDisplay1Standby
+         // 
+         comRadioDisplay1Standby.IsHighlightable = true;
+         comRadioDisplay1Standby.Location = new Point(10, 48);
+         comRadioDisplay1Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
+         comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
+         comRadioDisplay1Standby.Size = new Size(102, 40);
+         comRadioDisplay1Standby.TabIndex = 4;
+         comRadioDisplay1Standby.Value = 118D;
          // 
          // lblCom1Standby
          // 
@@ -2078,42 +2126,6 @@ namespace MacroSim
          trackBarFlaps.Size = new Size(45, 105);
          trackBarFlaps.TabIndex = 274;
          trackBarFlaps.ValueChanged += trackBarFlaps_ValueChanged;
-         // 
-         // comRadioDisplay1Standby
-         // 
-         comRadioDisplay1Standby.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
-         comRadioDisplay1Standby.Location = new Point(10, 48);
-         comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
-         comRadioDisplay1Standby.Size = new Size(102, 40);
-         comRadioDisplay1Standby.TabIndex = 4;
-         comRadioDisplay1Standby.Value = 118D;
-         // 
-         // comRadioDisplay1Active
-         // 
-         comRadioDisplay1Active.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
-         comRadioDisplay1Active.Location = new Point(139, 48);
-         comRadioDisplay1Active.Name = "comRadioDisplay1Active";
-         comRadioDisplay1Active.Size = new Size(102, 40);
-         comRadioDisplay1Active.TabIndex = 5;
-         comRadioDisplay1Active.Value = 118D;
-         // 
-         // comRadioDisplay2Standby
-         // 
-         comRadioDisplay2Standby.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
-         comRadioDisplay2Standby.Location = new Point(10, 48);
-         comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
-         comRadioDisplay2Standby.Size = new Size(102, 40);
-         comRadioDisplay2Standby.TabIndex = 6;
-         comRadioDisplay2Standby.Value = 118D;
-         // 
-         // comRadioDisplay2Active
-         // 
-         comRadioDisplay2Active.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
-         comRadioDisplay2Active.Location = new Point(139, 48);
-         comRadioDisplay2Active.Name = "comRadioDisplay2Active";
-         comRadioDisplay2Active.Size = new Size(102, 40);
-         comRadioDisplay2Active.TabIndex = 8;
-         comRadioDisplay2Active.Value = 118D;
          // 
          // MainForm
          // 
