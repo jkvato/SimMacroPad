@@ -78,13 +78,13 @@ internal class MacroPadDevice
                break;
             case MacroPadState.NAV1_MHZ:
             case MacroPadState.NAV1_KHZ:
-               simMessage.Text1 = string.Format("{0:000.000} s", avionicsStruct.nav1standby);
-               simMessage.Text2 = string.Format("{0:000.000} A", avionicsStruct.nav1active);
+               simMessage.Text1 = string.Format("{0:000.00} s", avionicsStruct.nav1standby);
+               simMessage.Text2 = string.Format("{0:000.00} A", avionicsStruct.nav1active);
                break;
             case MacroPadState.NAV2_MHZ:
             case MacroPadState.NAV2_KHZ:
-               simMessage.Text1 = string.Format("{0:000.000} s", avionicsStruct.nav2standby);
-               simMessage.Text2 = string.Format("{0:000.000} A", avionicsStruct.nav2active);
+               simMessage.Text1 = string.Format("{0:000.00} s", avionicsStruct.nav2standby);
+               simMessage.Text2 = string.Format("{0:000.00} A", avionicsStruct.nav2active);
                break;
             case MacroPadState.HEADING:
                simMessage.Text1 = string.Format("{0:000}", avionicsStruct.apHeadingSel);

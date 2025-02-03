@@ -31,7 +31,6 @@ namespace MacroSim
       private void InitializeComponent()
       {
          components = new System.ComponentModel.Container();
-         lblBarometer1 = new LabelControl();
          label6 = new LabelControl();
          lblEngCondition1 = new LabelControl();
          lblMixture1Pct = new LabelControl();
@@ -159,7 +158,6 @@ namespace MacroSim
          checkPedestralLight = new CheckButton();
          checkNavLight = new CheckButton();
          checkPanelLight = new CheckButton();
-         lblTransponder = new LabelControl();
          label4 = new LabelControl();
          label7 = new LabelControl();
          label5 = new LabelControl();
@@ -217,6 +215,8 @@ namespace MacroSim
          dirCourse1Display = new MacroPadDevice.Controls.DirectionDisplay();
          altitudeDisplay = new MacroPadDevice.Controls.AltitudeDisplay();
          verticalSpeedDisplay = new MacroPadDevice.Controls.VerticalSpeedDisplay();
+         barometerDisplay = new MacroPadDevice.Controls.BarometerDisplay();
+         transponderDisplay = new MacroPadDevice.Controls.TransponderDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -256,17 +256,6 @@ namespace MacroSim
          ((System.ComponentModel.ISupportInitialize)trackBarFlaps).BeginInit();
          ((System.ComponentModel.ISupportInitialize)trackBarFlaps.Properties).BeginInit();
          SuspendLayout();
-         // 
-         // lblBarometer1
-         // 
-         lblBarometer1.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblBarometer1.Appearance.Options.UseFont = true;
-         lblBarometer1.Location = new Point(150, 634);
-         lblBarometer1.Margin = new Padding(4, 3, 4, 3);
-         lblBarometer1.Name = "lblBarometer1";
-         lblBarometer1.Size = new Size(70, 40);
-         lblBarometer1.TabIndex = 269;
-         lblBarometer1.Text = "00.00";
          // 
          // label6
          // 
@@ -1578,17 +1567,6 @@ namespace MacroSim
          checkPanelLight.Text = "Panel";
          checkPanelLight.CheckedChanged += LightButton_CheckedChanged;
          // 
-         // lblTransponder
-         // 
-         lblTransponder.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblTransponder.Appearance.Options.UseFont = true;
-         lblTransponder.Location = new Point(24, 634);
-         lblTransponder.Margin = new Padding(4, 3, 4, 3);
-         lblTransponder.Name = "lblTransponder";
-         lblTransponder.Size = new Size(64, 40);
-         lblTransponder.TabIndex = 200;
-         lblTransponder.Text = "0000";
-         // 
          // label4
          // 
          label4.Location = new Point(24, 615);
@@ -2120,18 +2098,34 @@ namespace MacroSim
          verticalSpeedDisplay.Size = new Size(76, 40);
          verticalSpeedDisplay.TabIndex = 290;
          // 
+         // barometerDisplay
+         // 
+         barometerDisplay.Location = new Point(150, 634);
+         barometerDisplay.Name = "barometerDisplay";
+         barometerDisplay.Size = new Size(70, 40);
+         barometerDisplay.TabIndex = 295;
+         // 
+         // transponderDisplay
+         // 
+         transponderDisplay.Location = new Point(24, 634);
+         transponderDisplay.Name = "transponderDisplay";
+         transponderDisplay.Size = new Size(64, 40);
+         transponderDisplay.TabIndex = 300;
+         transponderDisplay.Value = 1200;
+         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
          ClientSize = new Size(1133, 874);
+         Controls.Add(transponderDisplay);
+         Controls.Add(barometerDisplay);
          Controls.Add(verticalSpeedDisplay);
          Controls.Add(altitudeDisplay);
          Controls.Add(dirCourse1Display);
          Controls.Add(dirHeadingDisplay);
          Controls.Add(trackBarFlaps);
-         Controls.Add(lblBarometer1);
          Controls.Add(label6);
          Controls.Add(lblEngCondition1);
          Controls.Add(lblMixture1Pct);
@@ -2200,7 +2194,6 @@ namespace MacroSim
          Controls.Add(groupFms);
          Controls.Add(groupAutopilot);
          Controls.Add(groupLights);
-         Controls.Add(lblTransponder);
          Controls.Add(label4);
          Controls.Add(label7);
          Controls.Add(label5);
@@ -2273,7 +2266,6 @@ namespace MacroSim
       #endregion
       private ToolStripMenuItem testToolStripMenuItem;
       private TextEdit txtTotalFuelPct;
-      private LabelControl lblBarometer1;
       private LabelControl label6;
       private LabelControl lblEngCondition1;
       private LabelControl lblMixture1Pct;
@@ -2401,7 +2393,6 @@ namespace MacroSim
       private CheckButton checkPedestralLight;
       private CheckButton checkNavLight;
       private CheckButton checkPanelLight;
-      private LabelControl lblTransponder;
       private LabelControl label4;
       private LabelControl label7;
       private LabelControl label5;
@@ -2459,5 +2450,7 @@ namespace MacroSim
       private MacroPadDevice.Controls.DirectionDisplay dirHeadingDisplay;
       private MacroPadDevice.Controls.AltitudeDisplay altitudeDisplay;
       private MacroPadDevice.Controls.VerticalSpeedDisplay verticalSpeedDisplay;
+      private MacroPadDevice.Controls.BarometerDisplay barometerDisplay;
+      private MacroPadDevice.Controls.TransponderDisplay transponderDisplay;
    }
 }

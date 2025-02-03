@@ -141,6 +141,10 @@ public partial class MainForm : ToolbarForm
 
       altitudeDisplay.CurrentMacroPadState = state;
       verticalSpeedDisplay.CurrentMacroPadState = state;
+
+      barometerDisplay.CurrentMacroPadState = state;
+
+      transponderDisplay.CurrentMacroPadState = state;
    }
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
@@ -326,10 +330,10 @@ public partial class MainForm : ToolbarForm
             form.verticalSpeedDisplay.Value = avionicsStruct.apVerticalSpeedSel;
 
             // Transponder
-            form.lblTransponder.Text = string.Format("{0:0000}", avionicsStruct.transponderCode);
+            transponderDisplay.Value = avionicsStruct.transponderCode;
 
             // Barometer
-            form.lblBarometer1.Text = string.Format("{0:00.00}", avionicsStruct.baro1Setting);
+            form.barometerDisplay.Value = avionicsStruct.baro1Setting;
 
             // Fuel
             form.lblTotalFuelPct.Text = string.Format("Total Fuel: {0:00.0}%", avionicsStruct.TotalFuelPct);
