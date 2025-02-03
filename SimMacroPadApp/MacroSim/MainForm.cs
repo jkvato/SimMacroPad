@@ -12,6 +12,8 @@ using DevExpress.XtraEditors;
 using FSUIPC;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
+using MacroSim.MacroPadDevice.Controls;
+using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.Properties;
 using MacroSim.SimConnection;
 using MacroSim.SimConnection.Enumerations;
@@ -109,6 +111,8 @@ public partial class MainForm : ToolbarForm
 
       lblVerticalSpeedValue.AutoSize = false;
 
+      DevExpress.LookAndFeel.UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
+
       GetComPorts();
 
       timerConnection = new System.Timers.Timer();
@@ -120,6 +124,18 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 250;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void Default_StyleChanged(object? sender, EventArgs e)
+   {
+      navRadioDisplay1Standby.Highlight = navRadioDisplay1Standby.Highlight;
+      navRadioDisplay2Standby.Highlight = navRadioDisplay2Standby.Highlight;
+      navRadioDisplay1Active.Highlight = navRadioDisplay1Active.Highlight;
+      navRadioDisplay2Active.Highlight = navRadioDisplay2Active.Highlight;
+      comRadioDisplay1Standby.Highlight = comRadioDisplay1Standby.Highlight;
+      comRadioDisplay2Standby.Highlight = comRadioDisplay2Standby.Highlight;
+      comRadioDisplay1Active.Highlight = comRadioDisplay1Active.Highlight;
+      comRadioDisplay2Active.Highlight = comRadioDisplay2Active.Highlight;
    }
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
@@ -205,7 +221,45 @@ public partial class MainForm : ToolbarForm
       InvokeAction(form =>
       {
          form.lblMacroPadState.Caption = $"State: {e.NewState}";
+
+         form.comRadioDisplay1Standby.Highlight = ComRadioHighlight.None;
+         form.comRadioDisplay2Standby.Highlight = ComRadioHighlight.None;
+         form.navRadioDisplay1Standby.Highlight = NavRadioHighlight.None;
+         form.navRadioDisplay2Standby.Highlight = NavRadioHighlight.None;
+
+         switch (e.NewState)
+         {
+            case MacroPadState.NAV1_MHZ:
+               form.navRadioDisplay1Standby.Highlight = NavRadioHighlight.MHz;
+               break;
+            case MacroPadState.NAV1_KHZ:
+               form.navRadioDisplay1Standby.Highlight = NavRadioHighlight.KHz;
+               break;
+            case MacroPadState.NAV2_MHZ:
+               form.navRadioDisplay2Standby.Highlight = NavRadioHighlight.MHz;
+               break;
+            case MacroPadState.NAV2_KHZ:
+               form.navRadioDisplay2Standby.Highlight = NavRadioHighlight.KHz;
+               break;
+
+            case MacroPadState.COM1_MHZ:
+               form.comRadioDisplay1Standby.Highlight = ComRadioHighlight.MHz;
+               break;
+            case MacroPadState.COM1_KHZ:
+               form.comRadioDisplay1Standby.Highlight = ComRadioHighlight.KHz;
+               break;
+            case MacroPadState.COM2_MHZ:
+               form.comRadioDisplay2Standby.Highlight = ComRadioHighlight.MHz;
+               break;
+            case MacroPadState.COM2_KHZ:
+               form.comRadioDisplay2Standby.Highlight = ComRadioHighlight.KHz;
+               break;
+
+            default:
+               break;
+         }
       });
+
       UpdateConnectionStatus();
    }
 
@@ -251,14 +305,14 @@ public partial class MainForm : ToolbarForm
             // COM1
             form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
             form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;
-            form.lblCom1StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com1standby);
-            form.lblCom1ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com1active);
+            form.comRadioDisplay1Standby.Value = avionicsStruct.com1standby;
+            form.comRadioDisplay1Active.Value = avionicsStruct.com1active;
 
             // COM2
             form.lblCom2Standby.Text = avionicsStruct.Com2StandbyName;
             form.lblCom2Active.Text = avionicsStruct.Com2ActiveName;
-            form.lblCom2StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com2standby);
-            form.lblCom2ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com2active);
+            form.comRadioDisplay2Standby.Value = avionicsStruct.com2standby;
+            form.comRadioDisplay2Active.Value = avionicsStruct.com2active;
 
             // NAV1
             if (avionicsStruct.nav1Ident == "")
@@ -266,8 +320,8 @@ public partial class MainForm : ToolbarForm
             else
                form.lblNav1Active.Text = avionicsStruct.nav1Ident + " " + avionicsStruct.nav1Name;
 
-            form.lblNav1StandbyValue.Text = string.Format("{0:000.00}", avionicsStruct.nav1standby);
-            form.lblNav1ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav1active);
+            form.navRadioDisplay1Standby.Value = avionicsStruct.nav1standby;
+            form.navRadioDisplay1Active.Value = avionicsStruct.nav1active;
 
             // NAV2
             if (avionicsStruct.nav2Ident == "")
@@ -275,8 +329,8 @@ public partial class MainForm : ToolbarForm
             else
                form.lblNav2Active.Text = avionicsStruct.nav2Ident + " " + avionicsStruct.nav2Name;
 
-            form.lblNav2StandbyValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2standby);
-            form.lblNav2ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2active);
+            form.navRadioDisplay2Standby.Value = avionicsStruct.nav2standby;
+            form.navRadioDisplay2Active.Value = avionicsStruct.nav2active;
 
             // AP Heading
             form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);

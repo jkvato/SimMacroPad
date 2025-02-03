@@ -169,27 +169,24 @@ namespace MacroSim
          lblCourseSel = new LabelControl();
          lblHeadingValue = new LabelControl();
          groupNav2 = new GroupControl();
-         lblNav2StandbyValue = new LabelControl();
-         lblNav2ActiveValue = new LabelControl();
          lblNav2Standby = new LabelControl();
          lblNav2Active = new LabelControl();
+         navRadioDisplay2Active = new MacroPadDevice.Controls.NavRadioDisplay();
+         navRadioDisplay2Standby = new MacroPadDevice.Controls.NavRadioDisplay();
          label2 = new LabelControl();
          groupNav1 = new GroupControl();
-         lblNav1StandbyValue = new LabelControl();
-         lblNav1ActiveValue = new LabelControl();
          lblNav1Standby = new LabelControl();
          lblNav1Active = new LabelControl();
+         navRadioDisplay1Standby = new MacroPadDevice.Controls.NavRadioDisplay();
+         navRadioDisplay1Active = new MacroPadDevice.Controls.NavRadioDisplay();
          groupCom2 = new GroupControl();
          lblCom2Standby = new LabelControl();
-         lblCom2StandbyValue = new LabelControl();
-         lblCom2ActiveValue = new LabelControl();
          lblCom2Active = new LabelControl();
          groupCom1 = new GroupControl();
-         lblCom1ActiveValue = new LabelControl();
          lblCom1Standby = new LabelControl();
          lblCom1Active = new LabelControl();
-         lblCom1StandbyValue = new LabelControl();
          toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
+         gridLookUpEdit1 = new GridLookUpEdit();
          toolbarFormManager1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormManager(components);
          bar1 = new DevExpress.XtraBars.Bar();
          menuApp = new DevExpress.XtraBars.BarSubItem();
@@ -213,8 +210,13 @@ namespace MacroSim
          barDockControlRight = new DevExpress.XtraBars.BarDockControl();
          skinPaletteDropDownButtonItem1 = new DevExpress.XtraBars.SkinPaletteDropDownButtonItem();
          skinDropDownButtonItem1 = new DevExpress.XtraBars.SkinDropDownButtonItem();
+         gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
          bar3 = new DevExpress.XtraBars.Bar();
          trackBarFlaps = new TrackBarControl();
+         comRadioDisplay1Standby = new MacroPadDevice.Controls.ComRadioDisplay();
+         comRadioDisplay1Active = new MacroPadDevice.Controls.ComRadioDisplay();
+         comRadioDisplay2Standby = new MacroPadDevice.Controls.ComRadioDisplay();
+         comRadioDisplay2Active = new MacroPadDevice.Controls.ComRadioDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -247,7 +249,10 @@ namespace MacroSim
          ((System.ComponentModel.ISupportInitialize)groupCom1).BeginInit();
          groupCom1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)toolbarFormControl1).BeginInit();
+         toolbarFormControl1.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)gridLookUpEdit1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)toolbarFormManager1).BeginInit();
+         ((System.ComponentModel.ISupportInitialize)gridLookUpEdit1View).BeginInit();
          ((System.ComponentModel.ISupportInitialize)trackBarFlaps).BeginInit();
          ((System.ComponentModel.ISupportInitialize)trackBarFlaps.Properties).BeginInit();
          SuspendLayout();
@@ -1666,10 +1671,10 @@ namespace MacroSim
          // 
          // groupNav2
          // 
-         groupNav2.Controls.Add(lblNav2StandbyValue);
-         groupNav2.Controls.Add(lblNav2ActiveValue);
          groupNav2.Controls.Add(lblNav2Standby);
          groupNav2.Controls.Add(lblNav2Active);
+         groupNav2.Controls.Add(navRadioDisplay2Active);
+         groupNav2.Controls.Add(navRadioDisplay2Standby);
          groupNav2.Location = new Point(13, 379);
          groupNav2.Margin = new Padding(4, 3, 4, 3);
          groupNav2.Name = "groupNav2";
@@ -1677,28 +1682,6 @@ namespace MacroSim
          groupNav2.Size = new Size(255, 99);
          groupNav2.TabIndex = 192;
          groupNav2.Text = "NAV 2";
-         // 
-         // lblNav2StandbyValue
-         // 
-         lblNav2StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblNav2StandbyValue.Appearance.Options.UseFont = true;
-         lblNav2StandbyValue.Location = new Point(10, 48);
-         lblNav2StandbyValue.Margin = new Padding(4, 3, 4, 3);
-         lblNav2StandbyValue.Name = "lblNav2StandbyValue";
-         lblNav2StandbyValue.Size = new Size(86, 40);
-         lblNav2StandbyValue.TabIndex = 4;
-         lblNav2StandbyValue.Text = "000.00";
-         // 
-         // lblNav2ActiveValue
-         // 
-         lblNav2ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblNav2ActiveValue.Appearance.Options.UseFont = true;
-         lblNav2ActiveValue.Location = new Point(139, 48);
-         lblNav2ActiveValue.Margin = new Padding(4, 3, 4, 3);
-         lblNav2ActiveValue.Name = "lblNav2ActiveValue";
-         lblNav2ActiveValue.Size = new Size(86, 40);
-         lblNav2ActiveValue.TabIndex = 5;
-         lblNav2ActiveValue.Text = "000.00";
          // 
          // lblNav2Standby
          // 
@@ -1718,6 +1701,26 @@ namespace MacroSim
          lblNav2Active.TabIndex = 3;
          lblNav2Active.Text = "Active";
          // 
+         // navRadioDisplay2Active
+         // 
+         navRadioDisplay2Active.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay2Active.Location = new Point(139, 48);
+         navRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
+         navRadioDisplay2Active.Name = "navRadioDisplay2Active";
+         navRadioDisplay2Active.Size = new Size(86, 40);
+         navRadioDisplay2Active.TabIndex = 280;
+         navRadioDisplay2Active.Value = 108D;
+         // 
+         // navRadioDisplay2Standby
+         // 
+         navRadioDisplay2Standby.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay2Standby.Location = new Point(10, 48);
+         navRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
+         navRadioDisplay2Standby.Name = "navRadioDisplay2Standby";
+         navRadioDisplay2Standby.Size = new Size(86, 40);
+         navRadioDisplay2Standby.TabIndex = 281;
+         navRadioDisplay2Standby.Value = 108D;
+         // 
          // label2
          // 
          label2.Location = new Point(24, 485);
@@ -1729,10 +1732,10 @@ namespace MacroSim
          // 
          // groupNav1
          // 
-         groupNav1.Controls.Add(lblNav1StandbyValue);
-         groupNav1.Controls.Add(lblNav1ActiveValue);
          groupNav1.Controls.Add(lblNav1Standby);
          groupNav1.Controls.Add(lblNav1Active);
+         groupNav1.Controls.Add(navRadioDisplay1Standby);
+         groupNav1.Controls.Add(navRadioDisplay1Active);
          groupNav1.Location = new Point(13, 275);
          groupNav1.Margin = new Padding(4, 3, 4, 3);
          groupNav1.Name = "groupNav1";
@@ -1740,28 +1743,6 @@ namespace MacroSim
          groupNav1.Size = new Size(255, 99);
          groupNav1.TabIndex = 191;
          groupNav1.Text = "NAV 1";
-         // 
-         // lblNav1StandbyValue
-         // 
-         lblNav1StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblNav1StandbyValue.Appearance.Options.UseFont = true;
-         lblNav1StandbyValue.Location = new Point(10, 48);
-         lblNav1StandbyValue.Margin = new Padding(4, 3, 4, 3);
-         lblNav1StandbyValue.Name = "lblNav1StandbyValue";
-         lblNav1StandbyValue.Size = new Size(86, 40);
-         lblNav1StandbyValue.TabIndex = 4;
-         lblNav1StandbyValue.Text = "000.00";
-         // 
-         // lblNav1ActiveValue
-         // 
-         lblNav1ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblNav1ActiveValue.Appearance.Options.UseFont = true;
-         lblNav1ActiveValue.Location = new Point(139, 48);
-         lblNav1ActiveValue.Margin = new Padding(4, 3, 4, 3);
-         lblNav1ActiveValue.Name = "lblNav1ActiveValue";
-         lblNav1ActiveValue.Size = new Size(86, 40);
-         lblNav1ActiveValue.TabIndex = 5;
-         lblNav1ActiveValue.Text = "000.00";
          // 
          // lblNav1Standby
          // 
@@ -1781,11 +1762,31 @@ namespace MacroSim
          lblNav1Active.TabIndex = 3;
          lblNav1Active.Text = "Active";
          // 
+         // navRadioDisplay1Standby
+         // 
+         navRadioDisplay1Standby.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay1Standby.Location = new Point(10, 48);
+         navRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
+         navRadioDisplay1Standby.Name = "navRadioDisplay1Standby";
+         navRadioDisplay1Standby.Size = new Size(86, 40);
+         navRadioDisplay1Standby.TabIndex = 279;
+         navRadioDisplay1Standby.Value = 108D;
+         // 
+         // navRadioDisplay1Active
+         // 
+         navRadioDisplay1Active.Highlight = MacroPadDevice.Controls.NavRadioHighlight.None;
+         navRadioDisplay1Active.Location = new Point(139, 48);
+         navRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
+         navRadioDisplay1Active.Name = "navRadioDisplay1Active";
+         navRadioDisplay1Active.Size = new Size(86, 40);
+         navRadioDisplay1Active.TabIndex = 280;
+         navRadioDisplay1Active.Value = 108D;
+         // 
          // groupCom2
          // 
+         groupCom2.Controls.Add(comRadioDisplay2Active);
+         groupCom2.Controls.Add(comRadioDisplay2Standby);
          groupCom2.Controls.Add(lblCom2Standby);
-         groupCom2.Controls.Add(lblCom2StandbyValue);
-         groupCom2.Controls.Add(lblCom2ActiveValue);
          groupCom2.Controls.Add(lblCom2Active);
          groupCom2.Location = new Point(13, 167);
          groupCom2.Margin = new Padding(4, 3, 4, 3);
@@ -1804,28 +1805,6 @@ namespace MacroSim
          lblCom2Standby.TabIndex = 6;
          lblCom2Standby.Text = "Standby";
          // 
-         // lblCom2StandbyValue
-         // 
-         lblCom2StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblCom2StandbyValue.Appearance.Options.UseFont = true;
-         lblCom2StandbyValue.Location = new Point(10, 48);
-         lblCom2StandbyValue.Margin = new Padding(4, 3, 4, 3);
-         lblCom2StandbyValue.Name = "lblCom2StandbyValue";
-         lblCom2StandbyValue.Size = new Size(102, 40);
-         lblCom2StandbyValue.TabIndex = 8;
-         lblCom2StandbyValue.Text = "000.000";
-         // 
-         // lblCom2ActiveValue
-         // 
-         lblCom2ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblCom2ActiveValue.Appearance.Options.UseFont = true;
-         lblCom2ActiveValue.Location = new Point(139, 48);
-         lblCom2ActiveValue.Margin = new Padding(4, 3, 4, 3);
-         lblCom2ActiveValue.Name = "lblCom2ActiveValue";
-         lblCom2ActiveValue.Size = new Size(102, 40);
-         lblCom2ActiveValue.TabIndex = 9;
-         lblCom2ActiveValue.Text = "000.000";
-         // 
          // lblCom2Active
          // 
          lblCom2Active.Location = new Point(139, 29);
@@ -1837,10 +1816,10 @@ namespace MacroSim
          // 
          // groupCom1
          // 
-         groupCom1.Controls.Add(lblCom1ActiveValue);
+         groupCom1.Controls.Add(comRadioDisplay1Active);
+         groupCom1.Controls.Add(comRadioDisplay1Standby);
          groupCom1.Controls.Add(lblCom1Standby);
          groupCom1.Controls.Add(lblCom1Active);
-         groupCom1.Controls.Add(lblCom1StandbyValue);
          groupCom1.Location = new Point(13, 61);
          groupCom1.Margin = new Padding(4, 3, 4, 3);
          groupCom1.Name = "groupCom1";
@@ -1848,17 +1827,6 @@ namespace MacroSim
          groupCom1.Size = new Size(255, 99);
          groupCom1.TabIndex = 189;
          groupCom1.Text = "COM 1";
-         // 
-         // lblCom1ActiveValue
-         // 
-         lblCom1ActiveValue.Appearance.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-         lblCom1ActiveValue.Appearance.Options.UseFont = true;
-         lblCom1ActiveValue.Location = new Point(139, 48);
-         lblCom1ActiveValue.Margin = new Padding(4, 3, 4, 3);
-         lblCom1ActiveValue.Name = "lblCom1ActiveValue";
-         lblCom1ActiveValue.Size = new Size(102, 40);
-         lblCom1ActiveValue.TabIndex = 5;
-         lblCom1ActiveValue.Text = "000.000";
          // 
          // lblCom1Standby
          // 
@@ -1878,19 +1846,9 @@ namespace MacroSim
          lblCom1Active.TabIndex = 3;
          lblCom1Active.Text = "Active";
          // 
-         // lblCom1StandbyValue
-         // 
-         lblCom1StandbyValue.Appearance.Font = new Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-         lblCom1StandbyValue.Appearance.Options.UseFont = true;
-         lblCom1StandbyValue.Location = new Point(10, 48);
-         lblCom1StandbyValue.Margin = new Padding(4, 3, 4, 3);
-         lblCom1StandbyValue.Name = "lblCom1StandbyValue";
-         lblCom1StandbyValue.Size = new Size(102, 40);
-         lblCom1StandbyValue.TabIndex = 4;
-         lblCom1StandbyValue.Text = "000.000";
-         // 
          // toolbarFormControl1
          // 
+         toolbarFormControl1.Controls.Add(gridLookUpEdit1);
          toolbarFormControl1.Location = new Point(0, 0);
          toolbarFormControl1.Manager = toolbarFormManager1;
          toolbarFormControl1.Margin = new Padding(4, 3, 4, 3);
@@ -1901,6 +1859,17 @@ namespace MacroSim
          toolbarFormControl1.TitleItemLinks.Add(skinPaletteDropDownButtonItem1);
          toolbarFormControl1.TitleItemLinks.Add(skinDropDownButtonItem1);
          toolbarFormControl1.ToolbarForm = this;
+         // 
+         // gridLookUpEdit1
+         // 
+         gridLookUpEdit1.Location = new Point(479, 30);
+         gridLookUpEdit1.Margin = new Padding(4, 3, 4, 3);
+         gridLookUpEdit1.MenuManager = toolbarFormManager1;
+         gridLookUpEdit1.Name = "gridLookUpEdit1";
+         gridLookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
+         gridLookUpEdit1.Properties.PopupView = gridLookUpEdit1View;
+         gridLookUpEdit1.Size = new Size(100, 24);
+         gridLookUpEdit1.TabIndex = 0;
          // 
          // toolbarFormManager1
          // 
@@ -2081,6 +2050,13 @@ namespace MacroSim
          skinDropDownButtonItem1.Id = 6;
          skinDropDownButtonItem1.Name = "skinDropDownButtonItem1";
          // 
+         // gridLookUpEdit1View
+         // 
+         gridLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+         gridLookUpEdit1View.Name = "gridLookUpEdit1View";
+         gridLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = false;
+         gridLookUpEdit1View.OptionsView.ShowGroupPanel = false;
+         // 
          // bar3
          // 
          bar3.BarName = "Custom 4";
@@ -2102,6 +2078,42 @@ namespace MacroSim
          trackBarFlaps.Size = new Size(45, 105);
          trackBarFlaps.TabIndex = 274;
          trackBarFlaps.ValueChanged += trackBarFlaps_ValueChanged;
+         // 
+         // comRadioDisplay1Standby
+         // 
+         comRadioDisplay1Standby.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
+         comRadioDisplay1Standby.Location = new Point(10, 48);
+         comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
+         comRadioDisplay1Standby.Size = new Size(102, 40);
+         comRadioDisplay1Standby.TabIndex = 4;
+         comRadioDisplay1Standby.Value = 118D;
+         // 
+         // comRadioDisplay1Active
+         // 
+         comRadioDisplay1Active.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
+         comRadioDisplay1Active.Location = new Point(139, 48);
+         comRadioDisplay1Active.Name = "comRadioDisplay1Active";
+         comRadioDisplay1Active.Size = new Size(102, 40);
+         comRadioDisplay1Active.TabIndex = 5;
+         comRadioDisplay1Active.Value = 118D;
+         // 
+         // comRadioDisplay2Standby
+         // 
+         comRadioDisplay2Standby.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
+         comRadioDisplay2Standby.Location = new Point(10, 48);
+         comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
+         comRadioDisplay2Standby.Size = new Size(102, 40);
+         comRadioDisplay2Standby.TabIndex = 6;
+         comRadioDisplay2Standby.Value = 118D;
+         // 
+         // comRadioDisplay2Active
+         // 
+         comRadioDisplay2Active.Highlight = MacroPadDevice.Controls.ComRadioHighlight.None;
+         comRadioDisplay2Active.Location = new Point(139, 48);
+         comRadioDisplay2Active.Name = "comRadioDisplay2Active";
+         comRadioDisplay2Active.Size = new Size(102, 40);
+         comRadioDisplay2Active.TabIndex = 8;
+         comRadioDisplay2Active.Value = 118D;
          // 
          // MainForm
          // 
@@ -2243,7 +2255,10 @@ namespace MacroSim
          groupCom1.ResumeLayout(false);
          groupCom1.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)toolbarFormControl1).EndInit();
+         toolbarFormControl1.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)gridLookUpEdit1.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)toolbarFormManager1).EndInit();
+         ((System.ComponentModel.ISupportInitialize)gridLookUpEdit1View).EndInit();
          ((System.ComponentModel.ISupportInitialize)trackBarFlaps.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)trackBarFlaps).EndInit();
          ResumeLayout(false);
@@ -2391,24 +2406,16 @@ namespace MacroSim
       private LabelControl lblCourseSel;
       private LabelControl lblHeadingValue;
       private GroupControl groupNav2;
-      private LabelControl lblNav2StandbyValue;
-      private LabelControl lblNav2ActiveValue;
       private LabelControl lblNav2Standby;
       private LabelControl lblNav2Active;
       private LabelControl label2;
       private GroupControl groupNav1;
-      private LabelControl lblNav1StandbyValue;
-      private LabelControl lblNav1ActiveValue;
       private LabelControl lblNav1Standby;
       private LabelControl lblNav1Active;
       private GroupControl groupCom2;
       private LabelControl lblCom2Standby;
-      private LabelControl lblCom2StandbyValue;
-      private LabelControl lblCom2ActiveValue;
       private LabelControl lblCom2Active;
       private GroupControl groupCom1;
-      private LabelControl lblCom1StandbyValue;
-      private LabelControl lblCom1ActiveValue;
       private LabelControl lblCom1Standby;
       private LabelControl lblCom1Active;
       private DevExpress.XtraBars.ToolbarForm.ToolbarFormControl toolbarFormControl1;
@@ -2437,5 +2444,15 @@ namespace MacroSim
       private DevExpress.XtraBars.BarStaticItem lblSimAircraft;
       private DevExpress.XtraBars.BarStaticItem lblMacroPadState;
       private DevExpress.XtraBars.BarStaticItem lblLocalTime;
+      private MacroPadDevice.Controls.NavRadioDisplay navRadioDisplay1Standby;
+      private MacroPadDevice.Controls.NavRadioDisplay navRadioDisplay1Active;
+      private MacroPadDevice.Controls.NavRadioDisplay navRadioDisplay2Standby;
+      private MacroPadDevice.Controls.NavRadioDisplay navRadioDisplay2Active;
+      private GridLookUpEdit gridLookUpEdit1;
+      private DevExpress.XtraGrid.Views.Grid.GridView gridLookUpEdit1View;
+      private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay1Standby;
+      private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay2Active;
+      private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay2Standby;
+      private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay1Active;
    }
 }
