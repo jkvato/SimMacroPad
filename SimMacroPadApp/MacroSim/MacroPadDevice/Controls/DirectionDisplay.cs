@@ -44,6 +44,7 @@ public partial class DirectionDisplay : UserControl
       }
    }
 
+   [Browsable(true)]
    public override string Text
    {
       get
@@ -57,6 +58,7 @@ public partial class DirectionDisplay : UserControl
       }
    }
 
+   [Browsable(true)]
    public int Value
    {
       get
@@ -80,8 +82,6 @@ public partial class DirectionDisplay : UserControl
       text = string.Format("{0:000}", direction);
       lblDirection.Text = text;
    }
-
-
 
    public DirectionDisplay()
    {

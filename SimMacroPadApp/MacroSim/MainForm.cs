@@ -104,8 +104,6 @@ public partial class MainForm : ToolbarForm
       macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection, fsuipcConnection);
       macroPadDevice.EventProcessed += MacroPadDevice_EventProcessed;
 
-      lblVerticalSpeedValue.AutoSize = false;
-
       DevExpress.LookAndFeel.UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
 
       GetComPorts();
@@ -123,20 +121,26 @@ public partial class MainForm : ToolbarForm
 
    private void Default_StyleChanged(object? sender, EventArgs e)
    {
-      comRadioDisplay1Standby.CurrentMacroPadState = macroPadDevice.State;
-      comRadioDisplay1Active.CurrentMacroPadState = macroPadDevice.State;
-      comRadioDisplay2Standby.CurrentMacroPadState = macroPadDevice.State;
-      comRadioDisplay2Active.CurrentMacroPadState = macroPadDevice.State;
+      SetDisplayState(macroPadDevice.State);
+   }
 
-      navRadioDisplay1Standby.CurrentMacroPadState = macroPadDevice.State;
-      navRadioDisplay1Active.CurrentMacroPadState = macroPadDevice.State;
-      navRadioDisplay2Standby.CurrentMacroPadState = macroPadDevice.State;
-      navRadioDisplay2Active.CurrentMacroPadState = macroPadDevice.State;
+   private void SetDisplayState(MacroPadState state)
+   {
+      comRadioDisplay1Standby.CurrentMacroPadState = state;
+      comRadioDisplay1Active.CurrentMacroPadState = state;
+      comRadioDisplay2Standby.CurrentMacroPadState = state;
+      comRadioDisplay2Active.CurrentMacroPadState = state;
 
-      dirHeadingDisplay.CurrentMacroPadState = macroPadDevice.State;
-      dirCourse1Display.CurrentMacroPadState = macroPadDevice.State;
+      navRadioDisplay1Standby.CurrentMacroPadState = state;
+      navRadioDisplay1Active.CurrentMacroPadState = state;
+      navRadioDisplay2Standby.CurrentMacroPadState = state;
+      navRadioDisplay2Active.CurrentMacroPadState = state;
 
-      altitudeDisplay.CurrentMacroPadState = macroPadDevice.State;
+      dirHeadingDisplay.CurrentMacroPadState = state;
+      dirCourse1Display.CurrentMacroPadState = state;
+
+      altitudeDisplay.CurrentMacroPadState = state;
+      verticalSpeedDisplay.CurrentMacroPadState = state;
    }
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
@@ -222,21 +226,7 @@ public partial class MainForm : ToolbarForm
       InvokeAction(form =>
       {
          form.lblMacroPadState.Caption = $"State: {e.NewState}";
-
-         comRadioDisplay1Standby.CurrentMacroPadState = e.NewState;
-         comRadioDisplay1Active.CurrentMacroPadState = e.NewState;
-         comRadioDisplay2Standby.CurrentMacroPadState = e.NewState;
-         comRadioDisplay2Active.CurrentMacroPadState = e.NewState;
-
-         navRadioDisplay1Standby.CurrentMacroPadState = e.NewState;
-         navRadioDisplay1Active.CurrentMacroPadState = e.NewState;
-         navRadioDisplay2Standby.CurrentMacroPadState = e.NewState;
-         navRadioDisplay2Active.CurrentMacroPadState = e.NewState;
-
-         dirHeadingDisplay.CurrentMacroPadState = e.NewState;
-         dirCourse1Display.CurrentMacroPadState = e.NewState;
-
-         altitudeDisplay.CurrentMacroPadState = e.NewState;
+         SetDisplayState(e.NewState);
       });
 
       UpdateConnectionStatus();
@@ -333,7 +323,7 @@ public partial class MainForm : ToolbarForm
             form.altitudeDisplay.Value = avionicsStruct.apAltitudeSel;
 
             // AP Vertical Speed
-            form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", avionicsStruct.apVerticalSpeedSel);
+            form.verticalSpeedDisplay.Value = avionicsStruct.apVerticalSpeedSel;
 
             // Transponder
             form.lblTransponder.Text = string.Format("{0:0000}", avionicsStruct.transponderCode);
@@ -1577,4 +1567,3 @@ internal enum ShowWindowEnum
    ShowDefault = 10,
    ForceMinimized = 11
 };
-

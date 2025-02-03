@@ -16,6 +16,8 @@ public partial class NavRadioDisplay : UserControl
    private string text;
    MacroPadState macroPadState;
 
+
+   [Browsable(false)]
    public MacroPadState CurrentMacroPadState
    {
       get => macroPadState;
@@ -64,39 +66,7 @@ public partial class NavRadioDisplay : UserControl
    [DefaultValue(false)]
    public bool IsHighlightable { get; set; } = false;
 
-   //public NavRadioHighlight Highlight
-   //{
-   //   get => highlight;
-   //   set
-   //   {
-   //      highlight = value;
-
-   //      Skin skin = CommonSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
-
-   //      switch (highlight)
-   //      {
-   //         case NavRadioHighlight.MHz:
-   //            lblMHz.Appearance.ForeColor = HighlightForeColor;
-   //            lblMHz.Appearance.BackColor = skin.Colors["Control"];
-   //            lblKHz.Appearance.ForeColor = DXSkinColors.ForeColors.ControlText;
-   //            lblKHz.Appearance.BackColor = skin.Colors["Control"];
-   //            break;
-   //         case NavRadioHighlight.KHz:
-   //            lblMHz.Appearance.ForeColor = DXSkinColors.ForeColors.ControlText;
-   //            lblMHz.Appearance.BackColor = skin.Colors["Control"];
-   //            lblKHz.Appearance.ForeColor = HighlightForeColor;
-   //            lblKHz.Appearance.BackColor = skin.Colors["Control"];
-   //            break;
-   //         default:
-   //            lblMHz.Appearance.ForeColor = skin.Colors["ControlText"];
-   //            lblMHz.Appearance.BackColor = skin.Colors["Control"];
-   //            lblKHz.Appearance.ForeColor = skin.Colors["ControlText"];
-   //            lblKHz.Appearance.BackColor = skin.Colors["Control"];
-   //            break;
-   //      }
-   //   }
-   //}
-
+   [Browsable(true)]
    public override string Text
    {
       get
@@ -110,6 +80,7 @@ public partial class NavRadioDisplay : UserControl
       }
    }
 
+   [Browsable(true)]
    public double Value
    {
       get

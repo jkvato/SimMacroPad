@@ -1,6 +1,7 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using MacroSim.MacroPadDevice.Enumerations;
+using System.ComponentModel;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
@@ -12,6 +13,7 @@ public partial class AltitudeDisplay : UserControl
    private string text;
    MacroPadState macroPadState;
 
+   [Browsable(false)]
    public MacroPadState CurrentMacroPadState
    {
       get => macroPadState;
@@ -39,6 +41,7 @@ public partial class AltitudeDisplay : UserControl
       }
    }
 
+   [Browsable(true)]
    public override string Text
    {
       get
@@ -52,6 +55,7 @@ public partial class AltitudeDisplay : UserControl
       }
    }
 
+   [Browsable(true)]
    public int Value
    {
       get

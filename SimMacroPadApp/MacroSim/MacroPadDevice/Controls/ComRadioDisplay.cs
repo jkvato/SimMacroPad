@@ -16,6 +16,7 @@ public partial class ComRadioDisplay : UserControl
    private string text;
    MacroPadState macroPadState;
 
+   [Browsable(false)]
    public MacroPadState CurrentMacroPadState
    {
       get => macroPadState;
@@ -64,7 +65,7 @@ public partial class ComRadioDisplay : UserControl
    [DefaultValue(false)]
    public bool IsHighlightable { get; set; } = false;
 
-
+   [Browsable(true)]
    public override string Text
    {
       get
@@ -78,6 +79,7 @@ public partial class ComRadioDisplay : UserControl
       }
    }
 
+   [Browsable(true)]
    public double Value
    {
       get

@@ -161,7 +161,6 @@ namespace MacroSim
          checkPanelLight = new CheckButton();
          lblTransponder = new LabelControl();
          label4 = new LabelControl();
-         lblVerticalSpeedValue = new LabelControl();
          label7 = new LabelControl();
          label5 = new LabelControl();
          lblCourseSel = new LabelControl();
@@ -217,6 +216,7 @@ namespace MacroSim
          dirHeadingDisplay = new MacroPadDevice.Controls.DirectionDisplay();
          dirCourse1Display = new MacroPadDevice.Controls.DirectionDisplay();
          altitudeDisplay = new MacroPadDevice.Controls.AltitudeDisplay();
+         verticalSpeedDisplay = new MacroPadDevice.Controls.VerticalSpeedDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -1598,17 +1598,6 @@ namespace MacroSim
          label4.TabIndex = 199;
          label4.Text = "Transponder";
          // 
-         // lblVerticalSpeedValue
-         // 
-         lblVerticalSpeedValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblVerticalSpeedValue.Appearance.Options.UseFont = true;
-         lblVerticalSpeedValue.Location = new Point(150, 569);
-         lblVerticalSpeedValue.Margin = new Padding(4, 3, 4, 3);
-         lblVerticalSpeedValue.Name = "lblVerticalSpeedValue";
-         lblVerticalSpeedValue.Size = new Size(76, 40);
-         lblVerticalSpeedValue.TabIndex = 198;
-         lblVerticalSpeedValue.Text = "-0000";
-         // 
          // label7
          // 
          label7.Location = new Point(150, 551);
@@ -1868,7 +1857,7 @@ namespace MacroSim
          toolbarFormControl1.Manager = toolbarFormManager1;
          toolbarFormControl1.Margin = new Padding(4, 3, 4, 3);
          toolbarFormControl1.Name = "toolbarFormControl1";
-         toolbarFormControl1.Size = new Size(1133, 31);
+         toolbarFormControl1.Size = new Size(1133, 30);
          toolbarFormControl1.TabIndex = 270;
          toolbarFormControl1.TabStop = false;
          toolbarFormControl1.TitleItemLinks.Add(skinPaletteDropDownButtonItem1);
@@ -2017,10 +2006,10 @@ namespace MacroSim
          // 
          barDockControlTop.CausesValidation = false;
          barDockControlTop.Dock = DockStyle.Top;
-         barDockControlTop.Location = new Point(0, 31);
+         barDockControlTop.Location = new Point(0, 30);
          barDockControlTop.Manager = toolbarFormManager1;
          barDockControlTop.Margin = new Padding(4, 3, 4, 3);
-         barDockControlTop.Size = new Size(1133, 24);
+         barDockControlTop.Size = new Size(1133, 28);
          // 
          // barDockControlBottom
          // 
@@ -2035,19 +2024,19 @@ namespace MacroSim
          // 
          barDockControlLeft.CausesValidation = false;
          barDockControlLeft.Dock = DockStyle.Left;
-         barDockControlLeft.Location = new Point(0, 55);
+         barDockControlLeft.Location = new Point(0, 58);
          barDockControlLeft.Manager = toolbarFormManager1;
          barDockControlLeft.Margin = new Padding(4, 3, 4, 3);
-         barDockControlLeft.Size = new Size(0, 793);
+         barDockControlLeft.Size = new Size(0, 790);
          // 
          // barDockControlRight
          // 
          barDockControlRight.CausesValidation = false;
          barDockControlRight.Dock = DockStyle.Right;
-         barDockControlRight.Location = new Point(1133, 55);
+         barDockControlRight.Location = new Point(1133, 58);
          barDockControlRight.Manager = toolbarFormManager1;
          barDockControlRight.Margin = new Padding(4, 3, 4, 3);
-         barDockControlRight.Size = new Size(0, 793);
+         barDockControlRight.Size = new Size(0, 790);
          // 
          // skinPaletteDropDownButtonItem1
          // 
@@ -2123,12 +2112,21 @@ namespace MacroSim
          altitudeDisplay.TabIndex = 285;
          altitudeDisplay.Value = 0;
          // 
+         // verticalSpeedDisplay
+         // 
+         verticalSpeedDisplay.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         verticalSpeedDisplay.Location = new Point(150, 569);
+         verticalSpeedDisplay.Name = "verticalSpeedDisplay";
+         verticalSpeedDisplay.Size = new Size(76, 40);
+         verticalSpeedDisplay.TabIndex = 290;
+         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
          ClientSize = new Size(1133, 874);
+         Controls.Add(verticalSpeedDisplay);
          Controls.Add(altitudeDisplay);
          Controls.Add(dirCourse1Display);
          Controls.Add(dirHeadingDisplay);
@@ -2204,7 +2202,6 @@ namespace MacroSim
          Controls.Add(groupLights);
          Controls.Add(lblTransponder);
          Controls.Add(label4);
-         Controls.Add(lblVerticalSpeedValue);
          Controls.Add(label7);
          Controls.Add(label5);
          Controls.Add(lblCourseSel);
@@ -2406,7 +2403,6 @@ namespace MacroSim
       private CheckButton checkPanelLight;
       private LabelControl lblTransponder;
       private LabelControl label4;
-      private LabelControl lblVerticalSpeedValue;
       private LabelControl label7;
       private LabelControl label5;
       private LabelControl lblCourseSel;
@@ -2462,5 +2458,6 @@ namespace MacroSim
       private MacroPadDevice.Controls.DirectionDisplay dirCourse1Display;
       private MacroPadDevice.Controls.DirectionDisplay dirHeadingDisplay;
       private MacroPadDevice.Controls.AltitudeDisplay altitudeDisplay;
+      private MacroPadDevice.Controls.VerticalSpeedDisplay verticalSpeedDisplay;
    }
 }
