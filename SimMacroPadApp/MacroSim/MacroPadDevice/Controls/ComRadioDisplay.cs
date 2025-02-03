@@ -16,7 +16,7 @@ public partial class ComRadioDisplay : UserControl
    private string text;
    MacroPadState macroPadState;
 
-   public MacroPadState MacroPadState
+   public MacroPadState CurrentMacroPadState
    {
       get => macroPadState;
       set

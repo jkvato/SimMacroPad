@@ -165,9 +165,7 @@ namespace MacroSim
          label7 = new LabelControl();
          lblAltitudeValue = new LabelControl();
          label5 = new LabelControl();
-         lblCourseValue = new LabelControl();
          lblCourseSel = new LabelControl();
-         lblHeadingValue = new LabelControl();
          groupNav2 = new GroupControl();
          lblNav2Standby = new LabelControl();
          lblNav2Active = new LabelControl();
@@ -217,6 +215,8 @@ namespace MacroSim
          gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
          bar3 = new DevExpress.XtraBars.Bar();
          trackBarFlaps = new TrackBarControl();
+         dirHeadingDisplay = new MacroPadDevice.Controls.DirectionDisplay();
+         dirCourse1Display = new MacroPadDevice.Controls.DirectionDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -1638,17 +1638,6 @@ namespace MacroSim
          label5.TabIndex = 195;
          label5.Text = "Altitude";
          // 
-         // lblCourseValue
-         // 
-         lblCourseValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblCourseValue.Appearance.Options.UseFont = true;
-         lblCourseValue.Location = new Point(150, 503);
-         lblCourseValue.Margin = new Padding(4, 3, 4, 3);
-         lblCourseValue.Name = "lblCourseValue";
-         lblCourseValue.Size = new Size(48, 40);
-         lblCourseValue.TabIndex = 194;
-         lblCourseValue.Text = "000";
-         // 
          // lblCourseSel
          // 
          lblCourseSel.Location = new Point(150, 485);
@@ -1657,17 +1646,6 @@ namespace MacroSim
          lblCourseSel.Size = new Size(41, 17);
          lblCourseSel.TabIndex = 193;
          lblCourseSel.Text = "Course";
-         // 
-         // lblHeadingValue
-         // 
-         lblHeadingValue.Appearance.Font = new Font("Segoe UI", 21.75F);
-         lblHeadingValue.Appearance.Options.UseFont = true;
-         lblHeadingValue.Location = new Point(24, 503);
-         lblHeadingValue.Margin = new Padding(4, 3, 4, 3);
-         lblHeadingValue.Name = "lblHeadingValue";
-         lblHeadingValue.Size = new Size(48, 40);
-         lblHeadingValue.TabIndex = 188;
-         lblHeadingValue.Text = "000";
          // 
          // groupNav2
          // 
@@ -1705,7 +1683,7 @@ namespace MacroSim
          // 
          navRadioDisplay2Active.Id = 2;
          navRadioDisplay2Active.Location = new Point(139, 48);
-         navRadioDisplay2Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         navRadioDisplay2Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay2Active.Name = "navRadioDisplay2Active";
          navRadioDisplay2Active.Size = new Size(86, 40);
@@ -1717,7 +1695,7 @@ namespace MacroSim
          navRadioDisplay2Standby.Id = 2;
          navRadioDisplay2Standby.IsHighlightable = true;
          navRadioDisplay2Standby.Location = new Point(10, 48);
-         navRadioDisplay2Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         navRadioDisplay2Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay2Standby.Name = "navRadioDisplay2Standby";
          navRadioDisplay2Standby.Size = new Size(86, 40);
@@ -1769,7 +1747,7 @@ namespace MacroSim
          // 
          navRadioDisplay1Standby.IsHighlightable = true;
          navRadioDisplay1Standby.Location = new Point(10, 48);
-         navRadioDisplay1Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         navRadioDisplay1Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay1Standby.Name = "navRadioDisplay1Standby";
          navRadioDisplay1Standby.Size = new Size(86, 40);
@@ -1779,7 +1757,7 @@ namespace MacroSim
          // navRadioDisplay1Active
          // 
          navRadioDisplay1Active.Location = new Point(139, 48);
-         navRadioDisplay1Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         navRadioDisplay1Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          navRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
          navRadioDisplay1Active.Name = "navRadioDisplay1Active";
          navRadioDisplay1Active.Size = new Size(86, 40);
@@ -1804,7 +1782,7 @@ namespace MacroSim
          // 
          comRadioDisplay2Active.Id = 2;
          comRadioDisplay2Active.Location = new Point(139, 48);
-         comRadioDisplay2Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay2Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          comRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
          comRadioDisplay2Active.Name = "comRadioDisplay2Active";
          comRadioDisplay2Active.Size = new Size(102, 40);
@@ -1816,7 +1794,7 @@ namespace MacroSim
          comRadioDisplay2Standby.Id = 2;
          comRadioDisplay2Standby.IsHighlightable = true;
          comRadioDisplay2Standby.Location = new Point(10, 48);
-         comRadioDisplay2Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay2Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          comRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
          comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
          comRadioDisplay2Standby.Size = new Size(102, 40);
@@ -1858,7 +1836,7 @@ namespace MacroSim
          // comRadioDisplay1Active
          // 
          comRadioDisplay1Active.Location = new Point(139, 48);
-         comRadioDisplay1Active.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay1Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          comRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
          comRadioDisplay1Active.Name = "comRadioDisplay1Active";
          comRadioDisplay1Active.Size = new Size(102, 40);
@@ -1869,7 +1847,7 @@ namespace MacroSim
          // 
          comRadioDisplay1Standby.IsHighlightable = true;
          comRadioDisplay1Standby.Location = new Point(10, 48);
-         comRadioDisplay1Standby.MacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         comRadioDisplay1Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
          comRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
          comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
          comRadioDisplay1Standby.Size = new Size(102, 40);
@@ -2127,12 +2105,34 @@ namespace MacroSim
          trackBarFlaps.TabIndex = 274;
          trackBarFlaps.ValueChanged += trackBarFlaps_ValueChanged;
          // 
+         // dirHeadingDisplay
+         // 
+         dirHeadingDisplay.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         dirHeadingDisplay.Location = new Point(23, 504);
+         dirHeadingDisplay.MacroPadStateId = MacroPadDevice.Enumerations.MacroPadState.HEADING;
+         dirHeadingDisplay.Name = "dirHeadingDisplay";
+         dirHeadingDisplay.Size = new Size(48, 40);
+         dirHeadingDisplay.TabIndex = 279;
+         dirHeadingDisplay.Value = 0;
+         // 
+         // dirCourse1
+         // 
+         dirCourse1Display.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
+         dirCourse1Display.Location = new Point(150, 504);
+         dirCourse1Display.MacroPadStateId = MacroPadDevice.Enumerations.MacroPadState.COURSE1;
+         dirCourse1Display.Name = "dirCourse1";
+         dirCourse1Display.Size = new Size(48, 40);
+         dirCourse1Display.TabIndex = 280;
+         dirCourse1Display.Value = 0;
+         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
          ClientSize = new Size(1133, 874);
+         Controls.Add(dirCourse1Display);
+         Controls.Add(dirHeadingDisplay);
          Controls.Add(trackBarFlaps);
          Controls.Add(lblBarometer1);
          Controls.Add(label6);
@@ -2209,9 +2209,7 @@ namespace MacroSim
          Controls.Add(label7);
          Controls.Add(lblAltitudeValue);
          Controls.Add(label5);
-         Controls.Add(lblCourseValue);
          Controls.Add(lblCourseSel);
-         Controls.Add(lblHeadingValue);
          Controls.Add(groupNav2);
          Controls.Add(label2);
          Controls.Add(groupNav1);
@@ -2414,9 +2412,7 @@ namespace MacroSim
       private LabelControl label7;
       private LabelControl lblAltitudeValue;
       private LabelControl label5;
-      private LabelControl lblCourseValue;
       private LabelControl lblCourseSel;
-      private LabelControl lblHeadingValue;
       private GroupControl groupNav2;
       private LabelControl lblNav2Standby;
       private LabelControl lblNav2Active;
@@ -2466,5 +2462,7 @@ namespace MacroSim
       private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay2Active;
       private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay2Standby;
       private MacroPadDevice.Controls.ComRadioDisplay comRadioDisplay1Active;
+      private MacroPadDevice.Controls.DirectionDisplay dirCourse1Display;
+      private MacroPadDevice.Controls.DirectionDisplay dirHeadingDisplay;
    }
 }

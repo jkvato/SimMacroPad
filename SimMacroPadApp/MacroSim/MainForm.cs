@@ -128,15 +128,18 @@ public partial class MainForm : ToolbarForm
 
    private void Default_StyleChanged(object? sender, EventArgs e)
    {
-      comRadioDisplay1Standby.MacroPadState = macroPadDevice.State;
-      comRadioDisplay1Active.MacroPadState = macroPadDevice.State;
-      comRadioDisplay2Standby.MacroPadState = macroPadDevice.State;
-      comRadioDisplay2Active.MacroPadState = macroPadDevice.State;
+      comRadioDisplay1Standby.CurrentMacroPadState = macroPadDevice.State;
+      comRadioDisplay1Active.CurrentMacroPadState = macroPadDevice.State;
+      comRadioDisplay2Standby.CurrentMacroPadState = macroPadDevice.State;
+      comRadioDisplay2Active.CurrentMacroPadState = macroPadDevice.State;
 
-      navRadioDisplay1Standby.MacroPadState = macroPadDevice.State;
-      navRadioDisplay1Active.MacroPadState = macroPadDevice.State;
-      navRadioDisplay2Standby.MacroPadState = macroPadDevice.State;
-      navRadioDisplay2Active.MacroPadState = macroPadDevice.State;
+      navRadioDisplay1Standby.CurrentMacroPadState = macroPadDevice.State;
+      navRadioDisplay1Active.CurrentMacroPadState = macroPadDevice.State;
+      navRadioDisplay2Standby.CurrentMacroPadState = macroPadDevice.State;
+      navRadioDisplay2Active.CurrentMacroPadState = macroPadDevice.State;
+
+      dirHeadingDisplay.CurrentMacroPadState = macroPadDevice.State;
+      dirCourse1Display.CurrentMacroPadState = macroPadDevice.State;
    }
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
@@ -223,15 +226,18 @@ public partial class MainForm : ToolbarForm
       {
          form.lblMacroPadState.Caption = $"State: {e.NewState}";
 
-         comRadioDisplay1Standby.MacroPadState = e.NewState;
-         comRadioDisplay1Active.MacroPadState = e.NewState;
-         comRadioDisplay2Standby.MacroPadState = e.NewState;
-         comRadioDisplay2Active.MacroPadState = e.NewState;
+         comRadioDisplay1Standby.CurrentMacroPadState = e.NewState;
+         comRadioDisplay1Active.CurrentMacroPadState = e.NewState;
+         comRadioDisplay2Standby.CurrentMacroPadState = e.NewState;
+         comRadioDisplay2Active.CurrentMacroPadState = e.NewState;
 
-         navRadioDisplay1Standby.MacroPadState = e.NewState;
-         navRadioDisplay1Active.MacroPadState = e.NewState;
-         navRadioDisplay2Standby.MacroPadState = e.NewState;
-         navRadioDisplay2Active.MacroPadState = e.NewState;
+         navRadioDisplay1Standby.CurrentMacroPadState = e.NewState;
+         navRadioDisplay1Active.CurrentMacroPadState = e.NewState;
+         navRadioDisplay2Standby.CurrentMacroPadState = e.NewState;
+         navRadioDisplay2Active.CurrentMacroPadState = e.NewState;
+
+         dirHeadingDisplay.CurrentMacroPadState = e.NewState;
+         dirCourse1Display.CurrentMacroPadState = e.NewState;
       });
 
       UpdateConnectionStatus();
@@ -307,18 +313,25 @@ public partial class MainForm : ToolbarForm
             form.navRadioDisplay2Active.Value = avionicsStruct.nav2active;
 
             // AP Heading
-            form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);
+            form.dirHeadingDisplay.Value = avionicsStruct.apHeadingSel;
+            //form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);
 
             // AP Course
             if (isCourseSelNav1)
             {
                form.lblCourseSel.Text = "Course 1";
-               form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
+               form.dirCourse1Display.MacroPadStateId = MacroPadState.COURSE1;
+               form.dirCourse1Display.CurrentMacroPadState = form.dirCourse1Display.CurrentMacroPadState;
+               form.dirCourse1Display.Value = avionicsStruct.apNav1ObsSel;
+               //form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
             }
             else
             {
                form.lblCourseSel.Text = "Course 2";
-               form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav2ObsSel);
+               form.dirCourse1Display.MacroPadStateId = MacroPadState.COURSE2;
+               form.dirCourse1Display.CurrentMacroPadState = form.dirCourse1Display.CurrentMacroPadState;
+               form.dirCourse1Display.Value = avionicsStruct.apNav2ObsSel;
+               //form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav2ObsSel);
             }
 
             // AP Altitude

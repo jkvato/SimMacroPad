@@ -16,7 +16,7 @@ public partial class NavRadioDisplay : UserControl
    private string text;
    MacroPadState macroPadState;
 
-   public MacroPadState MacroPadState
+   public MacroPadState CurrentMacroPadState
    {
       get => macroPadState;
       set
