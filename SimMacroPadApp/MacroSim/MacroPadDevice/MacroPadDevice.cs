@@ -1,15 +1,7 @@
 ﻿using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
-using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static MacroSim.SimConnection.SimConnection;
-using static System.Windows.Forms.AxHost;
 
 namespace MacroSim.MacroPadDevice;
 
@@ -489,7 +481,6 @@ internal class MacroPadDevice
          case MacroPadComponent.NAV:
             if (eventType == MacroPadEvent.Clicked)
             {
-               //state = state == MacroPadState.NAV1_MHZ ? MacroPadState.NAV1_KHZ : MacroPadState.NAV1_MHZ;
                switch (State)
                {
                   case MacroPadState.NAV1_MHZ:
@@ -508,10 +499,6 @@ internal class MacroPadDevice
                }
             }
             break;
-         //case MacroPadComponent.NAV2:
-         //   if (eventType == MacroPadEvent.Clicked)
-         //      state = state == MacroPadState.NAV2_MHZ ? MacroPadState.NAV2_KHZ : MacroPadState.NAV2_MHZ;
-         //   break;
 
          case MacroPadComponent.HDG_CRS:
             if (eventType == MacroPadEvent.Clicked)
@@ -548,16 +535,6 @@ internal class MacroPadDevice
             }
             break;
 
-         //case MacroPadComponent.HDG:
-         //   if (eventType == MacroPadEvent.Clicked)
-         //      state = MacroPadState.HEADING;
-         //   break;
-
-         //case MacroPadComponent.CRS:
-         //   if (eventType == MacroPadEvent.Clicked)
-         //      state = MacroPadState.COURSE1;
-         //   break;
-
          case MacroPadComponent.ALT_VS:
             if (eventType == MacroPadEvent.Clicked)
                switch (State)
@@ -574,26 +551,6 @@ internal class MacroPadDevice
                      break;
                }
             break;
-
-
-         //case MacroPadComponent.ALT:
-         //   if (eventType == MacroPadEvent.Clicked)
-         //      switch (state)
-         //      {
-         //         case MacroPadState.ALTITUDE_1000:
-         //            state = MacroPadState.ALTITUDE_100;
-         //            break;
-         //         case MacroPadState.ALTITUDE_100:
-         //         default:
-         //            state = MacroPadState.ALTITUDE_1000;
-         //            break;
-         //      }
-         //   break;
-
-         //case MacroPadComponent.VS:
-         //   if (eventType == MacroPadEvent.Clicked)
-         //      state = MacroPadState.VERTICAL_SPEED;
-         //   break;
 
          case MacroPadComponent.XPND:
             if (eventType == MacroPadEvent.Clicked)
@@ -626,14 +583,6 @@ internal class MacroPadDevice
          case MacroPadComponent.AV4:
             State = GetNewState(component, State, eventType, CurrentAircraft);
             break;
-
-         //case MacroPadComponent.PFD:
-         //   state = GetNewState(component, state, eventType, CurrentAircraft);
-         //   break;
-
-         //case MacroPadComponent.MFD:
-         //   state = GetNewState(component, state, eventType, CurrentAircraft);
-         //   break;
 
          case MacroPadComponent.Rotary:
             switch (State)
@@ -1146,74 +1095,53 @@ internal class MacroPadDevice
       {
          case MacroPadState.COM1_MHZ:
          case MacroPadState.COM1_KHZ:
-            //com1standby.Selection = FrequencySelection.None;
             break;
          case MacroPadState.COM2_MHZ:
          case MacroPadState.COM2_KHZ:
-            //com2standby.Selection = FrequencySelection.None;
             break;
          case MacroPadState.NAV1_MHZ:
          case MacroPadState.NAV1_KHZ:
-            //nav1standby.Selection = FrequencySelection.None;
             break;
          case MacroPadState.NAV2_MHZ:
          case MacroPadState.NAV2_KHZ:
-            //nav2standby.Selection = FrequencySelection.None;
             break;
          case MacroPadState.HEADING:
-            //heading.Selection = FrequencySelection.None;
             break;
          case MacroPadState.COURSE1:
-            //course.Selection = FrequencySelection.None;
             break;
          case MacroPadState.COURSE2:
-            //course.Selection = FrequencySelection.None;
             break;
       }
 
       switch (State)
       {
          case MacroPadState.COM1_MHZ:
-            //com1standby.Selection = FrequencySelection.MHz;
             break;
          case MacroPadState.COM1_KHZ:
-            //com1standby.Selection = FrequencySelection.KHz;
             break;
          case MacroPadState.COM2_MHZ:
-            //com2standby.Selection = FrequencySelection.MHz;
             break;
          case MacroPadState.COM2_KHZ:
-            //com2standby.Selection = FrequencySelection.KHz;
             break;
          case MacroPadState.NAV1_MHZ:
-            //nav1standby.Selection = FrequencySelection.MHz;
             break;
          case MacroPadState.NAV1_KHZ:
-            //nav1standby.Selection = FrequencySelection.KHz;
             break;
          case MacroPadState.NAV2_MHZ:
-            //nav2standby.Selection = FrequencySelection.MHz;
             break;
          case MacroPadState.NAV2_KHZ:
-            //nav2standby.Selection = FrequencySelection.KHz;
             break;
          case MacroPadState.HEADING:
-            //heading.Selection = FrequencySelection.MHz;
             break;
          case MacroPadState.COURSE1:
-            //course.Selection = FrequencySelection.MHz;
             break;
          case MacroPadState.COURSE2:
-            //course.Selection = FrequencySelection.MHz;
             break;
       }
 
       if (State != previousState)
       {
          //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage state via SerialPort ");
-
-         //simMessage.MacroPadState = state;
-         //simMessage.Send(SerialPort);
       }
 
       OnEventProcessed(
@@ -1273,5 +1201,25 @@ internal class MacroPadDevice
    (>H:AS3X_TOUCH_1_KNOB_INNER_R_INC)
    (>H:AS3X_TOUCH_1_KNOB_OUTER_R_DEC)
    (>H:AS3X_TOUCH_1_KNOB_OUTER_R_INC)
+
+
+
+
+   // Kodiak 100
+   (>H:AS1000_PFD_RANGE_DEC)
+   (>H:AS1000_PFD_RANGE_INC)
+   (>H:AS1000_PFD_FMS_Lower_DEC)
+   (>H:AS1000_PFD_FMS_Lower_INC)
+   (>H:AS1000_PFD_FMS_Upper_PUSH)
+   (>H:AS1000_PFD_FMS_Upper_DEC)
+   (>H:AS1000_PFD_FMS_Upper_INC)
+
+   (>H:AS1000_MFD_RANGE_DEC)
+   (>H:AS1000_MFD_RANGE_INC)
+   (>H:AS1000_MFD_FMS_Lower_DEC)
+   (>H:AS1000_MFD_FMS_Lower_INC)
+   (>H:AS1000_MFD_FMS_Upper_PUSH)
+   (>H:AS1000_MFD_FMS_Upper_DEC)
+   (>H:AS1000_MFD_FMS_Upper_INC)
 
 */

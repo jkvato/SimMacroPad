@@ -116,16 +116,16 @@ namespace MacroSim
          checkPauseFull = new CheckEdit();
          btnPauseFull = new SimpleButton();
          groupFms = new GroupControl();
-         btnFmsMfdInner = new SimpleButton();
-         btnFmsMfdOuter = new SimpleButton();
+         btnAv4 = new SimpleButton();
          btnFmsEnt = new SimpleButton();
          btnFmsClr = new SimpleButton();
+         btnAv3 = new SimpleButton();
          btnFmsMenu = new SimpleButton();
          btnFmsProc = new SimpleButton();
          btnFmsFpl = new SimpleButton();
          btnFmsDirect = new SimpleButton();
-         btnFmsPfdInner = new SimpleButton();
-         btnFmsPfdOuter = new SimpleButton();
+         btnAv2 = new SimpleButton();
+         btnAv1 = new SimpleButton();
          groupAutopilot = new GroupControl();
          lblApproachStatus = new LabelControl();
          btnCrs2Sel = new SimpleButton();
@@ -217,6 +217,8 @@ namespace MacroSim
          verticalSpeedDisplay = new MacroPadDevice.Controls.VerticalSpeedDisplay();
          barometerDisplay = new MacroPadDevice.Controls.BarometerDisplay();
          transponderDisplay = new MacroPadDevice.Controls.TransponderDisplay();
+         encoderAv1 = new Controls.DualRotaryEncoderDisplay();
+         encoderAv2 = new Controls.DualRotaryEncoderDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -827,7 +829,7 @@ namespace MacroSim
          // btnSimRateReset
          // 
          btnSimRateReset.AutoSize = true;
-         btnSimRateReset.Location = new Point(74, 52);
+         btnSimRateReset.Location = new Point(74, 54);
          btnSimRateReset.Margin = new Padding(4, 3, 4, 3);
          btnSimRateReset.Name = "btnSimRateReset";
          btnSimRateReset.Size = new Size(39, 22);
@@ -837,7 +839,7 @@ namespace MacroSim
          // 
          // btnSimRateDec
          // 
-         btnSimRateDec.Location = new Point(10, 52);
+         btnSimRateDec.Location = new Point(10, 54);
          btnSimRateDec.Margin = new Padding(4, 3, 4, 3);
          btnSimRateDec.Name = "btnSimRateDec";
          btnSimRateDec.Size = new Size(24, 25);
@@ -847,7 +849,7 @@ namespace MacroSim
          // 
          // btnSimRateInc
          // 
-         btnSimRateInc.Location = new Point(42, 52);
+         btnSimRateInc.Location = new Point(42, 54);
          btnSimRateInc.Margin = new Padding(4, 3, 4, 3);
          btnSimRateInc.Name = "btnSimRateInc";
          btnSimRateInc.Size = new Size(24, 25);
@@ -857,7 +859,7 @@ namespace MacroSim
          // 
          // lblSimRate
          // 
-         lblSimRate.Location = new Point(10, 29);
+         lblSimRate.Location = new Point(10, 31);
          lblSimRate.Margin = new Padding(4, 3, 4, 3);
          lblSimRate.Name = "lblSimRate";
          lblSimRate.Size = new Size(71, 17);
@@ -899,7 +901,7 @@ namespace MacroSim
          // 
          // checkCameraPilotCoPilot
          // 
-         checkCameraPilotCoPilot.Location = new Point(211, 29);
+         checkCameraPilotCoPilot.Location = new Point(211, 31);
          checkCameraPilotCoPilot.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotCoPilot.Name = "checkCameraPilotCoPilot";
          checkCameraPilotCoPilot.Size = new Size(59, 25);
@@ -909,7 +911,7 @@ namespace MacroSim
          // 
          // checkCameraPilotLand
          // 
-         checkCameraPilotLand.Location = new Point(144, 29);
+         checkCameraPilotLand.Location = new Point(144, 31);
          checkCameraPilotLand.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotLand.Name = "checkCameraPilotLand";
          checkCameraPilotLand.Size = new Size(59, 25);
@@ -919,7 +921,7 @@ namespace MacroSim
          // 
          // checkCameraPilotClose
          // 
-         checkCameraPilotClose.Location = new Point(10, 29);
+         checkCameraPilotClose.Location = new Point(10, 31);
          checkCameraPilotClose.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotClose.Name = "checkCameraPilotClose";
          checkCameraPilotClose.Size = new Size(59, 25);
@@ -929,7 +931,7 @@ namespace MacroSim
          // 
          // checkCameraPilotNormal
          // 
-         checkCameraPilotNormal.Location = new Point(77, 29);
+         checkCameraPilotNormal.Location = new Point(77, 31);
          checkCameraPilotNormal.Margin = new Padding(4, 3, 4, 3);
          checkCameraPilotNormal.Name = "checkCameraPilotNormal";
          checkCameraPilotNormal.Size = new Size(59, 25);
@@ -939,7 +941,7 @@ namespace MacroSim
          // 
          // lblCameraCurrentView
          // 
-         lblCameraCurrentView.Location = new Point(280, 33);
+         lblCameraCurrentView.Location = new Point(280, 35);
          lblCameraCurrentView.Margin = new Padding(4, 3, 4, 3);
          lblCameraCurrentView.Name = "lblCameraCurrentView";
          lblCameraCurrentView.Size = new Size(119, 17);
@@ -962,7 +964,7 @@ namespace MacroSim
          // 
          // lblFuelDumpSwitch
          // 
-         lblFuelDumpSwitch.Location = new Point(130, 56);
+         lblFuelDumpSwitch.Location = new Point(130, 58);
          lblFuelDumpSwitch.Margin = new Padding(4, 3, 4, 3);
          lblFuelDumpSwitch.Name = "lblFuelDumpSwitch";
          lblFuelDumpSwitch.Size = new Size(16, 17);
@@ -971,7 +973,7 @@ namespace MacroSim
          // 
          // btnFuelDump
          // 
-         btnFuelDump.Location = new Point(70, 52);
+         btnFuelDump.Location = new Point(70, 54);
          btnFuelDump.Margin = new Padding(4, 3, 4, 3);
          btnFuelDump.Name = "btnFuelDump";
          btnFuelDump.Size = new Size(52, 25);
@@ -981,7 +983,7 @@ namespace MacroSim
          // 
          // lblTotalFuelPct
          // 
-         lblTotalFuelPct.Location = new Point(10, 29);
+         lblTotalFuelPct.Location = new Point(10, 31);
          lblTotalFuelPct.Margin = new Padding(4, 3, 4, 3);
          lblTotalFuelPct.Name = "lblTotalFuelPct";
          lblTotalFuelPct.Size = new Size(105, 17);
@@ -990,7 +992,7 @@ namespace MacroSim
          // 
          // btnAddFuel
          // 
-         btnAddFuel.Location = new Point(10, 52);
+         btnAddFuel.Location = new Point(10, 54);
          btnAddFuel.Margin = new Padding(4, 3, 4, 3);
          btnAddFuel.Name = "btnAddFuel";
          btnAddFuel.Size = new Size(52, 25);
@@ -1016,7 +1018,7 @@ namespace MacroSim
          // 
          // btnPauseSim
          // 
-         btnPauseSim.Location = new Point(10, 78);
+         btnPauseSim.Location = new Point(10, 80);
          btnPauseSim.Margin = new Padding(4, 3, 4, 3);
          btnPauseSim.Name = "btnPauseSim";
          btnPauseSim.Size = new Size(94, 44);
@@ -1026,7 +1028,7 @@ namespace MacroSim
          // 
          // checkPauseEsc
          // 
-         checkPauseEsc.Location = new Point(115, 101);
+         checkPauseEsc.Location = new Point(115, 103);
          checkPauseEsc.Margin = new Padding(4, 3, 4, 3);
          checkPauseEsc.Name = "checkPauseEsc";
          checkPauseEsc.Properties.Caption = "Esc Pause";
@@ -1036,7 +1038,7 @@ namespace MacroSim
          // 
          // checkPauseSim
          // 
-         checkPauseSim.Location = new Point(115, 78);
+         checkPauseSim.Location = new Point(115, 80);
          checkPauseSim.Margin = new Padding(4, 3, 4, 3);
          checkPauseSim.Name = "checkPauseSim";
          checkPauseSim.Properties.Caption = "Sim Pause";
@@ -1046,7 +1048,7 @@ namespace MacroSim
          // 
          // checkPauseActive
          // 
-         checkPauseActive.Location = new Point(115, 55);
+         checkPauseActive.Location = new Point(115, 57);
          checkPauseActive.Margin = new Padding(4, 3, 4, 3);
          checkPauseActive.Name = "checkPauseActive";
          checkPauseActive.Properties.Caption = "Active Pause";
@@ -1056,7 +1058,7 @@ namespace MacroSim
          // 
          // checkPauseFull
          // 
-         checkPauseFull.Location = new Point(115, 31);
+         checkPauseFull.Location = new Point(115, 33);
          checkPauseFull.Margin = new Padding(4, 3, 4, 3);
          checkPauseFull.Name = "checkPauseFull";
          checkPauseFull.Properties.Caption = "Full Pause";
@@ -1066,7 +1068,7 @@ namespace MacroSim
          // 
          // btnPauseFull
          // 
-         btnPauseFull.Location = new Point(10, 29);
+         btnPauseFull.Location = new Point(10, 31);
          btnPauseFull.Margin = new Padding(4, 3, 4, 3);
          btnPauseFull.Name = "btnPauseFull";
          btnPauseFull.Size = new Size(94, 44);
@@ -1076,16 +1078,16 @@ namespace MacroSim
          // 
          // groupFms
          // 
-         groupFms.Controls.Add(btnFmsMfdInner);
-         groupFms.Controls.Add(btnFmsMfdOuter);
+         groupFms.Controls.Add(btnAv4);
          groupFms.Controls.Add(btnFmsEnt);
          groupFms.Controls.Add(btnFmsClr);
+         groupFms.Controls.Add(btnAv3);
          groupFms.Controls.Add(btnFmsMenu);
          groupFms.Controls.Add(btnFmsProc);
          groupFms.Controls.Add(btnFmsFpl);
          groupFms.Controls.Add(btnFmsDirect);
-         groupFms.Controls.Add(btnFmsPfdInner);
-         groupFms.Controls.Add(btnFmsPfdOuter);
+         groupFms.Controls.Add(btnAv2);
+         groupFms.Controls.Add(btnAv1);
          groupFms.Location = new Point(276, 203);
          groupFms.Margin = new Padding(4, 3, 4, 3);
          groupFms.Name = "groupFms";
@@ -1094,27 +1096,18 @@ namespace MacroSim
          groupFms.TabIndex = 202;
          groupFms.Text = "FMS";
          // 
-         // btnFmsMfdInner
+         // btnAv4
          // 
-         btnFmsMfdInner.Location = new Point(352, 29);
-         btnFmsMfdInner.Margin = new Padding(4, 3, 4, 3);
-         btnFmsMfdInner.Name = "btnFmsMfdInner";
-         btnFmsMfdInner.Size = new Size(46, 41);
-         btnFmsMfdInner.TabIndex = 63;
-         btnFmsMfdInner.Text = "MFD\r\nIN";
-         // 
-         // btnFmsMfdOuter
-         // 
-         btnFmsMfdOuter.Location = new Point(298, 29);
-         btnFmsMfdOuter.Margin = new Padding(4, 3, 4, 3);
-         btnFmsMfdOuter.Name = "btnFmsMfdOuter";
-         btnFmsMfdOuter.Size = new Size(46, 41);
-         btnFmsMfdOuter.TabIndex = 62;
-         btnFmsMfdOuter.Text = "MFD\r\nOUT";
+         btnAv4.Location = new Point(172, 31);
+         btnAv4.Margin = new Padding(4, 3, 4, 3);
+         btnAv4.Name = "btnAv4";
+         btnAv4.Size = new Size(46, 41);
+         btnAv4.TabIndex = 63;
+         btnAv4.Text = "MFD\r\nIN";
          // 
          // btnFmsEnt
          // 
-         btnFmsEnt.Location = new Point(238, 60);
+         btnFmsEnt.Location = new Point(440, 62);
          btnFmsEnt.Margin = new Padding(4, 3, 4, 3);
          btnFmsEnt.Name = "btnFmsEnt";
          btnFmsEnt.Size = new Size(52, 25);
@@ -1124,7 +1117,7 @@ namespace MacroSim
          // 
          // btnFmsClr
          // 
-         btnFmsClr.Location = new Point(178, 60);
+         btnFmsClr.Location = new Point(380, 62);
          btnFmsClr.Margin = new Padding(4, 3, 4, 3);
          btnFmsClr.Name = "btnFmsClr";
          btnFmsClr.Size = new Size(52, 25);
@@ -1132,9 +1125,18 @@ namespace MacroSim
          btnFmsClr.Text = "CLR";
          btnFmsClr.Click += FmsButton_Click;
          // 
+         // btnAv3
+         // 
+         btnAv3.Location = new Point(118, 31);
+         btnAv3.Margin = new Padding(4, 3, 4, 3);
+         btnAv3.Name = "btnAv3";
+         btnAv3.Size = new Size(46, 41);
+         btnAv3.TabIndex = 62;
+         btnAv3.Text = "MFD\r\nOUT";
+         // 
          // btnFmsMenu
          // 
-         btnFmsMenu.Location = new Point(118, 60);
+         btnFmsMenu.Location = new Point(320, 62);
          btnFmsMenu.Margin = new Padding(4, 3, 4, 3);
          btnFmsMenu.Name = "btnFmsMenu";
          btnFmsMenu.Size = new Size(52, 25);
@@ -1144,7 +1146,7 @@ namespace MacroSim
          // 
          // btnFmsProc
          // 
-         btnFmsProc.Location = new Point(238, 29);
+         btnFmsProc.Location = new Point(440, 31);
          btnFmsProc.Margin = new Padding(4, 3, 4, 3);
          btnFmsProc.Name = "btnFmsProc";
          btnFmsProc.Size = new Size(52, 25);
@@ -1154,7 +1156,7 @@ namespace MacroSim
          // 
          // btnFmsFpl
          // 
-         btnFmsFpl.Location = new Point(178, 29);
+         btnFmsFpl.Location = new Point(380, 31);
          btnFmsFpl.Margin = new Padding(4, 3, 4, 3);
          btnFmsFpl.Name = "btnFmsFpl";
          btnFmsFpl.Size = new Size(52, 25);
@@ -1164,7 +1166,7 @@ namespace MacroSim
          // 
          // btnFmsDirect
          // 
-         btnFmsDirect.Location = new Point(118, 29);
+         btnFmsDirect.Location = new Point(320, 31);
          btnFmsDirect.Margin = new Padding(4, 3, 4, 3);
          btnFmsDirect.Name = "btnFmsDirect";
          btnFmsDirect.Size = new Size(52, 25);
@@ -1172,23 +1174,23 @@ namespace MacroSim
          btnFmsDirect.Text = "DIR";
          btnFmsDirect.Click += FmsButton_Click;
          // 
-         // btnFmsPfdInner
+         // btnAv2
          // 
-         btnFmsPfdInner.Location = new Point(64, 29);
-         btnFmsPfdInner.Margin = new Padding(4, 3, 4, 3);
-         btnFmsPfdInner.Name = "btnFmsPfdInner";
-         btnFmsPfdInner.Size = new Size(46, 41);
-         btnFmsPfdInner.TabIndex = 55;
-         btnFmsPfdInner.Text = "PFD\r\nIN";
+         btnAv2.Location = new Point(64, 31);
+         btnAv2.Margin = new Padding(4, 3, 4, 3);
+         btnAv2.Name = "btnAv2";
+         btnAv2.Size = new Size(46, 41);
+         btnAv2.TabIndex = 55;
+         btnAv2.Text = "PFD\r\nIN";
          // 
-         // btnFmsPfdOuter
+         // btnAv1
          // 
-         btnFmsPfdOuter.Location = new Point(10, 29);
-         btnFmsPfdOuter.Margin = new Padding(4, 3, 4, 3);
-         btnFmsPfdOuter.Name = "btnFmsPfdOuter";
-         btnFmsPfdOuter.Size = new Size(46, 41);
-         btnFmsPfdOuter.TabIndex = 54;
-         btnFmsPfdOuter.Text = "PFD\r\nOUT";
+         btnAv1.Location = new Point(10, 31);
+         btnAv1.Margin = new Padding(4, 3, 4, 3);
+         btnAv1.Name = "btnAv1";
+         btnAv1.Size = new Size(46, 41);
+         btnAv1.TabIndex = 54;
+         btnAv1.Text = "PFD\r\nOUT";
          // 
          // groupAutopilot
          // 
@@ -1220,7 +1222,7 @@ namespace MacroSim
          // 
          // lblApproachStatus
          // 
-         lblApproachStatus.Location = new Point(10, 107);
+         lblApproachStatus.Location = new Point(10, 109);
          lblApproachStatus.Margin = new Padding(4, 3, 4, 3);
          lblApproachStatus.Name = "lblApproachStatus";
          lblApproachStatus.Size = new Size(64, 17);
@@ -1229,7 +1231,7 @@ namespace MacroSim
          // 
          // btnCrs2Sel
          // 
-         btnCrs2Sel.Location = new Point(484, 59);
+         btnCrs2Sel.Location = new Point(484, 61);
          btnCrs2Sel.Margin = new Padding(4, 3, 4, 3);
          btnCrs2Sel.Name = "btnCrs2Sel";
          btnCrs2Sel.Size = new Size(46, 41);
@@ -1242,7 +1244,7 @@ namespace MacroSim
          // 
          // checkApSpd
          // 
-         checkApSpd.Location = new Point(430, 60);
+         checkApSpd.Location = new Point(430, 62);
          checkApSpd.Margin = new Padding(4, 3, 4, 3);
          checkApSpd.Name = "checkApSpd";
          checkApSpd.Size = new Size(46, 25);
@@ -1252,7 +1254,7 @@ namespace MacroSim
          // 
          // checkApFlc
          // 
-         checkApFlc.Location = new Point(430, 29);
+         checkApFlc.Location = new Point(430, 31);
          checkApFlc.Margin = new Padding(4, 3, 4, 3);
          checkApFlc.Name = "checkApFlc";
          checkApFlc.Size = new Size(46, 25);
@@ -1262,7 +1264,7 @@ namespace MacroSim
          // 
          // btnNoseUpDn
          // 
-         btnNoseUpDn.Location = new Point(388, 29);
+         btnNoseUpDn.Location = new Point(388, 31);
          btnNoseUpDn.Margin = new Padding(4, 3, 4, 3);
          btnNoseUpDn.Name = "btnNoseUpDn";
          btnNoseUpDn.Size = new Size(34, 75);
@@ -1271,7 +1273,7 @@ namespace MacroSim
          // 
          // checkApVnv
          // 
-         checkApVnv.Location = new Point(332, 60);
+         checkApVnv.Location = new Point(332, 62);
          checkApVnv.Margin = new Padding(4, 3, 4, 3);
          checkApVnv.Name = "checkApVnv";
          checkApVnv.Size = new Size(46, 25);
@@ -1281,7 +1283,7 @@ namespace MacroSim
          // 
          // checkApVsHold
          // 
-         checkApVsHold.Location = new Point(332, 29);
+         checkApVsHold.Location = new Point(332, 31);
          checkApVsHold.Margin = new Padding(4, 3, 4, 3);
          checkApVsHold.Name = "checkApVsHold";
          checkApVsHold.Size = new Size(46, 25);
@@ -1291,7 +1293,7 @@ namespace MacroSim
          // 
          // btnAltSel
          // 
-         btnAltSel.Location = new Point(280, 60);
+         btnAltSel.Location = new Point(280, 62);
          btnAltSel.Margin = new Padding(4, 3, 4, 3);
          btnAltSel.Name = "btnAltSel";
          btnAltSel.Size = new Size(46, 41);
@@ -1301,7 +1303,7 @@ namespace MacroSim
          // 
          // checkApAltHold
          // 
-         checkApAltHold.Location = new Point(280, 29);
+         checkApAltHold.Location = new Point(280, 31);
          checkApAltHold.Margin = new Padding(4, 3, 4, 3);
          checkApAltHold.Name = "checkApAltHold";
          checkApAltHold.Size = new Size(46, 25);
@@ -1311,7 +1313,7 @@ namespace MacroSim
          // 
          // checkApYd
          // 
-         checkApYd.Location = new Point(227, 60);
+         checkApYd.Location = new Point(227, 62);
          checkApYd.Margin = new Padding(4, 3, 4, 3);
          checkApYd.Name = "checkApYd";
          checkApYd.Size = new Size(46, 25);
@@ -1321,7 +1323,7 @@ namespace MacroSim
          // 
          // checkApFd
          // 
-         checkApFd.Location = new Point(200, 29);
+         checkApFd.Location = new Point(200, 31);
          checkApFd.Margin = new Padding(4, 3, 4, 3);
          checkApFd.Name = "checkApFd";
          checkApFd.Size = new Size(46, 25);
@@ -1331,7 +1333,7 @@ namespace MacroSim
          // 
          // checkApMaster
          // 
-         checkApMaster.Location = new Point(172, 60);
+         checkApMaster.Location = new Point(172, 62);
          checkApMaster.Margin = new Padding(4, 3, 4, 3);
          checkApMaster.Name = "checkApMaster";
          checkApMaster.Size = new Size(46, 25);
@@ -1341,7 +1343,7 @@ namespace MacroSim
          // 
          // btnCrs1Sel
          // 
-         btnCrs1Sel.Location = new Point(118, 60);
+         btnCrs1Sel.Location = new Point(118, 62);
          btnCrs1Sel.Margin = new Padding(4, 3, 4, 3);
          btnCrs1Sel.Name = "btnCrs1Sel";
          btnCrs1Sel.Size = new Size(46, 41);
@@ -1353,7 +1355,7 @@ namespace MacroSim
          // 
          // btnHdgSel
          // 
-         btnHdgSel.Location = new Point(10, 60);
+         btnHdgSel.Location = new Point(10, 62);
          btnHdgSel.Margin = new Padding(4, 3, 4, 3);
          btnHdgSel.Name = "btnHdgSel";
          btnHdgSel.Size = new Size(46, 41);
@@ -1363,7 +1365,7 @@ namespace MacroSim
          // 
          // checkApBcHold
          // 
-         checkApBcHold.Location = new Point(64, 60);
+         checkApBcHold.Location = new Point(64, 62);
          checkApBcHold.Margin = new Padding(4, 3, 4, 3);
          checkApBcHold.Name = "checkApBcHold";
          checkApBcHold.Size = new Size(46, 25);
@@ -1373,7 +1375,7 @@ namespace MacroSim
          // 
          // checkApAprHold
          // 
-         checkApAprHold.Location = new Point(64, 29);
+         checkApAprHold.Location = new Point(64, 31);
          checkApAprHold.Margin = new Padding(4, 3, 4, 3);
          checkApAprHold.Name = "checkApAprHold";
          checkApAprHold.Size = new Size(46, 25);
@@ -1383,7 +1385,7 @@ namespace MacroSim
          // 
          // checkApNavHold
          // 
-         checkApNavHold.Location = new Point(118, 29);
+         checkApNavHold.Location = new Point(118, 31);
          checkApNavHold.Margin = new Padding(4, 3, 4, 3);
          checkApNavHold.Name = "checkApNavHold";
          checkApNavHold.Size = new Size(46, 25);
@@ -1393,7 +1395,7 @@ namespace MacroSim
          // 
          // checkApHdgHold
          // 
-         checkApHdgHold.Location = new Point(10, 29);
+         checkApHdgHold.Location = new Point(10, 31);
          checkApHdgHold.Margin = new Padding(4, 3, 4, 3);
          checkApHdgHold.Name = "checkApHdgHold";
          checkApHdgHold.Size = new Size(46, 25);
@@ -1426,7 +1428,7 @@ namespace MacroSim
          // checkBeaconLight
          // 
          checkBeaconLight.AutoSize = true;
-         checkBeaconLight.Location = new Point(10, 29);
+         checkBeaconLight.Location = new Point(10, 31);
          checkBeaconLight.Margin = new Padding(4, 3, 4, 3);
          checkBeaconLight.Name = "checkBeaconLight";
          checkBeaconLight.Padding = new Padding(4, 3, 4, 3);
@@ -1438,7 +1440,7 @@ namespace MacroSim
          // checkWingLight
          // 
          checkWingLight.AutoSize = true;
-         checkWingLight.Location = new Point(331, 63);
+         checkWingLight.Location = new Point(331, 65);
          checkWingLight.Margin = new Padding(4, 3, 4, 3);
          checkWingLight.Name = "checkWingLight";
          checkWingLight.Padding = new Padding(4, 3, 4, 3);
@@ -1450,7 +1452,7 @@ namespace MacroSim
          // checkCabinLight
          // 
          checkCabinLight.AutoSize = true;
-         checkCabinLight.Location = new Point(74, 29);
+         checkCabinLight.Location = new Point(74, 31);
          checkCabinLight.Margin = new Padding(4, 3, 4, 3);
          checkCabinLight.Name = "checkCabinLight";
          checkCabinLight.Padding = new Padding(4, 3, 4, 3);
@@ -1462,7 +1464,7 @@ namespace MacroSim
          // checkTaxiLight
          // 
          checkTaxiLight.AutoSize = true;
-         checkTaxiLight.Location = new Point(287, 63);
+         checkTaxiLight.Location = new Point(287, 65);
          checkTaxiLight.Margin = new Padding(4, 3, 4, 3);
          checkTaxiLight.Name = "checkTaxiLight";
          checkTaxiLight.Padding = new Padding(4, 3, 4, 3);
@@ -1474,7 +1476,7 @@ namespace MacroSim
          // checkGlareshieldLight
          // 
          checkGlareshieldLight.AutoSize = true;
-         checkGlareshieldLight.Location = new Point(127, 29);
+         checkGlareshieldLight.Location = new Point(127, 31);
          checkGlareshieldLight.Margin = new Padding(4, 3, 4, 3);
          checkGlareshieldLight.Name = "checkGlareshieldLight";
          checkGlareshieldLight.Padding = new Padding(4, 3, 4, 3);
@@ -1486,7 +1488,7 @@ namespace MacroSim
          // checkStrobeLight
          // 
          checkStrobeLight.AutoSize = true;
-         checkStrobeLight.Location = new Point(227, 63);
+         checkStrobeLight.Location = new Point(227, 65);
          checkStrobeLight.Margin = new Padding(4, 3, 4, 3);
          checkStrobeLight.Name = "checkStrobeLight";
          checkStrobeLight.Padding = new Padding(4, 3, 4, 3);
@@ -1498,7 +1500,7 @@ namespace MacroSim
          // checkLandingLight
          // 
          checkLandingLight.AutoSize = true;
-         checkLandingLight.Location = new Point(214, 29);
+         checkLandingLight.Location = new Point(214, 31);
          checkLandingLight.Margin = new Padding(4, 3, 4, 3);
          checkLandingLight.Name = "checkLandingLight";
          checkLandingLight.Padding = new Padding(4, 3, 4, 3);
@@ -1510,7 +1512,7 @@ namespace MacroSim
          // checkRecognitionLight
          // 
          checkRecognitionLight.AutoSize = true;
-         checkRecognitionLight.Location = new Point(136, 63);
+         checkRecognitionLight.Location = new Point(136, 65);
          checkRecognitionLight.Margin = new Padding(4, 3, 4, 3);
          checkRecognitionLight.Name = "checkRecognitionLight";
          checkRecognitionLight.Padding = new Padding(4, 3, 4, 3);
@@ -1522,7 +1524,7 @@ namespace MacroSim
          // checkLogoLight
          // 
          checkLogoLight.AutoSize = true;
-         checkLogoLight.Location = new Point(280, 29);
+         checkLogoLight.Location = new Point(280, 31);
          checkLogoLight.Margin = new Padding(4, 3, 4, 3);
          checkLogoLight.Name = "checkLogoLight";
          checkLogoLight.Padding = new Padding(4, 3, 4, 3);
@@ -1534,7 +1536,7 @@ namespace MacroSim
          // checkPedestralLight
          // 
          checkPedestralLight.AutoSize = true;
-         checkPedestralLight.Location = new Point(62, 63);
+         checkPedestralLight.Location = new Point(62, 65);
          checkPedestralLight.Margin = new Padding(4, 3, 4, 3);
          checkPedestralLight.Name = "checkPedestralLight";
          checkPedestralLight.Padding = new Padding(4, 3, 4, 3);
@@ -1546,7 +1548,7 @@ namespace MacroSim
          // checkNavLight
          // 
          checkNavLight.AutoSize = true;
-         checkNavLight.Location = new Point(331, 29);
+         checkNavLight.Location = new Point(331, 31);
          checkNavLight.Margin = new Padding(4, 3, 4, 3);
          checkNavLight.Name = "checkNavLight";
          checkNavLight.Padding = new Padding(4, 3, 4, 3);
@@ -1558,7 +1560,7 @@ namespace MacroSim
          // checkPanelLight
          // 
          checkPanelLight.AutoSize = true;
-         checkPanelLight.Location = new Point(10, 63);
+         checkPanelLight.Location = new Point(10, 65);
          checkPanelLight.Margin = new Padding(4, 3, 4, 3);
          checkPanelLight.Name = "checkPanelLight";
          checkPanelLight.Padding = new Padding(4, 3, 4, 3);
@@ -2113,12 +2115,40 @@ namespace MacroSim
          transponderDisplay.TabIndex = 300;
          transponderDisplay.Value = 1200;
          // 
+         // encoderAv1
+         // 
+         encoderAv1.BottomButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_PFD_LG;
+         encoderAv1.BottomButtonText = "Btm";
+         encoderAv1.CurrentState = MacroPadDevice.Enumerations.MacroPadState.None;
+         encoderAv1.Location = new Point(277, 482);
+         encoderAv1.Name = "encoderAv1";
+         encoderAv1.Size = new Size(50, 50);
+         encoderAv1.TabIndex = 305;
+         encoderAv1.TopButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_PFD_SM;
+         encoderAv1.TopButtonText = "Top";
+         encoderAv1.MouseWheelMoved += Encoder_MouseWheelMoved;
+         // 
+         // encoderAv2
+         // 
+         encoderAv2.BottomButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_MFD_LG;
+         encoderAv2.BottomButtonText = "Btm";
+         encoderAv2.CurrentState = MacroPadDevice.Enumerations.MacroPadState.None;
+         encoderAv2.Location = new Point(333, 481);
+         encoderAv2.Name = "encoderAv2";
+         encoderAv2.Size = new Size(50, 50);
+         encoderAv2.TabIndex = 306;
+         encoderAv2.TopButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_MFD_SM;
+         encoderAv2.TopButtonText = "Top";
+         encoderAv2.MouseWheelMoved += Encoder_MouseWheelMoved;
+         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
          ClientSize = new Size(1133, 874);
+         Controls.Add(encoderAv2);
+         Controls.Add(encoderAv1);
          Controls.Add(transponderDisplay);
          Controls.Add(barometerDisplay);
          Controls.Add(verticalSpeedDisplay);
@@ -2351,16 +2381,16 @@ namespace MacroSim
       private CheckEdit checkPauseFull;
       private SimpleButton btnPauseFull;
       private GroupControl groupFms;
-      private SimpleButton btnFmsMfdInner;
-      private SimpleButton btnFmsMfdOuter;
+      private SimpleButton btnAv4;
+      private SimpleButton btnAv3;
       private SimpleButton btnFmsEnt;
       private SimpleButton btnFmsClr;
       private SimpleButton btnFmsMenu;
       private SimpleButton btnFmsProc;
       private SimpleButton btnFmsFpl;
       private SimpleButton btnFmsDirect;
-      private SimpleButton btnFmsPfdInner;
-      private SimpleButton btnFmsPfdOuter;
+      private SimpleButton btnAv2;
+      private SimpleButton btnAv1;
       private GroupControl groupAutopilot;
       private LabelControl lblApproachStatus;
       private SimpleButton btnCrs2Sel;
@@ -2452,5 +2482,7 @@ namespace MacroSim
       private MacroPadDevice.Controls.VerticalSpeedDisplay verticalSpeedDisplay;
       private MacroPadDevice.Controls.BarometerDisplay barometerDisplay;
       private MacroPadDevice.Controls.TransponderDisplay transponderDisplay;
+      private Controls.DualRotaryEncoderDisplay encoderAv2;
+      private Controls.DualRotaryEncoderDisplay encoderAv1;
    }
 }

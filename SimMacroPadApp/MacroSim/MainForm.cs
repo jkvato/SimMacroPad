@@ -1,18 +1,19 @@
+using System.Diagnostics;
+using System.IO;
+using System.IO.Ports;
+using System.Runtime.InteropServices;
+using System.Timers;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
 using FSUIPC;
+using MacroSim.Controls;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
 using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.Properties;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Ports;
-using System.Runtime.InteropServices;
-using System.Timers;
 using static MacroSim.SimConnection.SimConnection;
 
 namespace MacroSim;
@@ -85,10 +86,10 @@ public partial class MainForm : ToolbarForm
       btnCrs2Sel.MouseWheel += ApButton_MouseWheel;
       btnNoseUpDn.MouseWheel += ApButton_MouseWheel;
 
-      btnFmsPfdInner.MouseWheel += FmsButton_MouseWheel;
-      btnFmsPfdOuter.MouseWheel += FmsButton_MouseWheel;
-      btnFmsMfdInner.MouseWheel += FmsButton_MouseWheel;
-      btnFmsMfdOuter.MouseWheel += FmsButton_MouseWheel;
+      btnAv2.MouseWheel += FmsButton_MouseWheel;
+      btnAv1.MouseWheel += FmsButton_MouseWheel;
+      btnAv4.MouseWheel += FmsButton_MouseWheel;
+      btnAv3.MouseWheel += FmsButton_MouseWheel;
 
       simConnection = new SimConnection.SimConnection();
       fsuipcConnection = new FsuipcConnection(this);
@@ -145,7 +146,19 @@ public partial class MainForm : ToolbarForm
       barometerDisplay.CurrentMacroPadState = state;
 
       transponderDisplay.CurrentMacroPadState = state;
+
+      encoderAv1.CurrentState = state;
+      encoderAv2.CurrentState = state;
    }
+
+   // PLAN (Pseudocode):
+   // 1. Keep fsuipc processing on the background thread (do not block UI).
+   // 2. After processing, read the pause status from fsuipcConnection on the background thread.
+   // 3. Marshal only the UI updates to the UI thread using the existing InvokeAction(Action<MainForm>) helper.
+   // 4. In the marshalled action set the suppressPauseCheckChangedEvent flag, update CheckButton.Checked and Button.Text values, then clear the flag.
+   // 5. This avoids accessing WinForms controls from a non-UI thread and prevents InvalidOperationException.
+   //
+   // Replace the existing TimerFsuipcProcess_Elapsed implementation with the following safe version.
 
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
    {
@@ -153,31 +166,48 @@ public partial class MainForm : ToolbarForm
       {
          try
          {
+            // Do potentially blocking processing on the timer thread
             fsuipcConnection.Process();
 
-            suppressPauseCheckChangedEvent = true;
-
+            // Read values from the connection (non-UI thread safe)
             PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
-            checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
-            checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
-            checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
-            checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
 
-            if (pauseState.HasFlag(PauseState.FullPause))
-               btnPauseFull.Text = "Unpause";
-            else
-               btnPauseFull.Text = "Full Pause";
+            // Marshal UI updates to the UI thread
+            InvokeAction(form =>
+            {
+               form.suppressPauseCheckChangedEvent = true;
 
-            if (pauseState.HasFlag(PauseState.SimPause))
-               btnPauseSim.Text = "Unpause";
-            else
-               btnPauseSim.Text = "Sim Pause";
+               form.checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
+               form.checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
+               form.checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
+               form.checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
 
-            suppressPauseCheckChangedEvent = false;
+               if (pauseState.HasFlag(PauseState.FullPause))
+                  form.btnPauseFull.Text = "Unpause";
+               else
+                  form.btnPauseFull.Text = "Full Pause";
+
+               if (pauseState.HasFlag(PauseState.SimPause))
+                  form.btnPauseSim.Text = "Unpause";
+               else
+                  form.btnPauseSim.Text = "Sim Pause";
+
+               form.suppressPauseCheckChangedEvent = false;
+            });
          }
-         catch { }
+         catch
+         {
+            // swallow exceptions as before (consider logging if needed)
+         }
       }
    }
+
+   // PSEUDOCODE PLAN:
+   // 1. TimerConnection_Elapsed runs on a System.Timers.Timer thread (non-UI thread).
+   // 2. Avoid calling simConnection.ConnectToSim(Handle) directly because accessing Control.Handle or creating SimConnect on a background thread can touch WinForms internals and cause InvalidOperationException.
+   // 3. Use the existing InvokeAction(Action<MainForm>) helper to marshal the call to the UI thread.
+   // 4. Wrap the call in try/catch to avoid crashing the timer thread on exceptions.
+   // 5. Leave other logic (FSUIPC connect, update status, get running simulators) unchanged.
 
    private void TimerConnection_Elapsed(object? sender, ElapsedEventArgs e)
    {
@@ -185,9 +215,23 @@ public partial class MainForm : ToolbarForm
       {
          try
          {
-            simConnection.ConnectToSim(Handle);
+            // Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
+            InvokeAction(form =>
+            {
+               try
+               {
+                  simConnection.ConnectToSim(form.Handle);
+               }
+               catch
+               {
+                  // swallow - timer will retry and UpdateConnectionStatus reflects state
+               }
+            });
          }
-         catch { }
+         catch
+         {
+            // swallow any exceptions from InvokeAction
+         }
       }
 
       if (!fsuipcConnection.IsConnected)
@@ -883,6 +927,69 @@ public partial class MainForm : ToolbarForm
       ActivateFlightSimulator();
    }
 
+   private void ProcessAvControlEvent(MacroPadState state, MacroPadEvent ev)
+   {
+      string preset = string.Empty;
+
+      if (ev == MacroPadEvent.Increment)
+      {
+         switch (state)
+         {
+            case MacroPadState.AS1000_PFD_SM:
+               preset = "AS1000_PFD_FMS_Inner_INC";
+               break;
+            case MacroPadState.AS1000_PFD_LG:
+               preset = "AS1000_PFD_FMS_Outer_INC";
+               break;
+            case MacroPadState.AS1000_MFD_SM:
+               preset = "AS1000_MFD_FMS_Inner_INC";
+               break;
+            case MacroPadState.AS1000_MFD_LG:
+               preset = "AS1000_MFD_FMS_Outer_INC";
+               break;
+         }
+      }
+      else if (ev == MacroPadEvent.Decrement)
+      {
+         switch (state)
+         {
+            case MacroPadState.AS1000_PFD_SM:
+               preset = "AS1000_PFD_FMS_Inner_DEC";
+               break;
+            case MacroPadState.AS1000_PFD_LG:
+               preset = "AS1000_PFD_FMS_Outer_DEC";
+               break;
+            case MacroPadState.AS1000_MFD_SM:
+               preset = "AS1000_MFD_FMS_Inner_DEC";
+               break;
+            case MacroPadState.AS1000_MFD_LG:
+               preset = "AS1000_MFD_FMS_Outer_DEC";
+               break;
+         }
+      }
+      else if (ev == MacroPadEvent.Clicked)
+      {
+         switch (state)
+         {
+            case MacroPadState.AS1000_PFD_SM:
+               preset = "AS1000_PFD_FMS_Inner_PUSH";
+               break;
+            case MacroPadState.AS1000_PFD_LG:
+               break;
+            case MacroPadState.AS1000_MFD_SM:
+               preset = "AS1000_MFD_FMS_Inner_PUSH";
+               break;
+            case MacroPadState.AS1000_MFD_LG:
+               break;
+         }
+      }
+
+      if (!string.IsNullOrWhiteSpace(preset))
+      {
+         fsuipcConnection.SendPresetEvent(preset);
+      }
+   }
+
    private void FmsButton_MouseWheel(object? sender, MouseEventArgs e)
    {
       if (sender is null)
@@ -890,30 +997,36 @@ public partial class MainForm : ToolbarForm
 
       if (sender is SimpleButton button)
       {
-         bool up = (e.Delta > 0);
-         string preset = string.Empty;
+         MacroPadEvent ev = e.Delta > 0 ? MacroPadEvent.Increment : MacroPadEvent.Decrement;
 
-         if (button == btnFmsPfdInner)
+         //bool up = (e.Delta > 0);
+         //string preset = string.Empty;
+
+         if (button == btnAv2)
          {
-            preset = up ? "AS1000_PFD_FMS_Inner_INC" : "AS1000_PFD_FMS_Inner_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_PFD_SM, ev);
+            //preset = up ? "AS1000_PFD_FMS_Inner_INC" : "AS1000_PFD_FMS_Inner_DEC";
          }
-         else if (button == btnFmsPfdOuter)
+         else if (button == btnAv1)
          {
-            preset = up ? "AS1000_PFD_FMS_Outer_INC" : "AS1000_PFD_FMS_Outer_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_PFD_LG, ev);
+            //preset = up ? "AS1000_PFD_FMS_Outer_INC" : "AS1000_PFD_FMS_Outer_DEC";
          }
-         if (button == btnFmsMfdInner)
+         if (button == btnAv4)
          {
-            preset = up ? "AS1000_MFD_FMS_Inner_INC" : "AS1000_MFD_FMS_Inner_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_MFD_SM, ev);
+            //preset = up ? "AS1000_MFD_FMS_Inner_INC" : "AS1000_MFD_FMS_Inner_DEC";
          }
-         else if (button == btnFmsMfdOuter)
+         else if (button == btnAv3)
          {
-            preset = up ? "AS1000_MFD_FMS_Outer_INC" : "AS1000_MFD_FMS_Outer_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_MFD_LG, ev);
+            //preset = up ? "AS1000_MFD_FMS_Outer_INC" : "AS1000_MFD_FMS_Outer_DEC";
          }
 
-         if (!string.IsNullOrWhiteSpace(preset))
-         {
-            fsuipcConnection.SendPresetEvent(preset);
-         }
+         //if (!string.IsNullOrWhiteSpace(preset))
+         //{
+         //   fsuipcConnection.SendPresetEvent(preset);
+         //}
       }
    }
 
@@ -1552,6 +1665,11 @@ public partial class MainForm : ToolbarForm
          isCourseSelNav1 = false;
       else
          isCourseSelNav1 = true;
+   }
+
+   private void Encoder_MouseWheelMoved(object sender, MouseWheelEventArgs e)
+   {
+
    }
 }
 

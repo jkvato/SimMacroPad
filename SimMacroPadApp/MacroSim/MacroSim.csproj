@@ -13,6 +13,7 @@
     <PackageReference Include="DevExpress.Win.Design" Version="24.2.3" />
     <PackageReference Include="FSUIPCClientDLL" Version="3.3.13" />
     <PackageReference Include="System.IO.Ports" Version="9.0.0" />
+    <PackageReference Include="System.Management" Version="9.0.1" />
   </ItemGroup>
 
   <ItemGroup>
