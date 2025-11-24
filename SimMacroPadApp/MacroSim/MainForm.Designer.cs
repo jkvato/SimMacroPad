@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using Hds.MacroPad;
 
 namespace MacroSim
 {
@@ -165,22 +166,14 @@ namespace MacroSim
          groupNav2 = new GroupControl();
          lblNav2Standby = new LabelControl();
          lblNav2Active = new LabelControl();
-         navRadioDisplay2Active = new MacroPadDevice.Controls.NavRadioDisplay();
-         navRadioDisplay2Standby = new MacroPadDevice.Controls.NavRadioDisplay();
          label2 = new LabelControl();
          groupNav1 = new GroupControl();
          lblNav1Standby = new LabelControl();
          lblNav1Active = new LabelControl();
-         navRadioDisplay1Standby = new MacroPadDevice.Controls.NavRadioDisplay();
-         navRadioDisplay1Active = new MacroPadDevice.Controls.NavRadioDisplay();
          groupCom2 = new GroupControl();
-         comRadioDisplay2Active = new MacroPadDevice.Controls.ComRadioDisplay();
-         comRadioDisplay2Standby = new MacroPadDevice.Controls.ComRadioDisplay();
          lblCom2Standby = new LabelControl();
          lblCom2Active = new LabelControl();
          groupCom1 = new GroupControl();
-         comRadioDisplay1Active = new MacroPadDevice.Controls.ComRadioDisplay();
-         comRadioDisplay1Standby = new MacroPadDevice.Controls.ComRadioDisplay();
          lblCom1Standby = new LabelControl();
          lblCom1Active = new LabelControl();
          toolbarFormControl1 = new DevExpress.XtraBars.ToolbarForm.ToolbarFormControl();
@@ -211,14 +204,6 @@ namespace MacroSim
          gridLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
          bar3 = new DevExpress.XtraBars.Bar();
          trackBarFlaps = new TrackBarControl();
-         dirHeadingDisplay = new MacroPadDevice.Controls.DirectionDisplay();
-         dirCourse1Display = new MacroPadDevice.Controls.DirectionDisplay();
-         altitudeDisplay = new MacroPadDevice.Controls.AltitudeDisplay();
-         verticalSpeedDisplay = new MacroPadDevice.Controls.VerticalSpeedDisplay();
-         barometerDisplay = new MacroPadDevice.Controls.BarometerDisplay();
-         transponderDisplay = new MacroPadDevice.Controls.TransponderDisplay();
-         encoderAv1 = new Controls.DualRotaryEncoderDisplay();
-         encoderAv2 = new Controls.DualRotaryEncoderDisplay();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -1048,7 +1033,7 @@ namespace MacroSim
          // 
          // checkPauseActive
          // 
-         checkPauseActive.Location = new Point(115, 57);
+         checkPauseActive.Location = new Point(115, 58);
          checkPauseActive.Margin = new Padding(4, 3, 4, 3);
          checkPauseActive.Name = "checkPauseActive";
          checkPauseActive.Properties.Caption = "Active Pause";
@@ -1107,7 +1092,7 @@ namespace MacroSim
          // 
          // btnFmsEnt
          // 
-         btnFmsEnt.Location = new Point(440, 62);
+         btnFmsEnt.Location = new Point(440, 61);
          btnFmsEnt.Margin = new Padding(4, 3, 4, 3);
          btnFmsEnt.Name = "btnFmsEnt";
          btnFmsEnt.Size = new Size(52, 25);
@@ -1117,7 +1102,7 @@ namespace MacroSim
          // 
          // btnFmsClr
          // 
-         btnFmsClr.Location = new Point(380, 62);
+         btnFmsClr.Location = new Point(380, 61);
          btnFmsClr.Margin = new Padding(4, 3, 4, 3);
          btnFmsClr.Name = "btnFmsClr";
          btnFmsClr.Size = new Size(52, 25);
@@ -1136,7 +1121,7 @@ namespace MacroSim
          // 
          // btnFmsMenu
          // 
-         btnFmsMenu.Location = new Point(320, 62);
+         btnFmsMenu.Location = new Point(320, 61);
          btnFmsMenu.Margin = new Padding(4, 3, 4, 3);
          btnFmsMenu.Name = "btnFmsMenu";
          btnFmsMenu.Size = new Size(52, 25);
@@ -1244,7 +1229,7 @@ namespace MacroSim
          // 
          // checkApSpd
          // 
-         checkApSpd.Location = new Point(430, 62);
+         checkApSpd.Location = new Point(430, 61);
          checkApSpd.Margin = new Padding(4, 3, 4, 3);
          checkApSpd.Name = "checkApSpd";
          checkApSpd.Size = new Size(46, 25);
@@ -1273,7 +1258,7 @@ namespace MacroSim
          // 
          // checkApVnv
          // 
-         checkApVnv.Location = new Point(332, 62);
+         checkApVnv.Location = new Point(332, 61);
          checkApVnv.Margin = new Padding(4, 3, 4, 3);
          checkApVnv.Name = "checkApVnv";
          checkApVnv.Size = new Size(46, 25);
@@ -1293,7 +1278,7 @@ namespace MacroSim
          // 
          // btnAltSel
          // 
-         btnAltSel.Location = new Point(280, 62);
+         btnAltSel.Location = new Point(280, 61);
          btnAltSel.Margin = new Padding(4, 3, 4, 3);
          btnAltSel.Name = "btnAltSel";
          btnAltSel.Size = new Size(46, 41);
@@ -1313,7 +1298,7 @@ namespace MacroSim
          // 
          // checkApYd
          // 
-         checkApYd.Location = new Point(227, 62);
+         checkApYd.Location = new Point(227, 61);
          checkApYd.Margin = new Padding(4, 3, 4, 3);
          checkApYd.Name = "checkApYd";
          checkApYd.Size = new Size(46, 25);
@@ -1333,7 +1318,7 @@ namespace MacroSim
          // 
          // checkApMaster
          // 
-         checkApMaster.Location = new Point(172, 62);
+         checkApMaster.Location = new Point(172, 61);
          checkApMaster.Margin = new Padding(4, 3, 4, 3);
          checkApMaster.Name = "checkApMaster";
          checkApMaster.Size = new Size(46, 25);
@@ -1343,7 +1328,7 @@ namespace MacroSim
          // 
          // btnCrs1Sel
          // 
-         btnCrs1Sel.Location = new Point(118, 62);
+         btnCrs1Sel.Location = new Point(118, 61);
          btnCrs1Sel.Margin = new Padding(4, 3, 4, 3);
          btnCrs1Sel.Name = "btnCrs1Sel";
          btnCrs1Sel.Size = new Size(46, 41);
@@ -1355,7 +1340,7 @@ namespace MacroSim
          // 
          // btnHdgSel
          // 
-         btnHdgSel.Location = new Point(10, 62);
+         btnHdgSel.Location = new Point(10, 61);
          btnHdgSel.Margin = new Padding(4, 3, 4, 3);
          btnHdgSel.Name = "btnHdgSel";
          btnHdgSel.Size = new Size(46, 41);
@@ -1365,7 +1350,7 @@ namespace MacroSim
          // 
          // checkApBcHold
          // 
-         checkApBcHold.Location = new Point(64, 62);
+         checkApBcHold.Location = new Point(64, 61);
          checkApBcHold.Margin = new Padding(4, 3, 4, 3);
          checkApBcHold.Name = "checkApBcHold";
          checkApBcHold.Size = new Size(46, 25);
@@ -1609,8 +1594,6 @@ namespace MacroSim
          // 
          groupNav2.Controls.Add(lblNav2Standby);
          groupNav2.Controls.Add(lblNav2Active);
-         groupNav2.Controls.Add(navRadioDisplay2Active);
-         groupNav2.Controls.Add(navRadioDisplay2Standby);
          groupNav2.Location = new Point(13, 379);
          groupNav2.Margin = new Padding(4, 3, 4, 3);
          groupNav2.Name = "groupNav2";
@@ -1637,29 +1620,6 @@ namespace MacroSim
          lblNav2Active.TabIndex = 3;
          lblNav2Active.Text = "Active";
          // 
-         // navRadioDisplay2Active
-         // 
-         navRadioDisplay2Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         navRadioDisplay2Active.Id = 2;
-         navRadioDisplay2Active.Location = new Point(139, 48);
-         navRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
-         navRadioDisplay2Active.Name = "navRadioDisplay2Active";
-         navRadioDisplay2Active.Size = new Size(86, 40);
-         navRadioDisplay2Active.TabIndex = 280;
-         navRadioDisplay2Active.Value = 108D;
-         // 
-         // navRadioDisplay2Standby
-         // 
-         navRadioDisplay2Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         navRadioDisplay2Standby.Id = 2;
-         navRadioDisplay2Standby.IsHighlightable = true;
-         navRadioDisplay2Standby.Location = new Point(10, 48);
-         navRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
-         navRadioDisplay2Standby.Name = "navRadioDisplay2Standby";
-         navRadioDisplay2Standby.Size = new Size(86, 40);
-         navRadioDisplay2Standby.TabIndex = 281;
-         navRadioDisplay2Standby.Value = 108D;
-         // 
          // label2
          // 
          label2.Location = new Point(24, 485);
@@ -1673,8 +1633,6 @@ namespace MacroSim
          // 
          groupNav1.Controls.Add(lblNav1Standby);
          groupNav1.Controls.Add(lblNav1Active);
-         groupNav1.Controls.Add(navRadioDisplay1Standby);
-         groupNav1.Controls.Add(navRadioDisplay1Active);
          groupNav1.Location = new Point(13, 275);
          groupNav1.Margin = new Padding(4, 3, 4, 3);
          groupNav1.Name = "groupNav1";
@@ -1701,31 +1659,8 @@ namespace MacroSim
          lblNav1Active.TabIndex = 3;
          lblNav1Active.Text = "Active";
          // 
-         // navRadioDisplay1Standby
-         // 
-         navRadioDisplay1Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         navRadioDisplay1Standby.IsHighlightable = true;
-         navRadioDisplay1Standby.Location = new Point(10, 48);
-         navRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
-         navRadioDisplay1Standby.Name = "navRadioDisplay1Standby";
-         navRadioDisplay1Standby.Size = new Size(86, 40);
-         navRadioDisplay1Standby.TabIndex = 279;
-         navRadioDisplay1Standby.Value = 108D;
-         // 
-         // navRadioDisplay1Active
-         // 
-         navRadioDisplay1Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         navRadioDisplay1Active.Location = new Point(139, 48);
-         navRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
-         navRadioDisplay1Active.Name = "navRadioDisplay1Active";
-         navRadioDisplay1Active.Size = new Size(86, 40);
-         navRadioDisplay1Active.TabIndex = 280;
-         navRadioDisplay1Active.Value = 108D;
-         // 
          // groupCom2
          // 
-         groupCom2.Controls.Add(comRadioDisplay2Active);
-         groupCom2.Controls.Add(comRadioDisplay2Standby);
          groupCom2.Controls.Add(lblCom2Standby);
          groupCom2.Controls.Add(lblCom2Active);
          groupCom2.Location = new Point(13, 167);
@@ -1735,29 +1670,6 @@ namespace MacroSim
          groupCom2.Size = new Size(255, 99);
          groupCom2.TabIndex = 190;
          groupCom2.Text = "COM 2";
-         // 
-         // comRadioDisplay2Active
-         // 
-         comRadioDisplay2Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         comRadioDisplay2Active.Id = 2;
-         comRadioDisplay2Active.Location = new Point(139, 48);
-         comRadioDisplay2Active.Margin = new Padding(3, 2, 3, 2);
-         comRadioDisplay2Active.Name = "comRadioDisplay2Active";
-         comRadioDisplay2Active.Size = new Size(102, 40);
-         comRadioDisplay2Active.TabIndex = 8;
-         comRadioDisplay2Active.Value = 118D;
-         // 
-         // comRadioDisplay2Standby
-         // 
-         comRadioDisplay2Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         comRadioDisplay2Standby.Id = 2;
-         comRadioDisplay2Standby.IsHighlightable = true;
-         comRadioDisplay2Standby.Location = new Point(10, 48);
-         comRadioDisplay2Standby.Margin = new Padding(3, 2, 3, 2);
-         comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
-         comRadioDisplay2Standby.Size = new Size(102, 40);
-         comRadioDisplay2Standby.TabIndex = 6;
-         comRadioDisplay2Standby.Value = 118D;
          // 
          // lblCom2Standby
          // 
@@ -1779,8 +1691,6 @@ namespace MacroSim
          // 
          // groupCom1
          // 
-         groupCom1.Controls.Add(comRadioDisplay1Active);
-         groupCom1.Controls.Add(comRadioDisplay1Standby);
          groupCom1.Controls.Add(lblCom1Standby);
          groupCom1.Controls.Add(lblCom1Active);
          groupCom1.Location = new Point(13, 61);
@@ -1790,27 +1700,6 @@ namespace MacroSim
          groupCom1.Size = new Size(255, 99);
          groupCom1.TabIndex = 189;
          groupCom1.Text = "COM 1";
-         // 
-         // comRadioDisplay1Active
-         // 
-         comRadioDisplay1Active.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         comRadioDisplay1Active.Location = new Point(139, 48);
-         comRadioDisplay1Active.Margin = new Padding(3, 2, 3, 2);
-         comRadioDisplay1Active.Name = "comRadioDisplay1Active";
-         comRadioDisplay1Active.Size = new Size(102, 40);
-         comRadioDisplay1Active.TabIndex = 5;
-         comRadioDisplay1Active.Value = 118D;
-         // 
-         // comRadioDisplay1Standby
-         // 
-         comRadioDisplay1Standby.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         comRadioDisplay1Standby.IsHighlightable = true;
-         comRadioDisplay1Standby.Location = new Point(10, 48);
-         comRadioDisplay1Standby.Margin = new Padding(3, 2, 3, 2);
-         comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
-         comRadioDisplay1Standby.Size = new Size(102, 40);
-         comRadioDisplay1Standby.TabIndex = 4;
-         comRadioDisplay1Standby.Value = 118D;
          // 
          // lblCom1Standby
          // 
@@ -1837,7 +1726,7 @@ namespace MacroSim
          toolbarFormControl1.Manager = toolbarFormManager1;
          toolbarFormControl1.Margin = new Padding(4, 3, 4, 3);
          toolbarFormControl1.Name = "toolbarFormControl1";
-         toolbarFormControl1.Size = new Size(1133, 30);
+         toolbarFormControl1.Size = new Size(1135, 30);
          toolbarFormControl1.TabIndex = 270;
          toolbarFormControl1.TabStop = false;
          toolbarFormControl1.TitleItemLinks.Add(skinPaletteDropDownButtonItem1);
@@ -1989,16 +1878,16 @@ namespace MacroSim
          barDockControlTop.Location = new Point(0, 30);
          barDockControlTop.Manager = toolbarFormManager1;
          barDockControlTop.Margin = new Padding(4, 3, 4, 3);
-         barDockControlTop.Size = new Size(1133, 28);
+         barDockControlTop.Size = new Size(1135, 28);
          // 
          // barDockControlBottom
          // 
          barDockControlBottom.CausesValidation = false;
          barDockControlBottom.Dock = DockStyle.Bottom;
-         barDockControlBottom.Location = new Point(0, 848);
+         barDockControlBottom.Location = new Point(0, 849);
          barDockControlBottom.Manager = toolbarFormManager1;
          barDockControlBottom.Margin = new Padding(4, 3, 4, 3);
-         barDockControlBottom.Size = new Size(1133, 26);
+         barDockControlBottom.Size = new Size(1135, 26);
          // 
          // barDockControlLeft
          // 
@@ -2007,16 +1896,16 @@ namespace MacroSim
          barDockControlLeft.Location = new Point(0, 58);
          barDockControlLeft.Manager = toolbarFormManager1;
          barDockControlLeft.Margin = new Padding(4, 3, 4, 3);
-         barDockControlLeft.Size = new Size(0, 790);
+         barDockControlLeft.Size = new Size(0, 791);
          // 
          // barDockControlRight
          // 
          barDockControlRight.CausesValidation = false;
          barDockControlRight.Dock = DockStyle.Right;
-         barDockControlRight.Location = new Point(1133, 58);
+         barDockControlRight.Location = new Point(1135, 58);
          barDockControlRight.Manager = toolbarFormManager1;
          barDockControlRight.Margin = new Padding(4, 3, 4, 3);
-         barDockControlRight.Size = new Size(0, 790);
+         barDockControlRight.Size = new Size(0, 791);
          // 
          // skinPaletteDropDownButtonItem1
          // 
@@ -2063,98 +1952,12 @@ namespace MacroSim
          trackBarFlaps.TabIndex = 274;
          trackBarFlaps.ValueChanged += trackBarFlaps_ValueChanged;
          // 
-         // dirHeadingDisplay
-         // 
-         dirHeadingDisplay.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         dirHeadingDisplay.Location = new Point(23, 504);
-         dirHeadingDisplay.MacroPadStateId = MacroPadDevice.Enumerations.MacroPadState.HEADING;
-         dirHeadingDisplay.Name = "dirHeadingDisplay";
-         dirHeadingDisplay.Size = new Size(48, 40);
-         dirHeadingDisplay.TabIndex = 279;
-         dirHeadingDisplay.Value = 0;
-         // 
-         // dirCourse1Display
-         // 
-         dirCourse1Display.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         dirCourse1Display.Location = new Point(150, 504);
-         dirCourse1Display.MacroPadStateId = MacroPadDevice.Enumerations.MacroPadState.COURSE1;
-         dirCourse1Display.Name = "dirCourse1Display";
-         dirCourse1Display.Size = new Size(48, 40);
-         dirCourse1Display.TabIndex = 280;
-         dirCourse1Display.Value = 0;
-         // 
-         // altitudeDisplay
-         // 
-         altitudeDisplay.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         altitudeDisplay.Location = new Point(24, 569);
-         altitudeDisplay.Name = "altitudeDisplay";
-         altitudeDisplay.Size = new Size(80, 40);
-         altitudeDisplay.TabIndex = 285;
-         altitudeDisplay.Value = 0;
-         // 
-         // verticalSpeedDisplay
-         // 
-         verticalSpeedDisplay.CurrentMacroPadState = MacroPadDevice.Enumerations.MacroPadState.None;
-         verticalSpeedDisplay.Location = new Point(150, 569);
-         verticalSpeedDisplay.Name = "verticalSpeedDisplay";
-         verticalSpeedDisplay.Size = new Size(76, 40);
-         verticalSpeedDisplay.TabIndex = 290;
-         // 
-         // barometerDisplay
-         // 
-         barometerDisplay.Location = new Point(150, 634);
-         barometerDisplay.Name = "barometerDisplay";
-         barometerDisplay.Size = new Size(70, 40);
-         barometerDisplay.TabIndex = 295;
-         // 
-         // transponderDisplay
-         // 
-         transponderDisplay.Location = new Point(24, 634);
-         transponderDisplay.Name = "transponderDisplay";
-         transponderDisplay.Size = new Size(64, 40);
-         transponderDisplay.TabIndex = 300;
-         transponderDisplay.Value = 1200;
-         // 
-         // encoderAv1
-         // 
-         encoderAv1.BottomButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_PFD_LG;
-         encoderAv1.BottomButtonText = "Btm";
-         encoderAv1.CurrentState = MacroPadDevice.Enumerations.MacroPadState.None;
-         encoderAv1.Location = new Point(277, 482);
-         encoderAv1.Name = "encoderAv1";
-         encoderAv1.Size = new Size(50, 50);
-         encoderAv1.TabIndex = 305;
-         encoderAv1.TopButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_PFD_SM;
-         encoderAv1.TopButtonText = "Top";
-         encoderAv1.MouseWheelMoved += Encoder_MouseWheelMoved;
-         // 
-         // encoderAv2
-         // 
-         encoderAv2.BottomButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_MFD_LG;
-         encoderAv2.BottomButtonText = "Btm";
-         encoderAv2.CurrentState = MacroPadDevice.Enumerations.MacroPadState.None;
-         encoderAv2.Location = new Point(333, 481);
-         encoderAv2.Name = "encoderAv2";
-         encoderAv2.Size = new Size(50, 50);
-         encoderAv2.TabIndex = 306;
-         encoderAv2.TopButtonId = MacroPadDevice.Enumerations.MacroPadState.AS1000_MFD_SM;
-         encoderAv2.TopButtonText = "Top";
-         encoderAv2.MouseWheelMoved += Encoder_MouseWheelMoved;
-         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(1133, 874);
-         Controls.Add(encoderAv2);
-         Controls.Add(encoderAv1);
-         Controls.Add(transponderDisplay);
-         Controls.Add(barometerDisplay);
-         Controls.Add(verticalSpeedDisplay);
-         Controls.Add(altitudeDisplay);
-         Controls.Add(dirCourse1Display);
-         Controls.Add(dirHeadingDisplay);
+         ClientSize = new Size(1135, 875);
          Controls.Add(trackBarFlaps);
          Controls.Add(label6);
          Controls.Add(lblEngCondition1);
@@ -2238,10 +2041,12 @@ namespace MacroSim
          Controls.Add(barDockControlBottom);
          Controls.Add(barDockControlTop);
          Controls.Add(toolbarFormControl1);
+         Font = new Font("Segoe UI", 9.75F);
          Margin = new Padding(4, 3, 4, 3);
          Name = "MainForm";
          Text = "MainForm";
          ToolbarFormControl = toolbarFormControl1;
+         Load += MainForm_Load;
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).EndInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).EndInit();

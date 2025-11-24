@@ -2,11 +2,14 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Timers;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
 using FSUIPC;
+using Hds.MacroLink.Serial;
+using Hds.MacroPad;
 using MacroSim.Controls;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
@@ -64,7 +67,6 @@ public partial class MainForm : ToolbarForm
    private bool isMouseInCourse2SelBox = false;
    private bool isCourseSelNav1 = true;
 
-
    public MainForm()
    {
       InitializeComponent();
@@ -118,6 +120,10 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 250;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void MainForm_Load(object sender, EventArgs e)
+   {
    }
 
    private void Default_StyleChanged(object? sender, EventArgs e)
@@ -762,14 +768,14 @@ public partial class MainForm : ToolbarForm
    {
       InvokeAction(form =>
       {
-         if (macroPadDevice.SerialPort.IsOpen)
-         {
-            lblSerialPortStatus.Caption = $"Serial: {macroPadDevice.SerialPort.PortName}";
-         }
-         else
-         {
-            lblSerialPortStatus.Caption = $"Serial: Disconnected";
-         }
+         //if (macroPadDevice.SerialPort.IsOpen)
+         //{
+         //   lblSerialPortStatus.Caption = $"Serial: {macroPadDevice.SerialPort.PortName}";
+         //}
+         //else
+         //{
+         //   lblSerialPortStatus.Caption = $"Serial: Disconnected";
+         //}
 
          if (fsuipcConnection.IsConnected)
          {
@@ -1661,7 +1667,7 @@ public partial class MainForm : ToolbarForm
          isCourseSelNav1 = true;
       else if (isMouseInCourse2SelBox)
          isCourseSelNav1 = false;
-      else if (macroPadDevice.State == MacroPadDevice.Enumerations.MacroPadState.COURSE2)
+      else if (macroPadDevice.State == MacroPadState.COURSE2)
          isCourseSelNav1 = false;
       else
          isCourseSelNav1 = true;

@@ -10,10 +10,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MacroPadDevice\SimMessage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="MacroPadDevice\SimMessage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DevExpress.Win.Design" Version="24.2.3" />
     <PackageReference Include="FSUIPCClientDLL" Version="3.3.13" />
     <PackageReference Include="System.IO.Ports" Version="9.0.0" />
     <PackageReference Include="System.Management" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MacroLink.Core\MacroLink.Core.csproj" />
+    <ProjectReference Include="..\MacroLink.Serial\MacroLink.Serial.csproj" />
+    <ProjectReference Include="..\MacroPad\MacroPad.csproj" />
   </ItemGroup>
 
   <ItemGroup>

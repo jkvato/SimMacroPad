@@ -1,4 +1,6 @@
-﻿using MacroSim.MacroPadDevice.Enumerations;
+﻿using Hds.MacroLink.Serial;
+using Hds.MacroPad;
+using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
 using System.IO.Ports;
@@ -7,7 +9,10 @@ namespace MacroSim.MacroPadDevice;
 
 internal class MacroPadDevice
 {
-   public readonly SerialPort SerialPort;
+   //public readonly SerialPort SerialPort;
+
+   public SerialMacroLinkTransport? Transport;
+   public MacroPadClient? Client;
 
    public SimConnection.SimConnection SimConnection { get; private set; }
    public Fsuipc.FsuipcConnection FsuipcConnection { get; private set; }
@@ -26,28 +31,63 @@ internal class MacroPadDevice
    public MacroPadDevice(SimConnection.SimConnection simConnection, Fsuipc.FsuipcConnection fsuipcConnection)
    {
       CurrentAircraft = null;
-      SerialPort = new SerialPort();
-      SerialPort.DataReceived += SerialPort_DataReceivedFromDevice;
+      //SerialPort = new SerialPort();
+      //SerialPort.DataReceived += SerialPort_DataReceivedFromDevice;
       SimConnection = simConnection;
       FsuipcConnection = fsuipcConnection;
       simMessage = new SimMessage();
+
+      Transport = null;
+      Client = null;
    }
 
-   public bool SetSerialPort(string portName)
+   public async Task<bool> SetSerialPort(string portName)
    {
-      try
+      if (Transport != null)
       {
-         SerialPort.Close();
-         SerialPort.PortName = portName;
-         SerialPort.RtsEnable = true;
-         SerialPort.DtrEnable = true;
-         SerialPort.Open();
-         return true;
+         await Transport.CloseAsync();
+         Transport = null;
       }
-      catch
+
+      if (Client != null)
       {
-         return false;
+         Client = null;
       }
+
+      Transport = new SerialMacroLinkTransport(portName, 115200);
+      Client = new MacroPadClient(Transport);
+
+      Client.PadInputEventReceived += SerialPort_DataReceivedFromDevice;
+
+      await Client.OpenAsync();
+
+      return true;
+
+      //try
+      //{
+      //   SerialPort.Close();
+      //   SerialPort.PortName = portName;
+      //   SerialPort.RtsEnable = true;
+      //   SerialPort.DtrEnable = true;
+      //   SerialPort.Open();
+      //   return true;
+      //}
+      //catch
+      //{
+      //   return false;
+      //}
+   }
+
+   private void SerialPort_DataReceivedFromDevice(object? sender, byte eByte)
+   {
+      int componentID = eByte & 0b11111000;
+      componentID = componentID >> 3;
+      MacroPadComponent component = (MacroPadComponent)componentID;
+
+      int eventID = eByte & 0b00000111;
+      MacroPadEvent eventType = (MacroPadEvent)eventID;
+
+      ProcessMacroPadEvent(component, eventType);
    }
 
    public void UpdateData(object structure)
@@ -140,7 +180,13 @@ internal class MacroPadDevice
 
          //System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending SimMessage via SerialPort ");
 
-         simMessage.Send(SerialPort);
+         // SEND THE MESSAGE TO THE MACROPAD
+         //simMessage.Send(SerialPort);
+
+         if (Client != null)
+         {
+            Client.SendSimMessageAsync(simMessage);
+         }
       }
       else if (structure is LightsStruct lightsStruct)
       {
@@ -157,7 +203,7 @@ internal class MacroPadDevice
       int data = 0;
       try
       {
-         data = SerialPort.ReadByte();
+         //data = SerialPort.ReadByte();
       }
       catch
       {

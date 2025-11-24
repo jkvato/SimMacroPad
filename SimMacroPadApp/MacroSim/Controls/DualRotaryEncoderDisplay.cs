@@ -1,6 +1,7 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using DevExpress.XtraEditors;
+using Hds.MacroPad;
 using MacroSim.MacroPadDevice;
 using MacroSim.MacroPadDevice.Enumerations;
 using System;

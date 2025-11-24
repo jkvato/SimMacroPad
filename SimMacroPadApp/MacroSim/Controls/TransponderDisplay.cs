@@ -1,5 +1,6 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
+using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using System;
 using System.Collections.Generic;
