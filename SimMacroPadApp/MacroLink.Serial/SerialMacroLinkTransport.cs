@@ -43,7 +43,9 @@ public sealed class SerialMacroLinkTransport : IMacroLinkTransport
       _port = new SerialPort(_portName, _baudRate, Parity.None, 8, StopBits.One)
       {
          ReadTimeout = -1,
-         WriteTimeout = -1
+         WriteTimeout = -1,
+         DtrEnable = true,    // <-- key line
+         RtsEnable = true     // <-- often needed on USB CDC
       };
 
       _port.Open();
@@ -76,6 +78,8 @@ public sealed class SerialMacroLinkTransport : IMacroLinkTransport
       _port.Close();
       ConnectionStateChanged?.Invoke(this, false);
    }
+
+   public bool IsOpen => _port?.IsOpen ?? false;
 
    public async ValueTask DisposeAsync()
    {
