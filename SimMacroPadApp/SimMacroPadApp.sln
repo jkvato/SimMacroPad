@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacroLink.Serial", "MacroLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacroPad", "MacroPad\MacroPad.csproj", "{92B7AB2D-51C2-43DD-B3E7-3BB95F4F8659}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacroSimDX", "MacroSimDX\MacroSimDX.csproj", "{B488157B-D4C7-407D-AFB1-6EDAA0DCF4D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RawSerialTestConsole", "RawSerialTestConsole\RawSerialTestConsole.csproj", "{5BE8B990-1D77-4A29-B4C4-7755D143C88B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{92B7AB2D-51C2-43DD-B3E7-3BB95F4F8659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92B7AB2D-51C2-43DD-B3E7-3BB95F4F8659}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92B7AB2D-51C2-43DD-B3E7-3BB95F4F8659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B488157B-D4C7-407D-AFB1-6EDAA0DCF4D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B488157B-D4C7-407D-AFB1-6EDAA0DCF4D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B488157B-D4C7-407D-AFB1-6EDAA0DCF4D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B488157B-D4C7-407D-AFB1-6EDAA0DCF4D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE8B990-1D77-4A29-B4C4-7755D143C88B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE8B990-1D77-4A29-B4C4-7755D143C88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE8B990-1D77-4A29-B4C4-7755D143C88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE8B990-1D77-4A29-B4C4-7755D143C88B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
