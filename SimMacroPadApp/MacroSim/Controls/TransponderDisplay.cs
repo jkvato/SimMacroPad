@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -86,14 +87,23 @@ namespace MacroSim.MacroPadDevice.Controls
       }
 
       //[Browsable(true)]
+      [AllowNull]
       public override string Text
       {
-         get
-         {
-            return text;
-         }
+         get => text;
          set
          {
+            if (value == null)
+            {
+               text = "1200";
+               SetTransponder(1200);
+               return;
+            }
+
+            if (int.TryParse(value, out int transponder) == false)
+            {
+               transponder = 1200;
+            }
             transponder = int.Parse(value);
             SetTransponder(transponder);
          }

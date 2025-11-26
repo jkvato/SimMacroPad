@@ -3,6 +3,7 @@ using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
@@ -46,15 +47,24 @@ public partial class DirectionDisplay : UserControl
    }
 
    [Browsable(true)]
+   [AllowNull]
    public override string Text
    {
-      get
-      {
-         return text;
-      }
+      get => text;
       set
       {
-         direction = int.Parse(value);
+         if (value == null)
+         {
+            text = "000";
+            SetDirection(0);
+            return;
+         }
+
+         if (int.TryParse(value, out int direction) == false)
+         {
+            direction = 0;
+         }
+
          SetDirection(direction);
       }
    }

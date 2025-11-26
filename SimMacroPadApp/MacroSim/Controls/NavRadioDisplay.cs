@@ -3,6 +3,8 @@ using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
@@ -68,16 +70,29 @@ public partial class NavRadioDisplay : UserControl
    public bool IsHighlightable { get; set; } = false;
 
    [Browsable(true)]
+   [AllowNull]
    public override string Text
    {
-      get
-      {
-         return text;
-      }
+      get => text;
       set
       {
-         frequency = double.Parse(value);
-         SetFrequency(frequency);
+         if (value == null)
+         {
+            text = "118.00";
+            SetFrequency(118.0);
+            return;
+         }
+
+         text = value;
+
+         if (double.TryParse(
+            value,
+            NumberStyles.Float,
+            CultureInfo.InvariantCulture,
+            out var freq))
+         {
+            SetFrequency(freq);
+         }
       }
    }
 

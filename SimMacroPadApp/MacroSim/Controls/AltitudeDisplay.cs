@@ -3,6 +3,7 @@ using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
@@ -43,15 +44,24 @@ public partial class AltitudeDisplay : UserControl
    }
 
    [Browsable(true)]
+   [AllowNull]
    public override string Text
    {
-      get
-      {
-         return text;
-      }
+      get => text;
       set
       {
-         altitude = int.Parse(value);
+         if (value == null)
+         {
+            text = "00000";
+            SetAltitude(0);
+            return;
+         }
+
+         text = value;
+
+         if (int.TryParse(value, out int altitude) == false)
+            return;
+
          SetAltitude(altitude);
       }
    }

@@ -2,13 +2,11 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Timers;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.ToolbarForm;
 using DevExpress.XtraEditors;
 using FSUIPC;
-using Hds.MacroLink.Serial;
 using Hds.MacroPad;
 using MacroSim.Controls;
 using MacroSim.Fsuipc;
@@ -17,6 +15,8 @@ using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.Properties;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
+using Serilog;
+using Serilog.Sinks.RichTextBoxForms.Themes;
 using static MacroSim.SimConnection.SimConnection;
 
 namespace MacroSim;
@@ -71,6 +71,15 @@ public partial class MainForm : ToolbarForm
    {
       InitializeComponent();
 
+      Log.Logger = new LoggerConfiguration()
+         .MinimumLevel.Verbose()
+         .WriteTo.RichTextBox(
+            richTextBoxControl: rtxtSerilogOutput,
+            outputTemplate: "{Timestamp:HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}",
+            theme: ThemePresets.Literate
+         )
+         .CreateLogger();
+
       currentAircraftTitle = string.Empty;
       currentAircraft = null;
 
@@ -112,7 +121,7 @@ public partial class MainForm : ToolbarForm
       GetComPorts();
 
       timerConnection = new System.Timers.Timer();
-      timerConnection.Interval = 1000;
+      timerConnection.Interval = 1500;
       timerConnection.Elapsed += TimerConnection_Elapsed;
       timerConnection.Start();
 
@@ -326,7 +335,7 @@ public partial class MainForm : ToolbarForm
 
             // COM1
             form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
-            form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;
+            form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;            
             form.comRadioDisplay1Standby.Value = avionicsStruct.com1standby;
             form.comRadioDisplay1Active.Value = avionicsStruct.com1active;
 
@@ -755,12 +764,12 @@ public partial class MainForm : ToolbarForm
       GetComPorts();
    }
 
-   private void ComPortsStripMenuItem_Click(object? sender, ItemClickEventArgs e)
+   private async void ComPortsStripMenuItem_Click(object? sender, ItemClickEventArgs e)
    {
       if (e.Item.Caption.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
       {
          string comPortName = e.Item.Caption;
-         macroPadDevice.SetSerialPort(comPortName);
+         await macroPadDevice.SetSerialPort(comPortName);
       }
    }
 

@@ -3,6 +3,7 @@ using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
+using Serilog;
 using System.IO.Ports;
 
 namespace MacroSim.MacroPadDevice;
@@ -10,7 +11,6 @@ namespace MacroSim.MacroPadDevice;
 internal class MacroPadDevice
 {
    //public readonly SerialPort SerialPort;
-
    public SerialMacroLinkTransport? Transport;
    public MacroPadClient? Client;
 
@@ -28,8 +28,12 @@ internal class MacroPadDevice
 
    private readonly SimMessage simMessage;
 
+   private readonly ILogger logger;
+
    public MacroPadDevice(SimConnection.SimConnection simConnection, Fsuipc.FsuipcConnection fsuipcConnection)
    {
+      logger = Log.ForContext<MacroPadDevice>();
+
       CurrentAircraft = null;
       //SerialPort = new SerialPort();
       //SerialPort.DataReceived += SerialPort_DataReceivedFromDevice;
@@ -55,11 +59,15 @@ internal class MacroPadDevice
       }
 
       Transport = new SerialMacroLinkTransport(portName, 115200);
+      logger.Information("Opening MacroPad on port {PortName}", portName);
+
       Client = new MacroPadClient(Transport);
+      logger.Information("MacroPad Client created");
 
       Client.PadInputEventReceived += SerialPort_DataReceivedFromDevice;
 
       await Client.OpenAsync();
+      logger.Information("MacroPad Client opened");
 
       return true;
 
@@ -80,6 +88,8 @@ internal class MacroPadDevice
 
    private void SerialPort_DataReceivedFromDevice(object? sender, byte eByte)
    {
+      logger.Information("MacroPad Event Received: {EventByte}", eByte);
+
       int componentID = eByte & 0b11111000;
       componentID = componentID >> 3;
       MacroPadComponent component = (MacroPadComponent)componentID;

@@ -1,17 +1,8 @@
-﻿using MacroSim.SimConnection.Enumerations;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
+using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
 using Microsoft.FlightSimulator.SimConnect;
-using Microsoft.VisualBasic.Devices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static MacroSim.SimConnection.SimConnection;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MacroSim.SimConnection;
 

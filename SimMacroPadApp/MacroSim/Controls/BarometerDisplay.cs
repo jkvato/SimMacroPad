@@ -3,6 +3,7 @@ using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MacroSim.MacroPadDevice.Controls
 {
@@ -40,15 +41,26 @@ namespace MacroSim.MacroPadDevice.Controls
       }
 
       [Browsable(true)]
+      [AllowNull]
       public override string Text
       {
-         get
-         {
-            return text;
-         }
+         get => text;
          set
          {
-            barometer = double.Parse(value);
+            if (value == null)
+            {
+               text = "29.92";
+               SetBarometer(29.92);
+               return;
+            }
+
+            text = value;
+
+            if (!double.TryParse(value, out double barometer))
+            {
+               barometer = 29.92;
+            }
+
             SetBarometer(barometer);
          }
       }

@@ -3,6 +3,7 @@ using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
@@ -38,15 +39,23 @@ public partial class VerticalSpeedDisplay : UserControl
    }
 
    [Browsable(true)]
+   [AllowNull]
    public override string Text
    {
-      get
-      {
-         return text;
-      }
+      get => text;
       set
       {
-         verticalSpeed = int.Parse(value);
+         if (value == null)
+         {
+            text = "0000";
+            SetVerticalSpeed(0);
+            return;
+         }
+         text = value;
+
+         if (int.TryParse(value, out int verticalSpeed) == false)
+            return;
+
          SetVerticalSpeed(verticalSpeed);
       }
    }
