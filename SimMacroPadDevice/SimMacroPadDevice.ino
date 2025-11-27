@@ -282,13 +282,13 @@ void handleButtonEvent(AceButton* button, uint8_t eventType, uint8_t /*buttonSta
   data |= deviceID;
 
   // TEST
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.print("Button ");
-  display.println(button->getId(), DEC);
-  display.setCursor(0, 16);
-  display.setCursor(0, 32);
-  display.display();
+  // display.clearDisplay();
+  // display.setCursor(0, 0);
+  // display.print("Button ");
+  // display.println(button->getId(), DEC);
+  // display.setCursor(0, 16);
+  // display.setCursor(0, 32);
+  // display.display();
 
   // Serial.write(data);
   padLink.sendPadInput(data);
