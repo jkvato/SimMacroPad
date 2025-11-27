@@ -67,8 +67,17 @@ public partial class MainForm : ToolbarForm
    private bool isMouseInCourse2SelBox = false;
    private bool isCourseSelNav1 = true;
 
+   private bool logTimerConnection = false;
+   private bool logTimerFsuipcProcess = false;
+
+   private int fsuipcTimerEventRunning = 0;
+   private int timerConnectionEventRunning = 0;
+
+
    public MainForm()
    {
+      Stopwatch stopwatch = Stopwatch.StartNew();
+
       InitializeComponent();
 
       Log.Logger = new LoggerConfiguration()
@@ -126,9 +135,11 @@ public partial class MainForm : ToolbarForm
       timerConnection.Start();
 
       timerFsuipcProcess = new System.Timers.Timer();
-      timerFsuipcProcess.Interval = 250;
+      timerFsuipcProcess.Interval = 1500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+
+      Log.Information("MainForm constructor took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
    }
 
    private void MainForm_Load(object sender, EventArgs e)
@@ -174,46 +185,75 @@ public partial class MainForm : ToolbarForm
    // 5. This avoids accessing WinForms controls from a non-UI thread and prevents InvalidOperationException.
    //
    // Replace the existing TimerFsuipcProcess_Elapsed implementation with the following safe version.
-
    private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
    {
-      if (fsuipcConnection.IsConnected)
+      if (Interlocked.Exchange(ref fsuipcTimerEventRunning, 1) == 1)
       {
-         try
+         // Previous timer event is still running; skip this tick
+         if (logTimerConnection)
          {
-            // Do potentially blocking processing on the timer thread
-            fsuipcConnection.Process();
+            Log.Debug("FSUIPC: Previous Process still running, skipping this tick");
+         }
+         return;
+      }
 
-            // Read values from the connection (non-UI thread safe)
-            PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
+      try
+      {
+         Stopwatch stopwatch = Stopwatch.StartNew();
 
-            // Marshal UI updates to the UI thread
-            InvokeAction(form =>
+         if (logTimerConnection)
+         {
+            Log.Debug("FSUIPC: Starting Process");
+         }
+
+         if (fsuipcConnection.IsConnected)
+         {
+            try
             {
-               form.suppressPauseCheckChangedEvent = true;
+               // Do potentially blocking processing on the timer thread
+               fsuipcConnection.Process();
 
-               form.checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
-               form.checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
-               form.checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
-               form.checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
+               // Read values from the connection (non-UI thread safe)
+               PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
 
-               if (pauseState.HasFlag(PauseState.FullPause))
-                  form.btnPauseFull.Text = "Unpause";
-               else
-                  form.btnPauseFull.Text = "Full Pause";
+               // Marshal UI updates to the UI thread
+               InvokeAction(form =>
+               {
+                  form.suppressPauseCheckChangedEvent = true;
 
-               if (pauseState.HasFlag(PauseState.SimPause))
-                  form.btnPauseSim.Text = "Unpause";
-               else
-                  form.btnPauseSim.Text = "Sim Pause";
+                  form.checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
+                  form.checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
+                  form.checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
+                  form.checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
 
-               form.suppressPauseCheckChangedEvent = false;
-            });
+                  if (pauseState.HasFlag(PauseState.FullPause))
+                     form.btnPauseFull.Text = "Unpause";
+                  else
+                     form.btnPauseFull.Text = "Full Pause";
+
+                  if (pauseState.HasFlag(PauseState.SimPause))
+                     form.btnPauseSim.Text = "Unpause";
+                  else
+                     form.btnPauseSim.Text = "Sim Pause";
+
+                  form.suppressPauseCheckChangedEvent = false;
+               });
+            }
+            catch
+            {
+               Log.Information("Swallowed exception during FSUIPC Process");
+               // swallow exceptions as before (consider logging if needed)
+            }
          }
-         catch
+
+         if (logTimerFsuipcProcess)
          {
-            // swallow exceptions as before (consider logging if needed)
+            Log.Debug("FSUIPC: Process took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
          }
+      }
+      finally
+      {
+         Interlocked.Exchange(ref fsuipcTimerEventRunning, 0);
       }
    }
 
@@ -223,42 +263,93 @@ public partial class MainForm : ToolbarForm
    // 3. Use the existing InvokeAction(Action<MainForm>) helper to marshal the call to the UI thread.
    // 4. Wrap the call in try/catch to avoid crashing the timer thread on exceptions.
    // 5. Leave other logic (FSUIPC connect, update status, get running simulators) unchanged.
-
-   private void TimerConnection_Elapsed(object? sender, ElapsedEventArgs e)
+   private async void TimerConnection_Elapsed(object? sender, ElapsedEventArgs e)
    {
-      if (!simConnection.IsConnected)
+      if (Interlocked.Exchange(ref timerConnectionEventRunning, 1) == 1)
       {
-         try
+         // Previous timer event is still running; skip this tick
+         if (logTimerConnection)
          {
-            // Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
-            InvokeAction(form =>
+            Log.Debug("TIMER: Previous Connection still running, skipping this tick");
+         }
+         return;
+      }
+
+      try
+      {
+         Stopwatch stopwatch = Stopwatch.StartNew();
+
+         if (logTimerConnection)
+         {
+            Log.Information("TIMER Connection Elapsed fired");
+         }
+
+         if (!simConnection.IsConnected)
+         {
+            try
             {
-               try
-               {
-                  simConnection.ConnectToSim(form.Handle);
-               }
-               catch
-               {
-                  // swallow - timer will retry and UpdateConnectionStatus reflects state
-               }
+               await simConnection.ConnectToSimAsync(Handle);
+
+               //// Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
+               //InvokeAction(form =>
+               //{
+               //   try
+               //   {
+               //      simConnection.ConnectToSim(Handle);
+               //   }
+               //   catch
+               //   {
+               //      // swallow - timer will retry and UpdateConnectionStatus reflects state
+               //   }
+               //});
+            }
+            catch
+            {
+               // swallow any exceptions from InvokeAction
+            }
+         }
+
+         if (logTimerConnection)
+         {
+            Log.Debug("TIMER 1: SimConnection ConnectToSim took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+            stopwatch.Restart();
+         }
+
+         if (!fsuipcConnection.IsConnected)
+         {
+            await Task.Run(() =>
+            {
+               fsuipcConnection.ConnectToSim();
+               MSFSVariableServices.Init();
+               MSFSVariableServices.Start();
             });
          }
-         catch
+
+         if (logTimerConnection)
          {
-            // swallow any exceptions from InvokeAction
+            Log.Debug("TIMER 2: FSUIPC ConnectToSim took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+            stopwatch.Stop();
+         }
+
+         UpdateConnectionStatus();
+
+         if (logTimerConnection)
+         {
+            Log.Debug("TIMER 3: UpdateConnectionStatus took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+            stopwatch.Stop();
+         }
+
+         GetRunningSimulators();
+
+         if (logTimerConnection)
+         {
+            Log.Debug("TIMER 4: GetRunningSimulators took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
          }
       }
-
-      if (!fsuipcConnection.IsConnected)
+      finally
       {
-         fsuipcConnection.ConnectToSim();
-         MSFSVariableServices.Init();
-         MSFSVariableServices.Start();
+         Interlocked.Exchange(ref timerConnectionEventRunning, 0);
       }
-
-      UpdateConnectionStatus();
-
-      GetRunningSimulators();
    }
 
    private void GetRunningSimulators()
@@ -335,7 +426,7 @@ public partial class MainForm : ToolbarForm
 
             // COM1
             form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
-            form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;            
+            form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;
             form.comRadioDisplay1Standby.Value = avionicsStruct.com1standby;
             form.comRadioDisplay1Active.Value = avionicsStruct.com1active;
 
@@ -773,10 +864,25 @@ public partial class MainForm : ToolbarForm
       }
    }
 
-   private void UpdateConnectionStatus()
+   private async Task UpdateConnectionStatus()
    {
+      bool isSimConnected = false;
+      bool isFsuipcConnected = false;
+
+      await Task.Run(() =>
+      {
+         isSimConnected = simConnection.IsConnected;
+         isFsuipcConnected = fsuipcConnection.IsConnected;
+      });
+
       InvokeAction(form =>
       {
+         menuConnectSimConnect.Caption = isSimConnected ? "Disconnect SimConnect" : "Connect SimConnect";
+         lblSimConnectStatus.Caption = isSimConnected ? "SimConnect: Connected" : "SimConnect: Disconnected";
+
+         menuConnectFsuipc.Caption = isFsuipcConnected ? "Disconnect FSUIPC" : "Connect FSUIPC";
+         lblFsuipcStatus.Caption = isFsuipcConnected ? "FSUIPC: Connected" : "FSUIPC: Disconnected";
+
          //if (macroPadDevice.SerialPort.IsOpen)
          //{
          //   lblSerialPortStatus.Caption = $"Serial: {macroPadDevice.SerialPort.PortName}";
@@ -786,27 +892,27 @@ public partial class MainForm : ToolbarForm
          //   lblSerialPortStatus.Caption = $"Serial: Disconnected";
          //}
 
-         if (fsuipcConnection.IsConnected)
-         {
-            menuConnectFsuipc.Caption = "Disconnect FSUIPC";
-            lblFsuipcStatus.Caption = "FSUIPC: Connected";
-         }
-         else
-         {
-            menuConnectFsuipc.Caption = "Connect FSUIPC";
-            lblFsuipcStatus.Caption = "FSUIPC: Disconnected";
-         }
+         //if (fsuipcConnection.IsConnected)
+         //{
+         //   menuConnectFsuipc.Caption = "Disconnect FSUIPC";
+         //   lblFsuipcStatus.Caption = "FSUIPC: Connected";
+         //}
+         //else
+         //{
+         //   menuConnectFsuipc.Caption = "Connect FSUIPC";
+         //   lblFsuipcStatus.Caption = "FSUIPC: Disconnected";
+         //}
 
-         if (simConnection.IsConnected)
-         {
-            menuConnectSimConnect.Caption = "Disconnect SimConnect";
-            lblSimConnectStatus.Caption = "SimConnect: Connected";
-         }
-         else
-         {
-            menuConnectSimConnect.Caption = "Connect SimConnect";
-            lblSimConnectStatus.Caption = "SimConnect: Disconnected";
-         }
+         //if (simConnection.IsConnected)
+         //{
+         //   menuConnectSimConnect.Caption = "Disconnect SimConnect";
+         //   lblSimConnectStatus.Caption = "SimConnect: Connected";
+         //}
+         //else
+         //{
+         //   menuConnectSimConnect.Caption = "Connect SimConnect";
+         //   lblSimConnectStatus.Caption = "SimConnect: Disconnected";
+         //}
       });
    }
 
@@ -1685,6 +1791,31 @@ public partial class MainForm : ToolbarForm
    private void Encoder_MouseWheelMoved(object sender, MouseWheelEventArgs e)
    {
 
+   }
+
+   private void LogButtons_Click(object sender, EventArgs e)
+   {
+      if (sender is SimpleButton button)
+      {
+         if (button == btnLogTimer)
+         {
+            logTimerConnection = !logTimerConnection;
+            Log.Information("SimConnect Connection Logging: {Status}", logTimerConnection ? "Enabled" : "Disabled");
+            btnLogTimer.Text = logTimerConnection ? "LOGTIMER" : "logTimer";
+         }
+         else if (button == btnLogFsuipc)
+         {
+            logTimerFsuipcProcess = !logTimerFsuipcProcess;
+            Log.Information("FSUIPC Process Logging: {Status}", logTimerFsuipcProcess ? "Enabled" : "Disabled");
+            btnLogFsuipc.Text = logTimerFsuipcProcess ? "LOGFSUIPC" : "logFsuipc";
+         }
+         else if (button == btnLogDevice)
+         {
+            macroPadDevice.LogEnabled = !macroPadDevice.LogEnabled;
+            Log.Information("MacroPad Device Logging: {Status}", macroPadDevice.LogEnabled ? "Enabled" : "Disabled");
+            btnLogDevice.Text = macroPadDevice.LogEnabled ? "LOGDEVICE" : "logDevice";
+         }
+      }
    }
 }
 

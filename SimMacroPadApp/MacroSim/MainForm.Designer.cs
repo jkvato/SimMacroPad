@@ -221,6 +221,9 @@ namespace MacroSim
          verticalSpeedDisplay = new MacroSim.MacroPadDevice.Controls.VerticalSpeedDisplay();
          transponderDisplay = new MacroSim.MacroPadDevice.Controls.TransponderDisplay();
          rtxtSerilogOutput = new RichTextBox();
+         btnLogTimer = new SimpleButton();
+         btnLogFsuipc = new SimpleButton();
+         btnLogDevice = new SimpleButton();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex1.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraIndex0.Properties).BeginInit();
          ((System.ComponentModel.ISupportInitialize)txtCameraSubState.Properties).BeginInit();
@@ -266,7 +269,7 @@ namespace MacroSim
          label6.Location = new Point(150, 615);
          label6.Margin = new Padding(4, 3, 4, 3);
          label6.Name = "label6";
-         label6.Size = new Size(43, 13);
+         label6.Size = new Size(52, 17);
          label6.TabIndex = 268;
          label6.Text = "Altimeter";
          // 
@@ -275,7 +278,7 @@ namespace MacroSim
          lblEngCondition1.Location = new Point(1079, 488);
          lblEngCondition1.Margin = new Padding(4, 3, 4, 3);
          lblEngCondition1.Name = "lblEngCondition1";
-         lblEngCondition1.Size = new Size(61, 13);
+         lblEngCondition1.Size = new Size(74, 17);
          lblEngCondition1.TabIndex = 266;
          lblEngCondition1.Text = "Condition 1: ";
          // 
@@ -284,7 +287,7 @@ namespace MacroSim
          lblMixture1Pct.Location = new Point(1080, 464);
          lblMixture1Pct.Margin = new Padding(4, 3, 4, 3);
          lblMixture1Pct.Name = "lblMixture1Pct";
-         lblMixture1Pct.Size = new Size(69, 13);
+         lblMixture1Pct.Size = new Size(80, 17);
          lblMixture1Pct.TabIndex = 265;
          lblMixture1Pct.Text = "Mixture 1: 0%";
          // 
@@ -293,7 +296,7 @@ namespace MacroSim
          lblPropeller1Pct.Location = new Point(1079, 441);
          lblPropeller1Pct.Margin = new Padding(4, 3, 4, 3);
          lblPropeller1Pct.Name = "lblPropeller1Pct";
-         lblPropeller1Pct.Size = new Size(75, 13);
+         lblPropeller1Pct.Size = new Size(89, 17);
          lblPropeller1Pct.TabIndex = 264;
          lblPropeller1Pct.Text = "Propeller 1: 0%";
          // 
@@ -302,7 +305,7 @@ namespace MacroSim
          lblThrottle1Pct.Location = new Point(1079, 418);
          lblThrottle1Pct.Margin = new Padding(4, 3, 4, 3);
          lblThrottle1Pct.Name = "lblThrottle1Pct";
-         lblThrottle1Pct.Size = new Size(71, 13);
+         lblThrottle1Pct.Size = new Size(81, 17);
          lblThrottle1Pct.TabIndex = 263;
          lblThrottle1Pct.Text = "Throttle 1: 0%";
          // 
@@ -311,7 +314,7 @@ namespace MacroSim
          lblSpoilersPosition.Location = new Point(286, 628);
          lblSpoilersPosition.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersPosition.Name = "lblSpoilersPosition";
-         lblSpoilersPosition.Size = new Size(121, 13);
+         lblSpoilersPosition.Size = new Size(148, 17);
          lblSpoilersPosition.TabIndex = 262;
          lblSpoilersPosition.Text = "Spoilers Position: 0 L, 0 R";
          // 
@@ -320,7 +323,7 @@ namespace MacroSim
          lblSpoilersHandlePosition.Location = new Point(286, 606);
          lblSpoilersHandlePosition.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersHandlePosition.Name = "lblSpoilersHandlePosition";
-         lblSpoilersHandlePosition.Size = new Size(86, 13);
+         lblSpoilersHandlePosition.Size = new Size(106, 17);
          lblSpoilersHandlePosition.TabIndex = 261;
          lblSpoilersHandlePosition.Text = "Spoilers Handle: 0";
          // 
@@ -329,7 +332,7 @@ namespace MacroSim
          lblSpoilersArmed.Location = new Point(286, 582);
          lblSpoilersArmed.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersArmed.Name = "lblSpoilersArmed";
-         lblSpoilersArmed.Size = new Size(91, 13);
+         lblSpoilersArmed.Size = new Size(116, 17);
          lblSpoilersArmed.TabIndex = 260;
          lblSpoilersArmed.Text = "Spoilers Not Armed";
          // 
@@ -338,7 +341,7 @@ namespace MacroSim
          lblSpoilersAvailable.Location = new Point(286, 559);
          lblSpoilersAvailable.Margin = new Padding(4, 3, 4, 3);
          lblSpoilersAvailable.Name = "lblSpoilersAvailable";
-         lblSpoilersAvailable.Size = new Size(69, 13);
+         lblSpoilersAvailable.Size = new Size(86, 17);
          lblSpoilersAvailable.TabIndex = 259;
          lblSpoilersAvailable.Text = "Spoilers: None";
          // 
@@ -347,7 +350,7 @@ namespace MacroSim
          lblCustomCamera.Location = new Point(1079, 651);
          lblCustomCamera.Margin = new Padding(4, 3, 4, 3);
          lblCustomCamera.Name = "lblCustomCamera";
-         lblCustomCamera.Size = new Size(62, 13);
+         lblCustomCamera.Size = new Size(74, 17);
          lblCustomCamera.TabIndex = 258;
          lblCustomCamera.Text = "Cust Camera";
          // 
@@ -386,7 +389,7 @@ namespace MacroSim
          lblSCTargetDesc.Location = new Point(1079, 218);
          lblSCTargetDesc.Margin = new Padding(4, 3, 4, 3);
          lblSCTargetDesc.Name = "lblSCTargetDesc";
-         lblSCTargetDesc.Size = new Size(74, 13);
+         lblSCTargetDesc.Size = new Size(89, 17);
          lblSCTargetDesc.TabIndex = 254;
          lblSCTargetDesc.Text = "SC Target Desc";
          // 
@@ -395,7 +398,7 @@ namespace MacroSim
          lblSCTargetType.Location = new Point(1079, 196);
          lblSCTargetType.Margin = new Padding(4, 3, 4, 3);
          lblSCTargetType.Name = "lblSCTargetType";
-         lblSCTargetType.Size = new Size(75, 13);
+         lblSCTargetType.Size = new Size(89, 17);
          lblSCTargetType.TabIndex = 253;
          lblSCTargetType.Text = "SC Target Type";
          // 
@@ -424,7 +427,7 @@ namespace MacroSim
          lblEngineTorquePct.Location = new Point(1079, 172);
          lblEngineTorquePct.Margin = new Padding(4, 3, 4, 3);
          lblEngineTorquePct.Name = "lblEngineTorquePct";
-         lblEngineTorquePct.Size = new Size(35, 13);
+         lblEngineTorquePct.Size = new Size(40, 17);
          lblEngineTorquePct.TabIndex = 246;
          lblEngineTorquePct.Text = "TRQ %";
          // 
@@ -453,7 +456,7 @@ namespace MacroSim
          lblEngineNPRpm.Location = new Point(1079, 241);
          lblEngineNPRpm.Margin = new Padding(4, 3, 4, 3);
          lblEngineNPRpm.Name = "lblEngineNPRpm";
-         lblEngineNPRpm.Size = new Size(37, 13);
+         lblEngineNPRpm.Size = new Size(48, 17);
          lblEngineNPRpm.TabIndex = 245;
          lblEngineNPRpm.Text = "NP RPM";
          // 
@@ -492,7 +495,7 @@ namespace MacroSim
          lblEngineNGPct.Location = new Point(1079, 311);
          lblEngineNGPct.Margin = new Padding(4, 3, 4, 3);
          lblEngineNGPct.Name = "lblEngineNGPct";
-         lblEngineNGPct.Size = new Size(28, 13);
+         lblEngineNGPct.Size = new Size(34, 17);
          lblEngineNGPct.TabIndex = 244;
          lblEngineNGPct.Text = "NG %";
          // 
@@ -531,7 +534,7 @@ namespace MacroSim
          lblEngineITT.Location = new Point(1079, 287);
          lblEngineITT.Margin = new Padding(4, 3, 4, 3);
          lblEngineITT.Name = "lblEngineITT";
-         lblEngineITT.Size = new Size(16, 13);
+         lblEngineITT.Size = new Size(17, 17);
          lblEngineITT.TabIndex = 243;
          lblEngineITT.Text = "ITT";
          // 
@@ -570,7 +573,7 @@ namespace MacroSim
          lblEngineTorque.Location = new Point(1079, 264);
          lblEngineTorque.Margin = new Padding(4, 3, 4, 3);
          lblEngineTorque.Name = "lblEngineTorque";
-         lblEngineTorque.Size = new Size(34, 13);
+         lblEngineTorque.Size = new Size(42, 17);
          lblEngineTorque.TabIndex = 242;
          lblEngineTorque.Text = "Torque";
          // 
@@ -609,7 +612,7 @@ namespace MacroSim
          lblFlapsCurrentPosition.Location = new Point(1079, 628);
          lblFlapsCurrentPosition.Margin = new Padding(4, 3, 4, 3);
          lblFlapsCurrentPosition.Name = "lblFlapsCurrentPosition";
-         lblFlapsCurrentPosition.Size = new Size(77, 13);
+         lblFlapsCurrentPosition.Size = new Size(93, 17);
          lblFlapsCurrentPosition.TabIndex = 240;
          lblFlapsCurrentPosition.Text = "Current Position";
          // 
@@ -638,7 +641,7 @@ namespace MacroSim
          lblFlapsNumberOfDetents.Location = new Point(1079, 605);
          lblFlapsNumberOfDetents.Margin = new Padding(4, 3, 4, 3);
          lblFlapsNumberOfDetents.Name = "lblFlapsNumberOfDetents";
-         lblFlapsNumberOfDetents.Size = new Size(91, 13);
+         lblFlapsNumberOfDetents.Size = new Size(112, 17);
          lblFlapsNumberOfDetents.TabIndex = 238;
          lblFlapsNumberOfDetents.Text = "Number of Detents";
          // 
@@ -647,7 +650,7 @@ namespace MacroSim
          lblIndex1.Location = new Point(1079, 130);
          lblIndex1.Margin = new Padding(4, 3, 4, 3);
          lblIndex1.Name = "lblIndex1";
-         lblIndex1.Size = new Size(47, 13);
+         lblIndex1.Size = new Size(51, 17);
          lblIndex1.TabIndex = 218;
          lblIndex1.Text = "Index1: x";
          // 
@@ -666,7 +669,7 @@ namespace MacroSim
          lblIndex0.Location = new Point(1079, 108);
          lblIndex0.Margin = new Padding(4, 3, 4, 3);
          lblIndex0.Name = "lblIndex0";
-         lblIndex0.Size = new Size(47, 13);
+         lblIndex0.Size = new Size(51, 17);
          lblIndex0.TabIndex = 219;
          lblIndex0.Text = "Index0: x";
          // 
@@ -675,7 +678,7 @@ namespace MacroSim
          lblCurrentFlapsLimit.Location = new Point(1079, 582);
          lblCurrentFlapsLimit.Margin = new Padding(4, 3, 4, 3);
          lblCurrentFlapsLimit.Name = "lblCurrentFlapsLimit";
-         lblCurrentFlapsLimit.Size = new Size(89, 13);
+         lblCurrentFlapsLimit.Size = new Size(108, 17);
          lblCurrentFlapsLimit.TabIndex = 237;
          lblCurrentFlapsLimit.Text = "Current Flaps Limit";
          // 
@@ -684,7 +687,7 @@ namespace MacroSim
          lblCameraSubstate.Location = new Point(1079, 84);
          lblCameraSubstate.Margin = new Padding(4, 3, 4, 3);
          lblCameraSubstate.Name = "lblCameraSubstate";
-         lblCameraSubstate.Size = new Size(56, 13);
+         lblCameraSubstate.Size = new Size(63, 17);
          lblCameraSubstate.TabIndex = 217;
          lblCameraSubstate.Text = "Substate: x";
          // 
@@ -703,7 +706,7 @@ namespace MacroSim
          lblCameraState.Location = new Point(1079, 61);
          lblCameraState.Margin = new Padding(4, 3, 4, 3);
          lblCameraState.Name = "lblCameraState";
-         lblCameraState.Size = new Size(39, 13);
+         lblCameraState.Size = new Size(42, 17);
          lblCameraState.TabIndex = 216;
          lblCameraState.Text = "State: x";
          // 
@@ -712,7 +715,7 @@ namespace MacroSim
          lblTrailingFlapsRight.Location = new Point(1079, 560);
          lblTrailingFlapsRight.Margin = new Padding(4, 3, 4, 3);
          lblTrailingFlapsRight.Name = "lblTrailingFlapsRight";
-         lblTrailingFlapsRight.Size = new Size(90, 13);
+         lblTrailingFlapsRight.Size = new Size(111, 17);
          lblTrailingFlapsRight.TabIndex = 234;
          lblTrailingFlapsRight.Text = "Trailing Flaps Right";
          // 
@@ -731,7 +734,7 @@ namespace MacroSim
          lblTrailingFlapsLeft.Location = new Point(1079, 536);
          lblTrailingFlapsLeft.Margin = new Padding(4, 3, 4, 3);
          lblTrailingFlapsLeft.Name = "lblTrailingFlapsLeft";
-         lblTrailingFlapsLeft.Size = new Size(84, 13);
+         lblTrailingFlapsLeft.Size = new Size(102, 17);
          lblTrailingFlapsLeft.TabIndex = 232;
          lblTrailingFlapsLeft.Text = "Trailing Flaps Left";
          // 
@@ -750,7 +753,7 @@ namespace MacroSim
          lblAileronTrimPct.Location = new Point(1079, 395);
          lblAileronTrimPct.Margin = new Padding(4, 3, 4, 3);
          lblAileronTrimPct.Name = "lblAileronTrimPct";
-         lblAileronTrimPct.Size = new Size(80, 13);
+         lblAileronTrimPct.Size = new Size(96, 17);
          lblAileronTrimPct.TabIndex = 230;
          lblAileronTrimPct.Text = "Aileron Trim: 0%";
          // 
@@ -759,7 +762,7 @@ namespace MacroSim
          lblRudderTrimPct.Location = new Point(1079, 373);
          lblRudderTrimPct.Margin = new Padding(4, 3, 4, 3);
          lblRudderTrimPct.Name = "lblRudderTrimPct";
-         lblRudderTrimPct.Size = new Size(82, 13);
+         lblRudderTrimPct.Size = new Size(98, 17);
          lblRudderTrimPct.TabIndex = 228;
          lblRudderTrimPct.Text = "Rudder Trim: 0%";
          // 
@@ -768,7 +771,7 @@ namespace MacroSim
          lblElevatorTrimPct.Location = new Point(1079, 349);
          lblElevatorTrimPct.Margin = new Padding(4, 3, 4, 3);
          lblElevatorTrimPct.Name = "lblElevatorTrimPct";
-         lblElevatorTrimPct.Size = new Size(87, 13);
+         lblElevatorTrimPct.Size = new Size(102, 17);
          lblElevatorTrimPct.TabIndex = 186;
          lblElevatorTrimPct.Text = "Elevator Trim: 0%";
          // 
@@ -787,7 +790,7 @@ namespace MacroSim
          txtCameraIndex1.Location = new Point(548, 482);
          txtCameraIndex1.Margin = new Padding(4, 3, 4, 3);
          txtCameraIndex1.Name = "txtCameraIndex1";
-         txtCameraIndex1.Size = new Size(31, 20);
+         txtCameraIndex1.Size = new Size(31, 24);
          txtCameraIndex1.TabIndex = 225;
          // 
          // txtCameraIndex0
@@ -795,7 +798,7 @@ namespace MacroSim
          txtCameraIndex0.Location = new Point(510, 482);
          txtCameraIndex0.Margin = new Padding(4, 3, 4, 3);
          txtCameraIndex0.Name = "txtCameraIndex0";
-         txtCameraIndex0.Size = new Size(31, 20);
+         txtCameraIndex0.Size = new Size(31, 24);
          txtCameraIndex0.TabIndex = 224;
          // 
          // txtCameraSubState
@@ -803,7 +806,7 @@ namespace MacroSim
          txtCameraSubState.Location = new Point(472, 482);
          txtCameraSubState.Margin = new Padding(4, 3, 4, 3);
          txtCameraSubState.Name = "txtCameraSubState";
-         txtCameraSubState.Size = new Size(31, 20);
+         txtCameraSubState.Size = new Size(31, 24);
          txtCameraSubState.TabIndex = 223;
          // 
          // txtCameraState
@@ -811,7 +814,7 @@ namespace MacroSim
          txtCameraState.Location = new Point(431, 482);
          txtCameraState.Margin = new Padding(4, 3, 4, 3);
          txtCameraState.Name = "txtCameraState";
-         txtCameraState.Size = new Size(31, 20);
+         txtCameraState.Size = new Size(31, 24);
          txtCameraState.TabIndex = 222;
          // 
          // GroupControl1
@@ -834,7 +837,7 @@ namespace MacroSim
          btnSimRateReset.Location = new Point(74, 54);
          btnSimRateReset.Margin = new Padding(4, 3, 4, 3);
          btnSimRateReset.Name = "btnSimRateReset";
-         btnSimRateReset.Size = new Size(35, 22);
+         btnSimRateReset.Size = new Size(39, 22);
          btnSimRateReset.TabIndex = 69;
          btnSimRateReset.Text = "Reset";
          btnSimRateReset.Click += SimRateButton_Click;
@@ -864,7 +867,7 @@ namespace MacroSim
          lblSimRate.Location = new Point(10, 31);
          lblSimRate.Margin = new Padding(4, 3, 4, 3);
          lblSimRate.Name = "lblSimRate";
-         lblSimRate.Size = new Size(61, 13);
+         lblSimRate.Size = new Size(71, 17);
          lblSimRate.TabIndex = 0;
          lblSimRate.Text = "Sim Rate: 1x";
          // 
@@ -873,7 +876,7 @@ namespace MacroSim
          lblCurrentCameraType.Location = new Point(746, 1279);
          lblCurrentCameraType.Margin = new Padding(4, 3, 4, 3);
          lblCurrentCameraType.Name = "lblCurrentCameraType";
-         lblCurrentCameraType.Size = new Size(104, 13);
+         lblCurrentCameraType.Size = new Size(124, 17);
          lblCurrentCameraType.TabIndex = 227;
          lblCurrentCameraType.Text = "Current Camera Type";
          // 
@@ -946,7 +949,7 @@ namespace MacroSim
          lblCameraCurrentView.Location = new Point(280, 35);
          lblCameraCurrentView.Margin = new Padding(4, 3, 4, 3);
          lblCameraCurrentView.Name = "lblCameraCurrentView";
-         lblCameraCurrentView.Size = new Size(100, 13);
+         lblCameraCurrentView.Size = new Size(119, 17);
          lblCameraCurrentView.TabIndex = 53;
          lblCameraCurrentView.Text = "Current camera view";
          // 
@@ -969,7 +972,7 @@ namespace MacroSim
          lblFuelDumpSwitch.Location = new Point(130, 58);
          lblFuelDumpSwitch.Margin = new Padding(4, 3, 4, 3);
          lblFuelDumpSwitch.Name = "lblFuelDumpSwitch";
-         lblFuelDumpSwitch.Size = new Size(15, 13);
+         lblFuelDumpSwitch.Size = new Size(16, 17);
          lblFuelDumpSwitch.TabIndex = 67;
          lblFuelDumpSwitch.Text = "off";
          // 
@@ -988,7 +991,7 @@ namespace MacroSim
          lblTotalFuelPct.Location = new Point(10, 31);
          lblTotalFuelPct.Margin = new Padding(4, 3, 4, 3);
          lblTotalFuelPct.Name = "lblTotalFuelPct";
-         lblTotalFuelPct.Size = new Size(93, 13);
+         lblTotalFuelPct.Size = new Size(105, 17);
          lblTotalFuelPct.TabIndex = 65;
          lblTotalFuelPct.Text = "Total Fuel: 100.0%";
          // 
@@ -1035,7 +1038,7 @@ namespace MacroSim
          checkPauseEsc.Name = "checkPauseEsc";
          checkPauseEsc.Properties.Caption = "Esc Pause";
          checkPauseEsc.Properties.ReadOnly = true;
-         checkPauseEsc.Size = new Size(102, 20);
+         checkPauseEsc.Size = new Size(102, 21);
          checkPauseEsc.TabIndex = 4;
          // 
          // checkPauseSim
@@ -1045,7 +1048,7 @@ namespace MacroSim
          checkPauseSim.Name = "checkPauseSim";
          checkPauseSim.Properties.Caption = "Sim Pause";
          checkPauseSim.Properties.ReadOnly = true;
-         checkPauseSim.Size = new Size(102, 20);
+         checkPauseSim.Size = new Size(102, 21);
          checkPauseSim.TabIndex = 3;
          // 
          // checkPauseActive
@@ -1055,7 +1058,7 @@ namespace MacroSim
          checkPauseActive.Name = "checkPauseActive";
          checkPauseActive.Properties.Caption = "Active Pause";
          checkPauseActive.Properties.ReadOnly = true;
-         checkPauseActive.Size = new Size(102, 20);
+         checkPauseActive.Size = new Size(102, 21);
          checkPauseActive.TabIndex = 2;
          // 
          // checkPauseFull
@@ -1065,7 +1068,7 @@ namespace MacroSim
          checkPauseFull.Name = "checkPauseFull";
          checkPauseFull.Properties.Caption = "Full Pause";
          checkPauseFull.Properties.ReadOnly = true;
-         checkPauseFull.Size = new Size(102, 20);
+         checkPauseFull.Size = new Size(102, 21);
          checkPauseFull.TabIndex = 1;
          // 
          // btnPauseFull
@@ -1227,7 +1230,7 @@ namespace MacroSim
          lblApproachStatus.Location = new Point(10, 109);
          lblApproachStatus.Margin = new Padding(4, 3, 4, 3);
          lblApproachStatus.Name = "lblApproachStatus";
-         lblApproachStatus.Size = new Size(53, 13);
+         lblApproachStatus.Size = new Size(64, 17);
          lblApproachStatus.TabIndex = 54;
          lblApproachStatus.Text = "Approach: ";
          // 
@@ -1434,7 +1437,7 @@ namespace MacroSim
          checkBeaconLight.Margin = new Padding(4, 3, 4, 3);
          checkBeaconLight.Name = "checkBeaconLight";
          checkBeaconLight.Padding = new Padding(4, 3, 4, 3);
-         checkBeaconLight.Size = new Size(50, 28);
+         checkBeaconLight.Size = new Size(57, 28);
          checkBeaconLight.TabIndex = 2;
          checkBeaconLight.Text = "Beacon";
          checkBeaconLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1446,7 +1449,7 @@ namespace MacroSim
          checkWingLight.Margin = new Padding(4, 3, 4, 3);
          checkWingLight.Name = "checkWingLight";
          checkWingLight.Padding = new Padding(4, 3, 4, 3);
-         checkWingLight.Size = new Size(39, 28);
+         checkWingLight.Size = new Size(45, 28);
          checkWingLight.TabIndex = 44;
          checkWingLight.Text = "Wing";
          checkWingLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1458,7 +1461,7 @@ namespace MacroSim
          checkCabinLight.Margin = new Padding(4, 3, 4, 3);
          checkCabinLight.Name = "checkCabinLight";
          checkCabinLight.Padding = new Padding(4, 3, 4, 3);
-         checkCabinLight.Size = new Size(42, 28);
+         checkCabinLight.Size = new Size(48, 28);
          checkCabinLight.TabIndex = 34;
          checkCabinLight.Text = "Cabin";
          checkCabinLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1470,7 +1473,7 @@ namespace MacroSim
          checkTaxiLight.Margin = new Padding(4, 3, 4, 3);
          checkTaxiLight.Name = "checkTaxiLight";
          checkTaxiLight.Padding = new Padding(4, 3, 4, 3);
-         checkTaxiLight.Size = new Size(35, 28);
+         checkTaxiLight.Size = new Size(38, 28);
          checkTaxiLight.TabIndex = 43;
          checkTaxiLight.Text = "Taxi";
          checkTaxiLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1482,7 +1485,7 @@ namespace MacroSim
          checkGlareshieldLight.Margin = new Padding(4, 3, 4, 3);
          checkGlareshieldLight.Name = "checkGlareshieldLight";
          checkGlareshieldLight.Padding = new Padding(4, 3, 4, 3);
-         checkGlareshieldLight.Size = new Size(67, 28);
+         checkGlareshieldLight.Size = new Size(80, 28);
          checkGlareshieldLight.TabIndex = 35;
          checkGlareshieldLight.Text = "Glareshield";
          checkGlareshieldLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1494,7 +1497,7 @@ namespace MacroSim
          checkStrobeLight.Margin = new Padding(4, 3, 4, 3);
          checkStrobeLight.Name = "checkStrobeLight";
          checkStrobeLight.Padding = new Padding(4, 3, 4, 3);
-         checkStrobeLight.Size = new Size(47, 28);
+         checkStrobeLight.Size = new Size(54, 28);
          checkStrobeLight.TabIndex = 42;
          checkStrobeLight.Text = "Strobe";
          checkStrobeLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1506,7 +1509,7 @@ namespace MacroSim
          checkLandingLight.Margin = new Padding(4, 3, 4, 3);
          checkLandingLight.Name = "checkLandingLight";
          checkLandingLight.Padding = new Padding(4, 3, 4, 3);
-         checkLandingLight.Size = new Size(52, 28);
+         checkLandingLight.Size = new Size(61, 28);
          checkLandingLight.TabIndex = 36;
          checkLandingLight.Text = "Landing";
          checkLandingLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1518,7 +1521,7 @@ namespace MacroSim
          checkRecognitionLight.Margin = new Padding(4, 3, 4, 3);
          checkRecognitionLight.Name = "checkRecognitionLight";
          checkRecognitionLight.Padding = new Padding(4, 3, 4, 3);
-         checkRecognitionLight.Size = new Size(71, 28);
+         checkRecognitionLight.Size = new Size(84, 28);
          checkRecognitionLight.TabIndex = 41;
          checkRecognitionLight.Text = "Recognition";
          checkRecognitionLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1530,7 +1533,7 @@ namespace MacroSim
          checkLogoLight.Margin = new Padding(4, 3, 4, 3);
          checkLogoLight.Name = "checkLogoLight";
          checkLogoLight.Padding = new Padding(4, 3, 4, 3);
-         checkLogoLight.Size = new Size(38, 28);
+         checkLogoLight.Size = new Size(45, 28);
          checkLogoLight.TabIndex = 37;
          checkLogoLight.Text = "Logo";
          checkLogoLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1542,7 +1545,7 @@ namespace MacroSim
          checkPedestralLight.Margin = new Padding(4, 3, 4, 3);
          checkPedestralLight.Name = "checkPedestralLight";
          checkPedestralLight.Padding = new Padding(4, 3, 4, 3);
-         checkPedestralLight.Size = new Size(60, 28);
+         checkPedestralLight.Size = new Size(69, 28);
          checkPedestralLight.TabIndex = 40;
          checkPedestralLight.Text = "Pedestral";
          checkPedestralLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1554,7 +1557,7 @@ namespace MacroSim
          checkNavLight.Margin = new Padding(4, 3, 4, 3);
          checkNavLight.Name = "checkNavLight";
          checkNavLight.Padding = new Padding(4, 3, 4, 3);
-         checkNavLight.Size = new Size(34, 28);
+         checkNavLight.Size = new Size(38, 28);
          checkNavLight.TabIndex = 38;
          checkNavLight.Text = "Nav";
          checkNavLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1566,7 +1569,7 @@ namespace MacroSim
          checkPanelLight.Margin = new Padding(4, 3, 4, 3);
          checkPanelLight.Name = "checkPanelLight";
          checkPanelLight.Padding = new Padding(4, 3, 4, 3);
-         checkPanelLight.Size = new Size(41, 28);
+         checkPanelLight.Size = new Size(46, 28);
          checkPanelLight.TabIndex = 39;
          checkPanelLight.Text = "Panel";
          checkPanelLight.CheckedChanged += LightButton_CheckedChanged;
@@ -1576,7 +1579,7 @@ namespace MacroSim
          label4.Location = new Point(24, 615);
          label4.Margin = new Padding(4, 3, 4, 3);
          label4.Name = "label4";
-         label4.Size = new Size(61, 13);
+         label4.Size = new Size(75, 17);
          label4.TabIndex = 199;
          label4.Text = "Transponder";
          // 
@@ -1585,7 +1588,7 @@ namespace MacroSim
          label7.Location = new Point(150, 551);
          label7.Margin = new Padding(4, 3, 4, 3);
          label7.Name = "label7";
-         label7.Size = new Size(68, 13);
+         label7.Size = new Size(84, 17);
          label7.TabIndex = 197;
          label7.Text = "Vertical Speed";
          // 
@@ -1594,7 +1597,7 @@ namespace MacroSim
          label5.Location = new Point(24, 551);
          label5.Margin = new Padding(4, 3, 4, 3);
          label5.Name = "label5";
-         label5.Size = new Size(37, 13);
+         label5.Size = new Size(44, 17);
          label5.TabIndex = 195;
          label5.Text = "Altitude";
          // 
@@ -1603,7 +1606,7 @@ namespace MacroSim
          lblCourseSel.Location = new Point(150, 485);
          lblCourseSel.Margin = new Padding(4, 3, 4, 3);
          lblCourseSel.Name = "lblCourseSel";
-         lblCourseSel.Size = new Size(34, 13);
+         lblCourseSel.Size = new Size(41, 17);
          lblCourseSel.TabIndex = 193;
          lblCourseSel.Text = "Course";
          // 
@@ -1624,6 +1627,8 @@ namespace MacroSim
          // navRadioDisplay2Standby
          // 
          navRadioDisplay2Standby.CurrentMacroPadState = MacroPadState.None;
+         navRadioDisplay2Standby.Id = 2;
+         navRadioDisplay2Standby.IsHighlightable = true;
          navRadioDisplay2Standby.Location = new Point(11, 48);
          navRadioDisplay2Standby.Name = "navRadioDisplay2Standby";
          navRadioDisplay2Standby.Size = new Size(86, 40);
@@ -1633,6 +1638,7 @@ namespace MacroSim
          // navRadioDisplay2Active
          // 
          navRadioDisplay2Active.CurrentMacroPadState = MacroPadState.None;
+         navRadioDisplay2Active.Id = 2;
          navRadioDisplay2Active.Location = new Point(137, 48);
          navRadioDisplay2Active.Name = "navRadioDisplay2Active";
          navRadioDisplay2Active.Size = new Size(86, 40);
@@ -1644,7 +1650,7 @@ namespace MacroSim
          lblNav2Standby.Location = new Point(10, 29);
          lblNav2Standby.Margin = new Padding(4, 3, 4, 3);
          lblNav2Standby.Name = "lblNav2Standby";
-         lblNav2Standby.Size = new Size(40, 13);
+         lblNav2Standby.Size = new Size(47, 17);
          lblNav2Standby.TabIndex = 2;
          lblNav2Standby.Text = "Standby";
          // 
@@ -1653,7 +1659,7 @@ namespace MacroSim
          lblNav2Active.Location = new Point(139, 29);
          lblNav2Active.Margin = new Padding(4, 3, 4, 3);
          lblNav2Active.Name = "lblNav2Active";
-         lblNav2Active.Size = new Size(30, 13);
+         lblNav2Active.Size = new Size(34, 17);
          lblNav2Active.TabIndex = 3;
          lblNav2Active.Text = "Active";
          // 
@@ -1662,7 +1668,7 @@ namespace MacroSim
          label2.Location = new Point(24, 485);
          label2.Margin = new Padding(4, 3, 4, 3);
          label2.Name = "label2";
-         label2.Size = new Size(39, 13);
+         label2.Size = new Size(49, 17);
          label2.TabIndex = 187;
          label2.Text = "Heading";
          // 
@@ -1692,6 +1698,7 @@ namespace MacroSim
          // navRadioDisplay1Standby
          // 
          navRadioDisplay1Standby.CurrentMacroPadState = MacroPadState.None;
+         navRadioDisplay1Standby.IsHighlightable = true;
          navRadioDisplay1Standby.Location = new Point(11, 51);
          navRadioDisplay1Standby.Name = "navRadioDisplay1Standby";
          navRadioDisplay1Standby.Size = new Size(86, 40);
@@ -1703,7 +1710,7 @@ namespace MacroSim
          lblNav1Standby.Location = new Point(10, 29);
          lblNav1Standby.Margin = new Padding(4, 3, 4, 3);
          lblNav1Standby.Name = "lblNav1Standby";
-         lblNav1Standby.Size = new Size(40, 13);
+         lblNav1Standby.Size = new Size(47, 17);
          lblNav1Standby.TabIndex = 2;
          lblNav1Standby.Text = "Standby";
          // 
@@ -1712,7 +1719,7 @@ namespace MacroSim
          lblNav1Active.Location = new Point(139, 29);
          lblNav1Active.Margin = new Padding(4, 3, 4, 3);
          lblNav1Active.Name = "lblNav1Active";
-         lblNav1Active.Size = new Size(30, 13);
+         lblNav1Active.Size = new Size(34, 17);
          lblNav1Active.TabIndex = 3;
          lblNav1Active.Text = "Active";
          // 
@@ -1733,6 +1740,8 @@ namespace MacroSim
          // comRadioDisplay2Standby
          // 
          comRadioDisplay2Standby.CurrentMacroPadState = MacroPadState.None;
+         comRadioDisplay2Standby.Id = 2;
+         comRadioDisplay2Standby.IsHighlightable = true;
          comRadioDisplay2Standby.Location = new Point(11, 52);
          comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
          comRadioDisplay2Standby.Size = new Size(102, 40);
@@ -1742,6 +1751,7 @@ namespace MacroSim
          // comRadioDisplay2Active
          // 
          comRadioDisplay2Active.CurrentMacroPadState = MacroPadState.None;
+         comRadioDisplay2Active.Id = 2;
          comRadioDisplay2Active.Location = new Point(144, 52);
          comRadioDisplay2Active.Name = "comRadioDisplay2Active";
          comRadioDisplay2Active.Size = new Size(102, 40);
@@ -1753,7 +1763,7 @@ namespace MacroSim
          lblCom2Standby.Location = new Point(10, 29);
          lblCom2Standby.Margin = new Padding(4, 3, 4, 3);
          lblCom2Standby.Name = "lblCom2Standby";
-         lblCom2Standby.Size = new Size(40, 13);
+         lblCom2Standby.Size = new Size(47, 17);
          lblCom2Standby.TabIndex = 6;
          lblCom2Standby.Text = "Standby";
          // 
@@ -1762,7 +1772,7 @@ namespace MacroSim
          lblCom2Active.Location = new Point(139, 29);
          lblCom2Active.Margin = new Padding(4, 3, 4, 3);
          lblCom2Active.Name = "lblCom2Active";
-         lblCom2Active.Size = new Size(30, 13);
+         lblCom2Active.Size = new Size(34, 17);
          lblCom2Active.TabIndex = 7;
          lblCom2Active.Text = "Active";
          // 
@@ -1792,6 +1802,7 @@ namespace MacroSim
          // comRadioDisplay1Standby
          // 
          comRadioDisplay1Standby.CurrentMacroPadState = MacroPadState.None;
+         comRadioDisplay1Standby.IsHighlightable = true;
          comRadioDisplay1Standby.Location = new Point(9, 51);
          comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
          comRadioDisplay1Standby.Size = new Size(102, 40);
@@ -1803,7 +1814,7 @@ namespace MacroSim
          lblCom1Standby.Location = new Point(10, 29);
          lblCom1Standby.Margin = new Padding(4, 3, 4, 3);
          lblCom1Standby.Name = "lblCom1Standby";
-         lblCom1Standby.Size = new Size(40, 13);
+         lblCom1Standby.Size = new Size(47, 17);
          lblCom1Standby.TabIndex = 2;
          lblCom1Standby.Text = "Standby";
          // 
@@ -1812,7 +1823,7 @@ namespace MacroSim
          lblCom1Active.Location = new Point(139, 29);
          lblCom1Active.Margin = new Padding(4, 3, 4, 3);
          lblCom1Active.Name = "lblCom1Active";
-         lblCom1Active.Size = new Size(30, 13);
+         lblCom1Active.Size = new Size(34, 17);
          lblCom1Active.TabIndex = 3;
          lblCom1Active.Text = "Active";
          // 
@@ -1823,7 +1834,7 @@ namespace MacroSim
          toolbarFormControl1.Manager = toolbarFormManager1;
          toolbarFormControl1.Margin = new Padding(4, 3, 4, 3);
          toolbarFormControl1.Name = "toolbarFormControl1";
-         toolbarFormControl1.Size = new Size(1308, 31);
+         toolbarFormControl1.Size = new Size(1310, 30);
          toolbarFormControl1.TabIndex = 270;
          toolbarFormControl1.TabStop = false;
          toolbarFormControl1.TitleItemLinks.Add(skinPaletteDropDownButtonItem1);
@@ -1838,7 +1849,7 @@ namespace MacroSim
          gridLookUpEdit1.Name = "gridLookUpEdit1";
          gridLookUpEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] { new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo) });
          gridLookUpEdit1.Properties.PopupView = gridLookUpEdit1View;
-         gridLookUpEdit1.Size = new Size(100, 20);
+         gridLookUpEdit1.Size = new Size(100, 24);
          gridLookUpEdit1.TabIndex = 0;
          // 
          // toolbarFormManager1
@@ -1972,37 +1983,37 @@ namespace MacroSim
          // 
          barDockControlTop.CausesValidation = false;
          barDockControlTop.Dock = DockStyle.Top;
-         barDockControlTop.Location = new Point(0, 31);
+         barDockControlTop.Location = new Point(0, 30);
          barDockControlTop.Manager = toolbarFormManager1;
          barDockControlTop.Margin = new Padding(4, 3, 4, 3);
-         barDockControlTop.Size = new Size(1308, 24);
+         barDockControlTop.Size = new Size(1310, 28);
          // 
          // barDockControlBottom
          // 
          barDockControlBottom.CausesValidation = false;
          barDockControlBottom.Dock = DockStyle.Bottom;
-         barDockControlBottom.Location = new Point(0, 923);
+         barDockControlBottom.Location = new Point(0, 924);
          barDockControlBottom.Manager = toolbarFormManager1;
          barDockControlBottom.Margin = new Padding(4, 3, 4, 3);
-         barDockControlBottom.Size = new Size(1308, 26);
+         barDockControlBottom.Size = new Size(1310, 26);
          // 
          // barDockControlLeft
          // 
          barDockControlLeft.CausesValidation = false;
          barDockControlLeft.Dock = DockStyle.Left;
-         barDockControlLeft.Location = new Point(0, 55);
+         barDockControlLeft.Location = new Point(0, 58);
          barDockControlLeft.Manager = toolbarFormManager1;
          barDockControlLeft.Margin = new Padding(4, 3, 4, 3);
-         barDockControlLeft.Size = new Size(0, 868);
+         barDockControlLeft.Size = new Size(0, 866);
          // 
          // barDockControlRight
          // 
          barDockControlRight.CausesValidation = false;
          barDockControlRight.Dock = DockStyle.Right;
-         barDockControlRight.Location = new Point(1308, 55);
+         barDockControlRight.Location = new Point(1310, 58);
          barDockControlRight.Manager = toolbarFormManager1;
          barDockControlRight.Margin = new Padding(4, 3, 4, 3);
-         barDockControlRight.Size = new Size(0, 868);
+         barDockControlRight.Size = new Size(0, 866);
          // 
          // skinPaletteDropDownButtonItem1
          // 
@@ -2093,6 +2104,7 @@ namespace MacroSim
          // 
          dirHeadingDisplay.CurrentMacroPadState = MacroPadState.None;
          dirHeadingDisplay.Location = new Point(24, 504);
+         dirHeadingDisplay.MacroPadStateId = MacroPadState.HEADING;
          dirHeadingDisplay.Name = "dirHeadingDisplay";
          dirHeadingDisplay.Size = new Size(48, 40);
          dirHeadingDisplay.TabIndex = 283;
@@ -2131,12 +2143,42 @@ namespace MacroSim
          rtxtSerilogOutput.TabIndex = 291;
          rtxtSerilogOutput.Text = "";
          // 
+         // btnLogTimer
+         // 
+         btnLogTimer.Location = new Point(607, 487);
+         btnLogTimer.Name = "btnLogTimer";
+         btnLogTimer.Size = new Size(75, 23);
+         btnLogTimer.TabIndex = 296;
+         btnLogTimer.Text = "logTimer";
+         btnLogTimer.Click += LogButtons_Click;
+         // 
+         // btnLogFsuipc
+         // 
+         btnLogFsuipc.Location = new Point(608, 516);
+         btnLogFsuipc.Name = "btnLogFsuipc";
+         btnLogFsuipc.Size = new Size(75, 23);
+         btnLogFsuipc.TabIndex = 297;
+         btnLogFsuipc.Text = "logFsuipc";
+         btnLogFsuipc.Click += LogButtons_Click;
+         // 
+         // btnLogDevice
+         // 
+         btnLogDevice.Location = new Point(689, 516);
+         btnLogDevice.Name = "btnLogDevice";
+         btnLogDevice.Size = new Size(75, 23);
+         btnLogDevice.TabIndex = 302;
+         btnLogDevice.Text = "logDevice";
+         btnLogDevice.Click += LogButtons_Click;
+         // 
          // MainForm
          // 
          Appearance.Options.UseFont = true;
          AutoScaleDimensions = new SizeF(7F, 17F);
          AutoScaleMode = AutoScaleMode.Font;
-         ClientSize = new Size(1308, 949);
+         ClientSize = new Size(1310, 950);
+         Controls.Add(btnLogDevice);
+         Controls.Add(btnLogFsuipc);
+         Controls.Add(btnLogTimer);
          Controls.Add(rtxtSerilogOutput);
          Controls.Add(transponderDisplay);
          Controls.Add(verticalSpeedDisplay);
@@ -2229,7 +2271,6 @@ namespace MacroSim
          Controls.Add(barDockControlBottom);
          Controls.Add(barDockControlTop);
          Controls.Add(toolbarFormControl1);
-         Font = new Font("Segoe UI", 9.75F);
          Margin = new Padding(4, 3, 4, 3);
          Name = "MainForm";
          Text = "MainForm";
@@ -2478,5 +2519,8 @@ namespace MacroSim
       private MacroPadDevice.Controls.VerticalSpeedDisplay verticalSpeedDisplay;
       private MacroPadDevice.Controls.TransponderDisplay transponderDisplay;
       private RichTextBox rtxtSerilogOutput;
+      private SimpleButton btnLogFsuipc;
+      private SimpleButton btnLogTimer;
+      private SimpleButton btnLogDevice;
    }
 }

@@ -52,6 +52,39 @@ public class SimConnection
       return CameraType;
    }
 
+   public async Task ConnectToSimAsync(nint handle)
+   {
+      await Task.Run(() =>
+      {
+         if (simConnect == null)
+         {
+            try
+            {
+               simConnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
+               Initialize();
+               System.Diagnostics.Debug.WriteLine($"Requesting Avionics");
+               RequestDataOnSimObject(SimDataRequest.AvionicsRequest);
+               System.Diagnostics.Debug.WriteLine($"Requesting Lights");
+               RequestDataOnSimObject(SimDataRequest.LightsRequest);
+               System.Diagnostics.Debug.WriteLine($"Requesting Trim");
+               RequestDataOnSimObject(SimDataRequest.TrimRequest);
+               System.Diagnostics.Debug.WriteLine($"Requesting Cameras");
+               RequestDataOnSimObject(SimDataRequest.CamerasRequest);
+               System.Diagnostics.Debug.WriteLine($"Requesting Time");
+               RequestDataOnSimObject(SimDataRequest.TimeRequest);
+               System.Diagnostics.Debug.WriteLine($"Requesting Engines");
+               RequestDataOnSimObject(SimDataRequest.EngineRequest);
+               System.Diagnostics.Debug.WriteLine($"Requesting Smartcam Targets");
+               RequestDataOnSimObject(SimDataRequest.SmartcamTargetsRequest);
+               return;
+            }
+            catch (COMException)
+            {
+            }
+         }
+      });
+   }
+
    private void SimConnectionBackgroundWorker_DoWork(object? sender, DoWorkEventArgs e)
    {
       if (e.Argument != null && e.Argument is nint handle)

@@ -4,6 +4,7 @@ using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
 using Serilog;
+using System.Diagnostics;
 using System.IO.Ports;
 
 namespace MacroSim.MacroPadDevice;
@@ -12,7 +13,7 @@ internal class MacroPadDevice
 {
    //public readonly SerialPort SerialPort;
    public SerialMacroLinkTransport? Transport;
-   public MacroPadClient? Client;
+   public MacroPadClient? MacroPadClient;
 
    public SimConnection.SimConnection SimConnection { get; private set; }
    public Fsuipc.FsuipcConnection FsuipcConnection { get; private set; }
@@ -20,6 +21,8 @@ internal class MacroPadDevice
    public SimAircraft.SimAircraft? CurrentAircraft { get; set; }
 
    public MacroPadState State { get; private set; } = MacroPadState.None;
+
+   public bool LogEnabled { get; set; } = false;
 
    private int apAltitude = 0;
 
@@ -42,7 +45,7 @@ internal class MacroPadDevice
       simMessage = new SimMessage();
 
       Transport = null;
-      Client = null;
+      MacroPadClient = null;
    }
 
    public async Task<bool> SetSerialPort(string portName)
@@ -53,20 +56,20 @@ internal class MacroPadDevice
          Transport = null;
       }
 
-      if (Client != null)
+      if (MacroPadClient != null)
       {
-         Client = null;
+         MacroPadClient = null;
       }
 
       Transport = new SerialMacroLinkTransport(portName, 115200);
       logger.Information("Opening MacroPad on port {PortName}", portName);
 
-      Client = new MacroPadClient(Transport);
+      MacroPadClient = new MacroPadClient(Transport);
       logger.Information("MacroPad Client created");
 
-      Client.PadInputEventReceived += SerialPort_DataReceivedFromDevice;
+      MacroPadClient.PadInputEventReceived += MacroPad_DataReceivedFromDevice;
 
-      await Client.OpenAsync();
+      await MacroPadClient.OpenAsync();
       logger.Information("MacroPad Client opened");
 
       return true;
@@ -86,10 +89,8 @@ internal class MacroPadDevice
       //}
    }
 
-   private void SerialPort_DataReceivedFromDevice(object? sender, byte eByte)
+   private void MacroPad_DataReceivedFromDevice(object? sender, byte eByte)
    {
-      logger.Information("MacroPad Event Received: {EventByte}", eByte);
-
       int componentID = eByte & 0b11111000;
       componentID = componentID >> 3;
       MacroPadComponent component = (MacroPadComponent)componentID;
@@ -97,11 +98,22 @@ internal class MacroPadDevice
       int eventID = eByte & 0b00000111;
       MacroPadEvent eventType = (MacroPadEvent)eventID;
 
+      Stopwatch sw = Stopwatch.StartNew();
+      if (LogEnabled)
+         logger.Information("MacroPad event received: Component: {Component}, Event: {EventType}", component, eventType);
+      
       ProcessMacroPadEvent(component, eventType);
+      
+      if (LogEnabled)
+         logger.Information("MacroPad event processed in {ElapsedMilliseconds} ms", sw.ElapsedMilliseconds);
    }
 
    public void UpdateData(object structure)
    {
+      Stopwatch sw = Stopwatch.StartNew();
+      if (LogEnabled)
+         logger.Information("Updating MacroPad display for state {State}", State);
+
       if (structure is AvionicsStruct avionicsStruct)
       {
          apAltitude = avionicsStruct.apAltitudeSel;
@@ -193,14 +205,17 @@ internal class MacroPadDevice
          // SEND THE MESSAGE TO THE MACROPAD
          //simMessage.Send(SerialPort);
 
-         if (Client != null)
+         if (MacroPadClient != null)
          {
-            Client.SendSimMessageAsync(simMessage);
+            MacroPadClient.SendSimMessageAsync(simMessage);
          }
       }
       else if (structure is LightsStruct lightsStruct)
       {
       }
+
+      if (LogEnabled)
+         logger.Information("MacroPad display updated in {ElapsedMilliseconds} ms", sw.ElapsedMilliseconds);
    }
 
    protected virtual void OnEventProcessed(EventProcessedEventArgs e)
@@ -208,29 +223,29 @@ internal class MacroPadDevice
       EventProcessed?.Invoke(this, e);
    }
 
-   private void SerialPort_DataReceivedFromDevice(object sender, SerialDataReceivedEventArgs e)
-   {
-      int data = 0;
-      try
-      {
-         //data = SerialPort.ReadByte();
-      }
-      catch
-      {
-         return;
-      }
-      var bytes = BitConverter.GetBytes(data);
-      var b = bytes[0];
+   //private void SerialPort_DataReceivedFromDevice(object sender, SerialDataReceivedEventArgs e)
+   //{
+   //   int data = 0;
+   //   try
+   //   {
+   //      //data = SerialPort.ReadByte();
+   //   }
+   //   catch
+   //   {
+   //      return;
+   //   }
+   //   var bytes = BitConverter.GetBytes(data);
+   //   var b = bytes[0];
 
-      int componentID = b & 0b11111000;
-      componentID = componentID >> 3;
-      MacroPadComponent component = (MacroPadComponent)componentID;
+   //   int componentID = b & 0b11111000;
+   //   componentID = componentID >> 3;
+   //   MacroPadComponent component = (MacroPadComponent)componentID;
 
-      int eventID = b & 0b00000111;
-      MacroPadEvent eventType = (MacroPadEvent)eventID;
+   //   int eventID = b & 0b00000111;
+   //   MacroPadEvent eventType = (MacroPadEvent)eventID;
 
-      ProcessMacroPadEvent(component, eventType);
-   }
+   //   ProcessMacroPadEvent(component, eventType);
+   //}
 
    private MacroPadState GetNewState(
       MacroPadComponent component,
@@ -911,9 +926,9 @@ internal class MacroPadDevice
                   break;
                case MacroPadState.AS430_RT_SM:
                   if (eventType == MacroPadEvent.Increment)
-                     FsuipcConnection.SendCalculatorCode("(>H:AS430_RightSmallKnob_Left)");
-                  else if (eventType == MacroPadEvent.Decrement)
                      FsuipcConnection.SendCalculatorCode("(>H:AS430_RightSmallKnob_Right)");
+                  else if (eventType == MacroPadEvent.Decrement)
+                     FsuipcConnection.SendCalculatorCode("(>H:AS430_RightSmallKnob_Left)");
                   else if (eventType == MacroPadEvent.Clicked)
                      FsuipcConnection.SendCalculatorCode("(>H:AS430_RightSmallKnob_Push)");
                   break;
