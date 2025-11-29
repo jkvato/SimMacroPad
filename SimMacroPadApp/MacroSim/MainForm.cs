@@ -76,8 +76,6 @@ public partial class MainForm : ToolbarForm
 
    public MainForm()
    {
-      Stopwatch stopwatch = Stopwatch.StartNew();
-
       InitializeComponent();
 
       Log.Logger = new LoggerConfiguration()
@@ -89,9 +87,20 @@ public partial class MainForm : ToolbarForm
          )
          .CreateLogger();
 
+      simConnection = new SimConnection.SimConnection();
+      fsuipcConnection = new FsuipcConnection(this);
+
+      macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection, fsuipcConnection);
+
+      timerConnection = new System.Timers.Timer();
+      timerFsuipcProcess = new System.Timers.Timer();
+
       currentAircraftTitle = string.Empty;
       currentAircraft = null;
+   }
 
+   private void MainForm_Load(object sender, EventArgs e)
+   {
       previousCamera.cameraState = 2;
       previousCamera.cameraSubState = 1;
       previousCamera.cameraViewTypeIndex0 = 1;
@@ -111,9 +120,6 @@ public partial class MainForm : ToolbarForm
       btnAv4.MouseWheel += FmsButton_MouseWheel;
       btnAv3.MouseWheel += FmsButton_MouseWheel;
 
-      simConnection = new SimConnection.SimConnection();
-      fsuipcConnection = new FsuipcConnection(this);
-
       string eventsFilename;
       eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
       fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
@@ -122,28 +128,19 @@ public partial class MainForm : ToolbarForm
 
       simConnection.DataReceived += SimConnection_DataReceivedFromSim;
 
-      macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection, fsuipcConnection);
       macroPadDevice.EventProcessed += MacroPadDevice_EventProcessed;
 
       DevExpress.LookAndFeel.UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
 
       GetComPorts();
 
-      timerConnection = new System.Timers.Timer();
-      timerConnection.Interval = 1500;
+      timerConnection.Interval = 1000;
       timerConnection.Elapsed += TimerConnection_Elapsed;
       timerConnection.Start();
 
-      timerFsuipcProcess = new System.Timers.Timer();
-      timerFsuipcProcess.Interval = 1500;
+      timerFsuipcProcess.Interval = 1000;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
-
-      Log.Information("MainForm constructor took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
-   }
-
-   private void MainForm_Load(object sender, EventArgs e)
-   {
    }
 
    private void Default_StyleChanged(object? sender, EventArgs e)
@@ -192,8 +189,8 @@ public partial class MainForm : ToolbarForm
          // Previous timer event is still running; skip this tick
          if (logTimerConnection)
          {
-            Log.Debug("FSUIPC: Previous Process still running, skipping this tick");
          }
+         Log.Debug("FSUIPC: Previous Process still running, skipping this tick");
          return;
       }
 
@@ -270,8 +267,8 @@ public partial class MainForm : ToolbarForm
          // Previous timer event is still running; skip this tick
          if (logTimerConnection)
          {
-            Log.Debug("TIMER: Previous Connection still running, skipping this tick");
          }
+         Log.Debug("TIMER: Previous Connection still running, skipping this tick");
          return;
       }
 
@@ -288,7 +285,7 @@ public partial class MainForm : ToolbarForm
          {
             try
             {
-               await simConnection.ConnectToSimAsync(Handle);
+               await Task.Run(() => simConnection.ConnectToSim(Handle));
 
                //// Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
                //InvokeAction(form =>
@@ -331,7 +328,7 @@ public partial class MainForm : ToolbarForm
             stopwatch.Stop();
          }
 
-         UpdateConnectionStatus();
+         await UpdateConnectionStatus();
 
          if (logTimerConnection)
          {
@@ -375,7 +372,7 @@ public partial class MainForm : ToolbarForm
       }
    }
 
-   private void MacroPadDevice_EventProcessed(object sender, EventProcessedEventArgs e)
+   private async void MacroPadDevice_EventProcessed(object sender, EventProcessedEventArgs e)
    {
       InvokeAction(form =>
       {
@@ -383,7 +380,7 @@ public partial class MainForm : ToolbarForm
          SetDisplayState(e.NewState);
       });
 
-      UpdateConnectionStatus();
+      await UpdateConnectionStatus();
    }
 
    private void SimConnection_DataReceivedFromSim(object sender, object structure)
@@ -860,7 +857,19 @@ public partial class MainForm : ToolbarForm
       if (e.Item.Caption.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
       {
          string comPortName = e.Item.Caption;
-         await macroPadDevice.SetSerialPort(comPortName);
+         var result = await macroPadDevice.SetSerialPort(comPortName);
+
+         InvokeAction(form =>
+         {
+            if (result)
+            {
+               lblSerialPortStatus.Caption = $"Serial: {comPortName}";
+            }
+            else
+            {
+               lblSerialPortStatus.Caption = $"Serial: Disconnected";
+            }
+         });
       }
    }
 
@@ -1723,16 +1732,16 @@ public partial class MainForm : ToolbarForm
       Close();
    }
 
-   private void ConnectToSimToolStripMenuItem_Click(object sender, EventArgs e)
+   private async void ConnectToSimToolStripMenuItem_Click(object sender, EventArgs e)
    {
       if (simConnection.IsConnected)
       {
-         simConnection.DisconnectFromSim();
+         await Task.Run(simConnection.DisconnectFromSim);
          Debug.WriteLine("Disconnected");
       }
       else
       {
-         simConnection.ConnectToSim(Handle);
+         await Task.Run(() => simConnection.ConnectToSim(Handle));
          Debug.WriteLine("Connected");
       }
    }
