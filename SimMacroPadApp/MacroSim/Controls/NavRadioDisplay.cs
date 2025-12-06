@@ -140,7 +140,7 @@ public partial class NavRadioDisplay : ControlBase
 
    private void NavDisplay_DoubleClick(object? sender, EventArgs e)
    {
-      OnComFrequencySwapped(EventArgs.Empty);
+      OnNavFrequencySwapped(EventArgs.Empty);
    }
 
    private void NavDisplay_MouseWheel(object? sender, MouseEventArgs e)
@@ -182,24 +182,24 @@ public partial class NavRadioDisplay : ControlBase
       }
 
       decimal f = mhz + khz;
-      double fDouble = Convert.ToDouble(f);
+      decimal fDecimal = Convert.ToDecimal(f);
 
-      OnComFrequencyChanged(new ComDisplayEventArgs(fDouble));
+      OnNavFrequencyChanged(new NavDisplayEventArgs(fDecimal));
    }
 
-   protected virtual void OnComFrequencyChanged(ComDisplayEventArgs e)
+   protected virtual void OnNavFrequencyChanged(NavDisplayEventArgs e)
    {
       FrequencyChanged?.Invoke(this, e);
    }
 
-   protected virtual void OnComFrequencySwapped(EventArgs e)
+   protected virtual void OnNavFrequencySwapped(EventArgs e)
    {
       FrequencySwapped?.Invoke(this, e);
    }
 }
 
 
-public delegate void NavFrequencyChangedEventHandler(object sender, ComDisplayEventArgs e);
+public delegate void NavFrequencyChangedEventHandler(object sender, NavDisplayEventArgs e);
 public delegate void NavFrequencySwappedEventHandler(object sender, EventArgs e);
 
-public record NavDisplayEventArgs(double Frequency);
+public record NavDisplayEventArgs(decimal Frequency);

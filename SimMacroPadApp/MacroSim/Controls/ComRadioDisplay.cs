@@ -182,9 +182,9 @@ public partial class ComRadioDisplay : ControlBase
       }
 
       decimal f = mhz + khz;
-      double fDouble = Convert.ToDouble(f);
+      decimal fDecimal = Convert.ToDecimal(f);
 
-      OnComFrequencyChanged(new ComDisplayEventArgs(fDouble));
+      OnComFrequencyChanged(new ComDisplayEventArgs(fDecimal));
    }
 
    protected virtual void OnComFrequencyChanged(ComDisplayEventArgs e)
@@ -201,4 +201,4 @@ public partial class ComRadioDisplay : ControlBase
 public delegate void ComFrequencyChangedEventHandler(object sender, ComDisplayEventArgs e);
 public delegate void ComFrequencySwappedEventHandler(object sender, EventArgs e);
 
-public record ComDisplayEventArgs(double Frequency);
+public record ComDisplayEventArgs(decimal Frequency);

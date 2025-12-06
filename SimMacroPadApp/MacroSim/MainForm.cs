@@ -171,7 +171,7 @@ public partial class MainForm : ToolbarForm
       }
    }
 
-   private void NavStandbyRadio_FrequencyChanged(object sender, ComDisplayEventArgs e)
+   private void NavStandbyRadio_FrequencyChanged(object sender, NavDisplayEventArgs e)
    {
       if (sender is NavRadioDisplay nav)
       {
