@@ -1,5 +1,6 @@
 ﻿using DevExpress.XtraEditors;
 using Hds.MacroPad;
+using MacroSim.MacroPadDevice.Controls;
 
 namespace MacroSim
 {
@@ -1633,7 +1634,7 @@ namespace MacroSim
          navRadioDisplay2Standby.Name = "navRadioDisplay2Standby";
          navRadioDisplay2Standby.Size = new Size(86, 40);
          navRadioDisplay2Standby.TabIndex = 8;
-         navRadioDisplay2Standby.Value = 108D;
+         navRadioDisplay2Standby.Value = NavRadioDisplay.MinFrequency;
          // 
          // navRadioDisplay2Active
          // 
@@ -1643,7 +1644,7 @@ namespace MacroSim
          navRadioDisplay2Active.Name = "navRadioDisplay2Active";
          navRadioDisplay2Active.Size = new Size(86, 40);
          navRadioDisplay2Active.TabIndex = 7;
-         navRadioDisplay2Active.Value = 108D;
+         navRadioDisplay2Active.Value = NavRadioDisplay.MinFrequency;
          // 
          // lblNav2Standby
          // 
@@ -1693,7 +1694,7 @@ namespace MacroSim
          navRadioDisplay1Active.Name = "navRadioDisplay1Active";
          navRadioDisplay1Active.Size = new Size(86, 40);
          navRadioDisplay1Active.TabIndex = 5;
-         navRadioDisplay1Active.Value = 108D;
+         navRadioDisplay1Active.Value = NavRadioDisplay.MinFrequency;
          // 
          // navRadioDisplay1Standby
          // 
@@ -1703,7 +1704,7 @@ namespace MacroSim
          navRadioDisplay1Standby.Name = "navRadioDisplay1Standby";
          navRadioDisplay1Standby.Size = new Size(86, 40);
          navRadioDisplay1Standby.TabIndex = 4;
-         navRadioDisplay1Standby.Value = 108D;
+         navRadioDisplay1Standby.Value = NavRadioDisplay.MinFrequency;
          // 
          // lblNav1Standby
          // 
@@ -1746,7 +1747,7 @@ namespace MacroSim
          comRadioDisplay2Standby.Name = "comRadioDisplay2Standby";
          comRadioDisplay2Standby.Size = new Size(102, 40);
          comRadioDisplay2Standby.TabIndex = 9;
-         comRadioDisplay2Standby.Value = 118D;
+         comRadioDisplay2Standby.Value = ComRadioDisplay.MinFrequency;
          // 
          // comRadioDisplay2Active
          // 
@@ -1756,7 +1757,7 @@ namespace MacroSim
          comRadioDisplay2Active.Name = "comRadioDisplay2Active";
          comRadioDisplay2Active.Size = new Size(102, 40);
          comRadioDisplay2Active.TabIndex = 8;
-         comRadioDisplay2Active.Value = 118D;
+         comRadioDisplay2Active.Value = ComRadioDisplay.MinFrequency;
          // 
          // lblCom2Standby
          // 
@@ -1797,7 +1798,7 @@ namespace MacroSim
          comRadioDisplay1Active.Name = "comRadioDisplay1Active";
          comRadioDisplay1Active.Size = new Size(102, 40);
          comRadioDisplay1Active.TabIndex = 5;
-         comRadioDisplay1Active.Value = 118D;
+         comRadioDisplay1Active.Value = ComRadioDisplay.MinFrequency;
          // 
          // comRadioDisplay1Standby
          // 
@@ -1807,7 +1808,7 @@ namespace MacroSim
          comRadioDisplay1Standby.Name = "comRadioDisplay1Standby";
          comRadioDisplay1Standby.Size = new Size(102, 40);
          comRadioDisplay1Standby.TabIndex = 4;
-         comRadioDisplay1Standby.Value = 118D;
+         comRadioDisplay1Standby.Value = ComRadioDisplay.MinFrequency;
          // 
          // lblCom1Standby
          // 
@@ -1872,6 +1873,7 @@ namespace MacroSim
          bar1.DockRow = 0;
          bar1.DockStyle = DevExpress.XtraBars.BarDockStyle.Top;
          bar1.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] { new DevExpress.XtraBars.LinkPersistInfo(menuApp), new DevExpress.XtraBars.LinkPersistInfo(menuMacroPad), new DevExpress.XtraBars.LinkPersistInfo(menuUtility) });
+         bar1.OptionsBar.DrawDragBorder = false;
          bar1.OptionsBar.MultiLine = true;
          bar1.OptionsBar.UseWholeRow = true;
          bar1.Text = "Custom 2";

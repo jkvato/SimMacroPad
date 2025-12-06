@@ -11,6 +11,7 @@ using Hds.MacroPad;
 using MacroSim.Controls;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
+using MacroSim.MacroPadDevice.Controls;
 using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.Properties;
 using MacroSim.SimConnection.Enumerations;
@@ -109,6 +110,18 @@ public partial class MainForm : ToolbarForm
       previousCockpitSmartcamTarget = 0;
       previousExtSmartcamTarget = 0;
 
+      altitudeDisplay.AltitudeChanged += AltitudeDisplay_AltitudeChanged;
+      
+      comRadioDisplay1Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
+      comRadioDisplay1Standby.FrequencySwapped += ComStandbyRadio_FrequencySwapped;
+      comRadioDisplay2Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
+      comRadioDisplay2Standby.FrequencySwapped += ComStandbyRadio_FrequencySwapped;
+
+      navRadioDisplay1Standby.FrequencyChanged += NavStandbyRadio_FrequencyChanged;
+      navRadioDisplay1Standby.FrequencySwapped += NavStandbyRadio_FrequencySwapped;
+      navRadioDisplay2Standby.FrequencyChanged += NavStandbyRadio_FrequencyChanged;
+      navRadioDisplay2Standby.FrequencySwapped += NavStandbyRadio_FrequencySwapped;
+
       btnHdgSel.MouseWheel += ApButton_MouseWheel;
       btnAltSel.MouseWheel += ApButton_MouseWheel;
       btnCrs1Sel.MouseWheel += ApButton_MouseWheel;
@@ -134,13 +147,78 @@ public partial class MainForm : ToolbarForm
 
       GetComPorts();
 
-      timerConnection.Interval = 1000;
+      timerConnection.Interval = 500;
       timerConnection.Elapsed += TimerConnection_Elapsed;
       timerConnection.Start();
 
-      timerFsuipcProcess.Interval = 1000;
+      timerFsuipcProcess.Interval = 500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void NavStandbyRadio_FrequencySwapped(object sender, EventArgs e)
+   {
+      if (sender is NavRadioDisplay nav)
+      {
+         if (nav == navRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV1_RADIO_SWAP);
+         }
+         else if (nav == navRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV2_RADIO_SWAP);
+         }
+      }
+   }
+
+   private void NavStandbyRadio_FrequencyChanged(object sender, ComDisplayEventArgs e)
+   {
+      if (sender is NavRadioDisplay nav)
+      {
+         if (nav == navRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV1_STBY_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+         else if (nav == navRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV2_STBY_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+      }
+   }
+
+   private void ComStandbyRadio_FrequencySwapped(object sender, EventArgs e)
+   {
+      if (sender is ComRadioDisplay com)
+      {
+         if (com == comRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM1_RADIO_SWAP);
+         }
+         else if (com == comRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM2_RADIO_SWAP);
+         }
+      }
+   }
+
+   private void ComStandbyRadio_FrequencyChanged(object sender, ComDisplayEventArgs e)
+   {
+      if (sender is ComRadioDisplay com)
+      {
+         if (com == comRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM_STBY_RADIO_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+         else if (com == comRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM2_STBY_RADIO_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+      }
+   }
+
+   private void AltitudeDisplay_AltitudeChanged(object sender, AltitudeDisplayEventArgs e)
+   {
+      simConnection.SendEvent(SimEvent.AP_ALT_VAR_SET_ENGLISH, (uint)e.Altitude);
    }
 
    private void Default_StyleChanged(object? sender, EventArgs e)
@@ -264,52 +342,27 @@ public partial class MainForm : ToolbarForm
    {
       if (Interlocked.Exchange(ref timerConnectionEventRunning, 1) == 1)
       {
-         // Previous timer event is still running; skip this tick
-         if (logTimerConnection)
-         {
-         }
          Log.Debug("TIMER: Previous Connection still running, skipping this tick");
          return;
       }
 
       try
       {
-         Stopwatch stopwatch = Stopwatch.StartNew();
-
-         if (logTimerConnection)
-         {
-            Log.Information("TIMER Connection Elapsed fired");
-         }
-
          if (!simConnection.IsConnected)
          {
             try
             {
-               await Task.Run(() => simConnection.ConnectToSim(Handle));
-
-               //// Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
-               //InvokeAction(form =>
-               //{
-               //   try
-               //   {
-               //      simConnection.ConnectToSim(Handle);
-               //   }
-               //   catch
-               //   {
-               //      // swallow - timer will retry and UpdateConnectionStatus reflects state
-               //   }
-               //});
+               // Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
+               InvokeAction(form =>
+               {
+                  simConnection.ConnectToSim(form.Handle);
+               });
+               //await Task.Run(() => simConnection.ConnectToSim(Handle));
             }
             catch
             {
                // swallow any exceptions from InvokeAction
             }
-         }
-
-         if (logTimerConnection)
-         {
-            Log.Debug("TIMER 1: SimConnection ConnectToSim took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
-            stopwatch.Restart();
          }
 
          if (!fsuipcConnection.IsConnected)
@@ -322,26 +375,9 @@ public partial class MainForm : ToolbarForm
             });
          }
 
-         if (logTimerConnection)
-         {
-            Log.Debug("TIMER 2: FSUIPC ConnectToSim took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
-            stopwatch.Stop();
-         }
-
          await UpdateConnectionStatus();
 
-         if (logTimerConnection)
-         {
-            Log.Debug("TIMER 3: UpdateConnectionStatus took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
-            stopwatch.Stop();
-         }
-
          GetRunningSimulators();
-
-         if (logTimerConnection)
-         {
-            Log.Debug("TIMER 4: GetRunningSimulators took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
-         }
       }
       finally
       {
@@ -424,14 +460,14 @@ public partial class MainForm : ToolbarForm
             // COM1
             form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
             form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;
-            form.comRadioDisplay1Standby.Value = avionicsStruct.com1standby;
-            form.comRadioDisplay1Active.Value = avionicsStruct.com1active;
+            form.comRadioDisplay1Standby.Value = Convert.ToDecimal(avionicsStruct.com1standby);
+            form.comRadioDisplay1Active.Value = Convert.ToDecimal(avionicsStruct.com1active);
 
             // COM2
             form.lblCom2Standby.Text = avionicsStruct.Com2StandbyName;
             form.lblCom2Active.Text = avionicsStruct.Com2ActiveName;
-            form.comRadioDisplay2Standby.Value = avionicsStruct.com2standby;
-            form.comRadioDisplay2Active.Value = avionicsStruct.com2active;
+            form.comRadioDisplay2Standby.Value = Convert.ToDecimal(avionicsStruct.com2standby);
+            form.comRadioDisplay2Active.Value = Convert.ToDecimal(avionicsStruct.com2active);
 
             // NAV1
             if (avionicsStruct.nav1Ident == "")
@@ -439,8 +475,8 @@ public partial class MainForm : ToolbarForm
             else
                form.lblNav1Active.Text = avionicsStruct.nav1Ident + " " + avionicsStruct.nav1Name;
 
-            form.navRadioDisplay1Standby.Value = avionicsStruct.nav1standby;
-            form.navRadioDisplay1Active.Value = avionicsStruct.nav1active;
+            form.navRadioDisplay1Standby.Value = Convert.ToDecimal(avionicsStruct.nav1standby);
+            form.navRadioDisplay1Active.Value = Convert.ToDecimal(avionicsStruct.nav1active);
 
             // NAV2
             if (avionicsStruct.nav2Ident == "")
@@ -448,8 +484,8 @@ public partial class MainForm : ToolbarForm
             else
                form.lblNav2Active.Text = avionicsStruct.nav2Ident + " " + avionicsStruct.nav2Name;
 
-            form.navRadioDisplay2Standby.Value = avionicsStruct.nav2standby;
-            form.navRadioDisplay2Active.Value = avionicsStruct.nav2active;
+            form.navRadioDisplay2Standby.Value = Convert.ToDecimal(avionicsStruct.nav2standby);
+            form.navRadioDisplay2Active.Value = Convert.ToDecimal(avionicsStruct.nav2active);
 
             // AP Heading
             form.dirHeadingDisplay.Value = avionicsStruct.apHeadingSel;

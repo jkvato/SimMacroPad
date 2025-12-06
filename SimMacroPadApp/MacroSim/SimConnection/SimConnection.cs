@@ -398,7 +398,7 @@ public class SimConnection
             simConnect.MapClientEventToSimEvent(simEvent, eventName);
             simConnect.TransmitClientEvent(0U, simEvent, dwData, SimNotificationGroup.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
 
-            System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending " + eventName);
+            System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending {eventName} dwData {dwData}");
          }
       }
       catch (COMException ex)

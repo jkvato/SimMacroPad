@@ -41,6 +41,7 @@
          lblMHz.Size = new Size(54, 40);
          lblMHz.TabIndex = 0;
          lblMHz.Text = "000.";
+         lblMHz.DoubleClick += NavDisplay_DoubleClick;
          // 
          // lblKHz
          // 
@@ -51,6 +52,7 @@
          lblKHz.Size = new Size(32, 40);
          lblKHz.TabIndex = 1;
          lblKHz.Text = "00";
+         lblKHz.DoubleClick += NavDisplay_DoubleClick;
          // 
          // NavRadioDisplay
          // 

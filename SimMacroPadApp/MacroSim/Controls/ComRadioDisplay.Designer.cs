@@ -41,6 +41,7 @@
          lblMHz.Size = new Size(54, 40);
          lblMHz.TabIndex = 0;
          lblMHz.Text = "000.";
+         lblMHz.DoubleClick += ComDisplay_DoubleClick;
          // 
          // lblKHz
          // 
@@ -51,6 +52,7 @@
          lblKHz.Size = new Size(48, 40);
          lblKHz.TabIndex = 1;
          lblKHz.Text = "000";
+         lblKHz.DoubleClick += ComDisplay_DoubleClick;
          // 
          // ComRadioDisplay
          // 
@@ -60,6 +62,7 @@
          Controls.Add(lblMHz);
          Name = "ComRadioDisplay";
          Size = new Size(102, 40);
+         DoubleClick += ComDisplay_DoubleClick;
          ResumeLayout(false);
          PerformLayout();
       }

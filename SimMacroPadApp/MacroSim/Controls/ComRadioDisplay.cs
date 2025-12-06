@@ -1,23 +1,32 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using Hds.MacroPad;
-using MacroSim.MacroPadDevice.Enumerations;
+using MacroSim.Controls;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
-public partial class ComRadioDisplay : UserControl
+public partial class ComRadioDisplay : ControlBase
 {
-   public static readonly double MinFrequency = 118.000;
-   public static readonly double MaxFrequency = 136.995;
+   public static readonly decimal MinFrequency = 118.000m;
+   public static readonly decimal MaxFrequency = 136.995m;
 
    public Color HighlightForeColor = DXSkinColors.ForeColors.Critical;
 
-   private double frequency;
+   public event ComFrequencyChangedEventHandler? FrequencyChanged;
+   public event ComFrequencySwappedEventHandler? FrequencySwapped;
+
+   private decimal frequency;
    private string text;
    MacroPadState macroPadState;
+
+   protected override (int X1, int Y1, int X2, int Y2, int regionId)[] Regions =>
+      [
+         (0, 0, 48, 39, 1),    // MHz
+         (54, 0, 101, 39, 2)   // KHz
+      ];
 
    [Browsable(false)]
    public MacroPadState CurrentMacroPadState
@@ -77,14 +86,11 @@ public partial class ComRadioDisplay : UserControl
       {
          if (value == null)
          {
-            text = "118.00";
-            SetFrequency(118.0);
+            SetFrequency(MinFrequency);
             return;
          }
 
-         text = value;
-
-         if (double.TryParse(
+         if (decimal.TryParse(
             value,
             NumberStyles.Float,
             CultureInfo.InvariantCulture,
@@ -92,42 +98,21 @@ public partial class ComRadioDisplay : UserControl
          {
             SetFrequency(freq);
          }
+         else
+         {
+            throw new FormatException("Invalid frequency format.");
+         }
       }
    }
 
    [Browsable(true)]
-   public double Value
+   public decimal Value
    {
-      get
-      {
-         return frequency;
-      }
-      set
-      {
-         //SetFrequency(value);
-         var frequencyParts = FormatFrequency(value);
-         lblMHz.Text = frequencyParts.MHz;
-         lblKHz.Text = frequencyParts.KHz;
-      }
+      get => frequency;
+      set => SetFrequency(value);
    }
 
-   private (string MHz, string KHz) FormatFrequency(double freq)
-   {
-      if (freq < MinFrequency || freq > MaxFrequency)
-      {
-         throw new ArgumentOutOfRangeException("Frequency");
-      }
-
-      frequency = freq;
-      text = string.Format("{0:000.000}", frequency);
-      string[] parts = text.Split('.');
-      int mhz = int.Parse(parts[0]);
-      int khz = int.Parse(parts[1]);
-
-      return (string.Format("{0:000}.", mhz), string.Format("{0:000}", khz));
-   }
-
-   private void SetFrequency(double freq)
+   private void SetFrequency(decimal freq)
    {
       if (freq < MinFrequency || freq > MaxFrequency)
       {
@@ -148,7 +133,72 @@ public partial class ComRadioDisplay : UserControl
    {
       InitializeComponent();
 
-      Value = 118.0;
-      Text = "118.000";
+      Value = MinFrequency;
+
+      MouseWheel += ComDisplay_MouseWheel;
+   }
+
+   private void ComDisplay_DoubleClick(object? sender, EventArgs e)
+   {
+      OnComFrequencySwapped(EventArgs.Empty);
+   }
+
+   private void ComDisplay_MouseWheel(object? sender, MouseEventArgs e)
+   {
+      int regionId = GetRegionIdFromPoint(e.Location);
+
+      var sign = Math.Sign(e.Delta);
+      decimal freq = Convert.ToDecimal(frequency);
+      decimal max = Convert.ToDecimal(Math.Floor(MaxFrequency));
+      decimal min = Convert.ToDecimal(MinFrequency);
+
+      decimal mhz = Math.Floor(freq);
+      decimal khz = freq - Math.Floor(freq);
+
+      if (regionId == 1)
+      {
+         mhz += (sign * 1.0m);
+         if (mhz < min)
+         {
+            mhz = max;
+         }
+         else if (mhz > max)
+         {
+            mhz = min;
+         }
+      }
+      else if (regionId == 2)
+      {
+         // KHz change independently of MHz
+         khz += (sign * 0.005m);
+         if (khz < 0.0m)
+         {
+            khz = 0.995m;
+         }
+         else if (khz > 0.995m)
+         {
+            khz = 0.0m;
+         }
+      }
+
+      decimal f = mhz + khz;
+      double fDouble = Convert.ToDouble(f);
+
+      OnComFrequencyChanged(new ComDisplayEventArgs(fDouble));
+   }
+
+   protected virtual void OnComFrequencyChanged(ComDisplayEventArgs e)
+   {
+      FrequencyChanged?.Invoke(this, e);
+   }
+
+   protected virtual void OnComFrequencySwapped(EventArgs e)
+   {
+      FrequencySwapped?.Invoke(this, e);
    }
 }
+
+public delegate void ComFrequencyChangedEventHandler(object sender, ComDisplayEventArgs e);
+public delegate void ComFrequencySwappedEventHandler(object sender, EventArgs e);
+
+public record ComDisplayEventArgs(double Frequency);

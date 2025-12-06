@@ -1,15 +1,24 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using Hds.MacroPad;
+using MacroSim.Controls;
 using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace MacroSim.MacroPadDevice.Controls;
 
-public partial class AltitudeDisplay : UserControl
+public partial class AltitudeDisplay : ControlBase
 {
    public Color HighlightForeColor = DXSkinColors.ForeColors.Critical;
+
+   public event AltitudeDisplayEventHandler? AltitudeChanged;
+
+   protected override (int X1, int Y1, int X2, int Y2, int regionId)[] Regions =>
+      [
+         (0, 0, 32, 39, 1),    // Thousands
+         (32, 0, 79, 39, 2)    // Hundreds
+      ];
 
    private int altitude;
    private string text;
@@ -69,14 +78,8 @@ public partial class AltitudeDisplay : UserControl
    [Browsable(true)]
    public int Value
    {
-      get
-      {
-         return altitude;
-      }
-      set
-      {
-         SetAltitude(value);
-      }
+      get => altitude;
+      set => SetAltitude(value);
    }
 
    private void SetAltitude(int alt)
@@ -94,5 +97,36 @@ public partial class AltitudeDisplay : UserControl
 
       Value = 0;
       Text = "00000";
+
+      MouseWheel += AltitudeDisplay_MouseWheel;
+   }
+
+   private void AltitudeDisplay_MouseWheel(object? sender, MouseEventArgs e)
+   {
+      int regionId = GetRegionIdFromPoint(e.Location);
+      int delta = e.Delta > 0 ? 1 : -1;
+      if (regionId == 1) // Thousands
+      {
+         altitude += delta * 1000;
+      }
+      else if (regionId == 2) // Hundreds
+      {
+         altitude += delta * 100;
+      }
+      if (altitude < 0)
+         altitude = 0;
+      if (altitude > 99999)
+         altitude = 99999;
+      SetAltitude(altitude);
+      OnAltitudeChanged(altitude);
+   }
+
+   protected void OnAltitudeChanged(int altitude)
+   {
+      AltitudeChanged?.Invoke(this, new AltitudeDisplayEventArgs(altitude));
    }
 }
+
+public delegate void AltitudeDisplayEventHandler(object sender, AltitudeDisplayEventArgs e);
+
+public record AltitudeDisplayEventArgs(int Altitude);
