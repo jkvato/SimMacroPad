@@ -11,6 +11,8 @@ public partial class VerticalSpeedDisplay : UserControl
 {
    public Color HighlightForeColor = DXSkinColors.ForeColors.Critical;
 
+   public event VerticalSpeedChangedEventHandler? VerticalSpeedChanged;
+
    private int verticalSpeed;
    private string text;
    MacroPadState macroPadState;
@@ -47,11 +49,8 @@ public partial class VerticalSpeedDisplay : UserControl
       {
          if (value == null)
          {
-            text = "0000";
-            SetVerticalSpeed(0);
-            return;
+            throw new ArgumentNullException(nameof(value));
          }
-         text = value;
 
          if (int.TryParse(value, out int verticalSpeed) == false)
             return;
@@ -64,14 +63,8 @@ public partial class VerticalSpeedDisplay : UserControl
    [DefaultValue(0)]
    public int Value
    {
-      get
-      {
-         return verticalSpeed;
-      }
-      set
-      {
-         SetVerticalSpeed(value);
-      }
+      get => verticalSpeed;
+      set => SetVerticalSpeed(value);
    }
 
    private void SetVerticalSpeed(int vs)
@@ -85,7 +78,25 @@ public partial class VerticalSpeedDisplay : UserControl
    {
       InitializeComponent();
 
-      Text = "-0000";
       Value = 0;
+
+      MouseWheel += VerticalSpeedDisplay_MouseWheel;
+   }
+
+   private void VerticalSpeedDisplay_MouseWheel(object? sender, MouseEventArgs e)
+   {
+      var sign = Math.Sign(e.Delta);
+      int newVerticalSpeed = verticalSpeed + (sign * 100);
+
+      OnVerticalSpeedChanged(new DirectionDisplayEventArgs(newVerticalSpeed));
+   }
+
+   private void OnVerticalSpeedChanged(DirectionDisplayEventArgs directionDisplayEventArgs)
+   {
+      VerticalSpeedChanged?.Invoke(this, new VerticalSpeedDisplayEventArgs(directionDisplayEventArgs.Direction));
    }
 }
+
+public delegate void VerticalSpeedChangedEventHandler(object sender, VerticalSpeedDisplayEventArgs e);
+
+public record VerticalSpeedDisplayEventArgs(int VerticalSpeed);

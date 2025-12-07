@@ -110,8 +110,6 @@ public partial class MainForm : ToolbarForm
       previousCockpitSmartcamTarget = 0;
       previousExtSmartcamTarget = 0;
 
-      altitudeDisplay.AltitudeChanged += AltitudeDisplay_AltitudeChanged;
-      
       comRadioDisplay1Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
       comRadioDisplay1Standby.FrequencySwapped += ComStandbyRadio_FrequencySwapped;
       comRadioDisplay2Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
@@ -124,6 +122,10 @@ public partial class MainForm : ToolbarForm
 
       dirHeadingDisplay.DirectionChanged += DirectionDisplay_DirectionChanged;
       dirCourse1Display.DirectionChanged += DirectionDisplay_DirectionChanged;
+
+      altitudeDisplay.AltitudeChanged += AltitudeDisplay_AltitudeChanged;
+
+      verticalSpeedDisplay.VerticalSpeedChanged += VerticalSpeedDisplay_VerticalSpeedChanged;
 
       btnHdgSel.MouseWheel += ApButton_MouseWheel;
       btnAltSel.MouseWheel += ApButton_MouseWheel;
@@ -157,6 +159,17 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void VerticalSpeedDisplay_VerticalSpeedChanged(object sender, VerticalSpeedDisplayEventArgs e)
+   {
+      if (sender is VerticalSpeedDisplay vs)
+      {
+         if (vs == verticalSpeedDisplay)
+         {
+            simConnection.SendEvent(SimEvent.AP_VS_VAR_SET_ENGLISH, (uint)e.VerticalSpeed);
+         }
+      }
    }
 
    private void DirectionDisplay_DirectionChanged(object sender, DirectionDisplayEventArgs e)

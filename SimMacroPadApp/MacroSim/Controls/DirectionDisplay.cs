@@ -56,8 +56,7 @@ public partial class DirectionDisplay : UserControl
       {
          if (value == null)
          {
-            SetDirection(MinDirection);
-            return;
+            throw new ArgumentNullException(nameof(Text));
          }
 
          if (int.TryParse(value, out int direction) == false)
