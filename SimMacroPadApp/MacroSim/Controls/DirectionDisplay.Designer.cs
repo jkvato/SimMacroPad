@@ -40,6 +40,7 @@
          lblDirection.Size = new Size(48, 40);
          lblDirection.TabIndex = 1;
          lblDirection.Text = "000";
+         lblDirection.DoubleClick += Direction_DoubleClick;
          // 
          // DirectionDisplay
          // 

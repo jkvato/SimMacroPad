@@ -2110,7 +2110,7 @@ namespace MacroSim
          dirHeadingDisplay.Name = "dirHeadingDisplay";
          dirHeadingDisplay.Size = new Size(48, 40);
          dirHeadingDisplay.TabIndex = 283;
-         dirHeadingDisplay.Value = 0;
+         dirHeadingDisplay.Value = DirectionDisplay.MinDirection;
          // 
          // dirCourse1Display
          // 
@@ -2119,7 +2119,7 @@ namespace MacroSim
          dirCourse1Display.Name = "dirCourse1Display";
          dirCourse1Display.Size = new Size(48, 40);
          dirCourse1Display.TabIndex = 284;
-         dirCourse1Display.Value = 0;
+         dirCourse1Display.Value = DirectionDisplay.MinDirection;
          // 
          // verticalSpeedDisplay
          // 

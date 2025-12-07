@@ -122,4 +122,6 @@ public enum SimEvent
    COM2_STBY_RADIO_SET_HZ,
    NAV1_STBY_SET_HZ,
    NAV2_STBY_SET_HZ,
+   VOR1_SET,
+   VOR2_SET,
 }

@@ -122,6 +122,9 @@ public partial class MainForm : ToolbarForm
       navRadioDisplay2Standby.FrequencyChanged += NavStandbyRadio_FrequencyChanged;
       navRadioDisplay2Standby.FrequencySwapped += NavStandbyRadio_FrequencySwapped;
 
+      dirHeadingDisplay.DirectionChanged += DirectionDisplay_DirectionChanged;
+      dirCourse1Display.DirectionChanged += DirectionDisplay_DirectionChanged;
+
       btnHdgSel.MouseWheel += ApButton_MouseWheel;
       btnAltSel.MouseWheel += ApButton_MouseWheel;
       btnCrs1Sel.MouseWheel += ApButton_MouseWheel;
@@ -154,6 +157,25 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void DirectionDisplay_DirectionChanged(object sender, DirectionDisplayEventArgs e)
+   {
+      if (sender is DirectionDisplay dir)
+      {
+         if (dir == dirHeadingDisplay)
+         {
+            simConnection.SendEvent(SimEvent.HEADING_BUG_SET, (uint)e.Direction);
+         }
+         else if (dir == dirCourse1Display)
+         {
+            simConnection.SendEvent(SimEvent.VOR1_SET, (uint)e.Direction);
+         }
+         //else if (dir == dirCourse2Display)
+         //{
+         //   simConnection.SendEvent(SimEvent.VOR2_SET, (uint)e.Direction);
+         //}
+      }
    }
 
    private void NavStandbyRadio_FrequencySwapped(object sender, EventArgs e)

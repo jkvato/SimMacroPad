@@ -1,7 +1,6 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using Hds.MacroPad;
-using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
@@ -9,10 +8,12 @@ namespace MacroSim.MacroPadDevice.Controls;
 
 public partial class DirectionDisplay : UserControl
 {
-   public static readonly int MinDirection = 0;
+   public static readonly int MinDirection = 1;
    public static readonly int MaxDirection = 360;
 
    public Color HighlightForeColor = DXSkinColors.ForeColors.Critical;
+
+   public event DirectionChangedEventHandler? DirectionChanged;
 
    private int direction;
    private string text;
@@ -55,14 +56,13 @@ public partial class DirectionDisplay : UserControl
       {
          if (value == null)
          {
-            text = "000";
-            SetDirection(0);
+            SetDirection(MinDirection);
             return;
          }
 
          if (int.TryParse(value, out int direction) == false)
          {
-            direction = 0;
+            throw new FormatException("Invalid direction format.");
          }
 
          SetDirection(direction);
@@ -72,18 +72,16 @@ public partial class DirectionDisplay : UserControl
    [Browsable(true)]
    public int Value
    {
-      get
-      {
-         return direction;
-      }
-      set
-      {
-         SetDirection(value);
-      }
+      get => direction;
+      set => SetDirection(value);
    }
 
    private void SetDirection(int dir)
    {
+      if (dir == 0)
+      {
+         dir = 360;
+      }
       if (dir < MinDirection || dir > MaxDirection)
       {
          throw new ArgumentOutOfRangeException("Direction");
@@ -98,7 +96,40 @@ public partial class DirectionDisplay : UserControl
    {
       InitializeComponent();
 
-      Value = 0;
-      Text = "000";
+      Value = MinDirection;
+
+      MouseWheel += DirectionDisplay_MouseWheel;
+   }
+
+   private void DirectionDisplay_MouseWheel(object? sender, MouseEventArgs e)
+   {
+      var sign = Math.Sign(e.Delta);
+
+      int newDirection = direction +  (sign * 1);
+
+      if (newDirection < MinDirection)
+      {
+         newDirection = MaxDirection;
+      }
+      else if (newDirection > MaxDirection)
+      {
+         newDirection = MinDirection;
+      }
+
+      OnDirectionChanged(new DirectionDisplayEventArgs(newDirection));
+   }
+
+   private void Direction_DoubleClick(object sender, EventArgs e)
+   {
+
+   }
+
+   protected virtual void OnDirectionChanged(DirectionDisplayEventArgs e)
+   {
+      DirectionChanged?.Invoke(this, e);
    }
 }
+
+public delegate void DirectionChangedEventHandler(object sender, DirectionDisplayEventArgs e);
+
+public record DirectionDisplayEventArgs(int Direction);

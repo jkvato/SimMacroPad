@@ -2,7 +2,6 @@
 using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.Controls;
-using MacroSim.MacroPadDevice.Enumerations;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
@@ -61,15 +60,14 @@ public partial class AltitudeDisplay : ControlBase
       {
          if (value == null)
          {
-            text = "00000";
             SetAltitude(0);
             return;
          }
 
-         text = value;
-
          if (int.TryParse(value, out int altitude) == false)
-            return;
+         {
+            throw new FormatException("Invalid frequency format.");
+         }
 
          SetAltitude(altitude);
       }
@@ -96,7 +94,6 @@ public partial class AltitudeDisplay : ControlBase
       InitializeComponent();
 
       Value = 0;
-      Text = "00000";
 
       MouseWheel += AltitudeDisplay_MouseWheel;
    }
@@ -118,6 +115,7 @@ public partial class AltitudeDisplay : ControlBase
       if (altitude > 99999)
          altitude = 99999;
       SetAltitude(altitude);
+
       OnAltitudeChanged(altitude);
    }
 
