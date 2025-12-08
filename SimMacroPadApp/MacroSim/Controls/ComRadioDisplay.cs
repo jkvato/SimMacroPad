@@ -23,10 +23,10 @@ public partial class ComRadioDisplay : ControlBase
    MacroPadState macroPadState;
 
    protected override (int X1, int Y1, int X2, int Y2, int regionId)[] Regions =>
-      [
-         (0, 0, 48, 39, 1),    // MHz
-         (54, 0, 101, 39, 2)   // KHz
-      ];
+   [
+      (0, 0, 48, 39, 1),    // MHz
+      (54, 0, 101, 39, 2)   // KHz
+   ];
 
    [Browsable(false)]
    public MacroPadState CurrentMacroPadState

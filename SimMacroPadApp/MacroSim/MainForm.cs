@@ -127,6 +127,8 @@ public partial class MainForm : ToolbarForm
 
       verticalSpeedDisplay.VerticalSpeedChanged += VerticalSpeedDisplay_VerticalSpeedChanged;
 
+      transponderDisplay.TransponderChanged += TransponderDisplay_TransponderChanged;
+
       btnHdgSel.MouseWheel += ApButton_MouseWheel;
       btnAltSel.MouseWheel += ApButton_MouseWheel;
       btnCrs1Sel.MouseWheel += ApButton_MouseWheel;
@@ -159,6 +161,17 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void TransponderDisplay_TransponderChanged(object sender, TransponderDisplayEventArgs e)
+   {
+      if (sender is TransponderDisplay tp)
+      {
+         if (tp == transponderDisplay)
+         {
+            simConnection.SendEvent(SimEvent.XPNDR_SET, Bcd16Converter.ToBcd16(e.Transponder));
+         }
+      }
    }
 
    private void VerticalSpeedDisplay_VerticalSpeedChanged(object sender, VerticalSpeedDisplayEventArgs e)

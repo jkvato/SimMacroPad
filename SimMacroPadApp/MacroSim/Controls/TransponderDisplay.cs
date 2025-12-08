@@ -1,6 +1,7 @@
 ﻿using DevExpress.LookAndFeel;
 using DevExpress.Skins;
 using Hds.MacroPad;
+using MacroSim.Controls;
 using MacroSim.MacroPadDevice.Enumerations;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ using System.Windows.Forms;
 
 namespace MacroSim.MacroPadDevice.Controls
 {
-   public partial class TransponderDisplay : UserControl
+   public partial class TransponderDisplay : ControlBase
    {
       public static readonly int MinDigit = 0;
       public static readonly int MaxDigit = 7;
@@ -23,8 +24,18 @@ namespace MacroSim.MacroPadDevice.Controls
 
       public Color HighlightForeColor = DXSkinColors.ForeColors.Critical;
 
+      public event TransponderChangedEventHandler? TransponderChanged;
+
       private int transponder;
       string text;
+
+      protected override (int X1, int Y1, int X2, int Y2, int regionId)[] Regions =>
+      [
+         ( 0, 0, 16, 39, 0),   // 1000s
+         (16, 0, 32, 39, 1),    // 100s
+         (32, 0, 48, 39, 2),     // 10s
+         (48, 0, 63, 39, 3)       // 1s
+      ];
 
       MacroPadState macroPadState;
 
@@ -86,6 +97,25 @@ namespace MacroSim.MacroPadDevice.Controls
          return true;
       }
 
+      private int MakeValid(int squawk)
+      {
+         if (squawk < 0)
+            return 0;
+         if (squawk > 7777)
+            return 7777;
+         string str = string.Format("{0:0000}", squawk);
+         char[] chars = str.ToCharArray();
+         for (int i = 0; i < chars.Length; i++)
+         {
+            int d = int.Parse(chars[i].ToString());
+            if (d < MinDigit)
+               chars[i] = MaxDigit.ToString()[0];
+            if (d > MaxDigit)
+               chars[i] = MinDigit.ToString()[0];
+         }
+         return int.Parse(new string(chars));
+      }
+
       //[Browsable(true)]
       [AllowNull]
       public override string Text
@@ -95,15 +125,14 @@ namespace MacroSim.MacroPadDevice.Controls
          {
             if (value == null)
             {
-               text = "1200";
-               SetTransponder(1200);
-               return;
+               throw new ArgumentNullException(nameof(Text));
             }
 
             if (int.TryParse(value, out int transponder) == false)
             {
-               transponder = 1200;
+               throw new FormatException("Invalid transponder format.");
             }
+
             transponder = int.Parse(value);
             SetTransponder(transponder);
          }
@@ -113,14 +142,8 @@ namespace MacroSim.MacroPadDevice.Controls
       //[DefaultValue(1200)]
       public int Value
       {
-         get
-         {
-            return transponder;
-         }
-         set
-         {
-            SetTransponder(value);
-         }
+         get => transponder;
+         set => SetTransponder(value);
       }
 
       private void SetTransponder(int squawk)
@@ -140,8 +163,76 @@ namespace MacroSim.MacroPadDevice.Controls
       {
          InitializeComponent();
 
-         Text = "1200";
          Value = VfrCode;
+
+         MouseWheel += TransponderDisplay_MouseWheel;
+      }
+
+      private void TransponderDisplay_MouseWheel(object? sender, MouseEventArgs e)
+      {
+         int sign = Math.Sign(e.Delta);
+         int sqwak = transponder;
+         var digits = GetTransponderDigits();
+
+         for (int i = 0; i < Regions.Length; i++)
+         {
+            var region = Regions[i];
+            if (e.X >= region.X1 && e.X <= region.X2 &&
+                e.Y >= region.Y1 && e.Y <= region.Y2)
+            {
+               var d = digits[i] + sign;
+               if (d < MinDigit)
+                  d = MaxDigit;
+               else if (d > MaxDigit)
+                  d = MinDigit;
+
+               digits[i] = d;
+            }
+         }
+
+         sqwak = digits[0] * 1000 + digits[1] * 100 + digits[2] * 10 + digits[3];
+
+         OnTransponderChanged(new TransponderDisplayEventArgs(sqwak));
+      }
+
+      protected virtual void OnTransponderChanged(TransponderDisplayEventArgs e)
+      {
+         TransponderChanged?.Invoke(this, e);
+      }
+
+      char[] GetTransponderDigitsAsChars()
+      {
+         string str = string.Format("{0:0000}", transponder);
+         return str.ToCharArray();
+      }
+
+      string[] GetTransponderDigitsAsStrings()
+      {
+         char[] chars = GetTransponderDigitsAsChars();
+         return chars.Select(c => c.ToString()).ToArray();
+      }
+
+      int[] GetTransponderDigits()
+      {
+         char[] chars = GetTransponderDigitsAsChars();
+         return chars.Select(c => int.Parse(c.ToString())).ToArray();
+      }
+
+      private void TransponderDisplay_DoubleClick(object sender, EventArgs e)
+      {
+         OnTransponderChanged(new TransponderDisplayEventArgs(VfrCode));
       }
    }
+}
+
+public delegate void TransponderChangedEventHandler(object sender, TransponderDisplayEventArgs e);
+
+public record TransponderDisplayEventArgs(int Transponder);
+
+public enum TransponderDigit
+{
+   Ones,
+   Tens,
+   Hundreds,
+   Thousands
 }

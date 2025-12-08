@@ -124,4 +124,5 @@ public enum SimEvent
    NAV2_STBY_SET_HZ,
    VOR1_SET,
    VOR2_SET,
+   XPNDR_SET
 }

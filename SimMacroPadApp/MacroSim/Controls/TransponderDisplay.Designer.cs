@@ -44,6 +44,7 @@
          lblThousands.Size = new Size(16, 40);
          lblThousands.TabIndex = 3;
          lblThousands.Text = "0";
+         lblThousands.DoubleClick += TransponderDisplay_DoubleClick;
          // 
          // lblHundreds
          // 
@@ -55,6 +56,7 @@
          lblHundreds.Size = new Size(16, 40);
          lblHundreds.TabIndex = 4;
          lblHundreds.Text = "0";
+         lblHundreds.DoubleClick += TransponderDisplay_DoubleClick;
          // 
          // lblTens
          // 
@@ -66,6 +68,7 @@
          lblTens.Size = new Size(16, 40);
          lblTens.TabIndex = 5;
          lblTens.Text = "0";
+         lblTens.DoubleClick += TransponderDisplay_DoubleClick;
          // 
          // lblOnes
          // 
@@ -77,6 +80,7 @@
          lblOnes.Size = new Size(16, 40);
          lblOnes.TabIndex = 6;
          lblOnes.Text = "0";
+         lblOnes.DoubleClick += TransponderDisplay_DoubleClick;
          // 
          // TransponderDisplay
          // 
@@ -88,6 +92,7 @@
          Controls.Add(lblThousands);
          Name = "TransponderDisplay";
          Size = new Size(64, 40);
+         DoubleClick += TransponderDisplay_DoubleClick;
          ResumeLayout(false);
       }
 
