@@ -125,6 +125,9 @@ public partial class MainForm : ToolbarForm
 
       altitudeDisplay.AltitudeChanged += AltitudeDisplay_AltitudeChanged;
 
+      barometerDisplay.StandardBarometerRequested += BarometerDisplay_StandardBarometerRequested;
+      barometerDisplay.BarometerChanged += BarometerDisplay_BarometerChanged;
+
       verticalSpeedDisplay.VerticalSpeedChanged += VerticalSpeedDisplay_VerticalSpeedChanged;
 
       transponderDisplay.TransponderChanged += TransponderDisplay_TransponderChanged;
@@ -161,6 +164,38 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+   }
+
+   private void BarometerDisplay_BarometerChanged(object sender, BarometerChangedEventArgs e)
+   {
+      decimal inHg = e.Barometer;
+      decimal mb = inHg * 33.8638866667m;
+      decimal val = mb * 16m;
+      decimal valueToSend = Math.Round(val, MidpointRounding.AwayFromZero);
+      uint uintValueToSend = Convert.ToUInt32(valueToSend);
+
+      if (sender is BarometerDisplay baro)
+      {
+         if (baro == barometerDisplay)
+         {
+            simConnection.SendEvent(
+               SimEvent.KOHLSMAN_SET,
+               uintValueToSend,
+               0
+               );
+         }
+      }
+   }
+
+   private void BarometerDisplay_StandardBarometerRequested(object sender, EventArgs e)
+   {
+      if (sender is BarometerDisplay baro)
+      {
+         if (baro == barometerDisplay)
+         {
+            simConnection.SendEvent(SimEvent.BAROMETRIC_STD_PRESSURE, 0);
+         }
+      }
    }
 
    private void TransponderDisplay_TransponderChanged(object sender, TransponderDisplayEventArgs e)
@@ -564,7 +599,7 @@ public partial class MainForm : ToolbarForm
             transponderDisplay.Value = avionicsStruct.transponderCode;
 
             // Barometer
-            form.barometerDisplay.Value = avionicsStruct.baro1Setting;
+            form.barometerDisplay.Value = Convert.ToDecimal(avionicsStruct.baro1Setting);
 
             // Fuel
             form.lblTotalFuelPct.Text = string.Format("Total Fuel: {0:00.0}%", avionicsStruct.TotalFuelPct);

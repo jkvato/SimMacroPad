@@ -41,6 +41,7 @@
          lblBarometer.Size = new Size(70, 40);
          lblBarometer.TabIndex = 2;
          lblBarometer.Text = "00.00";
+         lblBarometer.DoubleClick += BarometerDisplay_DoubleClick;
          // 
          // BarometerDisplay
          // 
@@ -49,6 +50,7 @@
          Controls.Add(lblBarometer);
          Name = "BarometerDisplay";
          Size = new Size(70, 40);
+         DoubleClick += BarometerDisplay_DoubleClick;
          ResumeLayout(false);
       }
 

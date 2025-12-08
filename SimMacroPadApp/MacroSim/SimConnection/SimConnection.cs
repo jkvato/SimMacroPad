@@ -378,15 +378,31 @@ public class SimConnection
       simConnect?.ReceiveMessage();
    }
 
-   public void SendEvent(SimEvent simEvent, uint dwData = 0)
+
+   public void SendEvent(
+      SimEvent simEvent,
+      uint dwData0 = 0,
+      uint dwData1 = 0,
+      uint dwData2 = 0,
+      uint dwData3 = 0,
+      uint dwData4 = 0
+      )
    {
       if (simEvent == SimEvent.NONE)
          return;
 
-      SendEvent(simEvent, simEvent.ToString(), dwData);
+      SendEvent(simEvent, simEvent.ToString(), dwData0, dwData1, dwData2, dwData3, dwData4);
    }
 
-   public void SendEvent(SimEvent simEvent, string eventName, uint dwData = 0)
+   public void SendEvent(
+      SimEvent simEvent,
+      string eventName,
+      uint dwData0 = 0,
+      uint dwData1 = 0,
+      uint dwData2 = 0,
+      uint dwData3 = 0,
+      uint dwData4 = 0
+      )
    {
       if (simEvent == SimEvent.NONE)
          return;
@@ -396,9 +412,23 @@ public class SimConnection
          if (simConnect != null)
          {
             simConnect.MapClientEventToSimEvent(simEvent, eventName);
-            simConnect.TransmitClientEvent(0U, simEvent, dwData, SimNotificationGroup.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
 
-            System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending {eventName} dwData {dwData}");
+            //The following is for one dwData parameter only
+            //simConnect.TransmitClientEvent(0U, simEvent, dwData0, SimNotificationGroup.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+
+            // The following is for up to five dwData parameters. Unused parameters should be set to 0.
+            simConnect.TransmitClientEvent_EX1(
+               ObjectID: SimConnect.SIMCONNECT_OBJECT_ID_USER,
+               EventID: simEvent,
+               GroupID: SimNotificationGroup.Group0,
+               Flags: SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY,
+               dwData0: dwData0,
+               dwData1: dwData1,
+               dwData2: dwData2,
+               dwData3: dwData3,
+               dwData4: dwData4
+               );
+            System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending {eventName} dwData {dwData0}");
          }
       }
       catch (COMException ex)

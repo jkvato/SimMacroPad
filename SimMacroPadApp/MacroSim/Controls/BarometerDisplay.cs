@@ -1,17 +1,23 @@
-﻿using DevExpress.LookAndFeel;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using DevExpress.LookAndFeel;
+using DevExpress.Map.Native;
 using DevExpress.Skins;
 using Hds.MacroPad;
 using MacroSim.MacroPadDevice.Enumerations;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace MacroSim.MacroPadDevice.Controls
 {
    public partial class BarometerDisplay : UserControl
    {
+      public static readonly decimal StandardPressureInHg = 29.92m;
+
       public Color HighlightForeColor = DXSkinColors.ForeColors.Critical;
 
-      private double barometer;
+      public event BarometerChangedEventHandler? BarometerChanged;
+      public event StandardBarometerEventHandler? StandardBarometerRequested;
+
+      private decimal barometer;
       private string text;
 
       MacroPadState macroPadState;
@@ -25,7 +31,7 @@ namespace MacroSim.MacroPadDevice.Controls
          {
             macroPadState = value;
 
-            Skin skin = CommonSkins.GetSkin(DevExpress.LookAndFeel.UserLookAndFeel.Default.ActiveLookAndFeel);
+            Skin skin = CommonSkins.GetSkin(UserLookAndFeel.Default.ActiveLookAndFeel);
 
             if (macroPadState == MacroPadState.BAROMETER)
             {
@@ -49,16 +55,12 @@ namespace MacroSim.MacroPadDevice.Controls
          {
             if (value == null)
             {
-               text = "29.92";
-               SetBarometer(29.92);
-               return;
+               throw new ArgumentNullException(nameof(Text));
             }
 
-            text = value;
-
-            if (!double.TryParse(value, out double barometer))
+            if (!decimal.TryParse(value, out decimal barometer))
             {
-               barometer = 29.92;
+               throw new FormatException("Invalid barometer format.");
             }
 
             SetBarometer(barometer);
@@ -67,19 +69,13 @@ namespace MacroSim.MacroPadDevice.Controls
 
       [Browsable(true)]
       [DefaultValue(29.92)]
-      public double Value
+      public decimal Value
       {
-         get
-         {
-            return barometer;
-         }
-         set
-         {
-            SetBarometer(value);
-         }
+         get => barometer;
+         set => SetBarometer(value);
       }
 
-      private void SetBarometer(double bar)
+      private void SetBarometer(decimal bar)
       {
          barometer = bar;
          text = string.Format("{0:00.00}", barometer);
@@ -89,8 +85,40 @@ namespace MacroSim.MacroPadDevice.Controls
       public BarometerDisplay()
       {
          InitializeComponent();
-         Text = "29.92";
-         Value = 29.92;
+
+         Value = StandardPressureInHg;
+
+         MouseWheel += BarometerDisplay_MouseWheel;
       }
+
+      private void BarometerDisplay_MouseWheel(object? sender, MouseEventArgs e)
+      {
+         int sign = Math.Sign(e.Delta);
+
+         decimal newBar = barometer + sign * 0.01m;
+
+         OnBarometerChanged(new BarometerChangedEventArgs(newBar));
+      }
+
+      private void BarometerDisplay_DoubleClick(object sender, EventArgs e)
+      {
+         OnStandardBarometerRequested();
+      }
+
+      protected void OnBarometerChanged(BarometerChangedEventArgs e)
+      {
+         BarometerChanged?.Invoke(this, e);
+      }
+
+      protected void OnStandardBarometerRequested()
+      {
+         StandardBarometerRequested?.Invoke(this, EventArgs.Empty);
+      }
+
    }
 }
+
+public delegate void BarometerChangedEventHandler(object sender, BarometerChangedEventArgs e);
+public delegate void StandardBarometerEventHandler(object sender, EventArgs e);
+
+public record BarometerChangedEventArgs(decimal Barometer);

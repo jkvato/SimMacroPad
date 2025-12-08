@@ -101,20 +101,20 @@ public partial class AltitudeDisplay : ControlBase
    private void AltitudeDisplay_MouseWheel(object? sender, MouseEventArgs e)
    {
       int regionId = GetRegionIdFromPoint(e.Location);
-      int delta = e.Delta > 0 ? 1 : -1;
+      int sign = Math.Sign(e.Delta);
+
       if (regionId == 1) // Thousands
       {
-         altitude += delta * 1000;
+         altitude += sign * 1000;
       }
       else if (regionId == 2) // Hundreds
       {
-         altitude += delta * 100;
+         altitude += sign * 100;
       }
       if (altitude < 0)
          altitude = 0;
       if (altitude > 99999)
          altitude = 99999;
-      SetAltitude(altitude);
 
       OnAltitudeChanged(altitude);
    }
@@ -122,6 +122,10 @@ public partial class AltitudeDisplay : ControlBase
    protected void OnAltitudeChanged(int altitude)
    {
       AltitudeChanged?.Invoke(this, new AltitudeDisplayEventArgs(altitude));
+   }
+
+   private void AltitudeDisplay_DoubleClick(object sender, EventArgs e)
+   {
    }
 }
 

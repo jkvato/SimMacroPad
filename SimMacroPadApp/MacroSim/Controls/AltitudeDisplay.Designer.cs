@@ -41,6 +41,7 @@
          lblThousands.Size = new Size(32, 40);
          lblThousands.TabIndex = 2;
          lblThousands.Text = "00";
+         lblThousands.DoubleClick += AltitudeDisplay_DoubleClick;
          // 
          // lblHundreds
          // 
@@ -51,6 +52,7 @@
          lblHundreds.Size = new Size(48, 40);
          lblHundreds.TabIndex = 3;
          lblHundreds.Text = "000";
+         lblHundreds.DoubleClick += AltitudeDisplay_DoubleClick;
          // 
          // AltitudeDisplay
          // 
@@ -60,6 +62,7 @@
          Controls.Add(lblThousands);
          Name = "AltitudeDisplay";
          Size = new Size(80, 40);
+         DoubleClick += AltitudeDisplay_DoubleClick;
          ResumeLayout(false);
          PerformLayout();
       }
