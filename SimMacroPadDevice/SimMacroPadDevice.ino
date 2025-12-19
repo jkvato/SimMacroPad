@@ -128,7 +128,7 @@ void handleButtonEvent(AceButton*, uint8_t, uint8_t);
 void handleSimMessageReceived();
 void handleSimDisplay(const SimDisplayMessage& msg);
 
-void checkPosition() {  encoder.tick(); } // just call tick() to check the state.
+void checkPosition() { encoder.tick(); } // just call tick() to check the state.
 
 // our encoder position state
 int encoder_pos = 0;
@@ -1103,6 +1103,23 @@ void handleSimMessageReceived()
   // Turn off the previous button neopixel
   pixels.setPixelColor(previousPixel, pixels.Color(0, 0, 0));
 
+  int i = 0;
+  pixels.setPixelColor(i +  0, pixels.Color(32, 32, 0));
+  pixels.setPixelColor(i +  1, pixels.Color(32, 32, 0));
+  pixels.setPixelColor(i +  2, pixels.Color(20, 4, 30));
+
+  pixels.setPixelColor(i +  3, pixels.Color(0, 32, 0));
+  pixels.setPixelColor(i +  4, pixels.Color(32, 20, 0));
+  pixels.setPixelColor(i +  5, pixels.Color(20, 4, 30));
+
+  pixels.setPixelColor(i +  6, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i +  7, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i +  8, pixels.Color(20, 4, 30));
+
+  pixels.setPixelColor(i +  9, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i + 10, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i + 11, pixels.Color(20, 4, 30));
+
   // Turn on the new button neopixel
   pixels.setPixelColor(currentPixel, pixels.Color(r, g, b));
 
@@ -1120,20 +1137,35 @@ void handleSimMessageReceived()
 // ALT  //  VS  // XPND //
 //////////////////////////
 
-//////////////////////////
-// COM1 // COM2 // BAR  //
-//      //      //      //
-//////////////////////////
-// NAV1 // HDG  // ALT  //
-// NAV2 // CRS  // VS   //
-//////////////////////////
-// AV1  // AV2  // SPD  //
-//      //      // MCH  //
-//////////////////////////
-// AV3  // AV4  // XPND //
-//      //      //      //
-//////////////////////////
+//////////////////////////  //////////////////////////
+// COM1 // COM2 // BAR  //  //  Y   //  Y   //  P   //
+//      //      //      //  //      //      //      //
+//////////////////////////  //////////////////////////
+// NAV1 // HDG  // ALT  //  //  G   //  O   //  P   //
+// NAV2 // CRS  // VS   //  //      //      //      //
+//////////////////////////  //////////////////////////
+// AV1  // AV2  // SPD  //  //  B   //  B   //  P   //
+//      //      // MCH  //  //      //      //      //
+//////////////////////////  //////////////////////////
+// AV3  // AV4  // XPND //  //  B   //  B   //  P   //
+//      //      //      //  //      //      //      //
+//////////////////////////  //////////////////////////
 
+// MODE 1: 
+// MODE 2: 
+// MODE 3: 
+// MODE 4: 
+
+// green 0, 255, 0. light green 184, 255, 184
+// blue 0, 0, 255. light blue 184, 184, 255
+// yellow 255, 255, 0. light yellow 255, 255, 184
+// red 255, 0, 0. light red 255, 230, 230
+// magenta 255, 0, 255
+// cyan 0, 255, 255
+// black 0, 0, 0
+// white 255, 255, 255
+// orange 225, 165, 0. light orange 255, 236, 184
+// purple 160, 32, 240. light purple 227, 188, 250
 
 // AS530
 //Microsoft/Generic/Avionics
