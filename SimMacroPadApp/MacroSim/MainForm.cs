@@ -110,6 +110,7 @@ public partial class MainForm : ToolbarForm
       previousCockpitSmartcamTarget = 0;
       previousExtSmartcamTarget = 0;
 
+      // User control event subscriptions
       comRadioDisplay1Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
       comRadioDisplay1Standby.FrequencySwapped += ComStandbyRadio_FrequencySwapped;
       comRadioDisplay2Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
@@ -138,25 +139,28 @@ public partial class MainForm : ToolbarForm
       btnCrs2Sel.MouseWheel += ApButton_MouseWheel;
       btnNoseUpDn.MouseWheel += ApButton_MouseWheel;
 
-      btnAv2.MouseWheel += FmsButton_MouseWheel;
       btnAv1.MouseWheel += FmsButton_MouseWheel;
-      btnAv4.MouseWheel += FmsButton_MouseWheel;
+      btnAv2.MouseWheel += FmsButton_MouseWheel;
       btnAv3.MouseWheel += FmsButton_MouseWheel;
+      btnAv4.MouseWheel += FmsButton_MouseWheel;
 
+      // Load FSUIPC events
       string eventsFilename;
       eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
       fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
       eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "myevents.txt");
       fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
 
+      // SimConnection event subscriptions
       simConnection.DataReceived += SimConnection_DataReceivedFromSim;
 
+      // MacroPadDevice event subscriptions
       macroPadDevice.EventProcessed += MacroPadDevice_EventProcessed;
 
+      // LookAndFeel event subscriptions
       DevExpress.LookAndFeel.UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
 
-      GetComPorts();
-
+      // Timers
       timerConnection.Interval = 500;
       timerConnection.Elapsed += TimerConnection_Elapsed;
       timerConnection.Start();
@@ -164,6 +168,8 @@ public partial class MainForm : ToolbarForm
       timerFsuipcProcess.Interval = 500;
       timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+
+      GetComPorts();
    }
 
    private void BarometerDisplay_BarometerChanged(object sender, BarometerChangedEventArgs e)
