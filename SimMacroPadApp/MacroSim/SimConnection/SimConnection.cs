@@ -1,17 +1,8 @@
-﻿using MacroSim.SimConnection.Enumerations;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
+using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
 using Microsoft.FlightSimulator.SimConnect;
-using Microsoft.VisualBasic.Devices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static MacroSim.SimConnection.SimConnection;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MacroSim.SimConnection;
 
@@ -24,7 +15,7 @@ public class SimConnection
 
    private SimConnect? simConnect = null;
 
-   private readonly BackgroundWorker simConnectionBackgroundWorker = new BackgroundWorker();
+   //private readonly BackgroundWorker simConnectionBackgroundWorker = new BackgroundWorker();
 
    public AvionicsStruct AvionicsData { get; private set; }
    public AircraftControlStruct AircraftControlData { get; private set; }
@@ -37,8 +28,8 @@ public class SimConnection
 
    public SimConnection()
    {
-      simConnectionBackgroundWorker.DoWork += SimConnectionBackgroundWorker_DoWork;
-      simConnectionBackgroundWorker.RunWorkerCompleted += SimConnectionBackgroundWorker_RunWorkerCompleted;
+      //simConnectionBackgroundWorker.DoWork += SimConnectionBackgroundWorker_DoWork;
+      //simConnectionBackgroundWorker.RunWorkerCompleted += SimConnectionBackgroundWorker_RunWorkerCompleted;
    }
 
    public CameraType CameraTypeNext()
@@ -61,47 +52,77 @@ public class SimConnection
       return CameraType;
    }
 
-   private void SimConnectionBackgroundWorker_DoWork(object? sender, DoWorkEventArgs e)
+   public void ConnectToSim(nint handle)
    {
-      if (e.Argument != null && e.Argument is nint handle)
+      if (simConnect == null)
       {
-         DateTime startTime = DateTime.Now;
-         if (simConnect == null)
+         try
          {
-            try
-            {
-               simConnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
-               Initialize();
-               System.Diagnostics.Debug.WriteLine($"Requesting Avionics");
-               RequestDataOnSimObject(SimDataRequest.AvionicsRequest);
-               System.Diagnostics.Debug.WriteLine($"Requesting Lights");
-               RequestDataOnSimObject(SimDataRequest.LightsRequest);
-               System.Diagnostics.Debug.WriteLine($"Requesting Trim");
-               RequestDataOnSimObject(SimDataRequest.TrimRequest);
-               System.Diagnostics.Debug.WriteLine($"Requesting Cameras");
-               RequestDataOnSimObject(SimDataRequest.CamerasRequest);
-               System.Diagnostics.Debug.WriteLine($"Requesting Time");
-               RequestDataOnSimObject(SimDataRequest.TimeRequest);
-               System.Diagnostics.Debug.WriteLine($"Requesting Engines");
-               RequestDataOnSimObject(SimDataRequest.EngineRequest);
-               System.Diagnostics.Debug.WriteLine($"Requesting Smartcam Targets");
-               RequestDataOnSimObject(SimDataRequest.SmartcamTargetsRequest);
-               return;
-            }
-            catch (COMException)
-            {
-               var elapsedTime = DateTime.Now - startTime;
-               System.Diagnostics.Debug.WriteLine($"Elapsed time: {elapsedTime.TotalSeconds} s");
-               return;
-            }
+            simConnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
+            Initialize();
+            System.Diagnostics.Debug.WriteLine($"Requesting Avionics");
+            RequestDataOnSimObject(SimDataRequest.AvionicsRequest);
+            System.Diagnostics.Debug.WriteLine($"Requesting Lights");
+            RequestDataOnSimObject(SimDataRequest.LightsRequest);
+            System.Diagnostics.Debug.WriteLine($"Requesting Trim");
+            RequestDataOnSimObject(SimDataRequest.TrimRequest);
+            System.Diagnostics.Debug.WriteLine($"Requesting Cameras");
+            RequestDataOnSimObject(SimDataRequest.CamerasRequest);
+            System.Diagnostics.Debug.WriteLine($"Requesting Time");
+            RequestDataOnSimObject(SimDataRequest.TimeRequest);
+            System.Diagnostics.Debug.WriteLine($"Requesting Engines");
+            RequestDataOnSimObject(SimDataRequest.EngineRequest);
+            System.Diagnostics.Debug.WriteLine($"Requesting Smartcam Targets");
+            RequestDataOnSimObject(SimDataRequest.SmartcamTargetsRequest);
+            return;
+         }
+         catch (COMException)
+         {
          }
       }
    }
 
-   private void SimConnectionBackgroundWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
-   {
+   //private void SimConnectionBackgroundWorker_DoWork(object? sender, DoWorkEventArgs e)
+   //{
+   //   if (e.Argument != null && e.Argument is nint handle)
+   //   {
+   //      DateTime startTime = DateTime.Now;
+   //      if (simConnect == null)
+   //      {
+   //         try
+   //         {
+   //            simConnect = new SimConnect("Managed Data Request", handle, WM_USER_SIMCONNECT, null, 0);
+   //            Initialize();
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Avionics");
+   //            RequestDataOnSimObject(SimDataRequest.AvionicsRequest);
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Lights");
+   //            RequestDataOnSimObject(SimDataRequest.LightsRequest);
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Trim");
+   //            RequestDataOnSimObject(SimDataRequest.TrimRequest);
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Cameras");
+   //            RequestDataOnSimObject(SimDataRequest.CamerasRequest);
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Time");
+   //            RequestDataOnSimObject(SimDataRequest.TimeRequest);
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Engines");
+   //            RequestDataOnSimObject(SimDataRequest.EngineRequest);
+   //            System.Diagnostics.Debug.WriteLine($"Requesting Smartcam Targets");
+   //            RequestDataOnSimObject(SimDataRequest.SmartcamTargetsRequest);
+   //            return;
+   //         }
+   //         catch (COMException)
+   //         {
+   //            var elapsedTime = DateTime.Now - startTime;
+   //            System.Diagnostics.Debug.WriteLine($"Elapsed time: {elapsedTime.TotalSeconds} s");
+   //            return;
+   //         }
+   //      }
+   //   }
+   //}
 
-   }
+   //private void SimConnectionBackgroundWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+   //{
+
+   //}
 
    public bool IsConnected => simConnect != null;
 
@@ -110,11 +131,11 @@ public class SimConnection
       DataReceived?.Invoke(this, structure);
    }
 
-   public bool ConnectToSim(nint handle)
-   {
-      simConnectionBackgroundWorker.RunWorkerAsync(handle);
-      return false;
-   }
+   //public bool ConnectToSim(nint handle)
+   //{
+   //   simConnectionBackgroundWorker.RunWorkerAsync(handle);
+   //   return false;
+   //}
 
    public void DisconnectFromSim()
    {
@@ -124,6 +145,18 @@ public class SimConnection
          simConnect = null;
       }
    }
+
+   //public async Task DisconnectFromSimAsync()
+   //{
+   //   await Task.Run(() =>
+   //   {
+   //      if (simConnect != null)
+   //      {
+   //         simConnect.Dispose();
+   //         simConnect = null;
+   //      }
+   //   });
+   //}
 
    private void Initialize()
    {
@@ -147,13 +180,6 @@ public class SimConnection
 
    private void Simconnect_OnRecvSimobjectData(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA data)
    {
-      //OnDataReceived(data.dwData[0]);
-      //return;
-
-      //if (data.dwData[0] is AvionicsStruct s)
-      //{
-      //}
-
       SimDataRequest simDataRequest = (SimDataRequest)data.dwRequestID;
 
       switch (simDataRequest)
@@ -196,28 +222,6 @@ public class SimConnection
       }
 
       return;
-
-      if (data.dwRequestID == (uint)SimDataRequest.AvionicsRequest)
-      {
-      }
-      else if (data.dwRequestID == (uint)SimDataRequest.LightsRequest)
-      {
-      }
-      else if (data.dwRequestID == (uint)SimDataRequest.TrimRequest)
-      {
-      }
-      else if (data.dwRequestID == (uint)SimDataRequest.CamerasRequest)
-      {
-      }
-      else if (data.dwRequestID == (uint)SimDataRequest.TimeRequest)
-      {
-      }
-      else if (data.dwRequestID == (uint)SimDataRequest.EngineRequest)
-      {
-      }
-      else if (data.dwRequestID == (uint)SimDataRequest.SmartcamTargetsRequest)
-      {
-      }
    }
 
 
@@ -374,15 +378,31 @@ public class SimConnection
       simConnect?.ReceiveMessage();
    }
 
-   public void SendEvent(SimEvent simEvent, uint dwData = 0)
+
+   public void SendEvent(
+      SimEvent simEvent,
+      uint dwData0 = 0,
+      uint dwData1 = 0,
+      uint dwData2 = 0,
+      uint dwData3 = 0,
+      uint dwData4 = 0
+      )
    {
       if (simEvent == SimEvent.NONE)
          return;
 
-      SendEvent(simEvent, simEvent.ToString(), dwData);
+      SendEvent(simEvent, simEvent.ToString(), dwData0, dwData1, dwData2, dwData3, dwData4);
    }
 
-   public void SendEvent(SimEvent simEvent, string eventName, uint dwData = 0)
+   public void SendEvent(
+      SimEvent simEvent,
+      string eventName,
+      uint dwData0 = 0,
+      uint dwData1 = 0,
+      uint dwData2 = 0,
+      uint dwData3 = 0,
+      uint dwData4 = 0
+      )
    {
       if (simEvent == SimEvent.NONE)
          return;
@@ -392,9 +412,23 @@ public class SimConnection
          if (simConnect != null)
          {
             simConnect.MapClientEventToSimEvent(simEvent, eventName);
-            simConnect.TransmitClientEvent(0U, simEvent, dwData, SimNotificationGroup.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
 
-            System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending " + eventName);
+            //The following is for one dwData parameter only
+            //simConnect.TransmitClientEvent(0U, simEvent, dwData0, SimNotificationGroup.Group0, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+
+            // The following is for up to five dwData parameters. Unused parameters should be set to 0.
+            simConnect.TransmitClientEvent_EX1(
+               ObjectID: SimConnect.SIMCONNECT_OBJECT_ID_USER,
+               EventID: simEvent,
+               GroupID: SimNotificationGroup.Group0,
+               Flags: SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY,
+               dwData0: dwData0,
+               dwData1: dwData1,
+               dwData2: dwData2,
+               dwData3: dwData3,
+               dwData4: dwData4
+               );
+            System.Diagnostics.Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss:ffff} Sending {eventName} dwData {dwData0}");
          }
       }
       catch (COMException ex)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -145,6 +146,13 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
          Add(newEvents);
    }
 
+   public async Task ImportEventsAsync(string filename)
+   {
+      var newEvents = await ReadCollectionAsync(filename);
+      if (newEvents != null)
+         Add(newEvents);
+   }
+
    /// <summary>
    /// Creates a new <see cref="EventCollection"/> from a file.
    /// </summary>
@@ -160,6 +168,81 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
       catch
       {
          return null;
+      }
+   }
+
+   public static async Task<EventCollection?> ReadCollectionAsync(string filename)
+   {
+      try
+      {
+         using TextReader reader = new StreamReader(filename);
+         EventCollection events = new EventCollection();
+         await foreach (var e in ReadCollectionAsync(reader))
+         {
+            events.Add(e);
+         }
+         return events;
+      }
+      catch
+      {
+         return null;
+      }
+   }
+
+   //public static async IAsyncEnumerable<Event> ReadCollectionAsync(string filename)
+   //{
+   //   using TextReader reader = new StreamReader(filename);
+   //   await foreach (var e in ReadCollectionAsync(reader))
+   //   {
+   //      yield return e;
+   //   }
+   //}
+
+   public static async IAsyncEnumerable<Event> ReadCollectionAsync(TextReader reader)
+   {
+      string? line;
+      string developer = string.Empty;
+      string aircraft = string.Empty;
+      string classification = string.Empty;
+      string[] lines;
+
+      while ((line = await reader.ReadLineAsync()) != null)
+      {
+         if (line.StartsWith(@"///"))
+            continue;
+         else if (line.StartsWith(@"//"))
+         {
+            line = line.Substring(2);
+            lines = line.Split('/');
+            developer = lines[0];
+            aircraft = lines[1];
+            classification = lines[2];
+         }
+         else
+         {
+            lines = line.Split('#', 2);
+            if (lines[1][0] == '@')
+            {
+               yield return new Event(
+                  developer: developer,
+                  aircraft: aircraft,
+                  classification: classification,
+                  presetName: lines[0],
+                  calculatorCode: lines[1].Substring(1).Trim())
+               {
+                  IsParameterized = true
+               };
+            }
+            else
+            {
+               yield return new Event(
+                  developer,
+                  aircraft,
+                  classification,
+                  lines[0],
+                  lines[1]);
+            }
+         }
       }
    }
 
@@ -193,7 +276,20 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
          else
          {
             lines = line.Split('#', 2);
-            events.Add(developer, aircraft, classification, lines[0], lines[1]);
+            if (lines[1][0] == '@')
+            {
+               events.Add(
+                  developer: developer,
+                  aircraft: aircraft,
+                  classification: classification,
+                  presetName: lines[0],
+                  calculatorCode: lines[1].Substring(1).Trim(),
+                  isParameterized: true);
+            }
+            else
+            {
+               events.Add(developer, aircraft, classification, lines[0], lines[1]);
+            }
          }
       }
 
@@ -209,9 +305,10 @@ public class EventCollection : ICollection<Event>, IList<Event>, IEnumerable<Eve
    /// <param name="presetName"></param>
    /// <param name="calculatorCode"></param>
    /// <returns>the newly created <see cref="Event"/></returns>
-   public Event Add(string developer, string aircraft, string classification, string presetName, string calculatorCode)
+   public Event Add(string developer, string aircraft, string classification, string presetName, string calculatorCode, bool isParameterized = false)
    {
       Event e = new Event(developer, aircraft, classification, presetName, calculatorCode);
+      e.IsParameterized = isParameterized;
       events.Add(e);
       return e;
    }

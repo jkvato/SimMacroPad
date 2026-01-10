@@ -1,4 +1,5 @@
-﻿using MacroSim.MacroPadDevice.Enumerations;
+﻿using Hds.MacroPad;
+using MacroSim.MacroPadDevice.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,21 +1,28 @@
-using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Windows.Forms.Design;
+using System.Timers;
+using DevExpress.XtraBars;
+using DevExpress.XtraBars.ToolbarForm;
+using DevExpress.XtraEditors;
 using FSUIPC;
+using Hds.MacroPad;
+using MacroSim.Controls;
 using MacroSim.Fsuipc;
 using MacroSim.MacroPadDevice;
+using MacroSim.MacroPadDevice.Controls;
+using MacroSim.MacroPadDevice.Enumerations;
 using MacroSim.Properties;
-using MacroSim.SimConnection;
 using MacroSim.SimConnection.Enumerations;
 using MacroSim.SimConnection.Structures;
+using Serilog;
+using Serilog.Sinks.RichTextBoxForms.Themes;
 using static MacroSim.SimConnection.SimConnection;
 
 namespace MacroSim;
 
-public partial class MainForm : Form
+public partial class MainForm : ToolbarForm
 {
    private readonly string MSFS2020ProcessName = "FlightSimulator";
    private readonly string MSFS2024ProcessName = "FlightSimulator2024";
@@ -23,12 +30,13 @@ public partial class MainForm : Form
    private readonly SimConnection.SimConnection simConnection;
    private readonly MacroPadDevice.MacroPadDevice macroPadDevice;
 
-   private readonly System.Windows.Forms.Timer timerConnection;
-   private readonly System.Windows.Forms.Timer timerFsuipcProcess;
+   private readonly System.Timers.Timer timerConnection;
+   private readonly System.Timers.Timer timerFsuipcProcess;
 
    private bool suppressLightButtonCheckChangedEvent = true;
    private bool suppressAutopilotButtonCheckChangedEvent = true;
-   private bool programmaticallyChangingCameraCheckboxes = true;
+   private bool programmaticallyChangingCameraCheckButtones = true;
+   private bool suppressPauseCheckChangedEvent = true;
 
    private bool isMSFS2020Running = false;
    private bool isMSFS2024Running = false;
@@ -43,13 +51,57 @@ public partial class MainForm : Form
 
    private string currentAircraftTitle;
 
+   private int lastCockpitPilotCamera = 1;
+   private int lastCockpitInstrumentCamera = 0;
+   private int lastCockpitQuickViewCamera = 0;
+   private int lastCockpitSmartCamCamera = 0;
+   private int lastExternalDefaultCamera = 0;
+   private int lastExternalQuickViewCamera = 0;
+   private int lastExternalSmartCamCamera = 0;
+   private int lastShowcaseFreeCamera = 0;
+   private int lastShowcaseFixedCamera = 0;
+   private int lastShowcaseSmartCamCamera = 0;
+   private int previousCustomCamera = 5;
+   private int currentCustomCamera = 0;
+
+   private bool isMouseInCourse1SelBox = false;
+   private bool isMouseInCourse2SelBox = false;
+   private bool isCourseSelNav1 = true;
+
+   private bool logTimerConnection = false;
+   private bool logTimerFsuipcProcess = false;
+
+   private int fsuipcTimerEventRunning = 0;
+   private int timerConnectionEventRunning = 0;
+
+
    public MainForm()
    {
       InitializeComponent();
 
+      Log.Logger = new LoggerConfiguration()
+         .MinimumLevel.Verbose()
+         .WriteTo.RichTextBox(
+            richTextBoxControl: rtxtSerilogOutput,
+            outputTemplate: "{Timestamp:HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}",
+            theme: ThemePresets.Literate
+         )
+         .CreateLogger();
+
+      simConnection = new SimConnection.SimConnection();
+      fsuipcConnection = new FsuipcConnection(this);
+
+      macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection, fsuipcConnection);
+
+      timerConnection = new System.Timers.Timer();
+      timerFsuipcProcess = new System.Timers.Timer();
+
       currentAircraftTitle = string.Empty;
       currentAircraft = null;
+   }
 
+   private void MainForm_Load(object sender, EventArgs e)
+   {
       previousCamera.cameraState = 2;
       previousCamera.cameraSubState = 1;
       previousCamera.cameraViewTypeIndex0 = 1;
@@ -58,95 +110,368 @@ public partial class MainForm : Form
       previousCockpitSmartcamTarget = 0;
       previousExtSmartcamTarget = 0;
 
+      // User control event subscriptions
+      comRadioDisplay1Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
+      comRadioDisplay1Standby.FrequencySwapped += ComStandbyRadio_FrequencySwapped;
+      comRadioDisplay2Standby.FrequencyChanged += ComStandbyRadio_FrequencyChanged;
+      comRadioDisplay2Standby.FrequencySwapped += ComStandbyRadio_FrequencySwapped;
+
+      navRadioDisplay1Standby.FrequencyChanged += NavStandbyRadio_FrequencyChanged;
+      navRadioDisplay1Standby.FrequencySwapped += NavStandbyRadio_FrequencySwapped;
+      navRadioDisplay2Standby.FrequencyChanged += NavStandbyRadio_FrequencyChanged;
+      navRadioDisplay2Standby.FrequencySwapped += NavStandbyRadio_FrequencySwapped;
+
+      dirHeadingDisplay.DirectionChanged += DirectionDisplay_DirectionChanged;
+      dirCourse1Display.DirectionChanged += DirectionDisplay_DirectionChanged;
+
+      altitudeDisplay.AltitudeChanged += AltitudeDisplay_AltitudeChanged;
+
+      barometerDisplay.StandardBarometerRequested += BarometerDisplay_StandardBarometerRequested;
+      barometerDisplay.BarometerChanged += BarometerDisplay_BarometerChanged;
+
+      verticalSpeedDisplay.VerticalSpeedChanged += VerticalSpeedDisplay_VerticalSpeedChanged;
+
+      transponderDisplay.TransponderChanged += TransponderDisplay_TransponderChanged;
+
       btnHdgSel.MouseWheel += ApButton_MouseWheel;
       btnAltSel.MouseWheel += ApButton_MouseWheel;
       btnCrs1Sel.MouseWheel += ApButton_MouseWheel;
       btnCrs2Sel.MouseWheel += ApButton_MouseWheel;
       btnNoseUpDn.MouseWheel += ApButton_MouseWheel;
 
-      btnFmsPfdInner.MouseWheel += FmsButton_MouseWheel;
-      btnFmsPfdOuter.MouseWheel += FmsButton_MouseWheel;
-      btnFmsMfdInner.MouseWheel += FmsButton_MouseWheel;
-      btnFmsMfdOuter.MouseWheel += FmsButton_MouseWheel;
+      btnAv1.MouseWheel += FmsButton_MouseWheel;
+      btnAv2.MouseWheel += FmsButton_MouseWheel;
+      btnAv3.MouseWheel += FmsButton_MouseWheel;
+      btnAv4.MouseWheel += FmsButton_MouseWheel;
 
-      simConnection = new SimConnection.SimConnection();
-      fsuipcConnection = new FsuipcConnection(this);
-
+      // Load FSUIPC events
       string eventsFilename;
       eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "events.txt");
       fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
       eventsFilename = Path.Combine(Settings.Default.FsuipcDirectory, "myevents.txt");
       fsuipcConnection.PresetEvents.ImportEvents(eventsFilename);
 
+      // SimConnection event subscriptions
       simConnection.DataReceived += SimConnection_DataReceivedFromSim;
 
-      macroPadDevice = new MacroPadDevice.MacroPadDevice(simConnection, fsuipcConnection);
+      // MacroPadDevice event subscriptions
       macroPadDevice.EventProcessed += MacroPadDevice_EventProcessed;
 
-      lblVerticalSpeedValue.AutoSize = false;
+      // LookAndFeel event subscriptions
+      DevExpress.LookAndFeel.UserLookAndFeel.Default.StyleChanged += Default_StyleChanged;
 
-      GetComPorts();
-
-      timerConnection = new System.Windows.Forms.Timer();
-      timerConnection.Interval = 1000;
-      timerConnection.Tick += TimerConnection_Tick;
+      // Timers
+      timerConnection.Interval = 500;
+      timerConnection.Elapsed += TimerConnection_Elapsed;
       timerConnection.Start();
 
-      timerFsuipcProcess = new System.Windows.Forms.Timer();
-      timerFsuipcProcess.Interval = 250;
-      timerFsuipcProcess.Tick += TimerFsuipcProcess_Tick;
+      timerFsuipcProcess.Interval = 500;
+      timerFsuipcProcess.Elapsed += TimerFsuipcProcess_Elapsed;
       timerFsuipcProcess.Start();
+
+      GetComPorts();
    }
 
-   private void TimerFsuipcProcess_Tick(object? sender, EventArgs e)
+   private void BarometerDisplay_BarometerChanged(object sender, BarometerChangedEventArgs e)
    {
-      if (fsuipcConnection.IsConnected)
+      decimal inHg = e.Barometer;
+      decimal mb = inHg * 33.8638866667m;
+      decimal val = mb * 16m;
+      decimal valueToSend = Math.Round(val, MidpointRounding.AwayFromZero);
+      uint uintValueToSend = Convert.ToUInt32(valueToSend);
+
+      if (sender is BarometerDisplay baro)
       {
-         try
+         if (baro == barometerDisplay)
          {
-            fsuipcConnection.Process();
-
-            PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
-            checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
-            checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
-            checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
-            checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
-
-            if (pauseState.HasFlag(PauseState.FullPause))
-               btnPauseFull.Text = "Unpause";
-            else
-               btnPauseFull.Text = "Full Pause";
-
-            if (pauseState.HasFlag(PauseState.SimPause))
-               btnPauseSim.Text = "Unpause";
-            else
-               btnPauseSim.Text = "Sim Pause";
+            simConnection.SendEvent(
+               SimEvent.KOHLSMAN_SET,
+               uintValueToSend,
+               0
+               );
          }
-         catch { }
       }
    }
 
-   private void TimerConnection_Tick(object? sender, EventArgs e)
+   private void BarometerDisplay_StandardBarometerRequested(object sender, EventArgs e)
    {
-      if (!simConnection.IsConnected)
+      if (sender is BarometerDisplay baro)
       {
-         try
+         if (baro == barometerDisplay)
          {
-            simConnection.ConnectToSim(Handle);
+            simConnection.SendEvent(SimEvent.BAROMETRIC_STD_PRESSURE, 0);
          }
-         catch { }
       }
+   }
 
-      if (!fsuipcConnection.IsConnected)
+   private void TransponderDisplay_TransponderChanged(object sender, TransponderDisplayEventArgs e)
+   {
+      if (sender is TransponderDisplay tp)
       {
-         fsuipcConnection.ConnectToSim();
-         MSFSVariableServices.Init();
-         MSFSVariableServices.Start();
+         if (tp == transponderDisplay)
+         {
+            simConnection.SendEvent(SimEvent.XPNDR_SET, Bcd16Converter.ToBcd16(e.Transponder));
+         }
+      }
+   }
+
+   private void VerticalSpeedDisplay_VerticalSpeedChanged(object sender, VerticalSpeedDisplayEventArgs e)
+   {
+      if (sender is VerticalSpeedDisplay vs)
+      {
+         if (vs == verticalSpeedDisplay)
+         {
+            simConnection.SendEvent(SimEvent.AP_VS_VAR_SET_ENGLISH, (uint)e.VerticalSpeed);
+         }
+      }
+   }
+
+   private void DirectionDisplay_DirectionChanged(object sender, DirectionDisplayEventArgs e)
+   {
+      if (sender is DirectionDisplay dir)
+      {
+         if (dir == dirHeadingDisplay)
+         {
+            simConnection.SendEvent(SimEvent.HEADING_BUG_SET, (uint)e.Direction);
+         }
+         else if (dir == dirCourse1Display)
+         {
+            simConnection.SendEvent(SimEvent.VOR1_SET, (uint)e.Direction);
+         }
+         //else if (dir == dirCourse2Display)
+         //{
+         //   simConnection.SendEvent(SimEvent.VOR2_SET, (uint)e.Direction);
+         //}
+      }
+   }
+
+   private void NavStandbyRadio_FrequencySwapped(object sender, EventArgs e)
+   {
+      if (sender is NavRadioDisplay nav)
+      {
+         if (nav == navRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV1_RADIO_SWAP);
+         }
+         else if (nav == navRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV2_RADIO_SWAP);
+         }
+      }
+   }
+
+   private void NavStandbyRadio_FrequencyChanged(object sender, NavDisplayEventArgs e)
+   {
+      if (sender is NavRadioDisplay nav)
+      {
+         if (nav == navRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV1_STBY_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+         else if (nav == navRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.NAV2_STBY_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+      }
+   }
+
+   private void ComStandbyRadio_FrequencySwapped(object sender, EventArgs e)
+   {
+      if (sender is ComRadioDisplay com)
+      {
+         if (com == comRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM1_RADIO_SWAP);
+         }
+         else if (com == comRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM2_RADIO_SWAP);
+         }
+      }
+   }
+
+   private void ComStandbyRadio_FrequencyChanged(object sender, ComDisplayEventArgs e)
+   {
+      if (sender is ComRadioDisplay com)
+      {
+         if (com == comRadioDisplay1Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM_STBY_RADIO_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+         else if (com == comRadioDisplay2Standby)
+         {
+            simConnection.SendEvent(SimEvent.COM2_STBY_RADIO_SET_HZ, Convert.ToUInt32(e.Frequency * 1000000));
+         }
+      }
+   }
+
+   private void AltitudeDisplay_AltitudeChanged(object sender, AltitudeDisplayEventArgs e)
+   {
+      simConnection.SendEvent(SimEvent.AP_ALT_VAR_SET_ENGLISH, (uint)e.Altitude);
+   }
+
+   private void Default_StyleChanged(object? sender, EventArgs e)
+   {
+      SetDisplayState(macroPadDevice.State);
+   }
+
+   private void SetDisplayState(MacroPadState state)
+   {
+      comRadioDisplay1Standby.CurrentMacroPadState = state;
+      comRadioDisplay1Active.CurrentMacroPadState = state;
+      comRadioDisplay2Standby.CurrentMacroPadState = state;
+      comRadioDisplay2Active.CurrentMacroPadState = state;
+
+      navRadioDisplay1Standby.CurrentMacroPadState = state;
+      navRadioDisplay1Active.CurrentMacroPadState = state;
+      navRadioDisplay2Standby.CurrentMacroPadState = state;
+      navRadioDisplay2Active.CurrentMacroPadState = state;
+
+      dirHeadingDisplay.CurrentMacroPadState = state;
+      dirCourse1Display.CurrentMacroPadState = state;
+
+      altitudeDisplay.CurrentMacroPadState = state;
+      verticalSpeedDisplay.CurrentMacroPadState = state;
+
+      barometerDisplay.CurrentMacroPadState = state;
+
+      transponderDisplay.CurrentMacroPadState = state;
+
+      encoderAv1.CurrentState = state;
+      encoderAv2.CurrentState = state;
+   }
+
+   // PLAN (Pseudocode):
+   // 1. Keep fsuipc processing on the background thread (do not block UI).
+   // 2. After processing, read the pause status from fsuipcConnection on the background thread.
+   // 3. Marshal only the UI updates to the UI thread using the existing InvokeAction(Action<MainForm>) helper.
+   // 4. In the marshalled action set the suppressPauseCheckChangedEvent flag, update CheckButton.Checked and Button.Text values, then clear the flag.
+   // 5. This avoids accessing WinForms controls from a non-UI thread and prevents InvalidOperationException.
+   //
+   // Replace the existing TimerFsuipcProcess_Elapsed implementation with the following safe version.
+   private void TimerFsuipcProcess_Elapsed(object? sender, ElapsedEventArgs e)
+   {
+      if (Interlocked.Exchange(ref fsuipcTimerEventRunning, 1) == 1)
+      {
+         // Previous timer event is still running; skip this tick
+         if (logTimerConnection)
+         {
+         }
+         Log.Debug("FSUIPC: Previous Process still running, skipping this tick");
+         return;
       }
 
-      UpdateConnectionStatus();
+      try
+      {
+         Stopwatch stopwatch = Stopwatch.StartNew();
 
-      GetRunningSimulators();
+         if (logTimerConnection)
+         {
+            Log.Debug("FSUIPC: Starting Process");
+         }
+
+         if (fsuipcConnection.IsConnected)
+         {
+            try
+            {
+               // Do potentially blocking processing on the timer thread
+               fsuipcConnection.Process();
+
+               // Read values from the connection (non-UI thread safe)
+               PauseState pauseState = (PauseState)fsuipcConnection.pauseReadStatus.Value;
+
+               // Marshal UI updates to the UI thread
+               InvokeAction(form =>
+               {
+                  form.suppressPauseCheckChangedEvent = true;
+
+                  form.checkPauseFull.Checked = pauseState.HasFlag(PauseState.FullPause);
+                  form.checkPauseSim.Checked = pauseState.HasFlag(PauseState.SimPause);
+                  form.checkPauseActive.Checked = pauseState.HasFlag(PauseState.ActivePause);
+                  form.checkPauseEsc.Checked = pauseState.HasFlag(PauseState.EscPause);
+
+                  if (pauseState.HasFlag(PauseState.FullPause))
+                     form.btnPauseFull.Text = "Unpause";
+                  else
+                     form.btnPauseFull.Text = "Full Pause";
+
+                  if (pauseState.HasFlag(PauseState.SimPause))
+                     form.btnPauseSim.Text = "Unpause";
+                  else
+                     form.btnPauseSim.Text = "Sim Pause";
+
+                  form.suppressPauseCheckChangedEvent = false;
+               });
+            }
+            catch
+            {
+               Log.Information("Swallowed exception during FSUIPC Process");
+               // swallow exceptions as before (consider logging if needed)
+            }
+         }
+
+         if (logTimerFsuipcProcess)
+         {
+            Log.Debug("FSUIPC: Process took {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+         }
+      }
+      finally
+      {
+         Interlocked.Exchange(ref fsuipcTimerEventRunning, 0);
+      }
+   }
+
+   // PSEUDOCODE PLAN:
+   // 1. TimerConnection_Elapsed runs on a System.Timers.Timer thread (non-UI thread).
+   // 2. Avoid calling simConnection.ConnectToSim(Handle) directly because accessing Control.Handle or creating SimConnect on a background thread can touch WinForms internals and cause InvalidOperationException.
+   // 3. Use the existing InvokeAction(Action<MainForm>) helper to marshal the call to the UI thread.
+   // 4. Wrap the call in try/catch to avoid crashing the timer thread on exceptions.
+   // 5. Leave other logic (FSUIPC connect, update status, get running simulators) unchanged.
+   private async void TimerConnection_Elapsed(object? sender, ElapsedEventArgs e)
+   {
+      if (Interlocked.Exchange(ref timerConnectionEventRunning, 1) == 1)
+      {
+         Log.Debug("TIMER: Previous Connection still running, skipping this tick");
+         return;
+      }
+
+      try
+      {
+         if (!simConnection.IsConnected)
+         {
+            try
+            {
+               // Marshal the ConnectToSim call to the UI thread since it may access Control.Handle / Win32 window resources.
+               InvokeAction(form =>
+               {
+                  simConnection.ConnectToSim(form.Handle);
+               });
+               //await Task.Run(() => simConnection.ConnectToSim(Handle));
+            }
+            catch
+            {
+               // swallow any exceptions from InvokeAction
+            }
+         }
+
+         if (!fsuipcConnection.IsConnected)
+         {
+            await Task.Run(() =>
+            {
+               fsuipcConnection.ConnectToSim();
+               MSFSVariableServices.Init();
+               MSFSVariableServices.Start();
+            });
+         }
+
+         await UpdateConnectionStatus();
+
+         GetRunningSimulators();
+      }
+      finally
+      {
+         Interlocked.Exchange(ref timerConnectionEventRunning, 0);
+      }
    }
 
    private void GetRunningSimulators()
@@ -172,13 +497,15 @@ public partial class MainForm : Form
       }
    }
 
-   private void MacroPadDevice_EventProcessed(object sender, EventProcessedEventArgs e)
+   private async void MacroPadDevice_EventProcessed(object sender, EventProcessedEventArgs e)
    {
       InvokeAction(form =>
       {
-         form.lblMacroPadState.Text = e.NewState.ToString();
+         form.lblMacroPadState.Caption = $"State: {e.NewState}";
+         SetDisplayState(e.NewState);
       });
-      UpdateConnectionStatus();
+
+      await UpdateConnectionStatus();
    }
 
    private void SimConnection_DataReceivedFromSim(object sender, object structure)
@@ -191,10 +518,12 @@ public partial class MainForm : Form
          {
             System.Diagnostics.Debug.WriteLine("CHANGE OF PLANE");
             currentAircraftTitle = avionicsStruct.title;
-             
+
             currentAircraft = SimAircraft.SimAircraftCollection.DefaultAircraft.GetByTitleWildcard(avionicsStruct.title);
             macroPadDevice.CurrentAircraft = currentAircraft;
          }
+
+         DetermineCourse1or2();
 
          // Update UI via Invoke
          InvokeAction(form =>
@@ -205,26 +534,29 @@ public partial class MainForm : Form
                Text = newFormText;
             }
 
-            string ac = avionicsStruct.title;
+            string ac = string.Empty;
+            ac = "AC Template: ";
             if (currentAircraft != null)
             {
-               ac += " | " + currentAircraft.Title;
+               ac += currentAircraft.Title;
             }
-            lblCurrentAircraft.Text = ac;
-
-
+            else
+            {
+               ac += " null";
+            }
+            lblSimAircraft.Caption = ac;
 
             // COM1
             form.lblCom1Standby.Text = avionicsStruct.Com1StandbyName;
             form.lblCom1Active.Text = avionicsStruct.Com1ActiveName;
-            form.lblCom1StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com1standby);
-            form.lblCom1ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com1active);
+            form.comRadioDisplay1Standby.Value = Convert.ToDecimal(avionicsStruct.com1standby);
+            form.comRadioDisplay1Active.Value = Convert.ToDecimal(avionicsStruct.com1active);
 
             // COM2
             form.lblCom2Standby.Text = avionicsStruct.Com2StandbyName;
             form.lblCom2Active.Text = avionicsStruct.Com2ActiveName;
-            form.lblCom2StandbyValue.Text = string.Format("{0:000.000}", avionicsStruct.com2standby);
-            form.lblCom2ActiveValue.Text = string.Format("{0:000.000}", avionicsStruct.com2active);
+            form.comRadioDisplay2Standby.Value = Convert.ToDecimal(avionicsStruct.com2standby);
+            form.comRadioDisplay2Active.Value = Convert.ToDecimal(avionicsStruct.com2active);
 
             // NAV1
             if (avionicsStruct.nav1Ident == "")
@@ -232,8 +564,8 @@ public partial class MainForm : Form
             else
                form.lblNav1Active.Text = avionicsStruct.nav1Ident + " " + avionicsStruct.nav1Name;
 
-            form.lblNav1StandbyValue.Text = string.Format("{0:000.00}", avionicsStruct.nav1standby);
-            form.lblNav1ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav1active);
+            form.navRadioDisplay1Standby.Value = Convert.ToDecimal(avionicsStruct.nav1standby);
+            form.navRadioDisplay1Active.Value = Convert.ToDecimal(avionicsStruct.nav1active);
 
             // NAV2
             if (avionicsStruct.nav2Ident == "")
@@ -241,26 +573,39 @@ public partial class MainForm : Form
             else
                form.lblNav2Active.Text = avionicsStruct.nav2Ident + " " + avionicsStruct.nav2Name;
 
-            form.lblNav2StandbyValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2standby);
-            form.lblNav2ActiveValue.Text = string.Format("{0:000.00}", avionicsStruct.nav2active);
+            form.navRadioDisplay2Standby.Value = Convert.ToDecimal(avionicsStruct.nav2standby);
+            form.navRadioDisplay2Active.Value = Convert.ToDecimal(avionicsStruct.nav2active);
 
             // AP Heading
-            form.lblHeadingValue.Text = string.Format("{0:000}", avionicsStruct.apHeadingSel);
+            form.dirHeadingDisplay.Value = avionicsStruct.apHeadingSel;
 
             // AP Course
-            form.lblCourseValue.Text = string.Format("{0:000}", avionicsStruct.apNav1ObsSel);
+            if (isCourseSelNav1)
+            {
+               form.lblCourseSel.Text = "Course 1";
+               form.dirCourse1Display.MacroPadStateId = MacroPadState.COURSE1;
+               form.dirCourse1Display.CurrentMacroPadState = form.dirCourse1Display.CurrentMacroPadState;
+               form.dirCourse1Display.Value = avionicsStruct.apNav1ObsSel;
+            }
+            else
+            {
+               form.lblCourseSel.Text = "Course 2";
+               form.dirCourse1Display.MacroPadStateId = MacroPadState.COURSE2;
+               form.dirCourse1Display.CurrentMacroPadState = form.dirCourse1Display.CurrentMacroPadState;
+               form.dirCourse1Display.Value = avionicsStruct.apNav2ObsSel;
+            }
 
             // AP Altitude
-            form.lblAltitudeValue.Text = string.Format("{0:00000}", avionicsStruct.apAltitudeSel);
+            form.altitudeDisplay.Value = avionicsStruct.apAltitudeSel;
 
             // AP Vertical Speed
-            form.lblVerticalSpeedValue.Text = string.Format("{0:0000}", avionicsStruct.apVerticalSpeedSel);
+            form.verticalSpeedDisplay.Value = avionicsStruct.apVerticalSpeedSel;
 
             // Transponder
-            form.lblTransponder.Text = string.Format("{0:0000}", avionicsStruct.transponderCode);
+            transponderDisplay.Value = avionicsStruct.transponderCode;
 
             // Barometer
-            form.lblBarometer1.Text = string.Format("{0:00.00}", avionicsStruct.baro1Setting);
+            form.barometerDisplay.Value = Convert.ToDecimal(avionicsStruct.baro1Setting);
 
             // Fuel
             form.lblTotalFuelPct.Text = string.Format("Total Fuel: {0:00.0}%", avionicsStruct.TotalFuelPct);
@@ -348,12 +693,9 @@ public partial class MainForm : Form
             form.lblFlapsNumberOfDetents.Text = string.Format("Number of Detents: {0}", acControlSruct.flapsNumHandlePositions);
             form.lblFlapsCurrentPosition.Text = string.Format("Current Position: {0}", acControlSruct.flapsHandleIndex);
 
-            trackFlaps.Minimum = -1 * acControlSruct.flapsNumHandlePositions;
-            trackFlaps.Maximum = 0;
-            trackFlaps.Value = -1 * acControlSruct.flapsHandleIndex;
-            //trackFlaps.Minimum = 0;
-            //trackFlaps.Maximum = trimStruct.flapsNumHandlePositions;
-            //trackFlaps.Value = trimStruct.flapsHandleIndex;
+            trackBarFlaps.Properties.Minimum = -1 * acControlSruct.flapsNumHandlePositions;
+            trackBarFlaps.Properties.Maximum = 0;
+            trackBarFlaps.Value = -1 * acControlSruct.flapsHandleIndex;
 
             lblSpoilersAvailable.Text = acControlSruct.SpoilersAvailable ?
                "Spoilers: Available" : "Spoilers: None";
@@ -372,7 +714,7 @@ public partial class MainForm : Form
          // Update UI via Invoke
          InvokeAction(form =>
          {
-            programmaticallyChangingCameraCheckboxes = true;
+            programmaticallyChangingCameraCheckButtones = true;
             if (camerasStruct.IsCockpitPilotSubState)
             {
                form.checkCamera1.Checked = false;
@@ -439,7 +781,6 @@ public partial class MainForm : Form
                checkSmartcam.Text = $"SC {camerasStruct.SmartCameraTargetIndex}";
             }
 
-            //form.lblCustomCamera.Text = $"{previousCockpitSmartcamTarget}, {previousExtSmartcamTarget}";
             form.lblCustomCamera.Text = $"c {currentCustomCamera}, p {previousCustomCamera}";
 
             form.lblCameraCurrentView.Text = $"{camerasStruct.cameraState}, {camerasStruct.cameraSubState}, {camerasStruct.cameraViewTypeIndex0}, {camerasStruct.cameraViewTypeIndex1}";
@@ -509,7 +850,7 @@ public partial class MainForm : Form
                lastShowcaseFixedCamera = camerasStruct.cameraViewTypeIndex1;
             }
 
-            programmaticallyChangingCameraCheckboxes = false;
+            programmaticallyChangingCameraCheckButtones = false;
          });
       }
       else if (structure is TimeStruct timeStruct)
@@ -520,7 +861,7 @@ public partial class MainForm : Form
          InvokeAction(form =>
          {
             form.lblSimRate.Text = "Sim Rate: " + timeStruct.SimulationRate.ToString();
-            form.lblLocalTime.Text = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
+            form.lblLocalTime.Caption = string.Format("Local Time: {0:MM/dd/yy hh:mm:ss tt}", timeStruct.LocalDateTime);
          });
       }
       else if (structure is EngineStruct engineStruct)
@@ -589,25 +930,6 @@ public partial class MainForm : Form
       }
    }
 
-   private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      Close();
-   }
-
-   private void ConnectToSimToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      if (simConnection.IsConnected)
-      {
-         simConnection.DisconnectFromSim();
-         System.Diagnostics.Debug.WriteLine("Disconnected");
-      }
-      else
-      {
-         simConnection.ConnectToSim(Handle);
-         System.Diagnostics.Debug.WriteLine("Connected");
-      }
-   }
-
    private void GetComPorts()
    {
       string[] ports = SerialPort.GetPortNames();
@@ -622,15 +944,19 @@ public partial class MainForm : Form
          }
       }
 
+      var barManager = toolbarFormManager1;
+      barManager.ForceInitialize();
+      barManager.BeginUpdate();
+
       // Remove old list of com ports from the menu.
-      for (int i = macroPadToolStripMenuItem.DropDownItems.Count - 1; i >= 0; i--)
+      for (int i = menuMacroPad.ItemLinks.Count - 1; i >= 0; i--)
       {
-         var item = macroPadToolStripMenuItem.DropDownItems[i];
-         if (item is ToolStripMenuItem menuItem)
+         var item = menuMacroPad.ItemLinks[i];
+         if (item != null)
          {
-            if (menuItem.Text.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
+            if (item.Caption.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
             {
-               macroPadToolStripMenuItem.DropDownItems.RemoveAt(i);
+               menuMacroPad.ItemLinks.RemoveAt(i);
             }
          }
       }
@@ -638,55 +964,89 @@ public partial class MainForm : Form
       // Add new list of com ports to the menu.
       foreach (string port in portList)
       {
-         ToolStripMenuItem item = new ToolStripMenuItem(port);   // create a new menu item
-         item.Click += ComPortsStripMenuItem_Click;  // add event handler
-         macroPadToolStripMenuItem.DropDownItems.Add(item);  // add to the menu of COM ports
+         BarButtonItem barButtonItem = new BarButtonItem(barManager, port);
+         barButtonItem.ItemClick += ComPortsStripMenuItem_Click;
+         menuMacroPad.AddItem(barButtonItem);
       }
+
+      barManager.EndUpdate();
    }
 
-   private void ComPortsStripMenuItem_Click(object? sender, EventArgs e)
+   private void menuRefreshSerialPorts_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
    {
-      if (sender is ToolStripMenuItem menuItem)
+      GetComPorts();
+   }
+
+   private async void ComPortsStripMenuItem_Click(object? sender, ItemClickEventArgs e)
+   {
+      if (e.Item.Caption.StartsWith("COM", StringComparison.CurrentCultureIgnoreCase))
       {
-         string comPortName = menuItem.ToString();
-         macroPadDevice.SetSerialPort(comPortName);
+         string comPortName = e.Item.Caption;
+         var result = await macroPadDevice.SetSerialPort(comPortName);
+
+         InvokeAction(form =>
+         {
+            if (result)
+            {
+               lblSerialPortStatus.Caption = $"Serial: {comPortName}";
+            }
+            else
+            {
+               lblSerialPortStatus.Caption = $"Serial: Disconnected";
+            }
+         });
       }
    }
 
-   private void UpdateConnectionStatus()
+   private async Task UpdateConnectionStatus()
    {
+      bool isSimConnected = false;
+      bool isFsuipcConnected = false;
+
+      await Task.Run(() =>
+      {
+         isSimConnected = simConnection.IsConnected;
+         isFsuipcConnected = fsuipcConnection.IsConnected;
+      });
+
       InvokeAction(form =>
       {
-         if (macroPadDevice.SerialPort.IsOpen)
-         {
-            lblSerialPortStatus.Text = $"Serial: {macroPadDevice.SerialPort.PortName}";
-         }
-         else
-         {
-            lblSerialPortStatus.Text = $"Serial: Disconnected";
-         }
+         menuConnectSimConnect.Caption = isSimConnected ? "Disconnect SimConnect" : "Connect SimConnect";
+         lblSimConnectStatus.Caption = isSimConnected ? "SimConnect: Connected" : "SimConnect: Disconnected";
 
-         if (fsuipcConnection.IsConnected)
-         {
-            fsuipcConnectToolStripMenuItem.Text = "Disconnect FSUIPC";
-            lblFsuipcStatus.Text = "FSUIPC: Connected";
-         }
-         else
-         {
-            fsuipcConnectToolStripMenuItem.Text = "Connect FSUIPC";
-            lblFsuipcStatus.Text = "FSUIPC: Disconnected";
-         }
+         menuConnectFsuipc.Caption = isFsuipcConnected ? "Disconnect FSUIPC" : "Connect FSUIPC";
+         lblFsuipcStatus.Caption = isFsuipcConnected ? "FSUIPC: Connected" : "FSUIPC: Disconnected";
 
-         if (simConnection.IsConnected)
-         {
-            simConnectToolStripMenuItem.Text = "Disconnect SimConnect";
-            lblSimConnectStatus.Text = "SimConnect: Connected";
-         }
-         else
-         {
-            simConnectToolStripMenuItem.Text = "Connect SimConnect";
-            lblSimConnectStatus.Text = "SimConnect: Disconnected";
-         }
+         //if (macroPadDevice.SerialPort.IsOpen)
+         //{
+         //   lblSerialPortStatus.Caption = $"Serial: {macroPadDevice.SerialPort.PortName}";
+         //}
+         //else
+         //{
+         //   lblSerialPortStatus.Caption = $"Serial: Disconnected";
+         //}
+
+         //if (fsuipcConnection.IsConnected)
+         //{
+         //   menuConnectFsuipc.Caption = "Disconnect FSUIPC";
+         //   lblFsuipcStatus.Caption = "FSUIPC: Connected";
+         //}
+         //else
+         //{
+         //   menuConnectFsuipc.Caption = "Connect FSUIPC";
+         //   lblFsuipcStatus.Caption = "FSUIPC: Disconnected";
+         //}
+
+         //if (simConnection.IsConnected)
+         //{
+         //   menuConnectSimConnect.Caption = "Disconnect SimConnect";
+         //   lblSimConnectStatus.Caption = "SimConnect: Connected";
+         //}
+         //else
+         //{
+         //   menuConnectSimConnect.Caption = "Connect SimConnect";
+         //   lblSimConnectStatus.Caption = "SimConnect: Disconnected";
+         //}
       });
    }
 
@@ -697,56 +1057,41 @@ public partial class MainForm : Form
          return;
       }
 
-      if (sender is CheckBox checkBox)
+      if (sender is CheckButton CheckButton)
       {
-         if (checkBox == checkBeaconLight)
+         if (CheckButton == checkBeaconLight)
             simConnection.SendEvent(SimEvent.TOGGLE_BEACON_LIGHTS);
-         else if (checkBox == checkCabinLight)
+         else if (CheckButton == checkCabinLight)
             simConnection.SendEvent(SimEvent.TOGGLE_CABIN_LIGHTS);
-         else if (checkBox == checkGlareshieldLight)
+         else if (CheckButton == checkGlareshieldLight)
             simConnection.SendEvent(SimEvent.GLARESHIELD_LIGHTS_TOGGLE);
-         else if (checkBox == checkLandingLight)
+         else if (CheckButton == checkLandingLight)
             simConnection.SendEvent(SimEvent.LANDING_LIGHTS_TOGGLE);
-         else if (checkBox == checkLogoLight)
+         else if (CheckButton == checkLogoLight)
             simConnection.SendEvent(SimEvent.TOGGLE_LOGO_LIGHTS);
-         else if (checkBox == checkNavLight)
+         else if (CheckButton == checkNavLight)
             simConnection.SendEvent(SimEvent.TOGGLE_NAV_LIGHTS);
-         else if (checkBox == checkPanelLight)
+         else if (CheckButton == checkPanelLight)
             simConnection.SendEvent(SimEvent.PANEL_LIGHTS_TOGGLE);
-         else if (checkBox == checkPedestralLight)
+         else if (CheckButton == checkPedestralLight)
             simConnection.SendEvent(SimEvent.PEDESTRAL_LIGHTS_TOGGLE);
-         else if (checkBox == checkRecognitionLight)
+         else if (CheckButton == checkRecognitionLight)
             simConnection.SendEvent(SimEvent.TOGGLE_RECOGNITION_LIGHTS);
-         else if (checkBox == checkStrobeLight)
+         else if (CheckButton == checkStrobeLight)
             simConnection.SendEvent(SimEvent.STROBES_TOGGLE);
-         else if (checkBox == checkTaxiLight)
+         else if (CheckButton == checkTaxiLight)
             simConnection.SendEvent(SimEvent.TOGGLE_TAXI_LIGHTS);
-         else if (checkBox == checkWingLight)
+         else if (CheckButton == checkWingLight)
             simConnection.SendEvent(SimEvent.TOGGLE_WING_LIGHTS);
       }
       ActivateFlightSimulator();
    }
 
-   private void RefreshSerialPortsToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      GetComPorts();
-   }
-
-   private void PresetEventsToolStripMenuItem_Click(object sender, EventArgs e)
-   {
-      using PresetEventForm dlg = new PresetEventForm(fsuipcConnection.PresetEvents);
-
-      if (dlg.ShowDialog() == DialogResult.OK)
-      {
-
-      }
-   }
-
-   private void ApButton_Click(object sender, EventArgs e)
+   private void AutopilotButton_Click(object sender, EventArgs e)
    {
       if (sender == null)
          return;
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (button == btnHdgSel)
          {
@@ -773,7 +1118,7 @@ public partial class MainForm : Form
       if (sender == null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          string preset = string.Empty;
 
@@ -815,7 +1160,7 @@ public partial class MainForm : Form
       if (sender == null)
          return;
 
-      if (sender is Button btnPause)
+      if (sender is SimpleButton btnPause)
       {
          PauseState pauseState = fsuipcConnection.GetPauseStatus();
 
@@ -837,37 +1182,106 @@ public partial class MainForm : Form
       ActivateFlightSimulator();
    }
 
+   private void ProcessAvControlEvent(MacroPadState state, MacroPadEvent ev)
+   {
+      string preset = string.Empty;
+
+      if (ev == MacroPadEvent.Increment)
+      {
+         switch (state)
+         {
+            case MacroPadState.AS1000_PFD_SM:
+               preset = "AS1000_PFD_FMS_Inner_INC";
+               break;
+            case MacroPadState.AS1000_PFD_LG:
+               preset = "AS1000_PFD_FMS_Outer_INC";
+               break;
+            case MacroPadState.AS1000_MFD_SM:
+               preset = "AS1000_MFD_FMS_Inner_INC";
+               break;
+            case MacroPadState.AS1000_MFD_LG:
+               preset = "AS1000_MFD_FMS_Outer_INC";
+               break;
+         }
+      }
+      else if (ev == MacroPadEvent.Decrement)
+      {
+         switch (state)
+         {
+            case MacroPadState.AS1000_PFD_SM:
+               preset = "AS1000_PFD_FMS_Inner_DEC";
+               break;
+            case MacroPadState.AS1000_PFD_LG:
+               preset = "AS1000_PFD_FMS_Outer_DEC";
+               break;
+            case MacroPadState.AS1000_MFD_SM:
+               preset = "AS1000_MFD_FMS_Inner_DEC";
+               break;
+            case MacroPadState.AS1000_MFD_LG:
+               preset = "AS1000_MFD_FMS_Outer_DEC";
+               break;
+         }
+      }
+      else if (ev == MacroPadEvent.Clicked)
+      {
+         switch (state)
+         {
+            case MacroPadState.AS1000_PFD_SM:
+               preset = "AS1000_PFD_FMS_Inner_PUSH";
+               break;
+            case MacroPadState.AS1000_PFD_LG:
+               break;
+            case MacroPadState.AS1000_MFD_SM:
+               preset = "AS1000_MFD_FMS_Inner_PUSH";
+               break;
+            case MacroPadState.AS1000_MFD_LG:
+               break;
+         }
+      }
+
+      if (!string.IsNullOrWhiteSpace(preset))
+      {
+         fsuipcConnection.SendPresetEvent(preset);
+      }
+   }
+
    private void FmsButton_MouseWheel(object? sender, MouseEventArgs e)
    {
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
-         bool up = (e.Delta > 0);
-         string preset = string.Empty;
+         MacroPadEvent ev = e.Delta > 0 ? MacroPadEvent.Increment : MacroPadEvent.Decrement;
 
-         if (button == btnFmsPfdInner)
+         //bool up = (e.Delta > 0);
+         //string preset = string.Empty;
+
+         if (button == btnAv2)
          {
-            preset = up ? "AS1000_PFD_FMS_Inner_INC" : "AS1000_PFD_FMS_Inner_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_PFD_SM, ev);
+            //preset = up ? "AS1000_PFD_FMS_Inner_INC" : "AS1000_PFD_FMS_Inner_DEC";
          }
-         else if (button == btnFmsPfdOuter)
+         else if (button == btnAv1)
          {
-            preset = up ? "AS1000_PFD_FMS_Outer_INC" : "AS1000_PFD_FMS_Outer_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_PFD_LG, ev);
+            //preset = up ? "AS1000_PFD_FMS_Outer_INC" : "AS1000_PFD_FMS_Outer_DEC";
          }
-         if (button == btnFmsMfdInner)
+         if (button == btnAv4)
          {
-            preset = up ? "AS1000_MFD_FMS_Inner_INC" : "AS1000_MFD_FMS_Inner_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_MFD_SM, ev);
+            //preset = up ? "AS1000_MFD_FMS_Inner_INC" : "AS1000_MFD_FMS_Inner_DEC";
          }
-         else if (button == btnFmsMfdOuter)
+         else if (button == btnAv3)
          {
-            preset = up ? "AS1000_MFD_FMS_Outer_INC" : "AS1000_MFD_FMS_Outer_DEC";
+            ProcessAvControlEvent(MacroPadState.AS1000_MFD_LG, ev);
+            //preset = up ? "AS1000_MFD_FMS_Outer_INC" : "AS1000_MFD_FMS_Outer_DEC";
          }
 
-         if (!string.IsNullOrWhiteSpace(preset))
-         {
-            fsuipcConnection.SendPresetEvent(preset);
-         }
+         //if (!string.IsNullOrWhiteSpace(preset))
+         //{
+         //   fsuipcConnection.SendPresetEvent(preset);
+         //}
       }
    }
 
@@ -876,7 +1290,7 @@ public partial class MainForm : Form
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          bool up = (e.Delta > 0);
          SimEvent simEvent = SimEvent.NONE;
@@ -922,53 +1336,53 @@ public partial class MainForm : Form
 
       SimEvent simEvent = SimEvent.NONE;
 
-      if (sender is CheckBox checkBox)
+      if (sender is CheckButton CheckButton)
       {
-         if (checkBox == checkApMaster)
+         if (CheckButton == checkApMaster)
          {
             simEvent = SimEvent.AP_MASTER;
          }
-         else if (checkBox == checkApHdgHold)
+         else if (CheckButton == checkApHdgHold)
          {
             simEvent = SimEvent.AP_HDG_HOLD;
          }
-         else if (checkBox == checkApAprHold)
+         else if (CheckButton == checkApAprHold)
          {
             simEvent = SimEvent.AP_APR_HOLD;
          }
-         else if (checkBox == checkApBcHold)
+         else if (CheckButton == checkApBcHold)
          {
             simEvent = SimEvent.AP_BC_HOLD;
          }
-         else if (checkBox == checkApNavHold)
+         else if (CheckButton == checkApNavHold)
          {
             simEvent = SimEvent.AP_NAV1_HOLD;
          }
-         else if (checkBox == checkApFd)
+         else if (CheckButton == checkApFd)
          {
             simEvent = SimEvent.TOGGLE_FLIGHT_DIRECTOR;
          }
-         else if (checkBox == checkApYd)
+         else if (CheckButton == checkApYd)
          {
             simEvent = SimEvent.YAW_DAMPER_TOGGLE;
          }
-         else if (checkBox == checkApAltHold)
+         else if (CheckButton == checkApAltHold)
          {
             simEvent = SimEvent.AP_ALT_HOLD;
          }
-         else if (checkBox == checkApVsHold)
+         else if (CheckButton == checkApVsHold)
          {
             simEvent = SimEvent.AP_VS_HOLD;
          }
-         else if (checkBox == checkApVnv)
+         else if (CheckButton == checkApVnv)
          {
             simEvent = SimEvent.NONE;
          }
-         else if (checkBox == checkApFlc)
+         else if (CheckButton == checkApFlc)
          {
             simEvent = SimEvent.FLIGHT_LEVEL_CHANGE;
          }
-         else if (checkBox == checkApSpd)
+         else if (CheckButton == checkApSpd)
          {
             simEvent = SimEvent.AP_AIRSPEED_HOLD;
          }
@@ -981,41 +1395,28 @@ public partial class MainForm : Form
       ActivateFlightSimulator();
    }
 
-   private void btnAddFuel_Click(object sender, EventArgs e)
+   private void AddFuelButton_Click(object sender, EventArgs e)
    {
       fsuipcConnection.SendPresetEvent("ADD_FUEL");
       ActivateFlightSimulator();
       BringMainWindowToFront("flight simulator");
    }
 
-   private void btnFuelDump_Click(object sender, EventArgs e)
+   private void FuelDumpButton_Click(object sender, EventArgs e)
    {
       fsuipcConnection.SendPresetEvent("FUEL_DUMP_TOGGLE");
       ActivateFlightSimulator();
    }
-
-   private int lastCockpitPilotCamera = 1;
-   private int lastCockpitInstrumentCamera = 0;
-   private int lastCockpitQuickViewCamera = 0;
-   private int lastCockpitSmartCamCamera = 0;
-   private int lastExternalDefaultCamera = 0;
-   private int lastExternalQuickViewCamera = 0;
-   private int lastExternalSmartCamCamera = 0;
-   private int lastShowcaseFreeCamera = 0;
-   private int lastShowcaseFixedCamera = 0;
-   private int lastShowcaseSmartCamCamera = 0;
-   private int previousCustomCamera = 5;
-   private int currentCustomCamera = 0;
 
    private void CameraButton_CheckChanged(object sender, EventArgs e)
    {
       if (sender == null)
          return;
 
-      if (programmaticallyChangingCameraCheckboxes)
+      if (programmaticallyChangingCameraCheckButtones)
          return;
 
-      if (sender is CheckBox c)
+      if (sender is CheckButton c)
       {
          if (c == checkSmartcam)
          {
@@ -1290,7 +1691,7 @@ public partial class MainForm : Form
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (button == btnNextView)
          {
@@ -1317,7 +1718,6 @@ public partial class MainForm : Form
             var newCamera = simConnection.CamerasData;
             newCamera.CameraViewIndex1++;
             simConnection.SetCamera(newCamera);
-            //simConnection.SendEvent(SimEvent.NEXT_SUB_VIEW);
          }
          else if (button == btnPreviousSubView)
          {
@@ -1326,7 +1726,6 @@ public partial class MainForm : Form
             if (newCamera.CameraViewIndex1 < 0)
                newCamera.CameraViewIndex1 = 0;
             simConnection.SetCamera(newCamera);
-            //simConnection.SendEvent(SimEvent.PREV_SUB_VIEW);
          }
       }
       ActivateFlightSimulator();
@@ -1337,7 +1736,7 @@ public partial class MainForm : Form
       if (sender is null)
          return;
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (button == btnSimRateInc)
          {
@@ -1393,23 +1792,6 @@ public partial class MainForm : Form
    [System.Runtime.InteropServices.DllImport("user32.dll")]
    private static extern int SetForegroundWindow(IntPtr hwnd);
 
-   private enum ShowWindowEnum
-   {
-      Hide = 0,
-      ShowNormal = 1,
-      ShowMinimized = 2,
-      ShowMaximized = 3,
-      Maximize = 3,
-      ShowNormalNoActivate = 4,
-      Show = 5,
-      Minimize = 6,
-      ShowMinNoActivate = 7,
-      ShowNoActivate = 8,
-      Restore = 9,
-      ShowDefault = 10,
-      ForceMinimized = 11
-   };
-
    public void BringMainWindowToFront(string processName)
    {
       // get the process
@@ -1435,9 +1817,9 @@ public partial class MainForm : Form
       }
    }
 
-   private void TrackFlaps_ValueChanged(object sender, EventArgs e)
+   private void trackBarFlaps_ValueChanged(object sender, EventArgs e)
    {
-      trackFlaps.Value = -1 * simConnection.AircraftControlData.flapsHandleIndex;
+      trackBarFlaps.Value = -1 * simConnection.AircraftControlData.flapsHandleIndex;
    }
 
    private void SmartcamCycleButton_Click(object sender, EventArgs e)
@@ -1451,7 +1833,7 @@ public partial class MainForm : Form
          //return;
       }
 
-      if (sender is Button button)
+      if (sender is SimpleButton button)
       {
          if (sender == btnNextSmartcam)
          {
@@ -1469,4 +1851,121 @@ public partial class MainForm : Form
          }
       }
    }
+
+   private void menuExit_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+   {
+      Close();
+   }
+
+   private async void ConnectToSimToolStripMenuItem_Click(object sender, EventArgs e)
+   {
+      if (simConnection.IsConnected)
+      {
+         await Task.Run(simConnection.DisconnectFromSim);
+         Debug.WriteLine("Disconnected");
+      }
+      else
+      {
+         await Task.Run(() => simConnection.ConnectToSim(Handle));
+         Debug.WriteLine("Connected");
+      }
+   }
+
+   private void menuPresetEvents_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+   {
+      using PresetEventForm dlg = new PresetEventForm(fsuipcConnection.PresetEvents);
+
+      if (dlg.ShowDialog() == DialogResult.OK)
+      {
+
+      }
+   }
+
+   private void btnCrs2Sel_MouseHover(object sender, EventArgs e)
+   {
+
+   }
+
+   private void btnCrs2Sel_MouseEnter(object sender, EventArgs e)
+   {
+      if (sender is SimpleButton btn)
+      {
+         if (btn == btnCrs1Sel)
+            isMouseInCourse1SelBox = true;
+         else if (btn == btnCrs2Sel)
+            isMouseInCourse2SelBox = true;
+      }
+      DetermineCourse1or2();
+   }
+
+   private void btnCrs2Sel_MouseLeave(object sender, EventArgs e)
+   {
+      if (sender is SimpleButton btn)
+      {
+         if (btn == btnCrs1Sel)
+            isMouseInCourse1SelBox = false;
+         else if (btn == btnCrs2Sel)
+            isMouseInCourse2SelBox = false;
+      }
+      DetermineCourse1or2();
+   }
+
+   private void DetermineCourse1or2()
+   {
+      if (isMouseInCourse1SelBox)
+         isCourseSelNav1 = true;
+      else if (isMouseInCourse2SelBox)
+         isCourseSelNav1 = false;
+      else if (macroPadDevice.State == MacroPadState.COURSE2)
+         isCourseSelNav1 = false;
+      else
+         isCourseSelNav1 = true;
+   }
+
+   private void Encoder_MouseWheelMoved(object sender, MouseWheelEventArgs e)
+   {
+
+   }
+
+   private void LogButtons_Click(object sender, EventArgs e)
+   {
+      if (sender is SimpleButton button)
+      {
+         if (button == btnLogTimer)
+         {
+            logTimerConnection = !logTimerConnection;
+            Log.Information("SimConnect Connection Logging: {Status}", logTimerConnection ? "Enabled" : "Disabled");
+            btnLogTimer.Text = logTimerConnection ? "LOGTIMER" : "logTimer";
+         }
+         else if (button == btnLogFsuipc)
+         {
+            logTimerFsuipcProcess = !logTimerFsuipcProcess;
+            Log.Information("FSUIPC Process Logging: {Status}", logTimerFsuipcProcess ? "Enabled" : "Disabled");
+            btnLogFsuipc.Text = logTimerFsuipcProcess ? "LOGFSUIPC" : "logFsuipc";
+         }
+         else if (button == btnLogDevice)
+         {
+            macroPadDevice.LogEnabled = !macroPadDevice.LogEnabled;
+            Log.Information("MacroPad Device Logging: {Status}", macroPadDevice.LogEnabled ? "Enabled" : "Disabled");
+            btnLogDevice.Text = macroPadDevice.LogEnabled ? "LOGDEVICE" : "logDevice";
+         }
+      }
+   }
 }
+
+internal enum ShowWindowEnum
+{
+   Hide = 0,
+   ShowNormal = 1,
+   ShowMinimized = 2,
+   ShowMaximized = 3,
+   Maximize = 3,
+   ShowNormalNoActivate = 4,
+   Show = 5,
+   Minimize = 6,
+   ShowMinNoActivate = 7,
+   ShowNoActivate = 8,
+   Restore = 9,
+   ShowDefault = 10,
+   ForceMinimized = 11
+};

@@ -1,4 +1,6 @@
-﻿using MacroSim.Fsuipc;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraRichEdit.Model;
+using MacroSim.Fsuipc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,14 +13,13 @@ using System.Windows.Forms;
 
 namespace MacroSim
 {
-   public partial class PresetEventForm : Form
+   public partial class PresetEventForm : XtraForm
    {
-
-      private AutoCompleteStringCollection autoCompleteStrings;
-
       public EventCollection PresetEvents { get; private set; }
 
       private FsuipcConnection fsuipcConnection;
+
+      List<string> aircraftList;
 
       public PresetEventForm(EventCollection events)
       {
@@ -27,88 +28,35 @@ namespace MacroSim
          fsuipcConnection = new FsuipcConnection((MainForm)ParentForm);
          PresetEvents = events;
 
-         autoCompleteStrings = new AutoCompleteStringCollection();
-
-         List<string> aircraftList = new List<string>(PresetEvents.GetAircraft());
+         aircraftList = new List<string>(PresetEvents.GetAircraft());
          aircraftList.Sort();
-         foreach (string s in aircraftList)
-         {
-            autoCompleteStrings.Add(s);
-         }
-         txtAircraft.AutoCompleteCustomSource = autoCompleteStrings;
-         txtAircraft.AutoCompleteMode = AutoCompleteMode.None;
-         txtAircraft.AutoCompleteSource = AutoCompleteSource.CustomSource;
+         aircraftList.Insert(0, "ANY");
+
+         gridLookUpEditAircraft.Properties.DataSource = aircraftList;
+         gridLookUpEditAircraft.Properties.SearchMode = DevExpress.XtraEditors.Repository.GridLookUpSearchMode.AutoSearch;
+         gridLookUpEditAircraft.EditValue = "Select Aircraft";
+
+         searchControl1.Client = listPresets;
 
          btnSendCalculatorCode.Enabled = false;
-
-         txtAircraft_TextChanged(new object(), new EventArgs());
-      }
-
-      private void txtAircraft_TextChanged(object sender, EventArgs e)
-      {
-         listAircraft.Items.Clear();
-         listPresets.Items.Clear();
-
-         if (txtAircraft.Text.Length == 0)
-         {
-            //HideResults();
-            //return;
-
-            foreach (string s in txtAircraft.AutoCompleteCustomSource)
-            {
-               listAircraft.Items.Add(s);
-            }
-            return;
-         }
-
-         foreach (string s in txtAircraft.AutoCompleteCustomSource)
-         {
-            if (s.Contains(txtAircraft.Text, StringComparison.OrdinalIgnoreCase))
-            {
-               listAircraft.Items.Add(s);
-               listAircraft.Visible = true;
-            }
-         }
-
-         var presets = PresetEvents.GetEventsForAircraft(txtAircraft.Text);
-         if (presets != null && presets.Count > 0)
-         {
-            foreach (var preset in presets)
-            {
-               listPresets.Items.Add(preset.PresetName);
-            }
-         }
-      }
-
-      private void HideResults()
-      {
-         //listAircraft.Visible = false;
-      }
-
-      private void listAircraft_SelectedIndexChanged(object sender, EventArgs e)
-      {
-         txtAircraft.Text = listAircraft.Items[listAircraft.SelectedIndex].ToString();
-         HideResults();
-      }
-
-      private void listAircraft_Leave(object sender, EventArgs e)
-      {
-         HideResults();
       }
 
       private void btnClearAircraft_Click(object sender, EventArgs e)
       {
-         txtAircraft.Text = "";
+         gridLookUpEditAircraft.EditValue = "";
          txtCalculatorCode.Text = "";
+         txtActiveAircraft.Text = "";
       }
 
       private void listPresets_SelectedIndexChanged(object sender, EventArgs e)
       {
-         var ev = PresetEvents.GetEvent(listPresets.Text);
-         if (ev != null)
+         var evt = (Event)listPresets.SelectedItem;
+         if (evt != null)
          {
-            txtCalculatorCode.Text = ev.CalculatorCode;
-            txtParameter.Enabled = ev.IsParameterized;
+            txtCalculatorCode.Text = evt.CalculatorCode;
+            txtParameter.Enabled = evt.IsParameterized;
+
+            txtActiveAircraft.Text = evt.Developer + " | " + evt.Aircraft + " | " + evt.Classification;
          }
       }
 
@@ -120,6 +68,25 @@ namespace MacroSim
       private void btnSendCalculatorCode_Click(object sender, EventArgs e)
       {
          fsuipcConnection.SendCalculatorCode(txtCalculatorCode.Text);
+      }
+
+      private void gridLookUpEditAircraft_EditValueChanged(object sender, EventArgs e)
+      {
+         listPresets.Items.Clear();
+
+         string ac = (string)gridLookUpEditAircraft.EditValue;
+
+         if (ac == "ANY")
+         {
+            listPresets.DataSource = PresetEvents;
+            listPresets.DisplayMember = "PresetName";
+         }
+         else
+         {
+            var presets = PresetEvents.GetEventsForAircraft(ac);
+            listPresets.DataSource = presets;
+            listPresets.DisplayMember = "PresetName";
+         }
       }
    }
 }

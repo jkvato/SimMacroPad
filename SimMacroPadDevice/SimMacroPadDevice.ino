@@ -1,3 +1,6 @@
+#include <MacroLink.h>
+#include <MacroPadLink.h>
+
 #include <Adafruit_SH110X.h>
 #include <Adafruit_NeoPixel.h>
 #include <RotaryEncoder.h>
@@ -112,14 +115,20 @@ RotaryEncoder encoder(PIN_ROTA, PIN_ROTB, RotaryEncoder::LatchMode::FOUR3);
 
 AceButton buttons[13];
 
-SimMessage simMessage;
+// SimMessage simMessage;
+SimDisplayMessage simDisplayMessage;
+
+MacroLink link;
+MacroPadLink padLink(link);
 
 bool blankScreen = false;
 
+// Prototypes
 void handleButtonEvent(AceButton*, uint8_t, uint8_t);
 void handleSimMessageReceived();
+void handleSimDisplay(const SimDisplayMessage& msg);
 
-void checkPosition() {  encoder.tick(); } // just call tick() to check the state.
+void checkPosition() { encoder.tick(); } // just call tick() to check the state.
 
 // our encoder position state
 int encoder_pos = 0;
@@ -133,6 +142,9 @@ void setup()
 {
   Serial.begin(115200);
   delay(100);  // RP2040 delay is not a bad idea
+
+  padLink.begin(Serial);
+  padLink.onSimDisplay(handleSimDisplay);
 
   // start pixels!
   pixels.begin();
@@ -177,7 +189,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(PIN_ROTA), checkPosition, CHANGE);
   attachInterrupt(digitalPinToInterrupt(PIN_ROTB), checkPosition, CHANGE);  
 
-  simMessage.SimMessageReceivedHandler = &handleSimMessageReceived;
+  // simMessage.SimMessageReceivedHandler = &handleSimMessageReceived;
 
   Wire.begin();
 
@@ -191,7 +203,9 @@ void setup()
 
 void loop()
 {
-  // Update buttons
+  padLink.loop();
+
+  // Update buttons and trigger handleButtonEvent()
   for (uint8_t i = 0; i <= 12; i++)
   {
     buttons[i].check();
@@ -221,13 +235,14 @@ void loop()
     }
 
     // Send rotary encoder data to PC
-    Serial.write(data);
+    // Serial.write(data);
+    padLink.sendPadInput(data);
 
     lastEventMillis = millis();
   }
 
   // Read data from PC if available
-  simMessage.Receive(&Serial);
+  // simMessage.Receive(&Serial);
 
   if ((millis() - lastEventMillis) > EVENT_TIMER_MILLIS)
   {
@@ -266,14 +281,30 @@ void handleButtonEvent(AceButton* button, uint8_t eventType, uint8_t /*buttonSta
   deviceID = deviceID << 3;
   data |= deviceID;
 
-  Serial.write(data);
+  // TEST
+  // display.clearDisplay();
+  // display.setCursor(0, 0);
+  // display.print("Button ");
+  // display.println(button->getId(), DEC);
+  // display.setCursor(0, 16);
+  // display.setCursor(0, 32);
+  // display.display();
+
+  // Serial.write(data);
+  padLink.sendPadInput(data);
 
   lastEventMillis = millis();
 }
 
+void handleSimDisplay(const SimDisplayMessage& msg)
+{
+  simDisplayMessage = msg;
+  handleSimMessageReceived();
+}
+
 void handleSimMessageReceived()
 {
-  uint8_t newState = simMessage.State;
+  uint8_t newState = simDisplayMessage.state; // simMessage.State;
   uint8_t previousPixel = currentPixel;
   uint8_t r = 255;
   uint8_t g = 255;
@@ -290,9 +321,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("COM1 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_COM1_KHZ:
@@ -304,9 +335,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("COM1 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_COM2_MHZ:
@@ -318,9 +349,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("COM2 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_COM2_KHZ:
@@ -332,9 +363,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("COM2 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_NAV1_MHZ:
@@ -346,9 +377,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("NAV1 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_NAV1_KHZ:
@@ -360,9 +391,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("NAV1 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_NAV2_MHZ:
@@ -374,9 +405,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("NAV2 MHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_NAV2_KHZ:
@@ -388,9 +419,9 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("NAV2 KHz");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
         display.setCursor(0, 32);
-        display.println(simMessage.Text2);
+        display.println(simDisplayMessage.text2);
       }
       break;
     case STATE_BAROMETER:
@@ -402,7 +433,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("BARO");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_HEADING:
@@ -414,7 +445,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("HDG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_COURSE1:
@@ -426,7 +457,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("CRS1");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_COURSE2:
@@ -438,7 +469,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("CRS2");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_ALTITUDE_1000:
@@ -450,7 +481,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("ALT 1000");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_ALTITUDE_100:
@@ -462,7 +493,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("ALT 100");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_VERTICAL_SPEED:
@@ -474,7 +505,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("VS");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_IAS:
@@ -486,7 +517,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("IAS");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_MACH:
@@ -498,7 +529,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("MACH");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -511,7 +542,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("XPND 1000");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_XPND_100:
@@ -523,7 +554,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("XPND 100");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_XPND_10:
@@ -535,7 +566,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("XPND 10");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_XPND_1:
@@ -547,7 +578,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("XPND 1");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -562,7 +593,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("530 L LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS530_LF_SM:
@@ -574,7 +605,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("530 L SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS530_RT_LG:
@@ -586,7 +617,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("530 R LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS530_RT_SM:
@@ -598,7 +629,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("530 R SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -613,7 +644,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("430 L LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS430_LF_SM:
@@ -625,7 +656,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("430 L SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS430_RT_LG:
@@ -637,7 +668,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("430 R LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS430_RT_SM:
@@ -649,7 +680,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("430 R SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -664,7 +695,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("PFD LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS1000_PFD_SM:
@@ -676,7 +707,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("PFD SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS1000_PFD_RANGE:
@@ -688,7 +719,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("PFD RNG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS1000_MFD_LG:
@@ -700,7 +731,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("MFD LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS1000_MFD_SM:
@@ -712,7 +743,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("MFD SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS1000_MFD_RANGE:
@@ -724,7 +755,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("MFD RNG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -739,7 +770,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TOP1 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000H_TSC1_TOP_SM:
@@ -751,7 +782,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TOP1 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000H_TSC1_BTM:
@@ -763,7 +794,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("BTM1");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000H_TSC2_TOP_LG:
@@ -775,7 +806,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TOP2 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000H_TSC2_TOP_SM:
@@ -787,7 +818,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TOP2 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000H_TSC2_BTM:
@@ -799,7 +830,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("BTM2");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -814,7 +845,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC1 LF");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC1_MD:
@@ -826,7 +857,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC1 MD");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC1_LG:
@@ -838,7 +869,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC1 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC1_SM:
@@ -850,7 +881,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC1 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC2_LF:
@@ -862,7 +893,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC2 LF");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC2_MD:
@@ -874,7 +905,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC2 MD");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC2_LG:
@@ -886,7 +917,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC2 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_AS3000V_TSC2_SM:
@@ -898,7 +929,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("TSC2 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -913,7 +944,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("LF1 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_1_LF_SM:
@@ -925,7 +956,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("LF1 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_1_RT_LG:
@@ -937,7 +968,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("RT1 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_1_RT_SM:
@@ -949,7 +980,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("RT1 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_2_LF_LG:
@@ -961,7 +992,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("LF2 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_2_LF_SM:
@@ -973,7 +1004,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("LF2 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_2_RT_LG:
@@ -985,7 +1016,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("RT2 LG");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_G3X_2_RT_SM:
@@ -997,7 +1028,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("RT2 SM");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
 
@@ -1019,7 +1050,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("PFD GROUP");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_PFD_PAGE:
@@ -1031,7 +1062,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("PFD PAGE");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_MFD_GROUP:
@@ -1043,7 +1074,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("MFD GROUP");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     case STATE_MFD_PAGE:
@@ -1055,7 +1086,7 @@ void handleSimMessageReceived()
         display.setCursor(0, 0);
         display.println("MFD PAGE");
         display.setCursor(0, 16);
-        display.println(simMessage.Text1);
+        display.println(simDisplayMessage.text1);
       }
       break;
     default:
@@ -1071,6 +1102,23 @@ void handleSimMessageReceived()
 
   // Turn off the previous button neopixel
   pixels.setPixelColor(previousPixel, pixels.Color(0, 0, 0));
+
+  int i = 0;
+  pixels.setPixelColor(i +  0, pixels.Color(32, 32, 0));
+  pixels.setPixelColor(i +  1, pixels.Color(32, 32, 0));
+  pixels.setPixelColor(i +  2, pixels.Color(20, 4, 30));
+
+  pixels.setPixelColor(i +  3, pixels.Color(0, 32, 0));
+  pixels.setPixelColor(i +  4, pixels.Color(32, 20, 0));
+  pixels.setPixelColor(i +  5, pixels.Color(20, 4, 30));
+
+  pixels.setPixelColor(i +  6, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i +  7, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i +  8, pixels.Color(20, 4, 30));
+
+  pixels.setPixelColor(i +  9, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i + 10, pixels.Color(0, 0, 32));
+  pixels.setPixelColor(i + 11, pixels.Color(20, 4, 30));
 
   // Turn on the new button neopixel
   pixels.setPixelColor(currentPixel, pixels.Color(r, g, b));
@@ -1089,20 +1137,35 @@ void handleSimMessageReceived()
 // ALT  //  VS  // XPND //
 //////////////////////////
 
-//////////////////////////
-// COM1 // COM2 // BAR  //
-//      //      //      //
-//////////////////////////
-// NAV1 // HDG  // ALT  //
-// NAV2 // CRS  // VS   //
-//////////////////////////
-// AV1  // AV2  // SPD  //
-//      //      // MCH  //
-//////////////////////////
-// AV3  // AV4  // XPND //
-//      //      //      //
-//////////////////////////
+//////////////////////////  //////////////////////////
+// COM1 // COM2 // BAR  //  //  Y   //  Y   //  P   //
+//      //      //      //  //      //      //      //
+//////////////////////////  //////////////////////////
+// NAV1 // HDG  // ALT  //  //  G   //  O   //  P   //
+// NAV2 // CRS  // VS   //  //      //      //      //
+//////////////////////////  //////////////////////////
+// AV1  // AV2  // SPD  //  //  B   //  B   //  P   //
+//      //      // MCH  //  //      //      //      //
+//////////////////////////  //////////////////////////
+// AV3  // AV4  // XPND //  //  B   //  B   //  P   //
+//      //      //      //  //      //      //      //
+//////////////////////////  //////////////////////////
 
+// MODE 1: 
+// MODE 2: 
+// MODE 3: 
+// MODE 4: 
+
+// green 0, 255, 0. light green 184, 255, 184
+// blue 0, 0, 255. light blue 184, 184, 255
+// yellow 255, 255, 0. light yellow 255, 255, 184
+// red 255, 0, 0. light red 255, 230, 230
+// magenta 255, 0, 255
+// cyan 0, 255, 255
+// black 0, 0, 0
+// white 255, 255, 255
+// orange 225, 165, 0. light orange 255, 236, 184
+// purple 160, 32, 240. light purple 227, 188, 250
 
 // AS530
 //Microsoft/Generic/Avionics
